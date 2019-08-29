@@ -1,0 +1,45 @@
+{
+  "name": "xnova-game",
+  "version": "2.0.0",
+  "description": "Xnova Game",
+  "main": "index.js",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt",
+    "start": "nuxt start"
+  },
+  "dependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-classes": "^7.5.5",
+    "@babel/preset-stage-0": "^7.0.0",
+    "@nuxtjs/axios": "^5.6.0",
+    "@nuxtjs/google-tag-manager": "^2.2.1",
+    "@nuxtjs/proxy": "^1.3.3",
+    "@nuxtjs/sentry": "^3.0.0",
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
+    "element-closest": "^3.0.1",
+    "form-data": "^2.5.1",
+    "node-sass": "^4.12.0",
+    "nuxt": "^2.9.2",
+    "popper.js": "^1.15.0",
+    "sass-loader": "^7.3.1",
+    "socket.io-client": "^2.2.0",
+    "string-replace-loader": "^2.2.0",
+    "v-tooltip": "^2.0.2",
+    "vue-directive-tooltip": "^1.6.2",
+    "vue-i18n": "^8.14.0",
+    "vue-js-modal": "^1.3.31",
+    "vue-toasted": "^1.1.27",
+    "vue2-touch-events": "^2.0.0",
+    "vuejs-dialog": "^1.4.1",
+    "vuelidate": "^0.7.4"
+  },
+  "author": "AlexPro (alexprowars@gmail.com)",
+  "license": "ISC",
+  "browserslist": [
+    "last 3 versions"
+  ]
+}
