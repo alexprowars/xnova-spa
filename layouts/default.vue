@@ -13,17 +13,17 @@
 			</div>
 		</main>
 
-		<no-ssr>
+		<client-only>
 			<Chat v-if="$store.getters.isAuthorized()" :visible="controller !== 'chat' && views['menu'] && views['chat']"/>
-		</no-ssr>
+		</client-only>
 
 		<AppFooter v-if="views && views['header']"/>
 
 		<div class="loader" :class="{active: $store.state.loading}"></div>
 
-		<no-ssr>
+		<client-only>
 			<modals-container/>
-		</no-ssr>
+		</client-only>
 	</div>
 </template>
 

@@ -14,9 +14,9 @@
 					<div class="sm">
 						Войти с помощью:<br><br>
 
-						<no-ssr>
+						<client-only>
 							<div id="uLogin" data-uloginid="e4860195" :x-ulogin-params="'display=panel;fields=first_name,last_name,photo;providers=vkontakte,odnoklassniki,facebook,twitter,yandex,googleplus,mailru;redirect_uri=http%3A%2F%2F'+$store.state['host']+'%2F'"></div>
-						</no-ssr>
+						</client-only>
 					</div>
 				</div>
 			</div>

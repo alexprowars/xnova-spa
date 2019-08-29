@@ -2,9 +2,9 @@
 	<div class="resource-panel-item">
 		<popup-link :to="'/info/'+building[type]+'/'" class="resource-panel-item-icon">
 			<Popper>
-				<no-ssr>
+				<client-only>
 					<resource-tooltip :resource="resource" :type="type"></resource-tooltip>
-				</no-ssr>
+				</client-only>
 				<template slot="reference">
 					<span class="sprite" :class="['skin_'+type]"></span>
 					<span class="sprite" :class="['skin_s_'+type]"></span>

@@ -13,7 +13,7 @@
 					<div class="resource-panel-item">
 						<popup-link :to="'/info/4/'" title="Солнечная батарея" class="resource-panel-item-icon">
 							<Popper>
-								<no-ssr>
+								<client-only>
 									<div class="resource-panel-item-tooltip">
 										<h1>Энергия</h1>
 										<div class="line"></div>
@@ -32,7 +32,7 @@
 											</tr>
 										</table>
 									</div>
-								</no-ssr>
+								</client-only>
 								<template slot="reference">
 									<span class="sprite skin_energy"></span>
 									<span class="sprite skin_s_energy"></span>
@@ -48,7 +48,7 @@
 				<div class="col-4 text-center">
 					<div class="resource-panel-item">
 						<Popper class="d-sm-inline-block resource-panel-item-icon">
-							<no-ssr>
+							<client-only>
 								<div class="resource-panel-item-tooltip">
 									<h1>Аккумулятор</h1>
 									<div class="line"></div>
@@ -66,7 +66,7 @@
 										</tr>
 									</table>
 								</div>
-							</no-ssr>
+							</client-only>
 							<template slot="reference">
 								<img v-if="planet['battery']['power'] > 0 && planet['battery']['power'] < 100" :src="'/api/battery.php?p='+planet['battery']['power']" width="42" alt="">
 								<span v-else="" class="sprite" :class="['skin_batt'+planet['battery']['power']]"></span>
@@ -81,7 +81,7 @@
 					<div class="resource-panel-item">
 						<nuxt-link to="/credits/" class="d-sm-inline-block resource-panel-item-icon">
 							<Popper>
-								<no-ssr>
+								<client-only>
 									<table width="550">
 										<tr>
 											<td v-for="(time, index) in planet['officiers']" align="center" width="14%">
@@ -96,7 +96,7 @@
 											</td>
 										</tr>
 									</table>
-								</no-ssr>
+								</client-only>
 								<template slot="reference">
 									<span class="sprite skin_kredits"></span>
 								</template>
