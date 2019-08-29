@@ -33,7 +33,7 @@
 								<span v-if="time > 0">
 									{{ time|time(':', true) }}&nbsp;<a @click.prevent="cancelAction">Отменить<span v-if="item.build.name.length">на {{ item.build.name }}</span></a>
 								</span>
-								<nuxt-link v-else :to="'/buildings/research/?chpl='+item.build.id">завершено. продолжить...</nuxt-link>
+								<nuxt-link v-else :to="'/research/?chpl='+item.build.id">завершено. продолжить...</nuxt-link>
 							</div>
 							<div v-else-if="item.max > 0 && item.max <= item.level" class="negative">
 								максимальный уровень
@@ -41,10 +41,8 @@
 							<div v-else-if="!hasResources" class="negative text-center">
 								нет ресурсов
 							</div>
-							<a v-else-if="item.build !== true" @click.prevent="addAction" :class="{positive: item.level, negative: item.level === 0}">
-								<svg class="icon">
-									<use xlink:href="/images/symbols.svg#icon-research"></use>
-								</svg>
+							<a v-else-if="item.build !== true" @click.prevent="addAction" :class="{positive: item.level, negative: item.level === 0}" class="button">
+								Изучить
 							</a>
 						</div>
 					</div>
@@ -53,7 +51,7 @@
 					</div>
 				</div>
 			</div>
-			<BuildRowPrice :price="item['price']"></BuildRowPrice>
+			<BuildRowPrice :price="item['price']"/>
 		</div>
 	</div>
 </template>
@@ -117,7 +115,7 @@
 			},
 			addAction ()
 			{
-				this.$post('/buildings/research/', {
+				this.$post('/research/', {
 					cmd: 'search',
 					tech: this.item['i']
 				})
@@ -134,7 +132,7 @@
 					})
 					.then(() =>
 					{
-						this.$post('/buildings/research/', {
+						this.$post('/research/', {
 							cmd: 'cancel',
 							tech: this.item['i']
 						})

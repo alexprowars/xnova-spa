@@ -4,7 +4,7 @@
 			<div class="title">Исследования</div>
 			<div class="content page-building-items">
 				<div class="row">
-					<tech-row v-for="(item, i) in page.items" :key="i" :item="item"></tech-row>
+					<TechRow v-for="(item, i) in page.items" :key="i" :item="item"/>
 				</div>
 			</div>
 		</div>

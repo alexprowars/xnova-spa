@@ -85,7 +85,7 @@
 						width: 600,
 						height: 'auto'
 					})
-				});
+				})
 			},
 			showRemindPassword ()
 			{
@@ -100,12 +100,12 @@
 						width: 600,
 						height: 'auto'
 					})
-				});
+				})
 			}
 		},
 		mounted () {
-			addScript('https://ulogin.ru/js/ulogin.js');
-			addScript('https://www.google.com/recaptcha/api.js');
+			addScript('https://ulogin.ru/js/ulogin.js')
+			addScript('https://www.google.com/recaptcha/api.js')
 		}
 	}
 </script>

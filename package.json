@@ -10,9 +10,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-transform-classes": "^7.5.5",
-    "@babel/preset-stage-0": "^7.0.0",
     "@nuxtjs/axios": "^5.6.0",
     "@nuxtjs/google-tag-manager": "^2.2.1",
     "@nuxtjs/proxy": "^1.3.3",
@@ -38,8 +35,5 @@
     "vuelidate": "^0.7.4"
   },
   "author": "AlexPro (alexprowars@gmail.com)",
-  "license": "ISC",
-  "browserslist": [
-    "last 3 versions"
-  ]
+  "license": "ISC"
 }

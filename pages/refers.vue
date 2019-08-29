@@ -11,7 +11,7 @@
 					</div>
 					<div class="row" v-for="list in page['ref']">
 						<div class="col th">
-							<router-link :to="'/players/'+list['id']+'/'">{{ list['username'] }}</router-link>
+							<nuxt-link :to="'/players/'+list['id']+'/'">{{ list['username'] }}</nuxt-link>
 						</div>
 						<div class="col th">{{ list['create_time'] | date('d.m.Y H:i') }}</div>
 						<div class="col th">П:{{ list['lvl_minier'] }}, В:{{ list['lvl_raid'] }}</div>
@@ -25,7 +25,7 @@
 				<div class="row">
 					<div class="col th">Вы были привлечены игроком:</div>
 					<div class="col th">
-						<router-link :to="'/players/'+page['you']['id']+'/'">{{ page['you']['username'] }}</router-link>
+						<nuxt-link :to="'/players/'+page['you']['id']+'/'">{{ page['you']['username'] }}</nuxt-link>
 					</div>
 				</div>
 			</div>

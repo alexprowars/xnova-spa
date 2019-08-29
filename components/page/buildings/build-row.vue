@@ -39,9 +39,7 @@
 								нет места
 							</div>
 							<a v-else-if="$parent.page['queue_max'] > 1 && $parent.page['queue'].length > 0" @click.prevent="addAction">
-								<svg class="icon">
-									<use xlink:href="/images/symbols.svg#icon-constraction"></use>
-								</svg>
+								Добавить в очередь
 							</a>
 							<div v-else-if="!hasResources" class="negative text-center">
 								нет ресурсов
@@ -49,10 +47,8 @@
 							<div v-else-if="$parent.page['queue_max'] <= $parent.page['queue'].length" class="negative">
 								очередь заполнена
 							</div>
-							<a v-else-if="$parent.page['queue'].length === 0" @click.prevent="addAction">
-								<svg class="icon">
-									<use xlink:href="/images/symbols.svg#icon-constraction"></use>
-								</svg>
+							<a v-else-if="$parent.page['queue'].length === 0" @click.prevent="addAction" class="button">
+								{{ item.level === 0 ? 'Построить' : 'Улучшить' }}
 							</a>
 						</div>
 					</div>

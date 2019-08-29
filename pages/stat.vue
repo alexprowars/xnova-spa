@@ -73,11 +73,11 @@
 		},
 		watch: {
 			'form.list'() {
-				this.form.type = 1;
-				this.form.page = 1;
+				this.form.type = 1
+				this.form.page = 1
 			},
 			'form.type'() {
-				this.form.page = 1;
+				this.form.page = 1
 			}
 		},
 		methods: {
@@ -98,8 +98,8 @@
 		},
 		created ()
 		{
-			this.form.list = this.page['list'];
-			this.form.type = this.page['type'];
+			this.form.list = this.page['list']
+			this.form.type = this.page['type']
 			this.form.pages = Math.ceil(this.page['elements'] / 100)
 			this.items = this.page['items']
 		}

@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 const GTM_ID = 'GTM-TD5227C'
 const SENTRY_ID = 'https://07e2069e69bf41138e52c89088230e98@sentry.io/1524173'
 
@@ -46,12 +48,16 @@ let config = {
 		base: '/',
 		middleware: 'router',
 		prefetchLinks: false,
+		linkActiveClass: 'active',
 		linkExactActiveClass: 'active',
 	},
 	loading: {
 		color: '#9a1915',
 	},
 	modern: process.env.NODE_ENV === 'production',
+	render: {
+		compressor: false,
+	},
 	build: {
 		indicator: false,
 		cssSourceMap: false,
@@ -60,7 +66,7 @@ let config = {
 		loaders: {
 			vue: {
 				compilerOptions: {
-					preserveWhitespace: true
+					whitespace: 'preserve'
 				}
 			}
 		},
@@ -72,25 +78,13 @@ let config = {
 				}}],
 			},
 		},
-		extend (config, {isDev, isClient})
+		extend (config, { isClient })
 		{
-			if (isDev && isClient)
-			{
-				config.module.rules.push({
-					enforce: 'pre',
-					test: /\.(js|vue)$/,
-					exclude: /(node_modules)/
-				});
-			}
-
 			config.resolve.alias['socket.io-client'] = 'socket.io-client/dist/socket.io.slim.js'
+			config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
 
 			if (isClient)
 			{
-				config.externals = {
-					"window": "window"
-				};
-
 				config.module.rules.push({
 					test: /vue-router(.*?)\.js$/,
 					loader: 'string-replace-loader',

@@ -1,4 +1,4 @@
 <script>
-	import Component from './fleet.vue'
+	import Component from './shipyard.vue'
 	export default Component
 </script>

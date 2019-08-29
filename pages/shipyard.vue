@@ -1,6 +1,6 @@
 <template>
 	<div class="page-building page-building-unit">
-		<UnitQueue v-if="page.queue.length > 0" :queue="page.queue"></UnitQueue>
+		<UnitQueue v-if="page.queue.length > 0" :queue="page.queue"/>
 		<div class="block">
 			<div class="content page-building-items">
 				<form ref="form" action="" method="post" @submit.prevent="constructAction">
@@ -11,7 +11,7 @@
 							</div>
 						</div>
 
-						<UnitRow v-for="(item, i) in page.items" :key="i" :item="item"></UnitRow>
+						<UnitRow v-for="(item, i) in page.items" :key="i" :item="item"/>
 
 						<div class="col-12">
 							<div class="c">
@@ -30,7 +30,7 @@
 	import UnitQueue from '~/components/page/buildings/unit-queue.vue'
 
 	export default {
-		name: 'unit',
+		name: 'shipyard',
 		components: {
 			UnitRow,
 			UnitQueue
@@ -45,7 +45,7 @@
 			{
 				this.$store.commit('setLoadingStatus', true)
 
-				this.$post('/buildings/'+this.page.mode+'/', new FormData(this.$refs['form']))
+				this.$post('/'+this.page.mode+'/', new FormData(this.$refs['form']))
 				.then((result) =>
 				{
 					this.$children.forEach((item) =>
@@ -58,8 +58,8 @@
 					this.$store.commit('setLoadingStatus', false)
 				})
 				.catch(() => {
-					alert('Что-то пошло не так!? Попробуйте еще раз');
-				});
+					alert('Что-то пошло не так!? Попробуйте еще раз')
+				})
 			}
 		}
 	}

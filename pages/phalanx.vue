@@ -45,30 +45,30 @@
 			updateTimes ()
 			{
 				if (!this.page)
-					return;
+					return
 
-				this.times = [];
+				this.times = []
 
 				this.page['items'].forEach((item) => {
 					this.times.push(item['time'] - this.$store.getters.getServerTime())
-				});
+				})
 
-				this.startTimer();
+				this.startTimer()
 			},
 			startTimer () {
 				this.timer = setTimeout(() => {
-					this.updateTimes();
-				}, 1000);
+					this.updateTimes()
+				}, 1000)
 			},
 			stopTimer () {
-				clearTimeout(this.timer);
+				clearTimeout(this.timer)
 			},
 		},
 		mounted () {
 			this.updateTimes()
 		},
 		destroyed () {
-			this.stopTimer();
+			this.stopTimer()
 		}
 	}
 </script>

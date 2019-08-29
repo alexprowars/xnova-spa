@@ -16,11 +16,11 @@
 				</div>
 			</div>
 
-			<BuildQueue v-if="page.queue && page.queue.length" :queue="page.queue"></BuildQueue>
+			<BuildQueue v-if="page.queue && page.queue.length" :queue="page.queue"/>
 
 			<div class="content page-building-items">
 				<div class="row">
-					<BuildRow v-for="(item, i) in page.items" :key="i" :item="item"></BuildRow>
+					<BuildRow v-for="(item, i) in page.items" :key="i" :item="item"/>
 				</div>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 	import BuildQueue from '~/components/page/buildings/build-queue.vue'
 
 	export default {
-		name: 'build',
+		name: 'buildings',
 		components: {
 			BuildRow,
 			BuildQueue
@@ -46,9 +46,9 @@
 			fields_empty ()
 			{
 				if (!this.page)
-					return 0;
+					return 0
 
-				return this.page['fields_max'] - this.page['fields_current'] - this.page.queue.length;
+				return this.page['fields_max'] - this.page['fields_current'] - this.page.queue.length
 			}
 		},
 	}

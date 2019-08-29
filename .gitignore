@@ -1,10 +1,7 @@
 .idea/*
 .nuxt
-app/cache/*
-app/config/*.ini
 vendor/*
 node_modules/*
-chat/node_modules/*
 Thumbs.db
 .DS_Store
 *.log
@@ -15,5 +12,3 @@ Thumbs.db
 !package.json
 !composer.json
 *.phar
-public/assets/avatars/*
-/public/assets/build/*
