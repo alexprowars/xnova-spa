@@ -65,7 +65,7 @@
 
 				if (!this.$v.$invalid)
 				{
-					this.$post('/remind/', {
+					this.$post('/login/reset/', {
 						'email': this.email
 					})
 					.then((result) =>

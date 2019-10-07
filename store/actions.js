@@ -1,80 +1,30 @@
 import { getLocation } from '~/utils/helpers'
-const { parse } = require('querystring')
 
 let timer
 
 export default {
 	nuxtServerInit (store, context)
 	{
-		const headers = context.req && context.req.headers
-
-		if (headers.cookie === undefined)
-			headers.cookie = ''
-
-		if (context.req.method === 'POST')
+		return context.app.$get(context.route.fullPath, {
+			initial: 'Y'
+		})
+		.then((data) =>
 		{
-			let body = new Promise((resolve) =>
+			if (data.redirect && data.redirect.length > 0)
+				return context.redirect(data.redirect)
+
+			for (let key in data)
 			{
-				let body = '';
+				if (data.hasOwnProperty(key))
+					store.state[key] = data[key];
+			}
 
-				context.req.on('data', chunk => {
-					body += chunk.toString();
-
-					if (body.length > 1e6)
-						context.req.connection.destroy();
-				});
-
-				context.req.on('end', async () => {
-					resolve(parse(body));
-				});
-			});
-
-			return body.then((body) =>
-			{
-				body['initial'] = 'Y';
-
-				return context.app.$post(context.route.fullPath, body).then((data) =>
-				{
-					if (data.redirect && data.redirect.length > 0)
-						return context.redirect(data.redirect)
-
-					for (let key in data)
-					{
-						if (data.hasOwnProperty(key))
-							store.state[key] = data[key];
-					}
-
-					if (data.route && data.route.controller === 'error')
-						throw new Error('Страница не найдена')
-				})
-				.catch((e) => {
-					return context.error(e);
-				})
-			});
-		}
-		else
-		{
-			return context.app.$get(context.route.fullPath, {
-				initial: 'Y'
-			})
-			.then((data) =>
-			{
-				if (data.redirect && data.redirect.length > 0)
-					return context.redirect(data.redirect)
-
-				for (let key in data)
-				{
-					if (data.hasOwnProperty(key))
-						store.state[key] = data[key];
-				}
-
-				if (data.route && data.route.controller === 'error')
-					throw new Error('Страница не найдена')
-			})
-			.catch((e) => {
-				return context.error(e);
-			})
-		}
+			if (data.route && data.route.controller === 'error')
+				throw new Error('Страница не найдена')
+		})
+		.catch((e) => {
+			return context.error(e);
+		})
 	},
 	loadPage ({ state, commit }, url)
 	{
@@ -107,6 +57,9 @@ export default {
 
 		return this.$get(url).then((data) =>
 		{
+			if (typeof data['redirect'] !== 'undefined' && typeof data['url'] === 'undefined')
+				return this.app.context.redirect(data['redirect'])
+
 			let loc = getLocation(url)
 
 			if (loc['pathname'] !== data['url'])

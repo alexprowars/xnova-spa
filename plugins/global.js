@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { raport_to_bb } from '~/utils/helpers'
 
 import 'core-js/fn/object/assign';
@@ -12,7 +13,9 @@ if (!process.server)
 
 window.raport_to_bb = raport_to_bb;
 
-export default ({ store }) =>
+export default (ctx, inject) =>
 {
+  const bus = new Vue
 
+  inject('bus', bus)
 }

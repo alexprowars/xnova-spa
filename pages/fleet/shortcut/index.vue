@@ -8,7 +8,7 @@
 				<div class="table">
 					<div class="row">
 						<div v-for="(item, i) in page['items']" class="col-6 th">
-							<nuxt-link :to="'/fleet/shortcut/view/'+i+'/'">{{ item['name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ item['planet'] }}] {{ item['type'] }}</nuxt-link>
+							<nuxt-link :to="'/fleet/shortcut/'+i+'/'">{{ item['name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ item['planet'] }}] {{ item['type'] }}</nuxt-link>
 						</div>
 						<div v-if="page['items'].length === 0" class="col th">Список ссылок пуст</div>
 					</div>

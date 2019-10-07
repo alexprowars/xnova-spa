@@ -17,22 +17,11 @@ export default ({ res, store, $axios, error }, inject) =>
 			url: url,
 			params: data
 		})
-		.then(result =>
-		{
-			if (typeof result.data === 'string')
-				throw new Error(result.data);
-
-			return parseData(result.data.data)
+		.then(result => {
+			return handleResult(result, res)
 		})
-		.catch((e) =>
-		{
-			if (typeof e.response === 'undefined')
-				return error({message: e});
-
-			if (e.response && e.response.status !== 200)
-				return error({message: e.response.statusText, statusCode: e.response.status});
-
-			return parseData(e.response.data.data)
+		.catch((e) => {
+			return handleError(e)
 		})
 	}
 
@@ -62,30 +51,41 @@ export default ({ res, store, $axios, error }, inject) =>
 			data: data,
 			headers: headers
 		})
-		.then(result =>
-		{
-			if (process.server && result.headers['set-cookie'])
-				res.setHeader('Set-Cookie', result.headers['set-cookie'])
-
-			if (typeof result.data === 'string')
-				throw new Error(result.data);
-
-			return parseData(result.data.data)
+		.then(result => {
+			return handleResult(result, res)
 		})
-		.catch((e) =>
-		{
-			if (typeof e.response === 'undefined')
-				throw new Error(e);
-
-			if (e.response && e.response.status !== 200)
-				return error({message: e.response.statusText, statusCode: e.response.status});
-
-			return parseData(e.response.data.data)
+		.catch((e) => {
+			return handleError(e)
 		})
 	}
 
 	inject('get', $get)
 	inject('post', $post)
+}
+
+function handleError (e)
+{
+	if (typeof e.response === 'undefined')
+		throw new Error(e)
+
+	if (e.response && typeof e.response.data === 'object' && typeof e.response.data.data === 'object')
+		throw new Error(e.response.data.data.message)
+
+	if (e.response && e.response.status !== 200)
+		return error({message: e.response.statusText, statusCode: e.response.status})
+
+	return parseData(e.response.data.data)
+}
+
+function handleResult (result, res)
+{
+	if (process.server && result.headers['set-cookie'])
+		res.setHeader('Set-Cookie', result.headers['set-cookie'])
+
+	if (typeof result.data === 'string')
+		throw new Error(result.data)
+
+	return parseData(result.data.data)
 }
 
 function parseData (data)

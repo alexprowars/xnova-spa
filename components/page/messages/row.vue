@@ -6,9 +6,9 @@
 			</div>
 			<div class="col-3 th text-center">{{ item['time']|date('d.m.y H:i:s') }}</div>
 			<div class="col-6 th text-center">
-				<popup-link v-if="item['from'] > 0" :to="'/players/'+item['from']+'/'" title="От кого" v-html="item['theme']">
+				<a v-if="item['from'] > 0" :href="'/players/'+item['from']+'/'" @click.prevent="openPlayerPopup(item['from'])" title="От кого" v-html="item['theme']">
 					{{ item['theme'] }}
-				</popup-link>
+				</a>
 				<span v-else v-html="item['theme']">
 					{{ item['theme'] }}
 				</span>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+	import PlayerInfo from '~/components/page/players/info.vue'
+
 	export default {
 		name: "messages-row",
 		props: {
@@ -61,6 +63,9 @@
 							this.$store.commit('PAGE_LOAD', result);
 						})
 					})
+			},
+			openPlayerPopup (id) {
+				this.$modal.showAjax(PlayerInfo, '/players/'+id+'/')
 			}
 		}
 	}

@@ -169,7 +169,7 @@
 							<div class="row">
 								<div class="c col-sm-5 col-6">Игрок:</div>
 								<div class="c col-sm-7 col-6" style="word-break: break-all;">
-									<popup-link :to="'/players/'+$store.state['user']['id']+'/'">{{ $store.state['user']['name'] }}</popup-link>
+									<a :href="'/players/'+$store.state['user']['id']+'/'" @click.prevent="openPlayerPopup">{{ $store.state['user']['name'] }}</a>
 								</div>
 							</div>
 							<div class="row">
@@ -275,6 +275,7 @@
 </template>
 
 <script>
+	import PlayerInfo from '~/components/page/players/info.vue'
 	import Fleets from '~/components/page/overview/fleets.vue'
 	import Clock from '~/components/page/overview/clock.vue'
 	import QueueRow from '~/components/page/overview/queue-row.vue'
@@ -302,6 +303,9 @@
 				})
 
 				this.$store.commit('PAGE_LOAD', result);
+			},
+			openPlayerPopup () {
+				this.$modal.showAjax(PlayerInfo, '/players/'+this.$store.state['user']['id']+'/')
 			}
 		}
 	}

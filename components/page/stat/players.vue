@@ -25,9 +25,9 @@
 						<span v-else-if="item['diff'] > 0" class="positive">+{{ item['diff'] }}</span>
 					</div>
 					<div class="th col-sm-4 col-5">
-						<popup-link :to="'/players/'+item['id']+'/'">
+						<a :href="'/players/'+item['id']+'/'" @click.prevent="openPlayerPopup(item['id'])">
 							<span :class="{neutral: item['name_marked']}">{{ item['name'] }}</span>
-						</popup-link>
+						</a>
 						<div v-if="item['alliance']" class="d-sm-none">
 							<nuxt-link :class="{neutral: item['alliance']['marked']}" :to="'/alliance/info/'+item['alliance']['id']+'/'">
 								{{ item['alliance']['name'] }}
@@ -64,10 +64,17 @@
 </template>
 
 <script>
+	import PlayerInfo from '~/components/page/players/info.vue'
+
 	export default {
 		name: "stat-players",
 		props: {
 			items: Array
-		}
+		},
+		methods: {
+			openPlayerPopup (id) {
+				this.$modal.showAjax(PlayerInfo, '/players/'+id+'/')
+			},
+		},
 	}
 </script>

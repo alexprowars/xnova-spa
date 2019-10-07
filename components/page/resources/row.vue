@@ -1,9 +1,9 @@
 <template>
 	<tr>
 		<th class="text-left" nowrap>
-			<popup-link :to="'/info/'+item['id']+'/'" :title="$t('TECH.'+item['id'])">
+			<InfoPopup :id="item['id']" :title="$t('TECH.'+item['id'])">
 				{{ $t('TECH.'+item['id']) }}
-			</popup-link>
+			</InfoPopup>
 		</th>
 		<th>
 			<colored :value="item['level']"></colored>
@@ -26,8 +26,13 @@
 </template>
 
 <script>
+	import InfoPopup from '~/components/page/info/popup.vue'
+
 	export default {
 		name: 'resource-row',
+		components: {
+			InfoPopup,
+		},
 		props: {
 			item: {
 				type: Object

@@ -8,7 +8,7 @@
 				<PlanetPanel v-if="views['resources']"/>
 				<div class="main-content-row">
 					<ErrorMessage v-if="error" :data="error"/>
-					<Nuxt/>
+					<Nuxt v-else/>
 				</div>
 			</div>
 		</main>
@@ -22,7 +22,7 @@
 		<div class="loader" :class="{active: $store.state.loading}"></div>
 
 		<client-only>
-			<modals-container/>
+			<dialogs-wrapper transition-name="dialog-fade"/>
 		</client-only>
 	</div>
 </template>

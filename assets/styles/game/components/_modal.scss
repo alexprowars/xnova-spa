@@ -1,0 +1,137 @@
+.dialog-box {
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	background: rgba(0, 0, 0, 0.3);
+
+	.dialog-container:before {
+		content: "";
+		display: inline-block;
+		vertical-align: middle;
+		height: 100%;
+		width: 0;
+		font-size: 0;
+	}
+
+	.dialog-container {
+		position: absolute;
+		top:0;
+		left:0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.dialog-content {
+		margin: 40px 10px;
+		vertical-align: middle;
+		text-align: left;
+		background-color: #344566;
+		overflow: auto;
+		position: relative;
+		padding: 3px;
+		border: 1px solid #415680;
+		display: inline-block;
+	}
+
+	.dialog-close {
+		color: #fff;
+		opacity: .6;
+		border: 0;
+		border-radius: 0;
+		position: absolute;
+		top: 0;
+		right: 4px;
+		padding: 0;
+		margin: 0;
+		width: 30px;
+		height: 30px;
+		min-width: auto;
+		text-align: center;
+		font-size: 27px;
+		z-index: 2;
+		content: "×";
+		background: transparent;
+	}
+
+	.dialog-close:hover {
+		opacity: 1;
+	}
+
+	.dialog-title {
+		user-select: none;
+		font-family: "BebasNeue", "PT Sans Narrow", "Tahoma", serif;
+		display: inline-block;
+		vertical-align: middle;
+		padding-bottom: 15px;
+		font-size: 22px;
+		line-height: 20px;
+	}
+
+	.dialog-text {
+		height: auto;
+
+		a {
+			color: #9a1915;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.dialog-buttons {
+		margin-top: 20px;
+		padding-bottom: 11px;
+		float: right;
+
+		button {
+			color: #000000;
+			background: transparent;
+			border: 2px solid #000000;
+			padding: 10px 30px;
+			line-height: 1;
+			min-height: 1px;
+			height: auto;
+			text-transform: uppercase;
+			font-size: 14px;
+			font-weight: bold;
+			text-shadow: none;
+		}
+
+		button + button {
+			margin-left: 5px;
+		}
+	}
+}
+
+@media (min-width: 1279px) {
+	.dialog-box .dialog-content {
+		min-width: 400px;
+	}
+	.dialog-box.confirm-box .dialog-content {
+		max-width: 450px;
+	}
+}
+
+@media(max-width: 480px) {
+	.dialog-box .dialog-content .is-modal-content {
+		min-width: 300px;
+	}
+}
+
+.dialog-fade-enter-active, .dialog-fade-leave-active {
+	transition: opacity .3s;
+}
+
+.dialog-fade-enter, .dialog-fade-leave-active {
+	opacity: 0
+}

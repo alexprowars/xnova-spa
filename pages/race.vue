@@ -22,7 +22,7 @@
 					<br>-10% к стоимости улучшения кораблей
 					<br><br>Уникальный корабль:
 					<font color="#adff2f">
-						<popup-link to="/info/220/">Корвет</popup-link>
+						<InfoPopup :id="220">Корвет</InfoPopup>
 					</font> (манёвренный и скоростной корабль)</font>
 					<br><br>
 
@@ -44,7 +44,7 @@
 					<br>+5% к энергии от солнечных батарей
 					<br><br>Уникальный корабль:
 					<font color="#adff2f">
-						<popup-link to="/info/221/">Перехватчик</popup-link>
+						<InfoPopup :id="221">Перехватчик</InfoPopup>
 					</font> (скоростной легкий корабль)</font>
 					<br><br>
 
@@ -72,7 +72,7 @@
 					<br>-5% к стоимости постройки зданий
 					<br><br>Уникальный корабль:
 					<font color="#adff2f">
-						<popup-link to="/info/222/">Дредноут</popup-link>
+						<InfoPopup :id="222">Дредноут</InfoPopup>
 					</font> (тяжелый боевой корабль)</font>
 					<br><br>
 
@@ -94,7 +94,7 @@
 					<br>-10% к стоимости исследований
 					<br><br>Уникальный корабль:
 					<font color="#adff2f">
-						<popup-link to="/info/223/">Корсар</popup-link>
+						<InfoPopup :id="223">Корсар</InfoPopup>
 					</font> (быстрый пиратский корабль)</font>
 					<br><br>
 
@@ -137,8 +137,13 @@
 </template>
 
 <script>
+	import InfoPopup from '~/components/page/info/popup.vue'
+
 	export default {
 		name: 'race',
+		components: {
+			InfoPopup,
+		},
 		async asyncData ({ store }) {
 			return await store.dispatch('loadPage')
 		},

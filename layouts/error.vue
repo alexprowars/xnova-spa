@@ -1,18 +1,16 @@
 <template>
-	<div class="row">
-
-		<div v-if="error.statusCode === 404" class="e404">Вы попали на несуществующую страницу!</div>
-		<div v-else>{{ error['message'] }}</div>
-
-		<div id="gamecontainer" style="margin: 0 auto">
-			<canvas id="gameCanvas"></canvas>
+	<div class="error">
+		<div class="row">
+			<div v-if="error.statusCode === 404" class="e404">Вы попали на несуществующую страницу!</div>
+			<div v-else>{{ error['message'] }}</div>
 		</div>
-
-		<script type="text/javascript">
-
-		</script>
-		<br>
-		<div><a href="#" @click.prevent="toggleMute">{{ sound }}</a></div>
+		<div class="row">
+			<div id="gamecontainer" style="margin: 0 auto">
+				<canvas id="gameCanvas"></canvas>
+			</div>
+			<br>
+			<div><a href="#" @click.prevent="toggleMute">{{ sound }}</a></div>
+		</div>
 	</div>
 </template>
 

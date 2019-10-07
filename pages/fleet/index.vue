@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="content">
-				<router-form action="/fleet/one/">
+				<router-form action="/fleet/checkout/">
 					<div class="table fleet_ships container">
 						<div class="row">
 							<div class="th col-sm-7 col-6">Тип корабля</div>

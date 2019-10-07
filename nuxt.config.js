@@ -3,6 +3,8 @@ const webpack = require('webpack')
 const GTM_ID = 'GTM-TD5227C'
 const SENTRY_ID = 'https://07e2069e69bf41138e52c89088230e98@sentry.io/1524173'
 
+const proxyUrl = process.env.PROXY_URL || 'http://test.xnova.su'
+
 let config = {
 	head: {
 		title: 'XNova Game',
@@ -58,6 +60,14 @@ let config = {
 	render: {
 		compressor: false,
 	},
+	features: {
+		transitions: false,
+		fetch: false,
+		clientOnline: false,
+		clientPrefetch: false,
+		componentAliases: false,
+		deprecations: false,
+	},
 	build: {
 		indicator: false,
 		cssSourceMap: false,
@@ -107,8 +117,8 @@ let config = {
 		credentials: true,
 	},
 	proxy: {
-		'/api': {target: 'http://test.xnova.su', cookieDomainRewrite: {"*": ""}},
-		'/upload': {target: 'http://test.xnova.su/upload'},
+		'/api': {target: proxyUrl, cookieDomainRewrite: {"*": ""}},
+		'/upload': {target: proxyUrl},
 	},
 	vue: {
 		config: {

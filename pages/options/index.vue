@@ -302,8 +302,6 @@
 </template>
 
 <script>
-	import { addScript } from '~/utils/helpers'
-
 	export default {
 		name: 'options',
 		async asyncData ({ store }) {
@@ -311,8 +309,5 @@
 		},
 		watchQuery: true,
 		middleware: 'auth',
-		mounted () {
-			addScript('https://ulogin.ru/js/ulogin.js');
-		}
 	}
 </script>

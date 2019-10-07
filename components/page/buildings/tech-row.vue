@@ -3,9 +3,9 @@
 		<div class="page-building-items-item building" :class="{blocked: !item.allow}">
 			<div class="building-info">
 				<div class="building-info-img">
-					<popup-link :to="'/info/'+this.item['i']+'/'">
-						<img :src="'/images/gebaeude/'+item.i+'.gif'" align="top" :alt="$t('TECH.'+item.i)" class="img-fluid" :v-tooltip="$t('TECH.'+item.i)" data-width="150">
-					</popup-link>
+					<InfoPopup :id="item.i">
+						<img :src="'/images/gebaeude/'+item.i+'.gif'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.'+item.i)">
+					</InfoPopup>
 				</div>
 
 				<div class="building-info-actions">
@@ -58,6 +58,7 @@
 
 <script>
 	import BuildRowPrice from './build-row-price.vue'
+	import InfoPopup from '~/components/page/info/popup.vue'
 
 	export default {
 		name: "tech-row",
@@ -67,7 +68,8 @@
 			}
 		},
 		components: {
-			BuildRowPrice
+			BuildRowPrice,
+			InfoPopup,
 		},
 		data () {
 			return {

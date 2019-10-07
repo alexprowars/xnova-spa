@@ -4,9 +4,9 @@
 
 			<div class="building-info">
 				<div class="building-info-img" :style="'background-image: url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'">
-					<popup-link :to="'/info/'+item['i']+'/'">
-						<img :src="'/images/buildings/item/'+item.i+'.png'" align="top" :alt="$t('TECH.'+item.i)" :v-tooltip="$t('TECH.'+item.i)" data-width="150">
-					</popup-link>
+					<InfoPopup :id="item.i">
+						<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('TECH.'+item.i)" v-tooltip="$t('TECH.'+item.i)">
+					</InfoPopup>
 					<div class="building-effects" v-html="item['effects']"></div>
 				</div>
 
@@ -16,7 +16,7 @@
 							{{ $t('TECH.'+item.i) }}
 						</nuxt-link>
 						<span v-if="item.level" class="positive" title="Текущий уровень постройки">
-							{{ item.level|number }}
+							{{ item.level | number }}
 						</span>
 					</div>
 
@@ -25,13 +25,13 @@
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-time"></use>
 							</svg>
-							{{ item.time|time }}
+							{{ item.time | time }}
 						</div>
 						<div v-if="item.exp > 0" class="building-info-time" title="Опыт">
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-exp"></use>
 							</svg>
-							{{ item.exp|number }} exp
+							{{ item.exp | number }} exp
 						</div>
 
 						<div class="building-info-upgrade">
@@ -65,6 +65,7 @@
 
 <script>
 	import BuildRowPrice from './build-row-price.vue'
+	import InfoPopup from '~/components/page/info/popup.vue'
 
 	export default {
 		name: "build-row",
@@ -74,7 +75,8 @@
 			}
 		},
 		components: {
-			BuildRowPrice
+			BuildRowPrice,
+			InfoPopup,
 		},
 		computed: {
 			resources () {
@@ -113,7 +115,7 @@
 				.then((result) => {
 					this.$store.commit('PAGE_LOAD', result)
 				})
-			}
+			},
 		}
 	}
 </script>

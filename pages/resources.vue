@@ -56,10 +56,10 @@
 									<th width="200"></th>
 									<th>Ур.</th>
 									<th>Бонус</th>
-									<th><popup-link to="/info/1/" :title="$t('TECH.1')">Металл</popup-link></th>
-									<th><popup-link to="/info/2/" :title="$t('TECH.2')">Кристалл</popup-link></th>
-									<th><popup-link to="/info/3/" :title="$t('TECH.3')">Дейтерий</popup-link></th>
-									<th><popup-link to="/info/4/" :title="$t('TECH.4')">Энергия</popup-link></th>
+									<th><InfoPopup :id="1" :title="$t('TECH.1')">Металл</InfoPopup></th>
+									<th><InfoPopup :id="2" :title="$t('TECH.2')">Кристалл</InfoPopup></th>
+									<th><InfoPopup :id="3" :title="$t('TECH.3')">Дейтерий</InfoPopup></th>
+									<th><InfoPopup :id="4" :title="$t('TECH.4')">Энергия</InfoPopup></th>
 									<th width="100">КПД</th>
 								</tr>
 								<tr>
@@ -190,6 +190,7 @@
 <script>
 	import ResourcesBar from '~/components/page/resources/bar.vue'
 	import ResourcesRow from '~/components/page/resources/row.vue'
+	import InfoPopup from '~/components/page/info/popup.vue'
 
 	export default {
 		name: 'resources',
@@ -201,6 +202,7 @@
 		components: {
 			ResourcesBar,
 			ResourcesRow,
+			InfoPopup,
 		},
 		methods: {
 			buyResources ()

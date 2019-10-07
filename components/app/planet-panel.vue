@@ -11,7 +11,7 @@
 			<div class="row">
 				<div class="col-4 text-center">
 					<div class="resource-panel-item">
-						<popup-link :to="'/info/4/'" title="Солнечная батарея" class="resource-panel-item-icon">
+						<InfoPopup :id="4" title="Солнечная батарея" class="resource-panel-item-icon">
 							<Popper>
 								<client-only>
 									<div class="resource-panel-item-tooltip">
@@ -38,7 +38,7 @@
 									<span class="sprite skin_s_energy"></span>
 								</template>
 							</Popper>
-						</popup-link>
+						</InfoPopup>
 						<div class="neutral">{{ $t('RESOURCES.energy') }}</div>
 						<div title="Доступно энергии">
 							<span :class="[planet['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ planet['energy']['current']|number }}</span>
@@ -113,11 +113,13 @@
 
 <script>
 	import PanelResource from './planet-panel-resource.vue'
+	import InfoPopup from '~/components/page/info/popup.vue'
 
 	export default {
 		name: "planet-panel",
 		components: {
-			PanelResource
+			PanelResource,
+			InfoPopup,
 		},
 		data () {
 			return {

@@ -1,6 +1,6 @@
 <template>
 	<div class="resource-panel-item">
-		<popup-link :to="'/info/'+building[type]+'/'" class="resource-panel-item-icon">
+		<InfoPopup :id="building[type]" class="resource-panel-item-icon">
 			<Popper>
 				<client-only>
 					<resource-tooltip :resource="resource" :type="type"></resource-tooltip>
@@ -10,7 +10,7 @@
 					<span class="sprite" :class="['skin_s_'+type]"></span>
 				</template>
 			</Popper>
-		</popup-link>
+		</InfoPopup>
 		<div class="neutral">{{ $t('RESOURCES.'+type+'') }}</div>
 		<div title="Количество ресурса на планете">
 			<span :class="[resource.max > resource.current ? 'positive' : 'negative']">
@@ -22,11 +22,13 @@
 
 <script>
 	import ResourceTooltip from './planet-panel-resource-tooltip.vue'
+	import InfoPopup from '~/components/page/info/popup.vue'
 
 	export default {
 		name: "planet-panel-resource",
 		components: {
-			ResourceTooltip
+			ResourceTooltip,
+			InfoPopup,
 		},
 		props: {
 			resource: {

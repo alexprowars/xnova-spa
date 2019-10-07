@@ -8,6 +8,10 @@ html {
 	-webkit-font-smoothing: antialiased;
 }
 
+body.loading {
+	overflow: hidden;
+}
+
 :focus {
 	outline: none;
 }

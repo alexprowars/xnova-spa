@@ -14,9 +14,9 @@
 					<div class="sm">
 						Войти с помощью:<br><br>
 
-						<client-only>
-							<div id="uLogin" data-uloginid="e4860195" :x-ulogin-params="'display=panel;fields=first_name,last_name,photo;providers=vkontakte,odnoklassniki,facebook,twitter,yandex,googleplus,mailru;redirect_uri=http%3A%2F%2F'+$store.state['host']+'%2F'"></div>
-						</client-only>
+						<nuxt-link :to="'/login/social/facebook/'">Facebook</nuxt-link>
+						<nuxt-link :to="'/login/social/vkontakte/'">Vkontakte</nuxt-link>
+						<nuxt-link :to="'/login/social/google/'">Google</nuxt-link>
 					</div>
 				</div>
 			</div>
@@ -90,9 +90,9 @@
 			showRemindPassword ()
 			{
 				if (this.$store.getters.isMobile)
-					return window.location.href = '/remind/'
+					return window.location.href = '/login/reset/'
 
-				this.$get('/remind/').then((data) =>
+				this.$get('/login/reset/').then((data) =>
 				{
 					this.$modal.show(RemindForm, {
 						popup: data.page
@@ -104,7 +104,6 @@
 			}
 		},
 		mounted () {
-			addScript('https://ulogin.ru/js/ulogin.js')
 			addScript('https://www.google.com/recaptcha/api.js')
 		}
 	}

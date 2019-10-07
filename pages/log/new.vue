@@ -1,7 +1,7 @@
 <template>
 	<table class="table">
 		<tr>
-			<td class="c"><h1>Сохранение боевого доклада</h1></td>
+			<td class="c">Сохранение боевого доклада</td>
 		</tr>
 		<tr>
 			<th>
