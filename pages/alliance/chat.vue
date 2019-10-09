@@ -1,10 +1,10 @@
 <template>
 	<div class="page-alliance-chat">
-		<router-form action="/alliance/chat/">
+		<router-form action="/alliance/chat">
 			<div class="table">
 				<div class="row">
 					<div class="col-12 c">
-						<nuxt-link to="/alliance/chat/">Обновить</nuxt-link>
+						<nuxt-link to="/alliance/chat">Обновить</nuxt-link>
 					</div>
 				</div>
 
@@ -47,7 +47,7 @@
 			</div>
 		</router-form>
 		<div class="separator"></div>
-		<router-form action="/alliance/chat/">
+		<router-form action="/alliance/chat">
 			<table class="table">
 				<tr>
 					<td class="c">Отправить сообщение в чат альянса</td>
@@ -66,7 +66,7 @@
 			</table>
 		</router-form>
 		<span style="float:left;margin-left:10px;margin-top:7px;">
-			<nuxt-link to="/alliance/">[назад к альянсу]</nuxt-link>
+			<nuxt-link to="/alliance">[назад к альянсу]</nuxt-link>
 		</span>
 	</div>
 </template>

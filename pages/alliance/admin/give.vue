@@ -1,5 +1,5 @@
 <template>
-	<router-form :action="'/alliance/admin/edit/give/id/'+page['id']+'/'">
+	<router-form :action="'/alliance/admin/give?id='+page['id']+''">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="8">Передача альянса</td>
@@ -10,7 +10,7 @@
 				<th colspan="3"><input type="submit" value="Передача"></th>
 			</tr>
 			<tr>
-				<td class="c" colspan="8"><nuxt-link to="/alliance/admin/edit/ally/">назад</nuxt-link></td>
+				<td class="c" colspan="8"><nuxt-link to="/alliance/admin">назад</nuxt-link></td>
 			</tr>
 		</table>
 	</router-form>

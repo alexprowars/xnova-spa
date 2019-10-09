@@ -5,7 +5,7 @@
 		</tr>
 		<tr v-if="page['request'] !== null">
 			<td colspan="2" class="padding-0">
-				<router-form :action="'/alliance/admin/edit/requests/show/'+page['request']['id']+'/'">
+				<router-form :action="'/alliance/admin/requests?show='+page['request']['id']+''">
 					<div class="separator"></div>
 					<div class="table">
 						<div class="row">
@@ -33,15 +33,15 @@
 		</tr>
 		<tr v-if="page['list'].length > 0">
 			<td class="c text-center">
-				<nuxt-link to="/alliance/admin/edit/requests/sort/1/">Логин</nuxt-link>
+				<nuxt-link to="/alliance/admin/requests?sort=1">Логин</nuxt-link>
 			</td>
 			<td class="c text-center">
-				<nuxt-link to="/alliance/admin/edit/requests/sort/0/">Дата подачи заявки</nuxt-link>
+				<nuxt-link to="/alliance/admin/requests?sort=0">Дата подачи заявки</nuxt-link>
 			</td>
 		</tr>
 		<tr v-for="list in page['list']">
 			<th class="text-center">
-				<nuxt-link :to="'/alliance/admin/edit/requests/show/'+list['id']+'/'">{{ list['username'] }}</nuxt-link>
+				<nuxt-link :to="'/alliance/admin/requests?show='+list['id']+''">{{ list['username'] }}</nuxt-link>
 			</th>
 			<th class="text-center">
 				{{ list['time'] }}

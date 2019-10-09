@@ -53,18 +53,18 @@
 				</th>
 				<th v-if="page['status']" v-html="m['onlinetime']"></th>
 				<th v-if="page['admin']">
-					<a :href="'/alliance/admin/edit/members/kick/'+m['id']+'/'" onclick="return confirm('Вы действительно хотите исключить данного игрока из альянса?');">
+					<a :href="'/alliance/admin/members?kick='+m['id']+''" onclick="return confirm('Вы действительно хотите исключить данного игрока из альянса?');">
 						<img src="/images/abort.gif" alt="">
 					</a>
 					&nbsp;
-					<nuxt-link :to="'/alliance/admin/edit/members/rank/'+m['id']+'/'">
+					<nuxt-link :to="'/alliance/admin/members?rank='+m['id']+''">
 						<img src="/images/key.gif" alt="">
 					</nuxt-link>
 				</th>
 			</tr>
 			<tr v-else>
 				<td colspan="10">
-					<router-form :action="'/alliance/admin/edit/members/id/'+m['id']+'/'">
+					<router-form :action="'/alliance/admin/members?id='+m['id']+''">
 						<table class="table">
 							<tr>
 								<th colspan="7">{{ m['Rank_for'] }}</th>
@@ -78,7 +78,7 @@
 		</template>
 		<tr>
 			<td class="c" colspan="10">
-				<nuxt-link :to="'/alliance'+(page['admin'] ? '/admin/edit/ally' : '')+'/'">вернутся к обзору</nuxt-link>
+				<nuxt-link :to="'/alliance'+(page['admin'] ? '/admin' : '')+''">вернутся к обзору</nuxt-link>
 			</td>
 		</tr>
 	</table>

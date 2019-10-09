@@ -87,7 +87,7 @@
 			<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
 		</div>
 		
-		<textarea name="text" ref="text" rows="10" v-model="message" v-on:input="update"></textarea>
+		<textarea name="text" ref="text" rows="10" v-model="message" @input="update"></textarea>
 
 		<div v-if="showPreview" class="editor-component-preview table">
 			<div class="row">

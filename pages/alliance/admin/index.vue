@@ -5,29 +5,29 @@
 			<td class="c">Управление альянсом</td>
 		</tr>
 		<tr>
-			<th><nuxt-link to="/alliance/admin/edit/rights/">Установить ранги</nuxt-link></th>
+			<th><nuxt-link to="/alliance/admin/rights">Установить ранги</nuxt-link></th>
 		</tr>
 		<tr v-if="page['can_view_members']">
-			<th><nuxt-link to="/alliance/admin/edit/members/">Члены альянса</nuxt-link></th>
+			<th><nuxt-link to="/alliance/admin/members">Члены альянса</nuxt-link></th>
 		</tr>
 		<tr>
-			<th><nuxt-link to="/alliance/admin/edit/tag/">Изменить аббревиатуру альянса</nuxt-link></th>
+			<th><nuxt-link to="/alliance/admin/tag">Изменить аббревиатуру альянса</nuxt-link></th>
 		</tr>
 		<tr>
-			<th><nuxt-link to="/alliance/admin/edit/name/">Изменить название альянса</nuxt-link></th>
+			<th><nuxt-link to="/alliance/admin/name">Изменить название альянса</nuxt-link></th>
 		</tr>
 	</table>
 	
-	<router-form :action="'/alliance/admin/edit/ally/'">
+	<router-form action="/alliance/admin">
 		<input type="hidden" name="t" :value="page['t']">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="3">Редактировать текст</td>
 			</tr>
 			<tr>
-				<th><nuxt-link to="/alliance/admin/edit/ally/t/1/">Внешний текст</nuxt-link></th>
-				<th><nuxt-link to="/alliance/admin/edit/ally/t/2/">Внутренний текст</nuxt-link></th>
-				<th><nuxt-link to="/alliance/admin/edit/ally/t/3/">Текст заявки</nuxt-link></th>
+				<th><nuxt-link to="/alliance/admin?t=1">Внешний текст</nuxt-link></th>
+				<th><nuxt-link to="/alliance/admin?t=2">Внутренний текст</nuxt-link></th>
+				<th><nuxt-link to="/alliance/admin?t=3">Текст заявки</nuxt-link></th>
 			</tr>
 			<tr>
 				<td class="c" colspan="3">Текст альянса</td>
@@ -45,7 +45,7 @@
 		</table>
 	</router-form>
 	<div class="separator"></div>
-	<router-form action="/alliance/admin/edit/ally/">
+	<router-form action="/alliance/admin">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Дополнительные настройки</td>

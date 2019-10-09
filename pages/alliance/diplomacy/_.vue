@@ -8,7 +8,7 @@
 				<th>{{ diplo['name'] }}</th>
 				<th>{{ $t('alliance.diplomacy_status.'+diplo['type']) }}</th>
 				<th>
-					<nuxt-link :to="'/alliance/diplomacy/edit/del/id/'+diplo['id']+'/'"><img src="/images/abort.gif" alt="Удалить заявку"></nuxt-link>
+					<nuxt-link :to="'/alliance/diplomacy?edit=del&id='+diplo['id']+''"><img src="/images/abort.gif" alt="Удалить заявку"></nuxt-link>
 				</th>
 			</tr>
 			<tr v-if="page['DMyQuery'].length === 0">
@@ -24,8 +24,8 @@
 				<th>{{ diplo['name'] }}</th>
 				<th>{{ $t('alliance.diplomacy_status.'+diplo['type']) }}</th>
 				<th>
-					<nuxt-link :to="'/alliance/diplomacy/edit/suc/id/'+diplo['id']+'/'"><img src="/images/appwiz.gif" alt="Подтвердить"></nuxt-link>
-					<nuxt-link :to="'/alliance/diplomacy/edit/del/id/'+diplo['id']+'/'"><img src="/images/abort.gif" alt="Удалить заявку"></nuxt-link>
+					<nuxt-link :to="'/alliance/diplomacy?edit=suc&id='+diplo['id']+''"><img src="/images/appwiz.gif" alt="Подтвердить"></nuxt-link>
+					<nuxt-link :to="'/alliance/diplomacy?edit=del&id='+diplo['id']+''"><img src="/images/abort.gif" alt="Удалить заявку"></nuxt-link>
 				</th>
 			</tr>
 			<tr v-if="page['DQuery'].length === 0">
@@ -41,7 +41,7 @@
 				<th>{{ diplo['name'] }}</th>
 				<th>{{ $t('alliance.diplomacy_status.'+diplo['type']) }}</th>
 				<th>
-					<nuxt-link :to="'/alliance/diplomacy/edit/del/id/'+diplo['id']+'/'"><img src="/images/abort.gif" alt="Удалить заявку"></nuxt-link>
+					<nuxt-link :to="'/alliance/diplomacy?edit=del&id='+diplo['id']+''"><img src="/images/abort.gif" alt="Удалить заявку"></nuxt-link>
 				</th>
 			</tr>
 			<tr v-if="page['DText'].length === 0">
@@ -49,7 +49,7 @@
 			</tr>
 		</table>
 		<div class="separator"></div>
-		<router-form action="/alliance/diplomacy/edit/add/">
+		<router-form action="/alliance/diplomacy?edit=add">
 			<table class="table">
 				<tr>
 					<td class="c" colspan="2">Добавить альянс в список</td>
@@ -71,7 +71,7 @@
 				</tr>
 
 				<tr>
-					<td class="c"><nuxt-link to="/alliance/">назад</nuxt-link></td>
+					<td class="c"><nuxt-link to="/alliance">назад</nuxt-link></td>
 					<td class="c">
 						<input type="submit" value="Добавить">
 					</td>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-	<router-form action="/alliance/admin/edit/rights/">
+	<router-form action="/alliance/admin/rights">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="13">Установить ранги</td>
@@ -41,7 +41,7 @@
 		</table>
 	</router-form>
 	<div class="separator"></div>
-	<router-form action="/alliance/admin/edit/rights/add/name/">
+	<router-form action="/alliance/admin/rights?add=name">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Создать новый ранг</td>
@@ -102,7 +102,7 @@
 		</tr>
 		<tr>
 			<td class="c" colspan="2">
-				<nuxt-link to="/alliance/admin/edit/ally/">вернутся к обзору</nuxt-link>
+				<nuxt-link to="/alliance/admin">вернутся к обзору</nuxt-link>
 			</td>
 		</tr>
 	</table>
