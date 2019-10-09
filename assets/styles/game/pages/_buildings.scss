@@ -45,8 +45,12 @@
 				}
 			}
 
+			&.blocked .building-info-img img {
+				display: block;
+			}
+
 			&.blocked .building-info-img:after {
-				background: url(/images/buildings/blocked_frame.png) no-repeat;
+				background: url('/images/buildings/blocked_frame.png') no-repeat;
 				width: 98px;
 				height: 98px;
 				content: " ";

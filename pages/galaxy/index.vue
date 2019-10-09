@@ -1,9 +1,9 @@
 <template>
 	<div v-if="page" class="page-galaxy">
-		<GalaxySelector :shortcuts="page['shortcuts']" :galaxy="page['galaxy']" :system="page['system']"></GalaxySelector>
+		<GalaxySelector :shortcuts="page['shortcuts']" :galaxy="page['galaxy']" :system="page['system']"/>
 		<div class="separator"></div>
 
-		<MissileAttack v-if="missile" :page="page" :planet="missilePlanet" @close="missile = false"></MissileAttack>
+		<MissileAttack v-if="missile" :page="page" :planet="missilePlanet" @close="missile = false"/>
 
 		<div class="table-responsive">
 			<table class="table galaxy">
@@ -44,7 +44,7 @@
 							<span v-if="planets === 0">нет заселённых планет</span>
 							<span v-else>{{ planets }} {{ planets | morph('заселённая планета', 'заселённые планеты', 'заселённых планет') }}</span>
 						</td>
-						<td class="c" colspan=3>
+						<td class="c" colspan="3">
 							<Popper>
 								<GalaxyLegend/>
 								<template slot="reference">
@@ -96,24 +96,16 @@
 			planets ()
 			{
 				if (!this.page.items)
-					return 0;
+					return 0
 
-				let count = 0;
-
-				this.page.items.forEach((item) =>
-				{
-					if (item !== false)
-						count++;
-				});
-
-				return count;
+				return this.page.items.filter(item => item !== false).length
 			}
 		},
 		methods: {
 			sendMissile (planet)
 			{
-				this.missile = true;
-				this.missilePlanet = planet;
+				this.missile = true
+				this.missilePlanet = planet
 			}
 		}
 	}

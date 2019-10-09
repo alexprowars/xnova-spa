@@ -50,7 +50,7 @@
 		methods: {
 			escape (event)
 			{
-				if (event.keyCode === 27)
+				if (event.code.toLowerCase() === 'escape')
 					this.$close(false)
 			},
 		}

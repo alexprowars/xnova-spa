@@ -1,5 +1,5 @@
 <template>
-	<div v-if="page" class="page-fleet">
+	<div class="page-fleet">
 		<div class="page-fleet-fly block">
 			<div class="title">
 				<div class="row">
@@ -26,7 +26,7 @@
 					<FlyRow class="row page-fleet-fly-item" v-for="(item, index) in page.fleets" :key="index" :i="index" :item="item"></FlyRow>
 
 					<div class="row" v-if="page.fleets.length === 0">
-						<div class="th col text-center">-</div>
+						<div class="th col text-center">нет активности флота</div>
 					</div>
 
 					<div class="row" v-if="page['curFleets'] >= page['maxFleets']">
@@ -35,7 +35,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="block page-fleet-select">
+		<div v-if="page.ships.length" class="block page-fleet-select">
 			<div class="title">
 				<div class="row">
 					<div class="col-12 text-center">
@@ -66,31 +66,25 @@
 								<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
 							</div>
 						</div>
-
-						<div v-if="page.ships.length === 0" class="row">
-							<div class="th col-12">Нет кораблей!</div>
+						<div class="row">
+							<div class="col-12 col-sm-7 th"></div>
+							<div class="col-12 col-sm-5 th">
+								<a class="button" @click.prevent="allShips">Выбрать все</a>
+								<a v-if="count" class="button" @click.prevent="clearShips">Очистить</a>
+							</div>
 						</div>
-						<div v-else>
-							<div class="row">
-								<div class="col-12 col-sm-7 th"></div>
-								<div class="col-12 col-sm-5 th">
-									<a class="button" @click.prevent="allShips">Выбрать все</a>
-									<a v-if="count" class="button" @click.prevent="clearShips">Очистить</a>
-								</div>
-							</div>
-							<div v-if="count" class="row">
-								<div class="th col-4 col-sm-7">&nbsp;</div>
-								<div class="th col-4 col-sm-2">Вместимость</div>
-								<div class="th col-4 col-sm-3">{{ allCapacity ? $options.filters.number(allCapacity) : '-' }}</div>
-							</div>
-							<div v-if="count" class="row">
-								<div class="th col-4 col-sm-7">&nbsp;</div>
-								<div class="th col-4 col-sm-2">Скорость</div>
-								<div class="th col-4 col-sm-3">{{ allSpeed ? $options.filters.number(allSpeed) : '-'}}</div>
-							</div>
-							<div v-if="count && page['curFleets'] < page['maxFleets']" class="row">
-								<div class="th col-12"><input type="submit" value=" Далее "></div>
-							</div>
+						<div v-if="count" class="row">
+							<div class="th col-4 col-sm-7">&nbsp;</div>
+							<div class="th col-4 col-sm-2">Вместимость</div>
+							<div class="th col-4 col-sm-3">{{ allCapacity ? $options.filters.number(allCapacity) : '-' }}</div>
+						</div>
+						<div v-if="count" class="row">
+							<div class="th col-4 col-sm-7">&nbsp;</div>
+							<div class="th col-4 col-sm-2">Скорость</div>
+							<div class="th col-4 col-sm-3">{{ allSpeed ? $options.filters.number(allSpeed) : '-'}}</div>
+						</div>
+						<div v-if="count && page['curFleets'] < page['maxFleets']" class="row">
+							<div class="th col-12"><input type="submit" value=" Далее "></div>
 						</div>
 					</div>
 					<input type="hidden" name="galaxy" :value="page['selected']['galaxy']">
@@ -99,6 +93,19 @@
 					<input type="hidden" name="planet_type" :value="page['selected']['planet_type']">
 					<input type="hidden" name="mission" :value="page['selected']['mission']">
 				</router-form>
+			</div>
+		</div>
+		<div v-else class="block page-fleet-select">
+			<div class="table fleet_ships container">
+				<div class="row">
+					<div class="th col-12">
+						Нет кораблей на планете
+						<div>
+							<div class="separator"></div>
+							<nuxt-link to="/shipyard/" class="button">Перейти в верфь</nuxt-link>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

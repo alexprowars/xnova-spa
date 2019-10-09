@@ -12,7 +12,7 @@
 		</div>
 		<div class="col-3 col-sm-1 th">
 			<Popper>
-				<div v-for="(fleetData, fleetId) in item.units">
+				<div v-for="(fleetData, fleetId) in item['units']">
 					{{ $t('TECH.'+fleetId) }}: {{ fleetData['count'] }}
 				</div>
 				<template slot="reference">
@@ -60,8 +60,12 @@
 	export default {
 		name: "fleet-index-fly-row",
 		props: {
-			i: Number,
-			item: Object
+			i: {
+				type: Number,
+			},
+			item: {
+				type: Object,
+			}
 		},
 		methods: {
 			backAction ()
@@ -79,7 +83,7 @@
 							id: this.item['id'],
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result);
+							this.$store.commit('PAGE_LOAD', result)
 						})
 					})
 			}

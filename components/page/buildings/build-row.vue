@@ -3,12 +3,10 @@
 		<div class="page-building-items-item building" :class="{blocked: !item.allow}">
 
 			<div class="building-info">
-				<div class="building-info-img" :style="'background-image: url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'">
-					<InfoPopup :id="item.i">
-						<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('TECH.'+item.i)" v-tooltip="$t('TECH.'+item.i)">
-					</InfoPopup>
+				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" :style="{backgroundImage: 'url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'}">
+					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.'+item.i)">
 					<div class="building-effects" v-html="item['effects']"></div>
-				</div>
+				</a>
 
 				<div class="building-info-actions">
 					<div class="building-title">
@@ -52,20 +50,20 @@
 							</a>
 						</div>
 					</div>
-					<div v-else="" class="building-required">
+					<div v-else class="building-required">
 						<div v-html="item['need']"></div>
 					</div>
 				</div>
 			</div>
 
-			<build-row-price :price="item['price']"></build-row-price>
+			<BuildRowPrice :price="item['price']"/>
 		</div>
 	</div>
 </template>
 
 <script>
 	import BuildRowPrice from './build-row-price.vue'
-	import InfoPopup from '~/components/page/info/popup.vue'
+	import InfoContent from '~/components/page/info/content.vue'
 
 	export default {
 		name: "build-row",
@@ -76,33 +74,28 @@
 		},
 		components: {
 			BuildRowPrice,
-			InfoPopup,
 		},
 		computed: {
 			resources () {
-				return this.$store.state.resources;
+				return this.$store.state.resources
 			},
 			hasResources ()
 			{
-				let allow = true;
-
-				let resources = Object.keys(this.$t('RESOURCES'));
-
-				resources.forEach((res) =>
+				return Object.keys(this.$t('RESOURCES')).every(res =>
 				{
 					if (typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0)
 					{
 						if (res === 'energy')
 						{
 							if (this.resources[res].max < this.item.price[res])
-								allow = false;
+								return false
 						}
 						else if (this.resources[res].current < this.item.price[res])
-							allow = false;
+							return false
 					}
-				});
 
-				return allow;
+					return true
+				})
 			}
 		},
 		methods: {
@@ -115,6 +108,9 @@
 				.then((result) => {
 					this.$store.commit('PAGE_LOAD', result)
 				})
+			},
+			openInfoPopup () {
+				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')
 			},
 		}
 	}

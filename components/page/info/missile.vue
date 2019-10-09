@@ -28,8 +28,12 @@
 	export default {
 		name: "info-missile",
 		props: {
-			item: Number,
-			missile: Object
+			item: {
+				type: Number,
+			},
+			missile: {
+				type: Object,
+			}
 		},
 		data () {
 			return {

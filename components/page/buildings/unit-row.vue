@@ -2,18 +2,15 @@
 	<div class="col-md-6 col-12">
 		<div class="page-building-items-item building" :class="{blocked: !item.allow}">
 			<div class="building-info">
-				<div class="building-info-img">
-					<InfoPopup :id="item.i">
-						<img :src="'/images/gebaeude/'+item.i+'.gif'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.'+item.i)">
-					</InfoPopup>>
-				</div>
-
+				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" v-tooltip="$t('TECH.'+item.i)">
+					<img :src="'/images/gebaeude/'+item.i+'.gif'" :alt="$t('TECH.'+item.i)" class="img-fluid">
+				</a>
 				<div class="building-info-actions">
 					<div class="building-title">
 						<nuxt-link :to="'/info/'+item.i+'/'">
 							{{ $t('TECH.'+item.i) }}
 						</nuxt-link>
-						<span :class="{positive: item.count > 0, negative: item.count === 0}">{{ item.count|number }}</span>
+						<span :class="{positive: item.count > 0, negative: item.count === 0}">{{ item.count | number }}</span>
 					</div>
 
 					<div class="building-info-info" v-if="item.allow">
@@ -27,34 +24,35 @@
 						<div v-html="item['effects']"></div>
 
 						<div v-if="item['is_max']">
-							<center><font color="red">Вы можете построить только {{ item.max }} постройку данного типа</font></center>
+							<center class="negative">
+								Вы можете построить только {{ item.max }} постройку данного типа
+							</center>
 						</div>
 						<div v-else-if="max > 0" class="buildmax">
 							<a @click.prevent="setMax">
-								max: <font color="lime">{{ max|number }}</font>
+								max: <span class="positive">{{ max | number }}</span>
 							</a>
 							<input type="number" min="0" :max="max" :name="'fmenge['+item.i+']'" :alt="item.name" v-model="count" style="width: 80px" maxlength="5" value="" placeholder="0">
 						</div>
 					</div>
-					<div v-else="" class="building-required">
+					<div v-else class="building-required">
 						<div v-html="item['need']"></div>
 					</div>
 				</div>
 			</div>
-			<build-row-price :price="item['price']"></build-row-price>
+			<BuildRowPrice :price="item['price']"/>
 		</div>
 	</div>
 </template>
 
 <script>
 	import BuildRowPrice from './build-row-price.vue'
-	import InfoPopup from '~/components/page/info/popup.vue'
+	import InfoContent from '~/components/page/info/content.vue'
 
 	export default {
 		name: "unit-row",
 		components: {
 			BuildRowPrice,
-			InfoPopup,
 		},
 		props: {
 			item: {
@@ -100,7 +98,10 @@
 					this.count = this.max;
 				else
 					this.count = '';
-			}
+			},
+			openInfoPopup () {
+				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')
+			},
 		}
 	}
 </script>

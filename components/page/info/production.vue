@@ -1,8 +1,8 @@
 <template>
 	<div class="block">
 		<div class="title">Производство</div>
-		<div class="content border-0">
-			<div v-if="item === 42" class="table">
+		<div class="content table border-0">
+			<template v-if="item === 42">
 				<div class="row">
 					<div class="col c">Уровень</div>
 					<div class="col c">Дальность</div>
@@ -11,8 +11,8 @@
 					<div class="col th"><span :class="{neutral: row['current']}">{{ row['level'] }}</span></div>
 					<div class="col th">{{ row['range'] }}</div>
 				</div>
-			</div>
-			<div v-else-if="item === 22 || item === 23 || item === 24" class="table">
+			</template>
+			<template v-else-if="item === 22 || item === 23 || item === 24">
 				<div class="row">
 					<div class="col c">Уровень</div>
 					<div class="col c">Вместимость</div>
@@ -21,8 +21,8 @@
 					<div class="col th"><span :class="{neutral: row['current']}">{{ row['level'] }}</span></div>
 					<div class="col th">{{ row['range'] }}k</div>
 				</div>
-			</div>
-			<div v-else-if="item !== 4" class="table">
+			</template>
+			<template v-else-if="item !== 4">
 				<div class="row">
 					<div class="col c">Уровень</div>
 					<div class="col c">Выработка</div>
@@ -37,8 +37,8 @@
 					<div class="col th"><colored :value="row['need']"></colored></div>
 					<div class="col th"><colored :value="row['need_diff']"></colored></div>
 				</div>
-			</div>
-			<div v-else class="table">
+			</template>
+			<template v-else>
 				<div class="row">
 					<div class="col c">Уровень</div>
 					<div class="col c">Выработка</div>
@@ -49,7 +49,7 @@
 					<div class="col th">{{ row['prod']|number }}</div>
 					<div class="col th"><colored :value="row['prod_diff']"></colored></div>
 				</div>
-			</div>
+			</template>
 		</div>
 	</div>
 </template>
@@ -58,8 +58,16 @@
 	export default {
 		name: "info-production",
 		props: {
-			production: Array,
-			item: Number
+			production: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			},
+			item: {
+				type: Number,
+				default: 0,
+			}
 		}
 	}
 </script>

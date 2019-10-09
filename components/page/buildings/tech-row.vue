@@ -2,11 +2,9 @@
 	<div class="col-md-6 col-12">
 		<div class="page-building-items-item building" :class="{blocked: !item.allow}">
 			<div class="building-info">
-				<div class="building-info-img">
-					<InfoPopup :id="item.i">
-						<img :src="'/images/gebaeude/'+item.i+'.gif'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.'+item.i)">
-					</InfoPopup>
-				</div>
+				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" v-tooltip="$t('TECH.'+item.i)">
+					<img :src="'/images/gebaeude/'+item.i+'.gif'" :alt="$t('TECH.'+item.i)" class="img-fluid">
+				</a>
 
 				<div class="building-info-actions">
 					<div class="building-title">
@@ -14,7 +12,7 @@
 							{{ $t('TECH.'+item.i) }}
 						</nuxt-link>
 						<span v-if="item.level" class="positive" title="Текущий уровень постройки">
-							{{ item.level|number }} <span v-if="item.max > 0">из <font color="yellow">{{ item.max|number }}</font></span>
+							{{ item.level|number }} <template v-if="item.max > 0">из <span class="neutral">{{ item.max|number }}</span></template>
 						</span>
 					</div>
 
@@ -46,7 +44,7 @@
 							</a>
 						</div>
 					</div>
-					<div v-else="" class="building-required">
+					<div v-else class="building-required">
 						<div v-html="item['need']"></div>
 					</div>
 				</div>
@@ -58,7 +56,7 @@
 
 <script>
 	import BuildRowPrice from './build-row-price.vue'
-	import InfoPopup from '~/components/page/info/popup.vue'
+	import InfoContent from '~/components/page/info/content.vue'
 
 	export default {
 		name: "tech-row",
@@ -69,7 +67,6 @@
 		},
 		components: {
 			BuildRowPrice,
-			InfoPopup,
 		},
 		data () {
 			return {
@@ -79,22 +76,15 @@
 		},
 		computed: {
 			resources () {
-				return this.$store.state.resources || {};
+				return this.$store.state.resources || {}
 			},
 			hasResources ()
 			{
-				let allow = true;
-
-				let resources = Object.keys(this.$t('RESOURCES'));
-
-				resources.forEach((res) =>
+				return Object.keys(this.$t('RESOURCES')).every(res =>
 				{
-					if (typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0
+					return !(typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0
 						&& this.resources[res] && this.resources[res].current < this.item.price[res])
-						allow = false;
-				});
-
-				return allow;
+				})
 			}
 		},
 		methods: {
@@ -102,18 +92,18 @@
 			{
 				if (typeof this.item['build'] !== 'object' || this.time < 0)
 				{
-					this.time = 0;
-					this.stop();
-					return;
+					this.time = 0
+					this.stop()
+					return
 				}
 
-				this.time = this.item['build']['time'] - this.$store.getters.getServerTime();
+				this.time = this.item['build']['time'] - this.$store.getters.getServerTime()
 			},
 			stop () {
-				clearTimeout(this.timeout);
+				clearTimeout(this.timeout)
 			},
 			start () {
-				this.timeout = setTimeout(this.update, 1000);
+				this.timeout = setTimeout(this.update, 1000)
 			},
 			addAction ()
 			{
@@ -122,7 +112,7 @@
 					tech: this.item['i']
 				})
 				.then((result) => {
-					this.$store.commit('PAGE_LOAD', result);
+					this.$store.commit('PAGE_LOAD', result)
 				})
 			},
 			cancelAction ()
@@ -139,34 +129,37 @@
 							tech: this.item['i']
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result);
+							this.$store.commit('PAGE_LOAD', result)
 						})
 					})
-			}
+			},
+			openInfoPopup () {
+				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')
+			},
 		},
 		watch: {
 			time (v)
 			{
 				if (v > 0)
-					this.start();
+					this.start()
 			},
 			'item.build' (v)
 			{
 				if (typeof v === 'object')
 				{
-					this.stop();
-					this.update();
-					this.start();
+					this.stop()
+					this.update()
+					this.start()
 				}
 			}
 		},
 		mounted ()
 		{
-			this.stop();
-			this.update();
+			this.stop()
+			this.update()
 		},
 		destroyed () {
-			this.stop();
+			this.stop()
 		}
 	}
 </script>

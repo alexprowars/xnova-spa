@@ -4,7 +4,7 @@
 
 		<div class="row">
 			<div class="col-12 d-sm-none">
-				<GalaxySelectorShortcut :items="shortcuts"></GalaxySelectorShortcut>
+				<GalaxySelectorShortcut :items="shortcuts"/>
 			</div>
 			<div class="separator d-sm-none"></div>
 			<div class="col-sm-4 col-6">
@@ -30,7 +30,7 @@
 				</table>
 			</div>
 			<div class="col-sm-4 d-none d-sm-block">
-				<GalaxySelectorShortcut :items="shortcuts"></GalaxySelectorShortcut>
+				<GalaxySelectorShortcut :items="shortcuts"/>
 			</div>
 			<div class="col-sm-4 col-6">
 				<table style="margin: 0 auto">
@@ -100,7 +100,7 @@
 			}
 		},
 		components: {
-			GalaxySelectorShortcut
+			GalaxySelectorShortcut,
 		},
 		methods: {
 			send () 
