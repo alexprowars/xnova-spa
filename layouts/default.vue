@@ -14,7 +14,7 @@
 		</main>
 
 		<client-only>
-			<Chat v-if="$store.getters.isAuthorized()" :visible="controller !== 'chat' && views['menu'] && views['chat']"/>
+			<Chat v-if="$store.getters.isAuthorized" :visible="controller !== 'chat' && views['menu'] && views['chat']"/>
 		</client-only>
 
 		<AppFooter v-if="views && views['header']"/>

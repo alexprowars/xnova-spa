@@ -77,12 +77,12 @@
 										<Popper>
 											{{ item['name'] }}
 											<br>
-											<span v-if="item['time'] > $store.getters.getServerTime()">
+											<span v-if="item['time'] > $store.getters.getServerTime">
 												Нанят до <font color="lime">{{ item['time'] | date('d.m.Y H:i') }}</font>
 											</span>
 											<font v-else="" color="lime">Не нанят</font>
 											<template slot="reference">
-												<span class="officier" :class="['of'+item['id']+(item['time'] > $store.getters.getServerTime() ? '_ikon' : '')]"></span>
+												<span class="officier" :class="['of'+item['id']+(item['time'] > $store.getters.getServerTime ? '_ikon' : '')]"></span>
 											</template>
 										</Popper>
 									</nuxt-link>

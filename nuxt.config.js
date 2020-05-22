@@ -39,6 +39,7 @@ let config = {
 		'~/plugins/filters.js',
 		'~/plugins/components.js',
 		{src: '~/plugins/global.js', ssr: false},
+		{src: '~/plugins/echo.js', ssr: false},
 		{src: '~/plugins/modal.js', ssr: false},
 		{src: '~/plugins/router.js', ssr: false},
 		{src: '~/plugins/tooltip.js', ssr: true},
@@ -118,6 +119,7 @@ let config = {
 	},
 	proxy: {
 		'/api': {target: proxyUrl, cookieDomainRewrite: {"*": ""}},
+		'/broadcasting': {target: proxyUrl, cookieDomainRewrite: {"*": ""}},
 		'/upload': {target: proxyUrl},
 	},
 	vue: {

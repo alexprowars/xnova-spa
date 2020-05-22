@@ -8,7 +8,7 @@
 						<span class="positive">{{ item.count }}</span> {{ item.name }}
 					</div>
 					<div class="col-6 text-right k border-left-0">
-						{{ (item.end - $store.getters.getServerTime()) | time }}
+						{{ (item.end - $store.getters.getServerTime) | time }}
 					</div>
 				</div>
 				<div class="row">
@@ -51,15 +51,15 @@
 					return;
 
 				let last = this.queue[this.queue.length - 1];
-				this.left_time = last.end - this.$store.getters.getServerTime()
+				this.left_time = last.end - this.$store.getters.getServerTime
 
 				let first = this.queue[0];
 
-				if (first.end <= this.$store.getters.getServerTime())
+				if (first.end <= this.$store.getters.getServerTime)
 					this.queue.splice(0, 1);
 				else
 				{
-					let cnt = Math.ceil((first.end - this.$store.getters.getServerTime()) / first.time);
+					let cnt = Math.ceil((first.end - this.$store.getters.getServerTime) / first.time);
 
 					if (cnt !== this.queue[0]['count'])
 						this.queue[0]['count'] = cnt;

@@ -50,7 +50,7 @@
 				this.times = []
 
 				this.page['items'].forEach((item) => {
-					this.times.push(item['time'] - this.$store.getters.getServerTime())
+					this.times.push(item['time'] - this.$store.getters.getServerTime)
 				})
 
 				this.startTimer()

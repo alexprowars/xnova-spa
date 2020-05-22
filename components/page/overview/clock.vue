@@ -14,7 +14,7 @@
 		},
 		methods: {
 			clockUpdate () {
-				this.time = this.$store.getters.getServerTime();
+				this.time = this.$store.getters.getServerTime;
 			},
 			clockStop () {
 				clearTimeout(this.timeout);

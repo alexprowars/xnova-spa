@@ -97,7 +97,7 @@
 					return
 				}
 
-				this.time = this.item['build']['time'] - this.$store.getters.getServerTime()
+				this.time = this.item['build']['time'] - this.$store.getters.getServerTime
 			},
 			stop () {
 				clearTimeout(this.timeout)

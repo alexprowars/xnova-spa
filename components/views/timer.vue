@@ -27,7 +27,7 @@
 				if (this.time < 0)
 					return;
 
-				this.time = this.value - this.$store.getters.getServerTime();
+				this.time = this.value - this.$store.getters.getServerTime;
 			},
 			stop () {
 				clearTimeout(this.timeout);
@@ -42,7 +42,7 @@
 			}
 		},
 		created () {
-			this.time = this.value - this.$store.getters.getServerTime()
+			this.time = this.value - this.$store.getters.getServerTime
 		},
 		mounted ()
 		{

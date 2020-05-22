@@ -91,7 +91,7 @@
 										</tr>
 										<tr>
 											<td v-for="time in planet['officiers']" align="center">
-												<span v-if="time > $store.getters.getServerTime()">Нанят до <font color="lime">{{ time | date('d.m.Y H:i') }}</font></span>
+												<span v-if="time > $store.getters.getServerTime">Нанят до <font color="lime">{{ time | date('d.m.Y H:i') }}</font></span>
 												<span v-else><font color="lime">Не нанят</font></span>
 											</td>
 										</tr>

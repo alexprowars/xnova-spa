@@ -311,13 +311,13 @@
 				this.storage = getStorage(this.page['ships']) - this.consumption
 
 				this.clearTimer()
-				this.target_time = this.$store.getters.getServerTime() + this.duration
+				this.target_time = this.$store.getters.getServerTime + this.duration
 			},
 			startTimer ()
 			{
 				this.target_timeout = setTimeout(() =>
 				{
-					this.target_time = this.$store.getters.getServerTime() + this.duration
+					this.target_time = this.$store.getters.getServerTime + this.duration
 
 					if (this.page['gate_time'] > 0)
 						this.page['gate_time']--

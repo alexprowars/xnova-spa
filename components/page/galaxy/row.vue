@@ -316,9 +316,9 @@
 				if (!RowUserPoints)
 	                RowUserPoints = 0;
 
-				if (this.item['u_ban'] > this.$store.getters.getServerTime() && this.item['u_vacation'] > 0)
+				if (this.item['u_ban'] > this.$store.getters.getServerTime && this.item['u_vacation'] > 0)
 					return "UG";
-				else if (this.item['u_ban'] > this.$store.getters.getServerTime())
+				else if (this.item['u_ban'] > this.$store.getters.getServerTime)
 					return "G";
 				else if (this.item['u_vacation'] > 0)
 					return "U";

@@ -1,8 +1,8 @@
 export default {
-	getServerTime: state => () => {
+	getServerTime: state => {
 		return Math.floor((new Date).getTime() / 1000) + state.stats.time - state.start_time;
 	},
-	isAuthorized: state => () => {
+	isAuthorized: state => {
 		return state.user && state.user.id > 0
 	},
 	isMobile: _ => {

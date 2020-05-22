@@ -8,14 +8,12 @@ import 'core-js/modules/es6.array.iterator';
 import 'core-js/modules/es6.array.find';
 import closest from 'element-closest'
 
-if (!process.server)
-	closest(window)
+closest(window)
 
 window.raport_to_bb = raport_to_bb;
 
-export default (ctx, inject) =>
+export default ({ $axios }, inject) =>
 {
-  const bus = new Vue
-
-  inject('bus', bus)
+	const bus = new Vue
+	inject('bus', bus)
 }
