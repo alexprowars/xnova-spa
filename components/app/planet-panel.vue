@@ -1,15 +1,17 @@
 <template>
 	<div v-if="planet" class="row resource-panel">
-		<div class="col-md-6 col-sm-6 col-12">
+		<div class="col-md-10 col-sm-10 col-12">
 			<div class="row">
-				<div class="col-4 text-center"><panel-resource :type="'metal'" :resource="planet.metal"></panel-resource></div>
-				<div class="col-4 text-center"><panel-resource :type="'crystal'" :resource="planet.crystal"></panel-resource></div>
-				<div class="col-4 text-center"><panel-resource :type="'deuterium'" :resource="planet.deuterium"></panel-resource></div>
-			</div>
-		</div>
-		<div class="col-md-6 col-sm-6 col-12">
-			<div class="row">
-				<div class="col-4 text-center">
+				<div class="col-3 text-center">
+					<PanelResource :type="'metal'" :resource="planet['resources']['metal']"/>
+				</div>
+				<div class="col-3 text-center">
+					<PanelResource :type="'crystal'" :resource="planet['resources']['crystal']"/>
+				</div>
+				<div class="col-3 text-center">
+					<PanelResource :type="'deuterium'" :resource="planet['resources']['deuterium']"/>
+				</div>
+				<div class="col-3 text-center">
 					<div class="resource-panel-item">
 						<InfoPopup :id="4" title="Солнечная батарея" class="resource-panel-item-icon">
 							<Popper>
@@ -20,15 +22,15 @@
 										<table>
 											<tr>
 												<td>Доступно:</td>
-												<td align="right">{{ planet['energy']['current']|number }}</td>
+												<td align="right">{{ planet['resources']['energy']['current']|number }}</td>
 											</tr>
 											<tr>
 												<td>Производится:</td>
-												<td align="right">{{ planet['energy']['max']|number }}</td>
+												<td align="right">{{ planet['resources']['energy']['max']|number }}</td>
 											</tr>
 											<tr>
 												<td>Потребление:</td>
-												<td align="right">{{ (planet['energy']['max'] - planet['energy']['current']) | number }}</td>
+												<td align="right">{{ (planet['resources']['energy']['max'] - planet['resources']['energy']['current']) | number }}</td>
 											</tr>
 										</table>
 									</div>
@@ -41,58 +43,30 @@
 						</InfoPopup>
 						<div class="neutral">{{ $t('RESOURCES.energy') }}</div>
 						<div title="Доступно энергии">
-							<span :class="[planet['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ planet['energy']['current']|number }}</span>
+							<span :class="[planet['resources']['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ planet['resources']['energy']['current']|number }}</span>
 						</div>
 					</div>
 				</div>
-				<div class="col-4 text-center">
-					<div class="resource-panel-item">
-						<Popper class="d-sm-inline-block resource-panel-item-icon">
-							<client-only>
-								<div class="resource-panel-item-tooltip">
-									<h1>Аккумулятор</h1>
-									<div class="line"></div>
-									<table>
-										<tr>
-											<td>Заряд:</td>
-											<td align="right">{{ planet['battery']['current']|number }}</td>
-										</tr>
-										<tr>
-											<td>Емкость:</td>
-											<td align="right">{{ planet['battery']['max']|number }}</td>
-										</tr>
-										<tr v-if="planet['battery']['tooltip'].length">
-											<td colspan="2">{{ planet['battery']['tooltip'] }}</td>
-										</tr>
-									</table>
-								</div>
-							</client-only>
-							<template slot="reference">
-								<img v-if="planet['battery']['power'] > 0 && planet['battery']['power'] < 100" :src="'/api/battery.php?p='+planet['battery']['power']" width="42" alt="">
-								<span v-else="" class="sprite" :class="['skin_batt'+planet['battery']['power']]"></span>
-								<br>
-							</template>
-						</Popper>
-						<div class="neutral">Аккумулятор</div>
-						{{ planet['battery']['power'] }}%
-					</div>
-				</div>
-				<div class="col-4 text-center">
+			</div>
+		</div>
+		<div class="col-md-2 col-sm-2 col-12">
+			<div class="row">
+				<div class="col text-center">
 					<div class="resource-panel-item">
 						<nuxt-link to="/credits/" class="d-sm-inline-block resource-panel-item-icon">
 							<Popper>
 								<client-only>
 									<table width="550">
 										<tr>
-											<td v-for="(time, index) in planet['officiers']" align="center" width="14%">
+											<td v-for="officier in user['officiers']" class="text-center">
 												<div class="separator"></div>
-												<span :class="['officier', 'of'+index+(time > ((new Date).getTime() / 1000) ? '_ikon' : '')]"></span>
+												<span :class="['officier', 'of'+officier['id']+(officier['time'] > ((new Date).getTime() / 1000) ? '_ikon' : '')]"></span>
 											</td>
 										</tr>
 										<tr>
-											<td v-for="time in planet['officiers']" align="center">
-												<span v-if="time > $store.getters.getServerTime">Нанят до <font color="lime">{{ time | date('d.m.Y H:i') }}</font></span>
-												<span v-else><font color="lime">Не нанят</font></span>
+											<td v-for="officier in user['officiers']" class="text-center">
+												<span v-if="officier['time'] > $store.getters.getServerTime">Нанят до <font class="positive">{{ officier['time'] | date('d.m.Y H:i') }}</font></span>
+												<span v-else><font class="positive">Не нанят</font></span>
 											</td>
 										</tr>
 									</table>
@@ -103,7 +77,7 @@
 							</Popper>
 						</nuxt-link>
 						<div class="neutral">Кредиты</div>
-						{{ planet['credits']|number }}
+						{{ user['credits'] | number }}
 					</div>
 				</div>
 			</div>
@@ -129,7 +103,10 @@
 		},
 		computed: {
 			planet () {
-				return this.$store.state.resources || false;
+				return this.$store.state.planet || false;
+			},
+			user () {
+				return this.$store.state.user || false;
 			}
 		},
 		methods:
@@ -152,12 +129,12 @@
 
 				['metal', 'crystal', 'deuterium'].forEach((res) =>
 				{
-					if (typeof this.planet[res] === 'undefined')
+					if (typeof this.planet['resources'][res] === 'undefined')
 						return;
 
-					let power = (this.planet[res]['current'] >= this.planet[res]['max']) ? 0 : 1;
+					let power = (this.planet['resources'][res]['current'] >= this.planet['resources'][res]['max']) ? 0 : 1;
 
-					resources[res] = this.planet[res]['current'] + ((this.planet[res]['production'] / 3600) * power * factor);
+					resources[res] = this.planet['resources'][res]['current'] + ((this.planet['resources'][res]['production'] / 3600) * power * factor);
 				});
 
 				if (Object.keys(resources).length > 0)

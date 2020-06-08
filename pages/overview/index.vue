@@ -72,15 +72,15 @@
 								</div>
 							</div>
 							<div class="col-12 page-overview-officiers">
-								<div v-for="item in page['officiers']" class="page-overview-officiers-item">
+								<div v-for="item in user['officiers']" class="page-overview-officiers-item">
 									<nuxt-link to="/officier/">
 										<Popper>
-											{{ item['name'] }}
+											{{ $t('TECH.'+item['id']) }}
 											<br>
 											<span v-if="item['time'] > $store.getters.getServerTime">
 												Нанят до <font color="lime">{{ item['time'] | date('d.m.Y H:i') }}</font>
 											</span>
-											<font v-else="" color="lime">Не нанят</font>
+											<font v-else color="lime">Не нанят</font>
 											<template slot="reference">
 												<span class="officier" :class="['of'+item['id']+(item['time'] > $store.getters.getServerTime ? '_ikon' : '')]"></span>
 											</template>
@@ -129,10 +129,10 @@
 								<div class="col-12 th doubleth middle">
 									<div>
 										<img src="/images/skin/s_metal.png" alt="" align="absmiddle" v-tooltip="'Металл'">
-										{{ page['debris']['metal']|number }}
+										{{ page['debris']['metal'] | number }}
 										/
 										<img src="/images/skin/s_crystal.png" alt="" align="absmiddle" v-tooltip="'Кристалл'">
-										{{ page['debris']['crystal']|number }}
+										{{ page['debris']['crystal'] | number }}
 									</div>
 								</div>
 							</div>
@@ -141,10 +141,10 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th middle">
-									<img :src="'/images/wins.gif'" alt="" align="absmiddle" v-tooltip="'Победы'">&nbsp;
+									<img src="/images/wins.gif" alt="" align="absmiddle" v-tooltip="'Победы'">&nbsp;
 									{{ page['raids']['win'] }}
 									&nbsp;&nbsp;
-									<img :src="'/images/losses.gif'" alt="" align="absmiddle" v-tooltip="'Поражения'">&nbsp;
+									<img src="/images/losses.gif" alt="" align="absmiddle" v-tooltip="'Поражения'">&nbsp;
 									{{ page['raids']['lost'] }}
 								</div>
 							</div>
@@ -283,7 +283,7 @@
 
 	export default {
 		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+			return store.dispatch('loadPage')
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -291,6 +291,11 @@
 			Fleets,
 			Clock,
 			QueueRow,
+		},
+		computed: {
+			user () {
+				return this.$store.state.user || false;
+			}
 		},
 		methods: {
 			sendRecycle () {

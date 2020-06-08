@@ -12,7 +12,7 @@ export default () => ({
 	url: null,
 	user: null,
 	menu: null,
-	resources: null,
+	planet: null,
 	start_time: Math.floor(((new Date()).getTime()) / 1000),
 	loading: false,
 })
