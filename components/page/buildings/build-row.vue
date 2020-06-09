@@ -5,7 +5,14 @@
 			<div class="building-info">
 				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" :style="{backgroundImage: 'url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'}">
 					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.'+item.i)">
-					<div class="building-effects" v-html="item['effects']"></div>
+					<div class="building-effects">
+						<template v-if="item['effects']">
+							<div v-for="(value, resource) in item['effects']" v-if="value !== 0" class="building-effects-row">
+								<span :class="'sprite skin_s_'+resource" :title="$t('RESOURCES.'+resource)"></span>
+								<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
+							</div>
+						</template>
+					</div>
 				</a>
 
 				<div class="building-info-actions">
@@ -50,8 +57,12 @@
 							</a>
 						</div>
 					</div>
-					<div v-else class="building-required">
-						<div v-html="item['need']"></div>
+					<div v-else-if="item['requirements']" class="building-required">
+						<div v-for="req in item['requirements']">
+							<span class="negative">
+								{{ $t('TECH.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -64,6 +75,7 @@
 <script>
 	import BuildRowPrice from './build-row-price.vue'
 	import InfoContent from '~/components/page/info/content.vue'
+	import { mapState } from 'vuex'
 
 	export default {
 		name: "build-row",
@@ -76,22 +88,19 @@
 			BuildRowPrice,
 		},
 		computed: {
-			resources () {
-				return this.$store.state.resources
-			},
+			...mapState({
+				resources: state => state.planet.resources,
+			}),
 			hasResources ()
 			{
-				return Object.keys(this.$t('RESOURCES')).every(res =>
-				{
-					if (typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0)
-					{
-						if (res === 'energy')
-						{
+				return Object.keys(this.$t('RESOURCES')).every(res => {
+					if (typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0) {
+						if (res === 'energy') {
 							if (this.resources[res].max < this.item.price[res])
 								return false
-						}
-						else if (this.resources[res].current < this.item.price[res])
+						} else if (this.resources[res].current < this.item.price[res]) {
 							return false
+						}
 					}
 
 					return true
@@ -99,15 +108,14 @@
 			}
 		},
 		methods: {
-			addAction ()
+			async addAction ()
 			{
-				this.$post('/buildings/', {
+				const result = await this.$post('/buildings/', {
 					cmd: 'insert',
 					building: this.item['i']
 				})
-				.then((result) => {
-					this.$store.commit('PAGE_LOAD', result)
-				})
+
+				this.$store.commit('PAGE_LOAD', result)
 			},
 			openInfoPopup () {
 				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')

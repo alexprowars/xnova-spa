@@ -26,7 +26,7 @@ export default {
 			return context.error(e);
 		})
 	},
-	loadPage ({ state, commit }, url)
+	async loadPage ({ state, commit }, url)
 	{
 		if (typeof url === 'undefined')
 			url = this.app.context.route.fullPath
@@ -39,8 +39,7 @@ export default {
 				page: null
 			})
 
-			return new Promise((resolve) =>
-			{
+			return new Promise((resolve) => {
 				return resolve({
 					page
 				})
@@ -55,53 +54,43 @@ export default {
 		if (this.app.context.req && this.app.context.req.method === 'POST')
 			return
 
-		return this.$get(url).then((data) =>
+		const data = await this.$get(url)
+
+		if (typeof data['redirect'] !== 'undefined')
+			return this.app.context.redirect(data['redirect'])
+
+		if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '')
 		{
-			if (typeof data['redirect'] !== 'undefined' && typeof data['url'] === 'undefined')
-				return this.app.context.redirect(data['redirect'])
-
-			let loc = getLocation(url)
-
-			if (loc['pathname'] !== data['url'])
-				this.$router.replace(data['url'])
-			else
-			{
-				if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '')
-				{
-					$.confirm({
-						title: 'Обучение',
-						content: data['tutorial']['popup'],
-						confirmButton: 'Продолжить',
-						cancelButton: false,
-						backgroundDismiss: false,
-						confirm: () =>
-						{
-							if (data['tutorial']['url'] !== '')
-								this.$router.push(data['tutorial']['url']);
-						}
-					})
+			$.confirm({
+				title: 'Обучение',
+				content: data['tutorial']['popup'],
+				confirmButton: 'Продолжить',
+				cancelButton: false,
+				backgroundDismiss: false,
+				confirm: () => {
+					if (data['tutorial']['url'] !== '')
+						this.$router.push(data['tutorial']['url']);
 				}
+			})
+		}
 
-				if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['toast'] !== '')
-				{
-					this.$toasted.show(data['tutorial']['toast'], {
-						type: 'info'
-					})
-				}
+		if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['toast'] !== '') {
+			this.$toasted.show(data['tutorial']['toast'], {
+				type: 'info'
+			})
+		}
 
-				let page = JSON.parse(JSON.stringify(data.page))
+		let page = JSON.parse(JSON.stringify(data.page))
 
-				delete data.page
+		delete data.page
 
-				clearTimeout(timer)
+		clearTimeout(timer)
 
-				commit('PAGE_LOAD', data)
-				commit('setLoadingStatus', false)
+		commit('PAGE_LOAD', data)
+		commit('setLoadingStatus', false)
 
-				return {
-					page
-				}
-			}
-		})
+		return {
+			page
+		}
 	}
 }

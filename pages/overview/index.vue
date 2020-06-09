@@ -20,8 +20,10 @@
 			<div class="title">
 				<div class="row">
 					<div class="col-12 col-sm-6">
-						{{ page['planet']['type'] }} "{{ page['planet']['name'] }}"
-						<nuxt-link :to="'/galaxy/?galaxy='+page['planet']['galaxy']+'&system='+page['planet']['system']">[{{ page['planet']['galaxy'] }}:{{ page['planet']['system'] }}:{{ page['planet']['planet'] }}]</nuxt-link>
+						{{ $t('PLANET_TYPE.'+planet['type']) }} "{{ planet['name'] }}"
+						<nuxt-link :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
+							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['position'] }}]
+						</nuxt-link>
 						<nuxt-link to="/overview/rename/" title="Редактирование планеты">(изменить)</nuxt-link>
 					</div>
 					<div class="separator d-sm-none"></div>
@@ -48,7 +50,7 @@
 							<div class="col-12">
 								<div class="planet-image">
 									<nuxt-link to="/overview/rename/">
-										<img :src="'/images/planeten/'+page['planet']['image']+'.jpg'" alt="">
+										<img :src="'/images/planeten/'+planet['image']+'.jpg'" alt="">
 									</nuxt-link>
 									<div v-if="page['moon']" class="moon-image">
 										<nuxt-link :to="'/overview/?chpl='+page['moon']['id']" :title="page['moon']['name']">
@@ -98,7 +100,7 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									{{ page['planet']['diameter'] | number }} км
+									{{ planet['diameter'] | number }} км
 								</div>
 							</div>
 							<div class="row">
@@ -106,7 +108,7 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									<a title="Занятость полей">{{ page['planet']['field_used'] }}</a> / <a title="Максимальное количество полей">{{ page['planet']['field_max'] }}</a> поля
+									<a title="Занятость полей">{{ planet['field_used'] }}</a> / <a title="Максимальное количество полей">{{ planet['field_max'] }}</a> поля
 								</div>
 							</div>
 							<div class="row">
@@ -114,7 +116,7 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									от. {{ page['planet']['temp_min'] }}&deg;C до {{ page['planet']['temp_max'] }}&deg;C
+									от. {{ planet['temp_min'] }}&deg;C до {{ planet['temp_max'] }}&deg;C
 								</div>
 							</div>
 							<div class="row">
@@ -280,10 +282,11 @@
 	import Clock from '~/components/page/overview/clock.vue'
 	import QueueRow from '~/components/page/overview/queue-row.vue'
 	import { sendMission } from '~/utils/fleet'
+	import { mapState } from 'vuex'
 
 	export default {
 		async asyncData ({ store }) {
-			return store.dispatch('loadPage')
+			return await store.dispatch('loadPage')
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -293,13 +296,21 @@
 			QueueRow,
 		},
 		computed: {
-			user () {
-				return this.$store.state.user || false;
-			}
+			...mapState([
+				'user',
+				'planet',
+			])
 		},
 		methods: {
 			sendRecycle () {
-				sendMission(this, 8, this.page['planet']['galaxy'], this.page['planet']['system'], this.page['planet']['planet'], 2)
+				sendMission(
+					this,
+					8,
+					this.planet['coordinates']['galaxy'],
+					this.planet['coordinates']['system'],
+					this.planet['coordinates']['position'],
+					2
+				)
 			},
 			async getDailyBonus ()
 			{

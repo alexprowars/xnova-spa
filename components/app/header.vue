@@ -19,7 +19,7 @@
 					</svg>
 					<b v-if="user.messages > 0">{{ user.messages }}</b>
 				</nuxt-link>
-				<nuxt-link v-if="user.alliance.id > 0" class="m1" to="/alliance/chat/" v-tooltip="'Альянс'">
+				<nuxt-link v-if="user.alliance" class="m1" to="/alliance/chat/" v-tooltip="'Альянс'">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-alliance"></use>
 					</svg>

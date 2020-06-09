@@ -21,7 +21,12 @@
 							{{ item.time | time }}
 						</div>
 
-						<div v-html="item['effects']"></div>
+						<template v-if="item['effects']">
+							<div v-for="(value, resource) in item['effects']" v-if="value !== 0" class="building-effects-row">
+								<span :class="'sprite skin_s_'+resource" :title="$t('RESOURCES.'+resource)"></span>
+								<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
+							</div>
+						</template>
 
 						<div v-if="item['is_max']">
 							<center class="negative">
@@ -35,8 +40,12 @@
 							<input type="number" min="0" :max="max" :name="'fmenge['+item.i+']'" :alt="item.name" v-model="count" style="width: 80px" maxlength="5" value="" placeholder="0">
 						</div>
 					</div>
-					<div v-else class="building-required">
-						<div v-html="item['need']"></div>
+					<div v-else-if="item['requirements']" class="building-required">
+						<div v-for="req in item['requirements']">
+							<span class="negative">
+								{{ $t('TECH.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -48,9 +57,10 @@
 <script>
 	import BuildRowPrice from './build-row-price.vue'
 	import InfoContent from '~/components/page/info/content.vue'
+	import { mapState } from 'vuex'
 
 	export default {
-		name: "unit-row",
+		name: 'unit-row',
 		components: {
 			BuildRowPrice,
 		},
@@ -59,45 +69,50 @@
 				type: Object
 			}
 		},
-		data ()
-		{
+		data () {
 			return {
 				count: ''
 			}
 		},
 		computed: {
+			...mapState({
+				resources: state => state.planet.resources,
+			}),
 			max ()
 			{
-				let max = -1;
+				let max = -1
 
-				if (this.$store.state.resources === false)
-					return max;
+				if (this.$store.state.resources === false) {
+					return max
+				}
 
-				let resources = Object.keys(this.$t('RESOURCES'));
+				let resources = Object.keys(this.$t('RESOURCES'))
 
-				resources.forEach((item) =>
-				{
-					let count = Math.floor(this.$store.state.resources[item]['current'] / this.item['price'][item]);
+				resources.forEach((item) => {
+					let count = Math.floor(this.resources[item]['current'] / this.item['price'][item])
 
-					if (max < 0)
-						max = count;
-					else if (max > count)
-						max = count;
-				});
+					if (max < 0) {
+						max = count
+					} else if (max > count) {
+						max = count
+					}
+				})
 
-				if (this.item['max'] > 0 && this.item['max'] < max)
-					max = this.item['max'];
+				if (this.item['max'] > 0 && this.item['max'] < max) {
+					max = this.item['max']
+				}
 
-				return max;
+				return max
 			}
 		},
 		methods: {
 			setMax ()
 			{
-				if (this.count === '' || parseInt(this.count) === 0)
-					this.count = this.max;
-				else
-					this.count = '';
+				if (this.count === '' || parseInt(this.count) === 0) {
+					this.count = this.max
+				} else {
+					this.count = ''
+				}
 			},
 			openInfoPopup () {
 				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')

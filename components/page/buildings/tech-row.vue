@@ -44,8 +44,12 @@
 							</a>
 						</div>
 					</div>
-					<div v-else class="building-required">
-						<div v-html="item['need']"></div>
+					<div v-else-if="item['requirements']" class="building-required">
+						<div v-for="req in item['requirements']">
+							<span class="negative">
+								{{ $t('TECH.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>

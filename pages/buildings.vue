@@ -5,13 +5,13 @@
 				<div class="row">
 					<div class="col-12 col-sm-6">
 						Занято полей
-						<span class="positive">{{ page['fields_current'] }}</span> из <span class="negative">{{ page['fields_max'] }}</span>
+						<span class="positive">{{ planet['field_used'] }}</span> из <span class="negative">{{ planet['field_max'] }}</span>
 					</div>
 					<div class="text-sm-right col-12 col-sm-6">
 						Осталось
 						<span class="positive">{{ fields_empty }}</span>
-						{{ page['fields_empty'] | morph('свободное', 'свободных', 'свободных') }}
-						{{ page['fields_empty'] | morph('поле', 'поля', 'полей') }}
+						{{ fields_empty | morph('свободное', 'свободных', 'свободных') }}
+						{{ fields_empty | morph('поле', 'поля', 'полей') }}
 					</div>
 				</div>
 			</div>
@@ -30,6 +30,7 @@
 <script>
 	import BuildRow from '~/components/page/buildings/build-row.vue'
 	import BuildQueue from '~/components/page/buildings/build-queue.vue'
+	import { mapState } from 'vuex'
 
 	export default {
 		name: 'buildings',
@@ -38,17 +39,20 @@
 			BuildQueue
 		},
 		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+			return store.dispatch('loadPage')
 		},
 		watchQuery: true,
 		middleware: 'auth',
 		computed: {
+			...mapState([
+				'planet'
+			]),
 			fields_empty ()
 			{
 				if (!this.page)
 					return 0
 
-				return this.page['fields_max'] - this.page['fields_current'] - this.page.queue.length
+				return this.planet['field_max'] - this.planet['field_used'] - this.page.queue.length
 			}
 		},
 	}
