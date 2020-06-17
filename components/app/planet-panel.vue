@@ -22,15 +22,15 @@
 										<table>
 											<tr>
 												<td>Доступно:</td>
-												<td align="right">{{ planet['resources']['energy']['current']|number }}</td>
+												<td align="right">{{ planet['resources']['energy']['value']|number }}</td>
 											</tr>
 											<tr>
 												<td>Производится:</td>
-												<td align="right">{{ planet['resources']['energy']['max']|number }}</td>
+												<td align="right">{{ planet['resources']['energy']['capacity']|number }}</td>
 											</tr>
 											<tr>
 												<td>Потребление:</td>
-												<td align="right">{{ (planet['resources']['energy']['max'] - planet['resources']['energy']['current']) | number }}</td>
+												<td align="right">{{ (planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) | number }}</td>
 											</tr>
 										</table>
 									</div>
@@ -43,7 +43,7 @@
 						</InfoPopup>
 						<div class="neutral">{{ $t('RESOURCES.energy') }}</div>
 						<div title="Доступно энергии">
-							<span :class="[planet['resources']['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ planet['resources']['energy']['current']|number }}</span>
+							<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ planet['resources']['energy']['value']|number }}</span>
 						</div>
 					</div>
 				</div>
@@ -132,9 +132,9 @@
 					if (typeof this.planet['resources'][res] === 'undefined')
 						return;
 
-					let power = (this.planet['resources'][res]['current'] >= this.planet['resources'][res]['max']) ? 0 : 1;
+					let power = (this.planet['resources'][res]['value'] >= this.planet['resources'][res]['capacity']) ? 0 : 1;
 
-					resources[res] = this.planet['resources'][res]['current'] + ((this.planet['resources'][res]['production'] / 3600) * power * factor);
+					resources[res] = this.planet['resources'][res]['value'] + ((this.planet['resources'][res]['production'] / 3600) * power * factor);
 				});
 
 				if (Object.keys(resources).length > 0)

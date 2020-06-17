@@ -96,9 +96,9 @@
 				return Object.keys(this.$t('RESOURCES')).every(res => {
 					if (typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0) {
 						if (res === 'energy') {
-							if (this.resources[res].max < this.item.price[res])
+							if (this.resources[res].capacity < this.item.price[res])
 								return false
-						} else if (this.resources[res].current < this.item.price[res]) {
+						} else if (this.resources[res].value < this.item.price[res]) {
 							return false
 						}
 					}

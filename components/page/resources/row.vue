@@ -19,7 +19,7 @@
 		</th>
 		<th>
 			<select :name="item['name']" v-model="item['factor']">
-				<option v-for="j in 10" :value="j">{{ j * 10 }}%</option>
+				<option v-for="j in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="j">{{ j * 10 }}%</option>
 			</select>
 		</th>
 	</tr>

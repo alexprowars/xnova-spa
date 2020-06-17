@@ -45,7 +45,7 @@
 
 		<div class="block">
 			<div class="title text-center">
-				Производство на планете {{ page['planet_name'] }}
+				Производство на планете "{{ planet['name'] }}"
 			</div>
 			<div class="content border-0">
 				<div class="table-responsive">
@@ -75,12 +75,12 @@
 									<th colspan="2">Вместимость:</th>
 									<th>{{ page['bonus_h'] }}%</th>
 									<td v-for="res in page['resources']" class="k" v-once>
-										<span :class="[(page['production'][res]['max'] > $store.state['resources'][res]['current']) ? 'positive' : 'negative']">
-											{{(page['production'][res]['max'] / 1000)|number }} k
+										<span :class="[(page['production'][res]['capacity'] > $store.state['planet']['resources'][res]['value']) ? 'positive' : 'negative']">
+											{{(page['production'][res]['capacity'] / 1000) | number }} k
 										</span>
 									</td>
 									<td class="k">
-										<font color="#00ff00">{{ page['production']['energy']['max']|number }}</font>
+										<font color="#00ff00">{{ page['production']['energy']['capacity'] | number }}</font>
 									</td>
 									<td class="k">
 										<input name="action" value="Пересчитать" type="submit">
@@ -118,16 +118,16 @@
 							{{ $t('RESOURCES.'+res) }}
 						</div>
 						<div class="col-2 th">
-							<colored :value="page['production'][res]['total']"></colored>
+							<colored :value="page['production'][res]['production']"></colored>
 						</div>
 						<div class="col-2 th">
-							<colored :value="page['production'][res]['total'] * 24"></colored>
+							<colored :value="page['production'][res]['production'] * 24"></colored>
 						</div>
 						<div class="col-3 th">
-							<colored :value="page['production'][res]['total'] * 24 * 7"></colored>
+							<colored :value="page['production'][res]['production'] * 24 * 7"></colored>
 						</div>
 						<div class="col-3 th">
-							<colored :value="page['production'][res]['total'] * 24 * 7 * 30"></colored>
+							<colored :value="page['production'][res]['production'] * 24 * 7 * 30"></colored>
 						</div>
 					</div>
 				</div>
@@ -191,6 +191,7 @@
 	import ResourcesBar from '~/components/page/resources/bar.vue'
 	import ResourcesRow from '~/components/page/resources/row.vue'
 	import InfoPopup from '~/components/page/info/popup.vue'
+	import { mapState } from 'vuex'
 
 	export default {
 		name: 'resources',
@@ -203,6 +204,11 @@
 			ResourcesBar,
 			ResourcesRow,
 			InfoPopup,
+		},
+		computed: {
+			...mapState([
+				'planet',
+			])
 		},
 		methods: {
 			buyResources ()

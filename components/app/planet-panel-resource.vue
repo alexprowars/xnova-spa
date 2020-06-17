@@ -13,8 +13,8 @@
 		</InfoPopup>
 		<div class="neutral">{{ $t('RESOURCES.'+type+'') }}</div>
 		<div title="Количество ресурса на планете">
-			<span :class="[resource.max > resource.current ? 'positive' : 'negative']">
-				{{ resource.current | number }}
+			<span :class="[resource.capacity > resource.value ? 'positive' : 'negative']">
+				{{ resource.value | number }}
 			</span>
 		</div>
 	</div>

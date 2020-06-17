@@ -87,7 +87,7 @@
 				return Object.keys(this.$t('RESOURCES')).every(res =>
 				{
 					return !(typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0
-						&& this.resources[res] && this.resources[res].current < this.item.price[res])
+						&& this.resources[res] && this.resources[res].value < this.item.price[res])
 				})
 			}
 		},

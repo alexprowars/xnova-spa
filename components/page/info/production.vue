@@ -8,7 +8,7 @@
 					<div class="col c">Дальность</div>
 				</div>
 				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['current']}">{{ row['level'] }}</span></div>
+					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
 					<div class="col th">{{ row['range'] }}</div>
 				</div>
 			</template>
@@ -18,7 +18,7 @@
 					<div class="col c">Вместимость</div>
 				</div>
 				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['current']}">{{ row['level'] }}</span></div>
+					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
 					<div class="col th">{{ row['range'] }}k</div>
 				</div>
 			</template>
@@ -31,7 +31,7 @@
 					<div class="col c">Разница</div>
 				</div>
 				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['current']}">{{ row['level'] }}</span></div>
+					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
 					<div class="col th">{{ row['prod']|number }}</div>
 					<div class="col th"><colored :value="row['prod_diff']"></colored></div>
 					<div class="col th"><colored :value="row['need']"></colored></div>
@@ -45,7 +45,7 @@
 					<div class="col c">Разница</div>
 				</div>
 				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['current']}">{{ row['level'] }}</span></div>
+					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
 					<div class="col th">{{ row['prod']|number }}</div>
 					<div class="col th"><colored :value="row['prod_diff']"></colored></div>
 				</div>

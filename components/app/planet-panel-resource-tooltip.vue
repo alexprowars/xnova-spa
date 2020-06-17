@@ -7,7 +7,7 @@
 			<tbody>
 				<tr>
 					<td width="30%">Мощность:</td>
-					<td align="right">{{ resource['power'] }}%</td>
+					<td align="right">{{ resource['factor'] * 100 }}%</td>
 				</tr>
 				<tr>
 					<td>Производство:</td>
@@ -15,7 +15,7 @@
 				</tr>
 				<tr>
 					<td>Вместимость:</td>
-					<td align="right">{{ resource['max'] | number }}</td>
+					<td align="right">{{ resource['capacity'] | number }}</td>
 				</tr>
 			</tbody>
 		</table>

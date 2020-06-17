@@ -89,7 +89,7 @@
 				let resources = Object.keys(this.$t('RESOURCES'))
 
 				resources.forEach((item) => {
-					let count = Math.floor(this.resources[item]['current'] / this.item['price'][item])
+					let count = Math.floor(this.resources[item]['value'] / this.item['price'][item])
 
 					if (max < 0) {
 						max = count
