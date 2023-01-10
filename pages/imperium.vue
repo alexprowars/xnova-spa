@@ -237,22 +237,22 @@
 					{
 						if (id < 100)
 						{
-							if (result.elements[id].current < planet['elements'][id]['current'])
-								result.elements[id].current = planet['elements'][id]['current']
+							if (result.elements[id].current < planet['elements']['e' + id]['current'])
+								result.elements[id].current = planet['elements']['e' + id]['current']
 
-							if (result.elements[id].build < planet['elements'][id]['build'])
-								result.elements[id].build = planet['elements'][id]['build']
+							if (result.elements[id].build < planet['elements']['e' + id]['build'])
+								result.elements[id].build = planet['elements']['e' + id]['build']
 						}
 						else if (id > 200 && id < 300)
 						{
-							result.elements[id].current += planet['elements'][id]['current']
-							result.elements[id].build += planet['elements'][id]['build']
-							result.elements[id].fly += planet['elements'][id]['fly']
+							result.elements[id].current += planet['elements']['e' + id]['current']
+							result.elements[id].build += planet['elements']['e' + id]['build']
+							result.elements[id].fly += planet['elements']['e' + id]['fly']
 						}
 						else if (id > 400 && id < 600)
 						{
-							result.elements[id].current += planet['elements'][id]['current']
-							result.elements[id].build += planet['elements'][id]['build']
+							result.elements[id].current += planet['elements']['e' + id]['current']
+							result.elements[id].build += planet['elements']['e' + id]['build']
 						}
 					}
 				})

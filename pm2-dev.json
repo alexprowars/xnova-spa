@@ -1,0 +1,12 @@
+{
+  "apps" : [{
+    "name": "xnova",
+    "script": "npm",
+    "args": "run dev",
+    "watch": false,
+    "env": {
+		"NODE_ENV": "development",
+        "NUXT_PORT": 3200
+    }
+  }]
+}

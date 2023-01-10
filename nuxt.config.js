@@ -1,9 +1,6 @@
 const webpack = require('webpack')
 
-const GTM_ID = 'GTM-TD5227C'
-const SENTRY_ID = 'https://07e2069e69bf41138e52c89088230e98@sentry.io/1524173'
-
-const proxyUrl = process.env.PROXY_URL || 'http://test.xnova.su'
+const proxyUrl = process.env.PROXY_URL || 'https://xnova.su'
 
 let config = {
 	head: {
@@ -25,8 +22,8 @@ let config = {
 		]
 	},
 	css: [
-		'~/assets/styles/bootstrap/bootstrap.scss',
-		'~/assets/app.scss',
+		'~assets/styles/bootstrap/bootstrap.scss',
+		'~assets/app.scss',
 		'vuejs-dialog/dist/vuejs-dialog.min.css',
 	],
 	pageTransition: {
@@ -38,14 +35,14 @@ let config = {
 		'~/plugins/i18n.js',
 		'~/plugins/filters.js',
 		'~/plugins/components.js',
-		{src: '~/plugins/global.js', ssr: false},
-		{src: '~/plugins/echo.js', ssr: false},
-		{src: '~/plugins/modal.js', ssr: false},
-		{src: '~/plugins/router.js', ssr: false},
-		{src: '~/plugins/tooltip.js', ssr: true},
-		{src: '~/plugins/swipe.js', ssr: false},
-		{src: '~/plugins/toast.js', ssr: false},
-		{src: '~/plugins/dialog.js', ssr: false},
+		'~/plugins/tooltip.js',
+		{ src: '~/plugins/global.js', mode: 'client' },
+		{ src: '~/plugins/echo.js', mode: 'client' },
+		{ src: '~/plugins/modal.js', mode: 'client' },
+		{ src: '~/plugins/router.js', mode: 'client' },
+		{ src: '~/plugins/swipe.js', mode: 'client' },
+		{ src: '~/plugins/toast.js', mode: 'client' },
+		{ src: '~/plugins/dialog.js', mode: 'client' },
 	],
 	router: {
 		base: '/',
@@ -57,12 +54,13 @@ let config = {
 	loading: {
 		color: '#9a1915',
 	},
+	components: false,
+	telemetry: false,
 	modern: process.env.NODE_ENV === 'production',
 	render: {
 		compressor: false,
 	},
 	features: {
-		transitions: false,
 		fetch: false,
 		clientOnline: false,
 		clientPrefetch: false,
@@ -85,17 +83,16 @@ let config = {
 			cssProcessorPluginOptions: {
 				preset: ['default', {
 					discardComments: {
-					removeAll: true
-				}}],
+						removeAll: true
+					}
+				}],
 			},
 		},
-		extend (config, { isClient })
-		{
+		extend(config, { isClient }) {
 			config.resolve.alias['socket.io-client'] = 'socket.io-client/dist/socket.io.slim.js'
 			config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
 
-			if (isClient)
-			{
+			if (isClient) {
 				config.module.rules.push({
 					test: /vue-router(.*?)\.js$/,
 					loader: 'string-replace-loader',
@@ -107,10 +104,11 @@ let config = {
 			}
 		}
 	},
-	modules: [
-		'@nuxtjs/proxy',
+	buildModules: [
+		'@nuxtjs/gtm',
 		'@nuxtjs/axios',
 	],
+	modules: [],
 	axios: {
 		prefix: '/api',
 		proxy: true,
@@ -118,47 +116,26 @@ let config = {
 		credentials: true,
 	},
 	proxy: {
-		'/api': {target: proxyUrl, cookieDomainRewrite: {"*": ""}},
-		'/broadcasting': {target: proxyUrl, cookieDomainRewrite: {"*": ""}},
-		'/upload': {target: proxyUrl},
+		'/api': { target: proxyUrl, cookieDomainRewrite: {"*": ""}, secure: false },
+		'/broadcasting': { target: proxyUrl, cookieDomainRewrite: {"*": ""}, secure: false },
+		'/upload': { target: proxyUrl, secure: false },
 	},
 	vue: {
 		config: {
 			productionTip: false
 		}
 	},
-}
-
-
-if (SENTRY_ID !== '')
-{
-	config.modules.push('@nuxtjs/sentry')
-
-	config.sentry = {
-		dsn: SENTRY_ID,
-		options: {
-			disabled: process.env.NODE_ENV !== 'production'
-		},
-		clientIntegrations: {
-			ReportingObserver: false,
-		},
-		clientConfig: {
-			beforeSend (event)
-			{
-				if (event.message && event.message.indexOf('gCrWeb') > -1)
-					return null
-
-				return event
-			},
-		},
+	gtm: {
+		autoInit: false,
+		enabled: process.env.NODE_ENV === 'production',
+	},
+	publicRuntimeConfig: {
+		gtmId: process.env.GTM_ID || null,
 	}
 }
 
-if (GTM_ID !== '')
-{
-	config.modules.push(['@nuxtjs/google-tag-manager', {
-		id: GTM_ID
-	}])
-}
+//if (process.env.NODE_ENV !== 'production' || (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length)) {
+//	config.modules.push('@nuxtjs/proxy')
+//}
 
 module.exports = config

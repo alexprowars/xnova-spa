@@ -11,7 +11,7 @@ export default ({ $axios, store }, inject) =>
 	const echo = new Echo({
 		broadcaster: 'socket.io',
 		client: io,
-		host: window.location.protocol + '//' + window.location.hostname + ':6001',
+		host: window.location.protocol + '//' + window.location.hostname,
 		namespace: 'Xnova.Events',
 		withoutInterceptors: true,
 	})

@@ -9,6 +9,6 @@ Thumbs.db
 *.map
 *.lock
 *.json
-!package.json
+!package*.json
 !composer.json
 *.phar
