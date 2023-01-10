@@ -32,7 +32,7 @@
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxt/types": "^2.15.8",
     "@nuxtjs/gtm": "^2.4.0",
-    "nuxt": "^2.15.8",
+    "nuxt": "^3.0.0",
     "sass": "^1.57.1",
     "string-replace-loader": "^2.3.0"
   },
