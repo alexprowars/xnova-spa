@@ -1,6 +1,6 @@
 <template>
 	<div>
-	<router-form action="/alliance/admin/rights">
+	<ViewsRouterForm action="/alliance/admin/rights">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="13">Установить ранги</td>
@@ -39,9 +39,9 @@
 				<th colspan="13" align="center">нет рангов</th>
 			</tr>
 		</table>
-	</router-form>
+	</ViewsRouterForm>
 	<div class="separator"></div>
-	<router-form action="/alliance/admin/rights?add=name">
+	<ViewsRouterForm action="/alliance/admin/rights?add=name">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Создать новый ранг</td>
@@ -54,7 +54,7 @@
 				<th colspan="2"><input type="submit" value="Создать"></th>
 			</tr>
 		</table>
-	</router-form>
+	</ViewsRouterForm>
 	<div class="separator"></div>
 	<table class="table">
 		<tr>
@@ -110,12 +110,16 @@
 </template>
 
 <script>
-	export default {
-		name: 'alliance-edit-rights',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

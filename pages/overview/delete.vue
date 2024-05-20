@@ -3,7 +3,7 @@
 		<div class="block">
 			<div class="title">Система безопасности</div>
 			<div class="content border-0">
-				<router-form action="/overview/delete/">
+				<ViewsRouterForm action="/overview/delete/">
 					<input type="hidden" name="id" :value="page['id']">
 					<input type="hidden" name="password" :value="page['number_check']">
 					<div class="table">
@@ -18,19 +18,23 @@
 							<div class="col th"><input type="submit" name="action" value="Удалить колонию"></div>
 						</div>
 					</div>
-				</router-form>
+				</ViewsRouterForm>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'overview-delete',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

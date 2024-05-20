@@ -6,36 +6,36 @@
 				<div class="row">
 					<div class="col-5 th">E-Mail<br>(используется для входа)</div>
 					<div class="col-7 th">
-						<input :class="{error: $v.email.$error}" @change="$v.email.$touch()" name="email" type="email" v-model="email" autocomplete="username">
+						<input :class="{error: v$.email.$error}" name="email" type="email" v-model="email" autocomplete="username">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-5 th">Пароль</div>
 					<div class="col-7 th">
-						<input :class="{error: $v.password.$error}" type="password" v-model="password" @change="$v.password.$touch()" autocomplete="new-password">
+						<input :class="{error: v$.password.$error}" type="password" v-model="password" autocomplete="new-password">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-5 th">Подтверждение пароля</div>
 					<div class="col-7 th">
-						<input :class="{error: $v.password_confirm.$error}" type="password" v-model="password_confirm" @change="$v.password_confirm.$touch()" autocomplete="new-password">
+						<input :class="{error: v$.password_confirm.$error}" type="password" v-model="password_confirm" autocomplete="new-password">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col th text-center">
-						<div ref="captcha" :data-sitekey="page['captcha']"></div>
+						<div ref="captchaRef" :data-sitekey="page['captcha']"></div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col th text-left">
-						<input :class="{error: $v.rules.$error}" id="rules" type="checkbox" v-model="rules" @change="$v.rules.$touch()">
+						<input :class="{error: v$.rules.$error}" id="rules" type="checkbox" v-model="rules">
 						<label for="rules">Я принимаю</label>
 						<nuxt-link to="/content/agreement/" target="_blank">Пользовательское соглашение</nuxt-link>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col th text-left">
-						<input :class="{error: $v.laws.$error}" id="laws" type="checkbox" v-model="laws" @change="$v.laws.$touch()">
+						<input :class="{error: v$.laws.$error}" id="laws" type="checkbox" v-model="laws">
 						<label for="laws">Я принимаю</label>
 						<nuxt-link to="/content/agb/" target="_blank">Законы игры</nuxt-link>
 					</div>
@@ -50,93 +50,96 @@
 	</div>
 </template>
 
-<script>
-	import { required, email, minLength } from 'vuelidate/lib/validators'
+<script setup>
+	import { useVuelidate } from '@vuelidate/core'
+	import { required, email as emailValidation, minLength } from '@vuelidate/validators'
+	import { ref, onMounted } from 'vue';
+	import { showError, useAsyncData } from '#imports';
+	import useStore from '~/store';
+	import { useApiPost } from '~/composables/useApi';
 
-	export default {
-		name: 'registration',
-		props: {
-			popup: {
-				type: Object
-			}
-		},
-		async asyncData ({ store })
-		{
-			const data = await store.dispatch('loadPage')
-
-			return {
-				data: data.page
-			}
-		},
-		data () {
-			return {
-				page: {},
-				email: '',
-				password: '',
-				password_confirm: '',
-				rules: false,
-				laws: false,
-				captcha: null
-			}
-		},
-		validations: {
-			email: {
-				required,
-				email
-			},
-			password: {
-				required,
-				minLength: minLength(4)
-			},
-			password_confirm: {
-				required,
-				minLength: minLength(4)
-			},
-			rules: {
-				required (val) {
-					return val;
-				}
-			},
-			laws: {
-				required (val) {
-					return val;
-				}
-			}
-		},
-		created () {
-			this.page = this.popup !== undefined ? this.popup : this.data
-		},
-		mounted ()
-		{
-			this.captcha = grecaptcha.render(this.$refs['captcha'], {
-				sitekey: this.page['captcha']
-			})
-		},
-		methods: {
-			send ()
-			{
-				this.$v.$touch();
-
-				if (!this.$v.$invalid)
-				{
-					this.$post('/registration/', {
-						'email': this.email,
-						'password': this.password,
-						'password_confirm': this.password_confirm,
-						'captcha': grecaptcha.getResponse(this.captcha)
-					})
-					.then((result) =>
-					{
-						if (result.redirect && result.redirect.length)
-							window.location.href = result.redirect;
-						else
-						{
-							grecaptcha.reset(this.captcha)
-							this.page = result.page;
-						}
-					})
-				}
-			}
+	const props = defineProps({
+		popup: {
+			type: Object
 		}
+	});
+
+	const { data, error } = await useAsyncData(async () => {
+		if (process.server) {
+			const data = await useStore().loadPage();
+
+			return { data: data.page }
+		} else {
+			return {}
+		}
+	});
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const page = ref({});
+	const email = ref('');
+	const password = ref('');
+	const password_confirm = ref('');
+	const rules = ref(false);
+	const laws = ref(false);
+	const captcha = ref(null);
+	const captchaRef = ref(null);
+
+	page.value = props.popup !== undefined ? props.popup : data.value;
+
+	onMounted(() => {
+		captcha.value = grecaptcha.render(captchaRef.value, {
+			sitekey: page.value['captcha']
+		});
+	})
+
+	const validations = {
+		email: {
+			required,
+			emailValidation,
+		},
+		password: {
+			required,
+			minLength: minLength(4),
+		},
+		password_confirm: {
+			required,
+			minLength: minLength(4),
+		},
+		rules: {
+			required,
+		},
+		laws: {
+			required,
+		}
+	}
+
+	const v$ = useVuelidate(
+		validations,
+		{ email, password, password_confirm, rules, laws },
+		{ $autoDirty: true }
+	);
+
+	async function send () {
+		if (!await v$.value.$validate()) {
+			return
+		}
+
+		useApiPost('/registration/', {
+			email: email.value,
+			password: password.value,
+			password_confirm: password_confirm.value,
+			captcha: grecaptcha.getResponse(captcha.value)
+		})
+		.then((result) => {
+			if (result.redirect && result.redirect.length) {
+				window.location.href = result.redirect;
+			} else {
+				grecaptcha.reset(captcha.value)
+				page.value = result.page;
+			}
+		})
 	}
 </script>

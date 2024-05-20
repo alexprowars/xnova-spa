@@ -28,24 +28,28 @@
 <script>
 	import UnitRow from '~/components/page/buildings/unit-row.vue'
 	import UnitQueue from '~/components/page/buildings/unit-queue.vue'
+	import { defineNuxtComponent } from '#imports';
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
 
-	export default {
-		name: 'shipyard',
+	export default defineNuxtComponent({
 		components: {
 			UnitRow,
 			UnitQueue
 		},
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
 		methods: {
 			constructAction ()
 			{
-				this.$store.commit('setLoadingStatus', true)
+				useStore().setLoadingStatus(true)
 
-				this.$post('/'+this.page.mode+'/', new FormData(this.$refs['form']))
+				useApiPost('/'+this.page.mode+'/', new FormData(this.$refs['form']))
 				.then((result) =>
 				{
 					this.$children.forEach((item) =>
@@ -54,13 +58,13 @@
 							item['count'] = '';
 					});
 
-					this.$store.commit('PAGE_LOAD', result)
-					this.$store.commit('setLoadingStatus', false)
+					useStore().PAGE_LOAD(result)
+					useStore().setLoadingStatus(false)
 				})
 				.catch(() => {
 					alert('Что-то пошло не так!? Попробуйте еще раз')
 				})
 			}
 		}
-	}
+	})
 </script>

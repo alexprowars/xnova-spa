@@ -5,7 +5,7 @@
 		</tr>
 		<tr v-if="page['request'] !== null">
 			<td colspan="2" class="padding-0">
-				<router-form :action="'/alliance/admin/requests?show='+page['request']['id']+''">
+				<ViewsRouterForm :action="'/alliance/admin/requests?show='+page['request']['id']+''">
 					<div class="separator"></div>
 					<div class="table">
 						<div class="row">
@@ -28,7 +28,7 @@
 						</div>
 					</div>
 					<div class="separator"></div>
-				</router-form>
+				</ViewsRouterForm>
 			</td>
 		</tr>
 		<tr v-if="page['list'].length > 0">
@@ -57,12 +57,16 @@
 </template>
 
 <script>
-	export default {
-		name: 'alliance-edit-requests',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

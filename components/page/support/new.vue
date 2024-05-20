@@ -29,6 +29,9 @@
 </template>
 
 <script>
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
+
 	export default {
 		name: "support-new",
 		data () {
@@ -40,7 +43,7 @@
 		methods: {
 			request ()
 			{
-				this.$post('/support/add/', {
+				useApiPost('/support/add/', {
 					subject: this.subject,
 					text: this.text
 				})
@@ -57,7 +60,7 @@
 					}
 					else
 					{
-						this.$store.dispatch('PAGE_LOAD', result)
+						useStore().PAGE_LOAD(result)
 						this.$emit('close');
 					}
 				})

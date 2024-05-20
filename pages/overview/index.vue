@@ -1,5 +1,5 @@
 <template>
-	<div v-if="page && $store.state['user']" class="page-overview">
+	<div v-if="page && $state['user']" class="page-overview">
 		<div v-if="page['bonus']" class="block page-overview-bonus">
 			<div class="title text-center">
 				Ежедневный бонус
@@ -152,13 +152,13 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									Фракция: <nuxt-link to="/race/">{{ $t('RACES.'+$store.state['user']['race']) }}</nuxt-link>
+									Фракция: <nuxt-link to="/race/">{{ $t('RACES.'+$state['user']['race']) }}</nuxt-link>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12 th">
 									<nuxt-link to="/refers/">
-										https://{{ $store.state['host'] }}/?{{ $store.state['user']['id'] }}
+										https://{{ $state['host'] }}/?{{ $state['user']['id'] }}
 									</nuxt-link>
 									[{{ page['links'] }}]
 								</div>
@@ -171,7 +171,7 @@
 							<div class="row">
 								<div class="c col-sm-5 col-6">Игрок:</div>
 								<div class="c col-sm-7 col-6" style="word-break: break-all;">
-									<a :href="'/players/'+$store.state['user']['id']+'/'" @click.prevent="openPlayerPopup">{{ $store.state['user']['name'] }}</a>
+									<a :href="'/players/'+$state['user']['id']+'/'" @click.prevent="openPlayerPopup">{{ $state['user']['name'] }}</a>
 								</div>
 							</div>
 							<div class="row">
@@ -282,11 +282,16 @@
 	import Clock from '~/components/page/overview/clock.vue'
 	import QueueRow from '~/components/page/overview/queue-row.vue'
 	import { sendMission } from '~/utils/fleet'
-	import { mapState } from 'vuex'
+	import { mapState } from 'pinia'
+	import useStore from '~/store';
+	import { defineNuxtComponent } from '#imports';
+	import { useApiPost } from '~/composables/useApi';
 
-	export default {
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -296,7 +301,7 @@
 			QueueRow,
 		},
 		computed: {
-			...mapState([
+			...mapState(useStore, [
 				'user',
 				'planet',
 			])
@@ -304,7 +309,6 @@
 		methods: {
 			sendRecycle () {
 				sendMission(
-					this,
 					8,
 					this.planet['coordinates']['galaxy'],
 					this.planet['coordinates']['system'],
@@ -314,15 +318,15 @@
 			},
 			async getDailyBonus ()
 			{
-				const result = await this.$post('/overview/', {
+				const result = await useApiPost('/overview/', {
 					bonus: 'Y'
 				})
 
-				this.$store.commit('PAGE_LOAD', result);
+				useStore().PAGE_LOAD(result)
 			},
 			openPlayerPopup () {
 				this.$modal.showAjax(PlayerInfo, '/players/'+this.$store.state['user']['id']+'/')
 			}
 		}
-	}
+	})
 </script>

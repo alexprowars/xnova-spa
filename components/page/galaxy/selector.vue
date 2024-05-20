@@ -60,6 +60,8 @@
 
 <script>
 	import GalaxySelectorShortcut from './selector-shortcut.vue'
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
 
 	export default {
 		name: "galaxy-selector",
@@ -105,14 +107,14 @@
 		methods: {
 			send () 
 			{
-				this.$post('/galaxy/', {
+				useApiPost('/galaxy/', {
 					galaxy: this.inputGalaxy,
 					system: this.inputSystem,
 					direction: this.direction
 				})
 				.then((result) => {
 					this.direction = ''
-					this.$store.commit('PAGE_LOAD', result)
+					useStore().PAGE_LOAD(result)
 				})
 			}
 		}

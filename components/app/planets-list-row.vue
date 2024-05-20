@@ -1,5 +1,5 @@
 <template>
-	<div class="planet" :class="['type_'+item.type, ($store.state.user.planet === item.id ? 'current' : '')]">
+	<div class="planet" :class="['type_'+item.type, ($state.user.planet === item.id ? 'current' : '')]">
 		<a @click.prevent="changeItem" :title="item.name">
 			<img :src="'/images/planeten/small/s_'+item.image+'.jpg'" height="40" width="40" :alt="item.name">
 		</a>

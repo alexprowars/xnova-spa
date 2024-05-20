@@ -18,7 +18,7 @@
 		</tr>
 	</table>
 	
-	<router-form action="/alliance/admin">
+	<ViewsRouterForm action="/alliance/admin">
 		<input type="hidden" name="t" :value="page['t']">
 		<table class="table">
 			<tr>
@@ -43,9 +43,9 @@
 				</th>
 			</tr>
 		</table>
-	</router-form>
+	</ViewsRouterForm>
 	<div class="separator"></div>
-	<router-form action="/alliance/admin">
+	<ViewsRouterForm action="/alliance/admin">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Дополнительные настройки</td>
@@ -85,27 +85,27 @@
 				</th>
 			</tr>
 		</table>
-	</router-form>
+	</ViewsRouterForm>
 	
 	<div class="separator"></div>
 	<div class="row">
-		<div class="col-6" v-html="page['Disolve_alliance']">
-			{{ page['Disolve_alliance'] }}
-		</div>
-		<div class="col-6" v-html="page['Transfer_alliance']">
-			{{ page['Transfer_alliance'] }}
-		</div>
+		<div class="col-6" v-html="page['Disolve_alliance']"></div>
+		<div class="col-6" v-html="page['Transfer_alliance']"></div>
 	</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'alliance-admin',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

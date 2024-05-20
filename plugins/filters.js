@@ -1,38 +1,34 @@
-import Vue from 'vue'
-import { number, morph, date, time } from '~/utils/format'
+import { defineNuxtPlugin } from '#imports';
+import { number, morph, date, time } from '~/utils/format';
 
-export default ({ store }) =>
-{
-	Vue.filter("morph", (value, ...titles) => {
+export default defineNuxtPlugin((nuxtApp) => {
+	nuxtApp.provide('morph', (value, ...titles) => {
 		return morph(value, titles);
 	});
 
-	Vue.filter("upper", (value) => {
+	nuxtApp.provide('upper', (value) => {
 		return value.toUpperCase();
 	});
 
-	Vue.filter("lower", (value) => {
+	nuxtApp.provide('lower', (value) => {
 		return value.toLowerCase();
 	});
 
-	Vue.filter("number", (value) => {
-		return number(value);
-	});
+	nuxtApp.provide('number', number);
 
-	Vue.filter("date", (value, format) =>
-	{
+	nuxtApp.provide('date', (value, format) => {
+		const store = useStore();
+
 		value += (new Date()).getTimezoneOffset() * 60;
 
-		if (store.state['stats'] && store.state['stats']['timezone'])
-			value += store.state['stats']['timezone'];
+		if (store['stats'] && store['stats']['timezone'])
+			value += store['stats']['timezone'];
 
-		if (store.state['user'] && store.state['user']['timezone'])
-			value += store.state['user']['timezone'] * 1800;
+		if (store['user'] && store['user']['timezone'])
+			value += store['user']['timezone'] * 1800;
 
 		return date(format, value);
 	});
 
-	Vue.filter("time", (value, separator, full) => {
-		return time(value, separator, full);
-	});
-}
+	nuxtApp.provide('time', time);
+})

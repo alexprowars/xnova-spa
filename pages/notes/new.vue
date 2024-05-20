@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<router-form action="/notes/new/">
+		<ViewsRouterForm action="/notes/new/">
 			<table class="table">
 				<tr>
 					<td class="c" colspan="2">Создание заметки</td>
@@ -29,18 +29,22 @@
 					</td>
 				</tr>
 			</table>
-		</router-form>
+		</ViewsRouterForm>
 		<span style="float:left;margin-left: 10px;margin-top: 10px;"><nuxt-link to="/notes/">Назад</nuxt-link></span>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'notes-new',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

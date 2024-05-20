@@ -1,6 +1,6 @@
 <template>
 	<div class="page-remind">
-		<div v-if="error" v-html="error.message" :class="[error.type]" class="message"></div>
+		<div v-if="errors" v-html="errors.message" :class="[errors.type]" class="message"></div>
 		<form action="" method="post" class="form" @submit.prevent="send">
 			<div class="table">
 				<div class="row">
@@ -11,7 +11,7 @@
 				</div>
 				<div class="row">
 					<div class="col th">
-						Ваш Email: <input :class="{error: $v.email.$error}" @change="$v.email.$touch()" type="email" name="email" v-model="email">
+						Ваш Email: <input :class="{error: v$.email.$error}" type="email" name="email" v-model="email">
 					</div>
 				</div>
 				<div class="row">
@@ -24,59 +24,62 @@
 	</div>
 </template>
 
-<script>
-	import { required, email } from 'vuelidate/lib/validators'
+<script setup>
+	import { useVuelidate } from '@vuelidate/core'
+	import { required, email as emailValidation } from '@vuelidate/validators'
+	import { ref } from 'vue';
+	import { showError, useAsyncData } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'index-remind',
-		props: {
-			popup: {
-				type: Object
-			}
-		},
-		async asyncData ({ store })
-		{
-			const data = await store.dispatch('loadPage')
-
-			return {
-				data: data.page
-			}
-		},
-		data () {
-			return {
-				page: {},
-				email: '',
-				error: false
-			}
-		},
-		validations: {
-			email: {
-				required,
-				email
-			},
-		},
-		created () {
-			this.page = this.popup !== undefined ? this.popup : this.data
-		},
-		methods: {
-			send ()
-			{
-				this.$v.$touch();
-
-				if (!this.$v.$invalid)
-				{
-					this.$post('/login/reset/', {
-						'email': this.email
-					})
-					.then((result) =>
-					{
-						if (result.redirect && result.redirect.length)
-							window.location.href = result.redirect;
-						else
-							this.error = result.error;
-					})
-				}
-			}
+	const props = defineProps({
+		popup: {
+			type: Object
 		}
+	});
+
+	const { data, error } = await useAsyncData(async () => {
+		const data = await useStore().loadPage()
+
+		return { data: data.page }
+	});
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const page = ref({});
+	const email = ref('');
+	const errors = ref(false);
+
+	page.value = props.popup !== undefined ? props.popup : data.value
+
+	const validations = {
+		email: {
+			required,
+			emailValidation
+		},
+	}
+
+	const v$ = useVuelidate(
+		validations,
+		{ email },
+		{ $autoDirty: true }
+	);
+
+	async function send () {
+		if (!await v$.value.$validate()) {
+			return
+		}
+
+		post('/login/reset/', {
+			email: email.value,
+		})
+		.then((result) => {
+			if (result.redirect && result.redirect.length) {
+				window.location.href = result.redirect;
+			} else {
+				errors.value = result.error;
+			}
+		})
 	}
 </script>

@@ -2,8 +2,8 @@
 	<div>
 		<div v-if="error" v-html="error.message" :class="[error.type]" class="message"></div>
 		<form action="" method="post" @submit.prevent="send">
-			<input :class="{error: $v.email.$error}" @change="$v.email.$touch()" name="email" class="input-text" placeholder="Email" v-model="email" type="email" autocomplete="username">
-			<input :class="{error: $v.password.$error}" @change="$v.password.$touch()" name="password" class="input-text" placeholder="Пароль" v-model="password" type="password" autocomplete="current-password">
+			<input :class="{error: v$.email.$error}" name="email" class="input-text" placeholder="Email" v-model="email" type="email" autocomplete="username">
+			<input :class="{error: v$.password.$error}" name="password" class="input-text" placeholder="Пароль" v-model="password" type="password" autocomplete="current-password">
 			<button type="submit" class="input-submit">Вход</button>
 			<div class="remember">
 				<input id="rememberme" type="checkbox" v-model="remember">
@@ -13,49 +13,53 @@
 	</div>
 </template>
 
-<script>
-	import { required, email } from 'vuelidate/lib/validators'
+<script setup>
+	import { useVuelidate } from '@vuelidate/core'
+	import { required, email as emailValidation } from '@vuelidate/validators'
+	import { ref } from 'vue';
+	import { useApiPost } from '~/composables/useApi';
 
-	export default {
-		name: "index-auth",
-		data () {
-			return {
-				email: '',
-				password: '',
-				remember: false,
-				error: false
-			}
-		},
-		validations: {
-			email: {
-				required,
-				email
-			},
-			password: {
-				required
-			}
-		},
-		methods: {
-			send ()
-			{
-				this.$v.$touch();
+	const email = ref('');
+	const password = ref('');
+	const remember = ref(false);
+	const error = ref(false);
 
-				if (!this.$v.$invalid)
-				{
-					this.$post('/login/', {
-						email: this.email,
-						password: this.password,
-						remember: this.remember,
-					})
-					.then((result) =>
-					{
-						if (result.redirect && result.redirect.length)
-							window.location.href = result.redirect;
-						else
-							this.error = result.error;
-					})
-				}
-			}
+	try {
+		email.value = localStorage.getItem('email')
+	} catch {}
+
+	const validations = {
+		email: {
+			required,
+			emailValidation
+		},
+		password: {
+			required
+		},
+	}
+
+	const v$ = useVuelidate(
+		validations,
+		{ email, password },
+		{ $autoDirty: true }
+	);
+
+	async function send () {
+		if (!await v$.value.$validate()) {
+			return
 		}
+
+		useApiPost('/login/', {
+			email: email.value,
+			password: password.value,
+			remember: remember.value,
+		})
+		.then((result) => {
+			if (result.redirect && result.redirect.length) {
+				window.location.href = result.redirect;
+			} else {
+				error.value = result.error;
+			}
+		})
 	}
 </script>

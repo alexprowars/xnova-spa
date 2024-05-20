@@ -7,7 +7,7 @@
 					<div class="row border-0">
 						<div class="col-4 text-center">
 							<img :src="page['avatar']" :alt="page['username']" width="100%">
-							<div v-if="$store.state.user">
+							<div v-if="$state.user">
 								<popup-link :to="'/messages/write/'+page['id']+'/'" :width="680" :title="page['username']+': отправить сообщение'">
 									<span class="sprite skin_m"></span>
 								</popup-link>&nbsp;

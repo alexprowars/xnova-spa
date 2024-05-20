@@ -1,5 +1,5 @@
 <template>
-	<router-form :action="'/alliance/admin/give?id='+page['id']+''">
+	<ViewsRouterForm :action="'/alliance/admin/give?id='+page['id']+''">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="8">Передача альянса</td>
@@ -13,16 +13,20 @@
 				<td class="c" colspan="8"><nuxt-link to="/alliance/admin">назад</nuxt-link></td>
 			</tr>
 		</table>
-	</router-form>
+	</ViewsRouterForm>
 </template>
 
 <script>
-	export default {
-		name: 'alliance-edit-transfer',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

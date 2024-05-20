@@ -26,7 +26,7 @@
 						<br><br>
 
 
-						<router-form action="/credits/">
+						<ViewsRouterForm action="/credits/">
 							Введите ID игрока, на счет которого будут зачислены кредиты:
 							<br>(если поле не заполнено, то кредиты поступят на ваш счет)
 							<br><br>
@@ -37,7 +37,7 @@
 							<input type="text" name="summ" value="10">
 							<br>
 							<input type="submit" value="Купить">
-						</router-form>
+						</ViewsRouterForm>
 
 						<br><br>
 					</div>
@@ -72,12 +72,16 @@
 </template>
 
 <script>
-	export default {
-		name: 'credits',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

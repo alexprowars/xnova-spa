@@ -17,7 +17,7 @@
 					</div>
 					<div class="row">
 						<div class="col th p-a-0">
-							<text-editor :class="{error: $v.text.$error}" @change="$v.text.$touch()" v-model="text"></text-editor>
+							<text-editor :class="{error: v$.text.$error}" v-model="text"></text-editor>
 						</div>
 					</div>
 					<div class="row">
@@ -31,69 +31,64 @@
 	</form>
 </template>
 
-<script>
-	import { required } from 'vuelidate/lib/validators'
+<script setup>
+	import { useVuelidate } from '@vuelidate/core'
+	import { required } from '@vuelidate/validators'
+	import { ref } from 'vue';
 
-	export default {
-		name: "message-form",
-		props: {
-			id: {
-				type: Number,
-				default: 0,
-			},
-			to: {
-				type: String,
-				default: '',
-			},
-			message: {
-				type: String,
-				default: '',
-			}
+	const props = defineProps({
+		id: {
+			type: Number,
+			default: 0,
 		},
-		data () {
-			return {
-				text: '',
-				error: false
-			}
+		to: {
+			type: String,
+			default: '',
 		},
-		validations: {
-			text: {
-				required
-			},
-		},
-		created () {
-			this.text = this.message
-		},
-		methods: {
-			send ()
-			{
-				if (id <= 0)
-					return
+		message: {
+			type: String,
+			default: '',
+		}
+	});
 
-				this.$v.$touch()
+	const text = ref(props.message);
+	const error = ref(false);
 
-				if (!this.$v.$invalid)
-				{
-					this.$post('/messages/write/'+this.id+'/', {
-						'text': this.text
-					})
-					.then((result) =>
-					{
-						if (result.redirect && result.redirect.length)
-							window.location.href = result.redirect
-						else
-						{
-							this.error = result.error
+	const validations = {
+		text: {
+			required
+		},
+	}
 
-							if (this.error.type === 'success')
-							{
-								this.text = ''
-								this.$v.$reset()
-							}
-						}
-					})
+	const v$ = useVuelidate(
+		validations,
+		{ text },
+		{ $autoDirty: true }
+	);
+
+	async function send () {
+		if (props.id <= 0) {
+			return;
+		}
+
+		if (!await v$.value.$validate()) {
+			return
+		}
+
+		post('/messages/write/' + props.id + '/', {
+			text: text.value
+		})
+		.then((result) => {
+			if (result.redirect && result.redirect.length) {
+				window.location.href = result.redirect
+			} else {
+				error.value = result.error
+
+				if (error.value['type'] === 'success') {
+					text.value = '';
+					v$.value.$reset();
 				}
 			}
-		},
+		})
 	}
 </script>

@@ -2,7 +2,7 @@
 	<div class="block start">
 		<div class="title">Обмен сырья</div>
 		<div class="content border-0">
-			<router-form action="/merchant/" class="container-fluid table">
+			<ViewsRouterForm action="/merchant/" class="container-fluid table">
 				<input type="hidden" name="exchange" value="Y">
 				<input type="hidden" name="type" v-model="type">
 				<div class="row">
@@ -48,16 +48,20 @@
 						</div>
 					</div>
 				</div>
-			</router-form>
+			</ViewsRouterForm>
 		</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'merchant',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -85,5 +89,5 @@
 				this.exchange[this.type] = res;
 			}
 		}
-	}
+	})
 </script>

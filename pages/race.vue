@@ -118,7 +118,7 @@
 				<div class="row">
 					<div class="th col-sx-12">
 						На планетах не должно идти строительство, исследования, летать флот и весь флот фракции подлежит демонтировке (без возврата ресурсов).<br><br>
-						<router-form v-if="page['change_available']" action="/race/change/">
+						<ViewsRouterForm v-if="page['change_available']" action="/race/change/">
 							<select name="race">
 								<option value="0">выбрать...</option>
 								<option value="1">Конфедерация</option>
@@ -128,7 +128,7 @@
 							</select>
 							<br><br>
 							<input type="submit" value="Сменить фракцию">
-						</router-form>
+						</ViewsRouterForm>
 					</div>
 				</div>
 			</div>
@@ -138,14 +138,18 @@
 
 <script>
 	import InfoPopup from '~/components/page/info/popup.vue'
+	import { defineNuxtComponent } from '#imports';
+	import { useApiGet } from '~/composables/useApi';
+	import useStore from '~/store';
 
-	export default {
-		name: 'race',
+	export default defineNuxtComponent({
 		components: {
 			InfoPopup,
 		},
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -158,7 +162,7 @@
 		{
 			if (this.race === 0)
 			{
-				this.$get('/content/welcome/', {
+				useApiGet('/content/welcome/', {
 					popup: 'Y'
 				})
 				.then(result =>
@@ -177,5 +181,5 @@
 				})
 			}
 		}
-	}
+	})
 </script>

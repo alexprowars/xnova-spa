@@ -1,6 +1,6 @@
 <template>
 	<div class="page-alliance-chat">
-		<router-form action="/alliance/chat">
+		<ViewsRouterForm action="/alliance/chat">
 			<div class="table">
 				<div class="row">
 					<div class="col-12 c">
@@ -45,9 +45,9 @@
 					</div>
 				</div>
 			</div>
-		</router-form>
+		</ViewsRouterForm>
 		<div class="separator"></div>
-		<router-form action="/alliance/chat">
+		<ViewsRouterForm action="/alliance/chat">
 			<table class="table">
 				<tr>
 					<td class="c">Отправить сообщение в чат альянса</td>
@@ -64,7 +64,7 @@
 					</td>
 				</tr>
 			</table>
-		</router-form>
+		</ViewsRouterForm>
 		<span style="float:left;margin-left:10px;margin-top:7px;">
 			<nuxt-link to="/alliance">[назад к альянсу]</nuxt-link>
 		</span>
@@ -72,10 +72,14 @@
 </template>
 
 <script>
-	export default {
-		name: 'alliance_chat',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -100,5 +104,5 @@
 				this.text = this.text + '[quote author='+message['user']+']'+text+'[/quote]';
 			}
 		}
-	}
+	})
 </script>

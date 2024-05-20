@@ -50,6 +50,9 @@
 </template>
 
 <script>
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
+
 	export default {
 		name: "officier-row",
 		props: {
@@ -68,12 +71,12 @@
 					})
 					.then(() =>
 					{
-						this.$post('/officier/buy/', {
+						useApiPost('/officier/buy/', {
 							id: this.item['id'],
 							duration: value
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result);
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			}

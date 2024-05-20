@@ -3,7 +3,7 @@
 		<div class="block">
 			<div class="title">Поиск по игре</div>
 			<div class="content border-0">
-				<router-form action="/search/">
+				<ViewsRouterForm action="/search/">
 					<div class="table middle">
 						<div class="row">
 							<div class="col th">
@@ -20,7 +20,7 @@
 							</div>
 						</div>
 					</div>
-				</router-form>
+				</ViewsRouterForm>
 			</div>
 		</div>
 		<div class="separator"></div>
@@ -87,12 +87,16 @@
 </template>
 
 <script>
-	export default {
-		name: 'search',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

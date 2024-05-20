@@ -17,13 +17,13 @@
 									<a :href="'/phalanx/?galaxy='+galaxy+'&system='+system+'&planet='+planet+''" target="_blank">Фаланга</a>
 								</div>
 
-								<div v-if="item['u_id'] !== $store.state['user']['id']">
+								<div v-if="item['u_id'] !== $state['user']['id']">
 									<nuxt-link :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=1'">Атаковать</nuxt-link>
 									<br>
 									<nuxt-link :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=5'">Удерживать</nuxt-link>
 								</div>
 								<div v-else>
-									<nuxt-link v-if="item['u_id'] === $store.state['user']['id']" :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=4'">Оставить</nuxt-link>
+									<nuxt-link v-if="item['u_id'] === $state['user']['id']" :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=4'">Оставить</nuxt-link>
 								</div>
 								<nuxt-link :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=3'">Транспорт</nuxt-link>
 							</th>
@@ -39,7 +39,7 @@
 			<div v-if="item && !item['p_delete']">
 				<span v-if="item['p_active'] <= 10" class="star">(*)</span>
 				<span v-else-if="item['p_active'] < 60" class="star">({{ Math.floor(item['p_active']) }})</span>
-				<span :class="{negative: item['u_id'] === $store.state['user']['id']}">{{ item['p_name'] }}</span>
+				<span :class="{negative: item['u_id'] === $state['user']['id']}">{{ item['p_name'] }}</span>
 			</div>
 			<div v-else-if="item && item['p_delete']">
 				Планета уничтожена
@@ -77,7 +77,7 @@
 									</tr>
 									<tr>
 										<th colspan="2" align="center">
-											<div v-if="item['u_id'] !== $store.state['user']['id']">
+											<div v-if="item['u_id'] !== $state['user']['id']">
 												<nuxt-link :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=1'">Атаковать</nuxt-link>
 												<br>
 												<nuxt-link :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=5'">Удерживать</nuxt-link>
@@ -161,11 +161,11 @@
 							<td v-if="user_avatar !== ''" width="122" height="126" rowspan="3" valign="middle" class="c" :style="'background:url('+user_avatar+') 50% 50% no-repeat;background-size:cover;'"></td>
 							<td v-else width="122" height="126" rowspan="3" valign="middle" class="c">нет<br>аватара</td>
 
-							<th v-if="item['u_id'] !== $store.state['user']['id']">
+							<th v-if="item['u_id'] !== $state['user']['id']">
 								<nuxt-link :to="'/messages/write/'+item['u_id']+'/'">Послать сообщение</nuxt-link>
 							</th>
 						</tr>
-						<tr v-if="item['u_id'] !== $store.state['user']['id']">
+						<tr v-if="item['u_id'] !== $state['user']['id']">
 							<th>
 								<nuxt-link :to="'/buddy/new/'+item['u_id']+'/'">Добавить в друзья</nuxt-link>
 							</th>
@@ -224,11 +224,11 @@
 				</table>
 
 				<template slot="reference">
-					<span :class="{allymember: $store.state['user']['alliance']['id'] === item['a_id']}">{{ item['a_tag'] }}</span>
+					<span :class="{allymember: $state['user']['alliance']['id'] === item['a_id']}">{{ item['a_tag'] }}</span>
 				</template>
 			</Popper>
 
-			<div v-if="$store.state['user']['alliance']['id'] !== item['a_id']">
+			<div v-if="$state['user']['alliance']['id'] !== item['a_id']">
 				<small v-if="item['d_type'] === 0">[нейтральное]</small>
 				<small v-if="item['d_type'] === 1" class="neutral">[перемирие]</small>
 				<small v-if="item['d_type'] === 2" class="positive">[мир]</small>
@@ -237,7 +237,7 @@
 		</th>
 
 		<th class="actions" style="white-space: nowrap;" width="135">
-			<template v-if="item && item['u_id'] !== $store.state['user']['id'] && !item['p_delete']">
+			<template v-if="item && item['u_id'] !== $state['user']['id'] && !item['p_delete']">
 				<popup-link :title="item['u_name']+': отправить сообщение'" :to="'/messages/write/'+item['u_id']+'/'" :width="680">
 					<span class="sprite skin_m"></span>
 				</popup-link>
@@ -399,12 +399,12 @@
 			{
 				event.target.setAttribute('disabled', 'disabled')
 
-				sendMission(this, 6, this.galaxy, this.system, this.planet, planet_type, this.spyCount).then(() => {
+				sendMission(6, this.galaxy, this.system, this.planet, planet_type, this.spyCount).then(() => {
 					event.target.setAttribute('disabled', '')
 				});
 			},
 			debris () {
-				sendMission(this, 8, this.galaxy, this.system, this.planet, 2, 0)
+				sendMission(8, this.galaxy, this.system, this.planet, 2, 0)
 			}
 		}
 	}

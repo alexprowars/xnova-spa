@@ -3,7 +3,7 @@
 		<div v-if="page['id'] < 0" class="title">Имя [Галактика:Система:Планета]</div>
 		<div v-else class="title">{{ page['name'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]</div>
 		<div class="content border-0">
-			<router-form :action="page['id'] < 0 ? '/fleet/shortcut/add/' : '/fleet/shortcut/'+page['id']+'/'">
+			<ViewsRouterForm :action="page['id'] < 0 ? '/fleet/shortcut/add/' : '/fleet/shortcut/'+page['id']+'/'">
 				<div class="table">
 					<div class="row">
 						<div class="col th">
@@ -30,17 +30,21 @@
 						</div>
 					</div>
 				</div>
-			</router-form>
+			</ViewsRouterForm>
 		</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'fleet-shortcut-add',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
-	}
+	})
 </script>

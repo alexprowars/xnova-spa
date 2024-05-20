@@ -10,7 +10,8 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'
+	import { mapState } from 'pinia'
+	import useStore from '~/store';
 
 	export default {
 		name: 'build-row-price',
@@ -20,7 +21,7 @@
 			}
 		},
 		computed: {
-			...mapState({
+			...mapState(useStore, {
 				resources: state => state.planet.resources,
 			}),
 		}

@@ -22,6 +22,8 @@
 
 <script>
 	import BuildRowPrice from '~/components/page/buildings/build-row-price.vue'
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
 
 	export default {
 		name: "info-destroy",
@@ -44,12 +46,12 @@
 					})
 					.then(() =>
 					{
-						this.$post('/buildings/', {
+						useApiPost('/buildings/', {
 							cmd: 'destroy',
 							building: this.item
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result);
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			}

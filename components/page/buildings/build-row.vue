@@ -75,7 +75,9 @@
 <script>
 	import BuildRowPrice from './build-row-price.vue'
 	import InfoContent from '~/components/page/info/content.vue'
-	import { mapState } from 'vuex'
+	import { mapState } from 'pinia'
+	import useStore from '~/store';
+	import { useApiPost } from '~/composables/useApi';
 
 	export default {
 		name: "build-row",
@@ -88,7 +90,7 @@
 			BuildRowPrice,
 		},
 		computed: {
-			...mapState({
+			...mapState(useStore, {
 				resources: state => state.planet.resources,
 			}),
 			hasResources ()
@@ -110,12 +112,12 @@
 		methods: {
 			async addAction ()
 			{
-				const result = await this.$post('/buildings/', {
+				const result = await useApiPost('/buildings/', {
 					cmd: 'insert',
 					building: this.item['i']
 				})
 
-				this.$store.commit('PAGE_LOAD', result)
+				useStore().PAGE_LOAD(result)
 			},
 			openInfoPopup () {
 				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')

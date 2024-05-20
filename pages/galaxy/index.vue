@@ -72,17 +72,20 @@
 	import GalaxySelector from '~/components/page/galaxy/selector.vue'
 	import GalaxyLegend from '~/components/page/galaxy/legend.vue'
 	import MissileAttack from '~/components/page/galaxy/missile-attack.vue'
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'galaxy',
+	export default defineNuxtComponent({
 		components: {
 			GalaxyRow,
 			GalaxySelector,
 			GalaxyLegend,
 			MissileAttack,
 		},
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -108,5 +111,5 @@
 				this.missilePlanet = planet
 			}
 		}
-	}
+	})
 </script>

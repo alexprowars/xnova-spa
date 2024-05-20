@@ -51,11 +51,15 @@
 <script>
 	import SupportDetail from '~/components/page/support/detail.vue'
 	import SupportNew from '~/components/page/support/new.vue'
+	import { defineNuxtComponent } from '#imports';
+	import { useApiGet } from '~/composables/useApi';
+	import useStore from '~/store';
 
-	export default {
-		name: 'support',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -75,11 +79,11 @@
 			},
 			getInfo (id)
 			{
-				this.$get('/support/info/'+id+'/')
+				useApiGet('/support/info/'+id+'/')
 				.then((result) => {
 					this.detail = result
 				})
 			}
 		}
-	}
+	})
 </script>

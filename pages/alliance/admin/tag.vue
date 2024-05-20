@@ -1,5 +1,5 @@
 <template>
-	<router-form action="/alliance/admin/tag">
+	<ViewsRouterForm action="/alliance/admin/tag">
 		<div class="block">
 			<div class="title">Введите новую аббревиатуру альянса</div>
 			<div class="content table border-0 middle">
@@ -14,16 +14,20 @@
 				</div>
 			</div>
 		</div>
-	</router-form>
+	</ViewsRouterForm>
 </template>
 
 <script>
-	export default {
-		name: 'alliance-edit-tag',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

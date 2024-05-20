@@ -1,6 +1,6 @@
 <template>
-	<tabs class="page-techtree">
-		<tab v-for="(groups, i) in page" :key="i" :name="groups['name']" class="container-fluid">
+	<ViewsTabs class="page-techtree">
+		<ViewsTab v-for="(groups, i) in page" :key="i" :name="groups['name']" class="container-fluid">
 			<div v-for="list in groups['items']" class="row">
 				<div class="col-sm-5 col-6 title">
 					<nuxt-link :to="'/info/'+list['info']+'/'">{{ list['name'] }}</nuxt-link>
@@ -10,16 +10,20 @@
 				</div>
 				<div class="col-sm-7 col-6" v-html="list['required']"></div>
 			</div>
-		</tab>
-	</tabs>
+		</ViewsTab>
+	</ViewsTabs>
 </template>
 
 <script>
-	export default {
-		name: 'techtree',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
-	}
+	})
 </script>

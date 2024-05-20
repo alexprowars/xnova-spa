@@ -61,6 +61,8 @@
 <script>
 	import BuildRowPrice from './build-row-price.vue'
 	import InfoContent from '~/components/page/info/content.vue'
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
 
 	export default {
 		name: "tech-row",
@@ -111,12 +113,12 @@
 			},
 			addAction ()
 			{
-				this.$post('/research/', {
+				useApiPost('/research/', {
 					cmd: 'search',
 					tech: this.item['i']
 				})
 				.then((result) => {
-					this.$store.commit('PAGE_LOAD', result)
+					useStore().PAGE_LOAD(result)
 				})
 			},
 			cancelAction ()
@@ -128,12 +130,12 @@
 					})
 					.then(() =>
 					{
-						this.$post('/research/', {
+						useApiPost('/research/', {
 							cmd: 'cancel',
 							tech: this.item['i']
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result)
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			},

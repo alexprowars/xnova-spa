@@ -40,7 +40,7 @@
 					<div class="th col-sm-1 col-2">
 						<img v-if="item['race']" :src="'/images/skin/race'+item['race']+'.gif'" width="16" height="16" style="margin-right:7px;">
 
-						<popup-link v-if="$store.state.user" :to="'/messages/write/'+item['id']+'/'" :width="680" :title="item['name']+': отправить сообщение'">
+						<popup-link v-if="$state.user" :to="'/messages/write/'+item['id']+'/'" :width="680" :title="item['name']+': отправить сообщение'">
 							<span class="sprite skin_m"></span>
 						</popup-link>
 					</div>

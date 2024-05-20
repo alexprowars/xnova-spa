@@ -12,7 +12,7 @@
 			<div v-else class="z">
 				Завершено
 				<br>
-				<nuxt-link :to="'/buildings/?planet='+$store.state.user.planet+''">Продолжить</nuxt-link>
+				<nuxt-link :to="'/buildings/?planet='+$state.user.planet+''">Продолжить</nuxt-link>
 			</div>
 			<div class="positive">{{ item['end'] | date('d.m H:i:s') }}</div>
 		</div>
@@ -24,6 +24,9 @@
 </template>
 
 <script>
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
+
 	export default {
 		name: "build-queue-row",
 		props: {
@@ -43,12 +46,12 @@
 					})
 					.then(() =>
 					{
-						this.$post('/buildings/?planet='+this.$store.state.user.planet, {
+						useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
 							cmd: 'remove',
 							listid: this.index
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result)
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			},
@@ -64,12 +67,12 @@
 					})
 					.then(() =>
 					{
-						this.$post('/buildings/?planet='+this.$store.state.user.planet, {
+						useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
 							cmd: 'cancel',
 							listid: this.index - 1
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result)
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			}

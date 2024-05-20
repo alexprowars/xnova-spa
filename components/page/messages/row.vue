@@ -40,6 +40,8 @@
 
 <script>
 	import PlayerInfo from '~/components/page/players/info.vue'
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
 
 	export default {
 		name: "messages-row",
@@ -56,11 +58,11 @@
 					})
 					.then(() =>
 					{
-						this.$post('/messages/abuse/'+this.item['id']+'/', {
+						useApiPost('/messages/abuse/'+this.item['id']+'/', {
 
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result);
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			},

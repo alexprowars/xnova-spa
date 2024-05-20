@@ -33,6 +33,9 @@
 </template>
 
 <script>
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
+
 	export default {
 		name: "support-detail",
 		props: ['item'],
@@ -43,7 +46,7 @@
 		},
 		methods: {
 			answer () {
-				this.$post('/support/answer/'+this.item['id']+'/', {
+				useApiPost('/support/answer/'+this.item['id']+'/', {
 					text: this.text
 				})
 				.then((result) =>
@@ -64,7 +67,7 @@
 						}
 					}
 					else
-						this.$store.commit('PAGE_LOAD', result);
+						useStore().PAGE_LOAD(result)
 				})
 			}
 		}

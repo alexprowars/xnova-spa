@@ -1,12 +1,12 @@
 <template>
 	<div class="log-layout">
 		<ErrorMessage v-if="error" :data="error"/>
-		<Nuxt/>
+		<slot/>
 	</div>
 </template>
 
 <script>
-	import ErrorMessage from '~/components/views/message.vue'
+	import ErrorMessage from '~/components/Views/Message.vue'
 
 	export default {
 		components: {

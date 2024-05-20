@@ -1,5 +1,5 @@
 <template>
-	<router-form ref="form" action="/messages/">
+	<ViewsRouterForm ref="form" action="/messages/">
 		<div class="block">
 			<div class="title">
 				Сообщения
@@ -41,16 +41,19 @@
 				</div>
 			</div>
 		</div>
-	</router-form>
+	</ViewsRouterForm>
 </template>
 
 <script>
 	import MessagesRow from '~/components/page/messages/row.vue'
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'messages',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -101,5 +104,5 @@
 				this.$refs['form'].send()
 			}
 		}
-	}
+	})
 </script>

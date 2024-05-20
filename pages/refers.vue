@@ -31,7 +31,7 @@
 			</div>
 		</template>
 
-		<template v-if="!$store.state.isSocial">
+		<template v-if="!$state.isSocial">
 			<div class="block">
 				<div class="content border-0">
 					<div class="table">
@@ -43,7 +43,7 @@
 									data-yashareL10n="ru"
 									data-yashareTheme="counter"
 									data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"
-									:data-yashareLink="host+'/?'+$store.state.user.id"
+									:data-yashareLink="host+'/?'+$state.user.id"
 									data-yashareTitle=""
 								></div>
 							</div>
@@ -58,7 +58,7 @@
 						<div class="row">
 							<div class="col text-center">
 								<br>
-								<img :src="'/userbar'+$store.state.user.id+'.jpg'" alt="">
+								<img :src="'/userbar'+$state.user.id+'.jpg'" alt="">
 
 								<br><br>
 								HTML код:
@@ -66,7 +66,7 @@
 								<input style="width:100%" type="text" :value="html" title="">
 								<div class="separator"></div>
 								BB код:
-								<input style="width:100%" type="text" :value="'[url='+host+'/?'+$store.state.user.id+'][img]'+host+'/userbar'+$store.state.user.id+'.jpg[/img][/url]'" title="">
+								<input style="width:100%" type="text" :value="'[url='+host+'/?'+$state.user.id+'][img]'+host+'/userbar'+$state.user.id+'.jpg[/img][/url]'" title="">
 							</div>
 						</div>
 					</div>
@@ -78,11 +78,14 @@
 
 <script>
 	import { addScript } from '~/utils/helpers'
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'refers',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -97,5 +100,5 @@
 		mounted () {
 			addScript('https://yandex.st/share/share.js')
 		},
-	}
+	})
 </script>

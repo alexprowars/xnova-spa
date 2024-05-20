@@ -39,12 +39,16 @@
 
 <script>
 	import parser from '~/utils/parser'
-	import { mapGetters } from 'vuex'
+	import { mapState } from 'pinia'
+	import useChatStore from '~/store/chat';
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'chat',
-		async asyncData ({ store }) {
-			await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -56,7 +60,7 @@
 			}
 		},
 		computed: {
-			...mapGetters('chat', [
+			...mapState(useChatStore, [
 				'messages',
 			]),
 		},
@@ -78,7 +82,7 @@
 				}, 250)
 
 				if (this.active) {
-					this.$store.commit('chat/clearUnread')
+					useChatStore().clearUnread();
 				}
 			},
 		},
@@ -121,5 +125,5 @@
 				this.message = ''
 			},
 		},
-	}
+	})
 </script>

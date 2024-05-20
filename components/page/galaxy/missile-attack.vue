@@ -38,6 +38,9 @@
 </template>
 
 <script>
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
+
 	export default {
 		name: "galaxy-missile-attack",
 		props: {
@@ -57,7 +60,7 @@
 		methods: {
 			send ()
 			{
-				this.$post('/rocket/', {
+				useApiPost('/rocket/', {
 					galaxy: this.page['galaxy'],
 					system: this.page['system'],
 					planet: this.planet,
@@ -65,7 +68,7 @@
 					target: this.target
 				})
 				.then((result) => {
-					this.$store.commit('PAGE_LOAD', result)
+					useStore().PAGE_LOAD(result)
 				})
 			}
 		}

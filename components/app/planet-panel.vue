@@ -88,6 +88,7 @@
 <script>
 	import PanelResource from './planet-panel-resource.vue'
 	import InfoPopup from '~/components/page/info/popup.vue'
+	import useStore from '~/store';
 
 	export default {
 		name: "planet-panel",
@@ -138,7 +139,7 @@
 				});
 
 				if (Object.keys(resources).length > 0)
-					this.$store.commit('setPlanetResources', resources)
+					useStore().setPlanetResources(resources)
 
 				this.timer = setTimeout(this.update, 1000);
 			}

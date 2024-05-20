@@ -1,3 +1,6 @@
+import { useApiGet } from '~/composables/useApi';
+import useStore from '~/store';
+
 export function getDistance (from, to)
 {
 	if ((to['galaxy'] - from['galaxy']) !== 0)
@@ -52,19 +55,13 @@ export function getStorage (ships)
 	}, 0)
 }
 
-export function sendMission (_this, mission, galaxy, system, planet, type, count)
+export function sendMission (mission, galaxy, system, planet, type, count)
 {
-	return _this.$get('/fleet/quick/', {
-		mission: mission,
-		galaxy: galaxy,
-		system: system,
-		planet: planet,
-		type: type,
-		count: count
+	return useApiGet('/fleet/quick/', {
+		mission, galaxy, system, planet, type, count
 	})
-	.then(result =>
-	{
-		_this.$store.commit('PAGE_LOAD', {
+	.then(result => {
+		useStore().PAGE_LOAD({
 			messages: result.messages
 		})
 	})

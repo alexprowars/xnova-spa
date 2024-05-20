@@ -57,7 +57,8 @@
 <script>
 	import BuildRowPrice from './build-row-price.vue'
 	import InfoContent from '~/components/page/info/content.vue'
-	import { mapState } from 'vuex'
+	import { mapState } from 'pinia'
+	import useStore from '~/store';
 
 	export default {
 		name: 'unit-row',
@@ -75,7 +76,7 @@
 			}
 		},
 		computed: {
-			...mapState({
+			...mapState(useStore, {
 				resources: state => state.planet.resources,
 			}),
 			max ()

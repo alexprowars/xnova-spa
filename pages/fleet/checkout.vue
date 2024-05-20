@@ -1,5 +1,5 @@
 <template>
-	<router-form v-if="page" action="/fleet/send/">
+	<ViewsRouterForm v-if="page" action="/fleet/send/">
 		<input v-for="ship in page.ships" type="hidden" :name="'ship['+ship.id+']'" :value="ship['count']">
 		<div class="table">
 			<div class="row">
@@ -199,17 +199,21 @@
 		<input type="hidden" name="alliance" v-model="alliance">
 		<input type="hidden" name="fleet" :value="page['fleet']">
 		<input type="hidden" name="mission" :value="page['mission']">
-	</router-form>
+	</ViewsRouterForm>
 </template>
 
 <!--suppress JSUnusedGlobalSymbols -->
 <script>
 	import { getDistance, getSpeed, getDuration, getConsumption, getStorage } from '~/utils/fleet'
+	import { defineNuxtComponent } from '#imports';
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
 
-	export default {
-		name: 'fleet-one',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -267,7 +271,7 @@
 						ships[item['id']] = item['count']
 					})
 
-					let data = await this.$post('/fleet/checkout/', {
+					let data = await useApiPost('/fleet/checkout/', {
 						galaxy: this.page['target']['galaxy'],
 						system: this.page['target']['system'],
 						planet: this.page['target']['planet'],
@@ -390,5 +394,5 @@
 		destroyed () {
 			this.clearTimer()
 		}
-	}
+	})
 </script>

@@ -8,198 +8,132 @@
 				<PlanetPanel v-if="views['resources']"/>
 				<div class="main-content-row">
 					<ErrorMessage v-if="error" :data="error"/>
-					<Nuxt v-else/>
+					<slot v-else/>
 				</div>
 			</div>
 		</main>
 
-		<client-only>
-			<Chat v-if="$store.getters.isAuthorized" :visible="controller !== 'chat' && views['menu'] && views['chat']"/>
-		</client-only>
+		<ClientOnly>
+			<Chat v-if="store.isAuthorized" :visible="controller !== 'chat' && views['menu'] && views['chat']"/>
+		</ClientOnly>
 
 		<AppFooter v-if="views && views['header']"/>
-
-		<div class="loader" :class="{active: $store.state.loading}"></div>
-
-		<client-only>
-			<dialogs-wrapper transition-name="dialog-fade"/>
-		</client-only>
 	</div>
 </template>
 
-<script>
+<script setup>
 	import MainMenu from '~/components/app/main-menu.vue'
 	import AppHeader from '~/components/app/header.vue'
 	import AppFooter from '~/components/app/footer.vue'
 	import PlanetsList from '~/components/app/planets-list.vue'
-	import MessagesRow from '~/components/app/messages-row.vue'
 	import PlanetPanel from '~/components/app/planet-panel.vue'
-	import Chat from '~/components/views/chat.vue'
-	import ErrorMessage from '~/components/views/message.vue'
-	import { addScript } from '~/utils/helpers'
+	import Chat from '~/components/Views/Chat.vue'
+	import ErrorMessage from '~/components/Views/Message.vue'
+	import useStore from '~/store';
+	import { useLocaleHead } from '#i18n';
+	import { useRoute, navigateTo, useHead } from '#imports';
+	import { ref, computed, watch, onMounted } from 'vue';
 
-	export default {
-		components: {
-			MainMenu,
-			AppHeader,
-			AppFooter,
-			PlanetsList,
-			MessagesRow,
-			PlanetPanel,
-			Chat,
-			ErrorMessage,
-		},
-		computed: {
-			controller () {
-				return (this.$store.state.route && this.$store.state.route.controller) || 'index'
-			},
-			error () {
-				return this.$store.state.error || false
-			},
-			redirect () {
-				return this.$store.state.redirect || ''
-			},
-			messages ()
-			{
-				let items = []
+	const store = useStore();
+	const route = useRoute();
 
-				if (this.$store.state.messages === null)
-					return items
+	const sidebar = ref('');
+	const loader = ref(false);
 
-				this.$store.state.messages.forEach((item) =>
-				{
-					if (item['type'].indexOf('-static') >= 0)
-						items.push(item)
-				})
+	const controller = computed(() => {
+		return (store.route && store.route.controller) || 'index'
+	})
 
-				return items
-			},
-			views () {
-				return this.$store.state['view'] || {}
-			},
-			notifications ()
-			{
-				let items = []
+	const error = computed(() => {
+		return store.error || false
+	})
 
-				if (this.$store.state.messages === null)
-					return items
+	const redirect = computed(() => {
+		return store.redirect || ''
+	})
 
-				this.$store.state.messages.forEach((item) =>
-				{
-					if (item['type'].indexOf('-static') < 0)
-						items.push(item)
-				})
+	const messages = computed(() => {
+		return (store.messages || []).filter((item) => {
+			return item['type'].indexOf('-static') >= 0;
+		})
+	})
 
-				return items
-			}
-		},
-		data ()
-		{
-			return {
-				sidebar: '',
-				loader: false,
-			}
-		},
-		head () {
-			return {
-				title: this.$store.state.title || '',
-				titleTemplate: '%s | Звездная Империя',
-				htmlAttrs: {
-					lang: 'ru',
-				},
-				bodyAttrs: {
-					page: this.controller,
-					class: this.$store.state.isSocial ? 'iframe' : 'window'
-				},
-				meta: [
-					{ hid: 'og:title', property: 'og:title', content: this.$store.state.title || '' }
-				]
-			}
-		},
-		watch: {
-		    '$route' () {
-				this.sidebar = ''
-		    },
-			redirect (val)
-			{
-				if (val && val.length > 0)
-					this.$router.push(val)
-			},
-			notifications (val)
-			{
-				val.forEach((item) =>
-				{
-					this.$toasted.show(item.text, {
-						type: item.type
-					})
-				})
-			},
-		},
-		methods: {
-			sidebarToggle (type)
-			{
-				if (this.sidebar === type)
-					this.sidebar = ''
-				else
-					this.sidebar = type
-			},
-			swipe (direction, ev)
-			{
-				if (!this.$store.getters.isMobile)
-					return
+	const views = computed(() => {
+		return store['view'] || {}
+	})
 
-				if (ev.target.closest('.table-responsive') !== null)
-					return
+	const notifications = computed(() => {
+		return (store.messages || []).filter((item) => {
+			return item['type'].indexOf('-static') < 0;
+		})
+	});
 
-				if (direction === 'left')
-					this.sidebar = 'planet'
+	onMounted(() => {
+		loader.value = true
+	});
 
-				if (direction === 'right')
-					this.sidebar = 'menu'
-			},
-			tap ()
-			{
-				if (!this.$store.getters.isMobile)
-					return
+	watch(() => route.fullPath, () => {
+		sidebar.value = '';
+	})
 
-				if (this.sidebar !== '')
-					this.sidebar = ''
-			},
-			init ()
-			{
-				if (typeof VK !== 'undefined')
-				{
-					try
-					{
-						VK.init(() =>
-						{
-							console.log('vk init success')
+	watch(redirect, (val) => {
+		if (val && val.length > 0)
+			navigateTo(val)
+	})
 
-							setInterval(() =>
-							{
-								let height = 0
+	watch(notifications, (val) => {
+		val.forEach((item) => {
+			this.$toasted.show(item.text, {
+				type: item.type
+			})
+		})
+	})
 
-								$(this.$refs['application']).find('.main-content > div').each(function() {
-									height += $(this).height()
-								})
-
-								VK.callMethod("resizeWindow", 1000, (height < 600 ? 700 : height + 200))
-
-							}, 1000)
-						},
-						() => {}, '5.74')
-					}
-					catch (e) {}
-				}
-			},
-		},
-		mounted ()
-		{
-			if (this.$store.state.isSocial)
-				addScript('https://vk.com/js/api/xd_connection.js')
-
-			this.init()
-			this.loader = true
-		}
+	function sidebarToggle (type) {
+		if (sidebar.value === type)
+			sidebar.value = ''
+		else
+			sidebar.value = type
 	}
+
+	function swipe (direction, ev) {
+		if (!store.isMobile) {
+			return
+		}
+
+		if (ev.target.closest('.table-responsive') !== null)
+			return
+
+		if (direction === 'left')
+			sidebar.value = 'planet'
+
+		if (direction === 'right')
+			sidebar.value = 'menu'
+	}
+
+	function tap () {
+		if (!store.isMobile)
+			return
+
+		if (sidebar.value !== '')
+			sidebar.value = ''
+	}
+
+	const head = useLocaleHead({
+		addDirAttribute: true,
+		addSeoAttributes: true,
+	});
+
+	useHead({
+		title: () => store.title || '',
+		titleTemplate: '%s | Звездная Империя',
+		meta: () => [
+			{ hid: 'og:title', property: 'og:title', content: store.title || '' }
+		],
+		htmlAttrs: () => head.value?.htmlAttrs || {},
+		bodyAttrs: {
+			page: controller.value,
+			class: store.isSocial ? 'iframe' : 'window'
+		},
+	})
 </script>

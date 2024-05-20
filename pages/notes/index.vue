@@ -4,7 +4,7 @@
 			Заметки
 		</div>
 		<div class="content">
-			<router-form action="/notes/">
+			<ViewsRouterForm action="/notes/">
 				<div class="table">
 					<div class="row">
 						<div class="col-1 c"></div>
@@ -33,16 +33,20 @@
 					<input v-if="deleteItems.length > 0" class="negative" value="Удалить выбранное" type="submit">
 					<nuxt-link class="button" to="/notes/new/">Создать новую заметку</nuxt-link>
 				</div>
-			</router-form>
+			</ViewsRouterForm>
 		</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'notes',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -51,5 +55,5 @@
 				deleteItems: []
 			}
 		}
-	}
+	})
 </script>

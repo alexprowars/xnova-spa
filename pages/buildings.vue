@@ -30,21 +30,24 @@
 <script>
 	import BuildRow from '~/components/page/buildings/build-row.vue'
 	import BuildQueue from '~/components/page/buildings/build-queue.vue'
-	import { mapState } from 'vuex'
+	import { mapState } from 'pinia'
+	import useStore from '~/store';
+	import { defineNuxtComponent } from '#imports';
 
-	export default {
-		name: 'buildings',
+	export default defineNuxtComponent({
 		components: {
 			BuildRow,
 			BuildQueue
 		},
-		async asyncData ({ store }) {
-			return store.dispatch('loadPage')
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
 		computed: {
-			...mapState([
+			...mapState(useStore, [
 				'planet'
 			]),
 			fields_empty ()
@@ -55,5 +58,5 @@
 				return this.planet['field_max'] - this.planet['field_used'] - this.page.queue.length
 			}
 		},
-	}
+	})
 </script>

@@ -48,11 +48,15 @@
 	import StatPlayers from '~/components/page/stat/players.vue'
 	import StatAlliances from '~/components/page/stat/alliances.vue'
 	import StatRaces from '~/components/page/stat/races.vue'
+	import { defineNuxtComponent } from '#imports';
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
 
-	export default {
-		name: 'stat',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		components: {
@@ -85,7 +89,7 @@
 			{
 				this.$nextTick(() =>
 				{
-					this.$post('/stat/', {
+					useApiPost('/stat/', {
 						view: this.form.list,
 						type: this.form.type,
 						range: this.form.page
@@ -103,5 +107,5 @@
 			this.form.pages = Math.ceil(this.page['elements'] / 100)
 			this.items = this.page['items']
 		}
-	}
+	})
 </script>

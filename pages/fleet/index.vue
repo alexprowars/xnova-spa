@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="content">
-				<router-form action="/fleet/checkout/">
+				<ViewsRouterForm action="/fleet/checkout/">
 					<div class="table fleet_ships container">
 						<div class="row">
 							<div class="th col-sm-7 col-6">Тип корабля</div>
@@ -92,7 +92,7 @@
 					<input type="hidden" name="planet" :value="page['selected']['planet']">
 					<input type="hidden" name="planet_type" :value="page['selected']['planet_type']">
 					<input type="hidden" name="mission" :value="page['selected']['mission']">
-				</router-form>
+				</ViewsRouterForm>
 			</div>
 		</div>
 		<div v-else class="block page-fleet-select">
@@ -113,14 +113,17 @@
 
 <script>
 	import FlyRow from '~/components/page/fleet/fly-row.vue'
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'fleet-index',
+	export default defineNuxtComponent({
 		components: {
 			FlyRow
 		},
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -232,5 +235,5 @@
 				this.allCapacity = capacity;
 			}
 		}
-	}
+	})
 </script>

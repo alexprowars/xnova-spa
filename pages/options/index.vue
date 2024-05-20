@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<router-form v-if="page['vacation']" action="/options/change/">
+		<ViewsRouterForm v-if="page['vacation']" action="/options/change/">
 			<table class="table">
 				<tbody>
 					<tr>
@@ -28,11 +28,11 @@
 					</tr>
 				</tbody>
 			</table>
-		</router-form>
+		</ViewsRouterForm>
 
-		<router-form v-else action="/options/change/">
-			<tabs>
-				<tab name="Информация">
+		<ViewsRouterForm v-else action="/options/change/">
+			<ViewsTabs>
+				<ViewsTab name="Информация">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -83,8 +83,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</tab>
-				<tab name="Интерфейс">
+				</ViewsTab>
+				<ViewsTab name="Интерфейс">
 					<template v-if="page['social']">
 						<div style="display: none">
 							<input name="chatbox" v-model="page['opt_chatbox_data']" type="checkbox" title="">
@@ -191,8 +191,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</tab>
-				<tab name="Описание">
+				</ViewsTab>
+				<ViewsTab name="Описание">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -205,8 +205,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</tab>
-				<tab name="Отпуск / Удаление">
+				</ViewsTab>
+				<ViewsTab name="Отпуск / Удаление">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -232,8 +232,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</tab>
-				<tab name="Личное дело">
+				</ViewsTab>
+				<ViewsTab name="Личное дело">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -247,8 +247,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</tab>
-				<tab v-if="!page['social']" name="Точки входа">
+				</ViewsTab>
+				<ViewsTab v-if="!page['social']" name="Точки входа">
 					<table v-if="page['auth'].length" class="table">
 						<tbody>
 							<tr>
@@ -278,15 +278,15 @@
 							<tr>
 								<th>
 									<br>
-									<div id="uLogin" data-uloginid="e4860195" :x-ulogin-params="'display=panel;fields=first_name,last_name,photo;providers=vkontakte,odnoklassniki,facebook,twitter,yandex,googleplus,mailru;redirect_uri=http%3A%2F%2F'+$store.state['host']+'%2Foptions%2Fexternal%2F'"></div>
+									<div id="uLogin" data-uloginid="e4860195" :x-ulogin-params="'display=panel;fields=first_name,last_name,photo;providers=vkontakte,odnoklassniki,facebook,twitter,yandex,googleplus,mailru;redirect_uri=http%3A%2F%2F'+$state['host']+'%2Foptions%2Fexternal%2F'"></div>
 									<br>
 								</th>
 							</tr>
 						</tbody>
 					</table>
-				</tab>
-			</tabs>
-		</router-form>
+				</ViewsTab>
+			</ViewsTabs>
+		</ViewsRouterForm>
 
 		<template v-if="typeof page['bot_auth'] === 'object'">
 			<br><br>
@@ -302,12 +302,16 @@
 </template>
 
 <script>
-	export default {
-		name: 'options',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

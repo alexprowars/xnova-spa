@@ -63,10 +63,15 @@
 </template>
 
 <script>
-	export default {
-		name: 'buddy',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -82,12 +87,12 @@
 					})
 					.then(() =>
 					{
-						this.$post('/buddy/delete/'+id+'/')
+						useApiPost('/buddy/delete/'+id+'/')
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result);
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			},
 		}
-	}
+	})
 </script>

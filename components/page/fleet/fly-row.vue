@@ -42,10 +42,10 @@
 			-
 		</div>
 		<div class="col-4 col-sm-2 th">
-			<router-form v-if="item['stage'] === 0 && item['mission'] !== 20 && item.target.id !== 1" action="/fleet/back/">
+			<ViewsRouterForm v-if="item['stage'] === 0 && item['mission'] !== 20 && item.target.id !== 1" action="/fleet/back/">
 				<input name="fleetid" :value="item.id" type="hidden">
 				<input value="Возврат" type="submit" name="send">
-			</router-form>
+			</ViewsRouterForm>
 
 			<nuxt-link v-if="item['stage'] === 0 && item['mission'] === 1 && item.target.id !== 1" :to="'/fleet/verband/'+item.id+'/'" class="button">
 				Объединить
@@ -57,6 +57,9 @@
 </template>
 
 <script>
+	import { useApiPost } from '~/composables/useApi';
+	import useStore from '~/store';
+
 	export default {
 		name: "fleet-index-fly-row",
 		props: {
@@ -79,11 +82,11 @@
 					})
 					.then(() =>
 					{
-						this.$post('/fleet/back/', {
+						useApiPost('/fleet/back/', {
 							id: this.item['id'],
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result)
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			}

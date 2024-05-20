@@ -21,10 +21,10 @@
 				</tr>
 				<tr>
 					<th colspan="2">
-						<router-form action="/alliance">
+						<ViewsRouterForm action="/alliance">
 							<input type="hidden" name="r_id" :value="item[0]">
 							<input type="submit" name="bcancel" value="Убрать заявку">
-						</router-form>
+						</ViewsRouterForm>
 					</th>
 				</tr>
 			</template>
@@ -99,8 +99,8 @@
 				<tr v-if="page['chat_access']">
 					<th>
 						Альянс чат
-						<template v-if="$store.state.user.alliance.messages > 0">
-							({{ $store.state.user.alliance.messages }} новых)
+						<template v-if="$state.user.alliance.messages > 0">
+							({{ $state.user.alliance.messages }} новых)
 						</template>
 					</th>
 					<th><nuxt-link to="/alliance/chat">Войти в чат</nuxt-link></th>
@@ -131,10 +131,14 @@
 </template>
 
 <script>
-	export default {
-		name: 'alliance',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -143,5 +147,5 @@
 				return typeof this.page['id'] === 'undefined'
 			}
 		},
-	}
+	})
 </script>

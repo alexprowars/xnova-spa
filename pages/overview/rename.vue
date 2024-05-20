@@ -3,7 +3,7 @@
 		<div class="block">
 			<div class="title">Переименовать или покинуть планету</div>
 			<div class="content border-0">
-				<router-form :action="'/overview/rename/?planet='+page['planet_id']">
+				<ViewsRouterForm :action="'/overview/rename/?planet='+page['planet_id']">
 					<input type="hidden" name="action" value="name">
 					<div class="table middle">
 						<div class="row">
@@ -21,13 +21,13 @@
 							<div class="col th"><button type="submit">Сменить название</button></div>
 						</div>
 					</div>
-				</router-form>
+				</ViewsRouterForm>
 			</div>
 		</div>
 		<div v-if="page['type'] !== ''" class="block page-overview-planet-image">
 			<div class="title">Сменить фон планеты</div>
 			<div class="content border-0">
-				<router-form :action="'/overview/rename/?planet='+page['planet_id']">
+				<ViewsRouterForm :action="'/overview/rename/?planet='+page['planet_id']">
 					<input type="hidden" name="action" value="image">
 					<div class="table">
 						<div class="row">
@@ -44,17 +44,21 @@
 							</div>
 						</div>
 					</div>
-				</router-form>
+				</ViewsRouterForm>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'overview-rename',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -63,5 +67,5 @@
 				image: 0
 			}
 		},
-	}
+	})
 </script>

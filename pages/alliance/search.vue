@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<router-form action="/alliance/search/">
+		<ViewsRouterForm action="/alliance/search/">
 			<table class="table">
 				<tr>
 					<td class="c" colspan="2">Поиск альянса</td>
@@ -13,7 +13,7 @@
 					</th>
 				</tr>
 			</table>
-		</router-form>
+		</ViewsRouterForm>
 
 		<div v-if="page['result'].length">
 			<div class="separator"></div>
@@ -38,12 +38,17 @@
 </template>
 
 <script>
-	export default {
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
+
+	export default defineNuxtComponent({
 		name: "alliance-search",
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

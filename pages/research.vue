@@ -13,16 +13,19 @@
 
 <script>
 	import TechRow from '~/components/page/buildings/tech-row.vue'
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'tech',
+	export default defineNuxtComponent({
 		components: {
 			TechRow
 		},
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
-	}
+	})
 </script>

@@ -1,4 +1,4 @@
 <script>
-	import Index from './diplomacy/_.vue'
+	import Index from './diplomacy/[...slug].vue'
 	export default Index
 </script>

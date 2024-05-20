@@ -38,16 +38,19 @@
 
 <script>
 	import OfficierRow from '~/components/page/officier/row.vue'
+	import { defineNuxtComponent } from '#imports';
+	import useStore from '~/store';
 
-	export default {
-		name: 'officiers',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
 		components: {
 			OfficierRow
 		}
-	}
+	})
 </script>

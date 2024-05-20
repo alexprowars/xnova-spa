@@ -49,7 +49,7 @@
 			</div>
 			<div class="content border-0">
 				<div class="table-responsive">
-					<router-form action="/resources/">
+					<ViewsRouterForm action="/resources/">
 						<table class="table">
 							<tbody>
 								<tr>
@@ -75,7 +75,7 @@
 									<th colspan="2">Вместимость:</th>
 									<th>{{ page['bonus_h'] }}%</th>
 									<td v-for="res in page['resources']" class="k" v-once>
-										<span :class="[(page['production'][res]['capacity'] > $store.state['planet']['resources'][res]['value']) ? 'positive' : 'negative']">
+										<span :class="[(page['production'][res]['capacity'] > $state['planet']['resources'][res]['value']) ? 'positive' : 'negative']">
 											{{(page['production'][res]['capacity'] / 1000) | number }} k
 										</span>
 									</td>
@@ -95,7 +95,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</router-form>
+					</ViewsRouterForm>
 				</div>
 			</div>
 		</div>
@@ -191,12 +191,16 @@
 	import ResourcesBar from '~/components/page/resources/bar.vue'
 	import ResourcesRow from '~/components/page/resources/row.vue'
 	import InfoPopup from '~/components/page/info/popup.vue'
-	import { mapState } from 'vuex'
+	import { mapState } from 'pinia'
+	import useStore from '~/store';
+	import { defineNuxtComponent } from '#imports';
+	import { useApiGet } from '~/composables/useApi';
 
-	export default {
-		name: 'resources',
-		async asyncData ({ store }) {
-			return await store.dispatch('loadPage')
+	export default defineNuxtComponent({
+		async asyncData () {
+			await useStore().loadPage();
+
+			return {}
 		},
 		watchQuery: true,
 		middleware: 'auth',
@@ -206,7 +210,7 @@
 			InfoPopup,
 		},
 		computed: {
-			...mapState([
+			...mapState(useStore, [
 				'planet',
 			])
 		},
@@ -222,14 +226,14 @@
 					})
 					.then(() =>
 					{
-						this.$get('/resources/', {
+						useApiGet('/resources/', {
 							buy: 'Y'
 						})
 						.then((result) => {
-							this.$store.commit('PAGE_LOAD', result)
+							useStore().PAGE_LOAD(result)
 						})
 					})
 			}
 		}
-	}
+	})
 </script>
