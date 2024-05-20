@@ -10,6 +10,8 @@
 </template>
 
 <script>
+	import { navigateTo } from '#imports';
+
 	export default {
 		name: "pagination",
 		props: {
@@ -48,7 +50,7 @@
 		},
 		methods: {
 			load (page) {
-				this.$router.push(this.$store.state.url+(this.$store.state.url.indexOf('?') >= 0 ? '&' : '?')+'p='+page);
+				navigateTo(this.$store.state.url+(this.$store.state.url.indexOf('?') >= 0 ? '&' : '?')+'p='+page);
 			}
 		}
 	}

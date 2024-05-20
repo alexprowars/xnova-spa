@@ -10,7 +10,7 @@
 					</div>
 				</div>
 				<div class="row c">
-					<nuxt-link to="/alliance/admin">вернутся к обзору</nuxt-link>
+					<NuxtLinkLocale to="/alliance/admin">вернутся к обзору</NuxtLinkLocale>
 				</div>
 			</div>
 		</div>

@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-	import { computed, ref } from 'vue';
+	import { computed, ref, inject } from 'vue';
 
 	const props = defineProps({
 		id: {
@@ -16,7 +16,13 @@
 		},
 	})
 
-	const active = ref(false);
+	const addTab = inject('addTab');
+	const activeTab = inject('activeTab');
+
+	const active = computed(() => {
+		console.log(activeTab.value, hash.value)
+		return activeTab.value === hash.value;
+	});
 
 	const header = computed(() => {
 		return props.name;
@@ -28,8 +34,9 @@
 			'#' + props.name.toLowerCase().replace(/ /g, '-');
 	});
 
-	defineExpose({
-		active, header, hash
+	addTab({
+		header: header.value,
+		hash: hash.value,
 	});
 </script>
 

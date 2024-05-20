@@ -8,8 +8,8 @@
 			<div v-show="active" class="content border-0">
 				<div class="col-12 th">
 					<div ref="chatbox" class="page-chat-messages">
-						<div v-for="item in messages" class="page-chat-messages-row text-left">
-							<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" v-on:click="toPrivate(item['user'])">{{ item['time']|date('H:m') }}</span>
+						<div v-for="item in sortedMessages" class="page-chat-messages-row text-start">
+							<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" v-on:click="toPrivate(item['user'])">{{ $date(item['time'], 'H:m') }}</span>
 							<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" v-on:click="toPlayer(item['user'])">{{ item['user'] }}</span>:
 							<span v-if="item['tou'].length" :class="[item['private'] ? 'private' : 'player']">
 								{{ item['private'] ? 'приватно' : 'для' }} [<span v-for="(u, i) in item['tou']">{{ i > 0 ? ',' : '' }}<a v-if="!item['private']" v-on:click.prevent="toPlayer(u)">{{ u }}</a><a v-else v-on:click.prevent="toPrivate(u)">{{ u }}</a></span>]
@@ -31,6 +31,8 @@
 <script>
 	import { mapState } from 'pinia'
 	import useChatStore from '~/store/chat';
+	import useStore from '~/store';
+	import { nextTick } from 'vue';
 
 	export default {
 		name: 'chat',
@@ -54,7 +56,7 @@
 			]),
 		},
 		watch: {
-			messages () {
+			sortedMessages () {
 				setTimeout(() => {
 					this.scrollToBottom()
 				}, 250)
@@ -67,7 +69,7 @@
 				this.$refs['text'].focus()
 			},
 			visible (value) {
-				this.mobile = this.$store.getters.isMobile || !value
+				this.mobile = useStore().isMobile || !value
 			}
 		},
 		methods: {
@@ -87,7 +89,7 @@
 				if (this.active) {
 					useChatStore().clearUnread();
 
-					this.$nextTick(() => {
+					nextTick(() => {
 						this.scrollToBottom()
 					})
 				}

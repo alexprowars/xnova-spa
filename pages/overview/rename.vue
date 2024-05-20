@@ -10,9 +10,9 @@
 							<div class="col th d-none d-sm-flex">{{ page['galaxy_galaxy'] }}:{{ page['galaxy_system'] }}:{{ page['galaxy_planet'] }}</div>
 							<div class="col th">{{ page['planet_name'] }}</div>
 							<div class="col th">
-								<nuxt-link to="/overview/delete/">
+								<NuxtLinkLocale to="/overview/delete/">
 									<input type="button" value="Покинуть колонию" alt="Покинуть колонию">
-								</nuxt-link>
+								</NuxtLinkLocale>
 							</div>
 						</div>
 						<div class="row">
@@ -29,7 +29,7 @@
 			<div class="content border-0">
 				<ViewsRouterForm :action="'/overview/rename/?planet='+page['planet_id']">
 					<input type="hidden" name="action" value="image">
-					<div class="table">
+					<div class="block-table">
 						<div class="row">
 							<div v-for="i in page['images'][page['type']]" class="col-6 col-sm-3 col-md-2">
 								<input type="radio" v-model="image" name="image" :value="i" :id="'image_'+i">

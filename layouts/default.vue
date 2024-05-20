@@ -22,11 +22,11 @@
 </template>
 
 <script setup>
-	import MainMenu from '~/components/app/main-menu.vue'
-	import AppHeader from '~/components/app/header.vue'
-	import AppFooter from '~/components/app/footer.vue'
-	import PlanetsList from '~/components/app/planets-list.vue'
-	import PlanetPanel from '~/components/app/planet-panel.vue'
+	import MainMenu from '~/components/Layout/MainMenu.vue'
+	import AppHeader from '~/components/Layout/Header.vue'
+	import AppFooter from '~/components/Layout/Footer.vue'
+	import PlanetsList from '~/components/Layout/PlanetsList.vue'
+	import PlanetPanel from '~/components/Layout/PlanetPanel.vue'
 	import Chat from '~/components/Views/Chat.vue'
 	import ErrorMessage from '~/components/Views/Message.vue'
 	import useStore from '~/store';

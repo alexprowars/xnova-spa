@@ -23,7 +23,7 @@
 						<td class="c">Действия</td>
 					</tr>
 
-					<tr is="galaxy-row" v-for="(item, index) in page['items']"
+					<GalaxyRow v-for="(item, index) in page['items']"
 						:key="index"
 						:item="item"
 						:user="page['user']"
@@ -31,34 +31,34 @@
 						:system="page['system']"
 						:planet="index + 1"
 						@sendMissile="sendMissile(item['planet'])"
-					></tr>
+					></GalaxyRow>
 
 					<tr v-if="page['user']['allowExpedition']">
 						<th width="30">16</th>
 						<th colspan="8" class="c big">
-							<nuxt-link :to="'/fleet/?galaxy='+page['galaxy']+'&system='+page['system']+'&planet=16&mission=15'">неизведанные дали</nuxt-link>
+							<NuxtLinkLocale :to="'/fleet/?galaxy='+page['galaxy']+'&system='+page['system']+'&planet=16&mission=15'">неизведанные дали</NuxtLinkLocale>
 						</th>
 					</tr>
 					<tr>
 						<td class="c" colspan="6">
 							<span v-if="planets === 0">нет заселённых планет</span>
-							<span v-else>{{ planets }} {{ planets | morph('заселённая планета', 'заселённые планеты', 'заселённых планет') }}</span>
+							<span v-else>{{ planets }} {{ $morph(planets, 'заселённая планета', 'заселённые планеты', 'заселённых планет') }}</span>
 						</td>
 						<td class="c" colspan="3">
-							<Popper>
-								<GalaxyLegend/>
-								<template slot="reference">
-									Легенда
+							<Popper hover>
+								<template #content>
+									<GalaxyLegend/>
 								</template>
+								Легенда
 							</Popper>
 						</td>
 					</tr>
 					<tr>
-						<td class="c" colspan="3">{{ page['user']['interplanetary_misil'] }} {{ page['user']['interplanetary_misil'] | morph('ракета', 'ракеты', 'ракет') }}</td>
-						<td class="c" colspan="3">{{ page['user']['fleets'] }} / {{ page['user']['max_fleets'] }} {{ page['user']['fleets'] | morph('флот', 'флота', 'флотов') }}</td>
+						<td class="c" colspan="3">{{ page['user']['interplanetary_misil'] }} {{ $morph(page['user']['interplanetary_misil'], 'ракета', 'ракеты', 'ракет') }}</td>
+						<td class="c" colspan="3">{{ page['user']['fleets'] }} / {{ page['user']['max_fleets'] }} {{ $morph(page['user']['fleets'], 'флот', 'флота', 'флотов') }}</td>
 						<td class="c" colspan="3">
-							<div>{{ page['user']['recycler'] | number }} {{ page['user']['recycler'] | morph('переработчик', 'переработчика', 'переработчиков') }}</div>
-							<div>{{ page['user']['spy_sonde'] | number }} {{ page['user']['spy_sonde'] | morph('шпионский зонд', 'шпионских зонда', 'шпионских зондов') }}</div>
+							<div>{{ $number(page['user']['recycler']) }} {{ $morph(page['user']['recycler'], 'переработчик', 'переработчика', 'переработчиков') }}</div>
+							<div>{{ $number(page['user']['spy_sonde']) }} {{ $morph(page['user']['spy_sonde'], 'шпионский зонд', 'шпионских зонда', 'шпионских зондов') }}</div>
 						</td>
 					</tr>
 				</tbody>
@@ -67,49 +67,46 @@
 	</div>
 </template>
 
-<script>
-	import GalaxyRow from '~/components/page/galaxy/row.vue'
-	import GalaxySelector from '~/components/page/galaxy/selector.vue'
-	import GalaxyLegend from '~/components/page/galaxy/legend.vue'
-	import MissileAttack from '~/components/page/galaxy/missile-attack.vue'
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import GalaxyRow from '~/components/Page/Galaxy/row.vue';
+	import GalaxySelector from '~/components/Page/Galaxy/selector.vue';
+	import GalaxyLegend from '~/components/Page/Galaxy/legend.vue';
+	import MissileAttack from '~/components/Page/Galaxy/missile-attack.vue';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import Popper from 'vue3-popper';
+	import { computed, ref, toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		components: {
-			GalaxyRow,
-			GalaxySelector,
-			GalaxyLegend,
-			MissileAttack,
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		data () {
-			return {
-				missile: false,
-				missilePlanet: 0,
-			}
-		},
-		computed: {
-			planets ()
-			{
-				if (!this.page.items)
-					return 0
+	const route = useRoute();
 
-				return this.page.items.filter(item => item !== false).length
-			}
-		},
-		methods: {
-			sendMissile (planet)
-			{
-				this.missile = true
-				this.missilePlanet = planet
-			}
-		}
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
+
+	const missile = ref(false);
+	const missilePlanet = ref(0);
+
+	const planets= computed(() => {
+		if (!page.value.items)
+			return 0;
+
+		return page.value.items.filter(item => item !== false).length
 	})
+
+	function sendMissile (planet) {
+		missile.value = true
+		missilePlanet.value = planet
+	}
 </script>

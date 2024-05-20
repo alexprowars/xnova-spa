@@ -1,6 +1,6 @@
 <template>
 	<span :class="style">
-		{{ value | number }}
+		{{ $number(value) }}
 	</span>
 </template>
 

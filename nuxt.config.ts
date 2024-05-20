@@ -52,6 +52,7 @@ let config = {
 	vue: {
 		compilerOptions: {
 			whitespace: 'preserve',
+			isCustomElement: (tag) => ['font'].includes(tag),
 		}
 	},
 	modules: [

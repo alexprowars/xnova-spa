@@ -41,7 +41,7 @@
 				</tr>
 			</table>
 		</ViewsRouterForm>
-		<span style="float:left;margin-left: 10px;margin-top: 10px;"><nuxt-link to="/notes/">Назад</nuxt-link></span>
+		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLinkLocale to="/notes/">Назад</NuxtLinkLocale></span>
 	</div>
 </template>
 

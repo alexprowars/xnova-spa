@@ -1,5 +1,6 @@
 import { defineNuxtPlugin } from '#imports';
 import { number, morph, date, time } from '~/utils/format';
+import useStore from '~/store';
 
 export default defineNuxtPlugin((nuxtApp) => {
 	nuxtApp.provide('morph', (value, ...titles) => {

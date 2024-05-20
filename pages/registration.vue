@@ -2,7 +2,7 @@
 	<div class="page-registration">
 		<div v-for="error in page.errors" v-html="error" class="message error"></div>
 		<form action="" method="post" class="form" @submit.prevent="send">
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col-5 th">E-Mail<br>(используется для входа)</div>
 					<div class="col-7 th">
@@ -27,17 +27,17 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col th text-left">
+					<div class="col th text-start">
 						<input :class="{error: v$.rules.$error}" id="rules" type="checkbox" v-model="rules">
 						<label for="rules">Я принимаю</label>
-						<nuxt-link to="/content/agreement/" target="_blank">Пользовательское соглашение</nuxt-link>
+						<NuxtLinkLocale to="/content/agreement/" target="_blank">Пользовательское соглашение</NuxtLinkLocale>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col th text-left">
+					<div class="col th text-start">
 						<input :class="{error: v$.laws.$error}" id="laws" type="checkbox" v-model="laws">
 						<label for="laws">Я принимаю</label>
-						<nuxt-link to="/content/agb/" target="_blank">Законы игры</nuxt-link>
+						<NuxtLinkLocale to="/content/agb/" target="_blank">Законы игры</NuxtLinkLocale>
 					</div>
 				</div>
 				<div class="row">

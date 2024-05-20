@@ -4,7 +4,7 @@
 		<div v-else class="title">{{ page['name'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]</div>
 		<div class="content border-0">
 			<ViewsRouterForm :action="page['id'] < 0 ? '/fleet/shortcut/add/' : '/fleet/shortcut/'+page['id']+'/'">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col th">
 							<input type="text" name="title" v-model="page['name']" size="32" maxlength="32" title="Название">
@@ -26,7 +26,7 @@
 					</div>
 					<div class="row">
 						<div class="col c">
-							<nuxt-link to="/fleet/shortcut/">Назад</nuxt-link>
+							<NuxtLinkLocale to="/fleet/shortcut/">Назад</NuxtLinkLocale>
 						</div>
 					</div>
 				</div>

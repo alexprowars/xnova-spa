@@ -5,7 +5,7 @@
 				Статистика: {{ page['update'] }}
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="th col-2 middle">Статистика</div>
 						<div class="th col-4 col-sm-2">
@@ -45,12 +45,13 @@
 </template>
 
 <script>
-	import StatPlayers from '~/components/page/stat/players.vue'
-	import StatAlliances from '~/components/page/stat/alliances.vue'
-	import StatRaces from '~/components/page/stat/races.vue'
+	import StatPlayers from '~/components/Page/Stat/players.vue'
+	import StatAlliances from '~/components/Page/Stat/alliances.vue'
+	import StatRaces from '~/components/Page/Stat/races.vue'
 	import { defineNuxtComponent } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { nextTick } from 'vue';
 
 	export default defineNuxtComponent({
 		async asyncData () {
@@ -87,7 +88,7 @@
 		methods: {
 			loadItems ()
 			{
-				this.$nextTick(() =>
+				nextTick(() =>
 				{
 					useApiPost('/stat/', {
 						view: this.form.list,

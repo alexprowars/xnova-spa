@@ -26,8 +26,8 @@
 </template>
 
 <script>
-	import UnitRow from '~/components/page/buildings/unit-row.vue'
-	import UnitQueue from '~/components/page/buildings/unit-queue.vue'
+	import UnitRow from '~/components/Page/Buildings/unit-row.vue'
+	import UnitQueue from '~/components/Page/Buildings/unit-queue.vue'
 	import { defineNuxtComponent } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';

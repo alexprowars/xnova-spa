@@ -1,7 +1,7 @@
 <template>
 	<div class="tabs-component">
 		<ul role="tablist" class="tabs-component-tabs">
-			<li v-for="(tab, i) in tabs" :key="i" :class="{active: tab.active}" class="tabs-component-tab" role="presentation">
+			<li v-for="(tab, i) in tabs" :key="i" :class="{active: activeTab === tab.hash}" class="tabs-component-tab" role="presentation">
 				<a v-html="tab.header" @click.prevent="selectTab(tab.hash)" :href="tab.hash" class="tabs-component-tab-a" role="tab"></a>
 			</li>
 		</ul>
@@ -11,35 +11,31 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		data: () => ({
-			tabs: [],
-		}),
-		created () {
-			this.tabs = this.$slots.default().filter((child) => child.type.name === 'Tab');
-		},
-		mounted () {
-			if (this.tabs.length)
-				this.selectTab(this.tabs[0].hash);
-		},
-		methods: {
-			findTab (hash) {
-				return this.tabs.find(tab => tab.hash === hash);
-			},
-			selectTab (selectedTabHash) {
-				const selectedTab = this.findTab(selectedTabHash);
+<script setup>
+	import { ref, provide  } from 'vue';
 
-				if (!selectedTab)
-					return;
+	const tabs = ref([]);
+	const activeTab = ref('');
+	const emit = defineEmits(['changed']);
 
-				this.tabs.forEach(tab => {
-					console.log(selectedTab)
-					tab.active = (tab.hash === selectedTab.hash);
-				});
+	provide('addTab', (tab) => {
+		const count = tabs.value.push(tab);
 
-				this.$emit('changed', { tab: selectedTab });
-			}
-		},
-	};
+		if (count === 1) {
+			activeTab.value = tab.hash;
+		}
+	});
+
+	provide('activeTab', activeTab);
+
+	function selectTab (selectedTabHash) {
+		const selectedTab = tabs.value.find(tab => tab.hash === selectedTabHash);
+
+		if (!selectedTab)
+			return;
+
+		activeTab.value = selectedTabHash;
+
+		emit('changed', selectedTabHash);
+	}
 </script>

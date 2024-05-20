@@ -1,5 +1,5 @@
 import useStore from '~/store'
-import { defineNuxtRouteMiddleware, showError } from '#imports'
+import { defineNuxtRouteMiddleware, showError, navigateTo } from '#imports'
 import { useApiGet } from '~/composables/useApi';
 
 export default defineNuxtRouteMiddleware(async(to, from) => {
@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
 		});
 
 		if (data['redirect'] && data['redirect'].length > 0) {
-			return context.redirect(data.redirect);
+			return navigateTo(data.redirect);
 		}
 
 		const store = useStore();

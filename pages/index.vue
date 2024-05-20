@@ -14,7 +14,7 @@
 					<div class="sm">
 						Войти с помощью:<br><br>
 
-						<nuxt-link :to="'/login/social/vkontakte/'">Vkontakte</nuxt-link>
+						<NuxtLinkLocale :to="'/login/social/vkontakte/'">Vkontakte</NuxtLinkLocale>
 					</div>
 				</div>
 			</div>
@@ -39,12 +39,12 @@
 			<div class="desk">Звездная Империя - онлайн-игра</div>
 			<div class="nav">
 				<a href="http://forum.xnova.su" title="Официальный форум" target="_blank">Форум</a>  |
-				<nuxt-link to="/xnsim/">Симулятор</nuxt-link>  |
-				<nuxt-link to="/stat/">Статистика</nuxt-link>  |
+				<NuxtLinkLocale to="/xnsim/">Симулятор</NuxtLinkLocale>  |
+				<NuxtLinkLocale to="/stat/">Статистика</NuxtLinkLocale>  |
 				<a href="//vkontakte.ru/xnova_game" title="Официальная группа ВКонтакте" target="_blank">ВКонтакте</a>  |
-				<nuxt-link to="/content/agb/">Правила</nuxt-link>  |
-				<nuxt-link to="/banned/">Блокировки</nuxt-link>  |
-				<nuxt-link to="/contacts/">Администрация</nuxt-link>
+				<NuxtLinkLocale to="/content/agb/">Правила</NuxtLinkLocale>  |
+				<NuxtLinkLocale to="/banned/">Блокировки</NuxtLinkLocale>  |
+				<NuxtLinkLocale to="/contacts/">Администрация</NuxtLinkLocale>
 			</div>
 			<div v-if="$state['stats']" class="copy">
 				<a @click.prevent title="Игроков в сети" style="color:green">{{ $state['stats']['online'] }}</a> / <a @click.prevent title="Всего игроков" style="color:yellow">{{ $state['stats']['users'] }}</a>&nbsp;&nbsp;&nbsp;&copy; {{ (new Date).getFullYear() }} XNOVA.SU
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-	import AuthForm from '~/components/page/index/authForm.vue'
+	import AuthForm from '~/components/Page/Index/authForm.vue'
 	import RegistrationForm from './registration.vue'
 	import RemindForm from './remind.vue'
 	import { addScript } from '~/utils/helpers'

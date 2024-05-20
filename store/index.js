@@ -65,7 +65,7 @@ export const useStore = defineStore('app', {
 					backgroundDismiss: false,
 					confirm: () => {
 						if (data['tutorial']['url'] !== '')
-							this.$router.push(data['tutorial']['url']);
+							navigateTo(data['tutorial']['url']);
 					}
 				})
 			}
@@ -96,7 +96,7 @@ export const useStore = defineStore('app', {
 			}
 
 			if (data.page !== null && typeof data.page === 'object' && typeof data['url'] !== 'undefined') {
-				this.$router.push(data['url']);
+				navigateTo(data['url']);
 			}
 		},
 		setLoadingStatus (status) {

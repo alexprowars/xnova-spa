@@ -10,7 +10,7 @@
 				<th colspan="3"><input type="submit" value="Передача"></th>
 			</tr>
 			<tr>
-				<td class="c" colspan="8"><nuxt-link to="/alliance/admin">назад</nuxt-link></td>
+				<td class="c" colspan="8"><NuxtLinkLocale to="/alliance/admin">назад</NuxtLinkLocale></td>
 			</tr>
 		</table>
 	</ViewsRouterForm>

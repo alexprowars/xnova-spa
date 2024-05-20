@@ -4,7 +4,7 @@
 			{{ pageType === 'ally' ? 'Альянс' : 'Игрок' }} "{{ page['name'] }}"
 		</div>
 		<div class="content border-0">
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col c"><b>Статистика по месту</b></div>
 				</div>
@@ -46,6 +46,7 @@
 	import Chart from 'chart.js'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
+	import { nextTick } from 'vue';
 
 	export default defineNuxtComponent({
 		async asyncData () {
@@ -173,7 +174,7 @@
 				ranks.total.push(item.rank.total);
 			});
 
-			this.$nextTick(() =>
+			nextTick(() =>
 			{
 				new Chart(this.$refs['rank_chart'], {
 					type: 'line',

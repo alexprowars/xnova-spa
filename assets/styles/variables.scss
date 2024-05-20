@@ -1,3 +1,14 @@
+:root {
+	--popper-theme-background-color: #252f39;
+	--popper-theme-text-color: white;
+	--popper-theme-border-radius: 5px;
+	--popper-theme-padding: 8px;
+	--popper-theme-box-shadow: 0 0 30px 5px rgba(40, 40, 40, 0.75);
+	--popper-theme-border-width: 1px;
+	--popper-theme-border-style: solid;
+	--popper-theme-border-color: #415683;
+}
+
 $enable-flex: true !default;
 $grid-gutter-width: 10px !default;
 

@@ -29,7 +29,7 @@
 		</tr>
 		<tr v-if="page['request']">
 			<th colspan="2">
-				<nuxt-link :to="'/alliance/apply/allyid/'+page['id']+'/'" class="button">Вступить в альянс</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance/apply/allyid/'+page['id']+'/'" class="button">Вступить в альянс</NuxtLinkLocale>
 			</th>
 		</tr>
 	</table>

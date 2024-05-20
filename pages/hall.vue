@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="table">
+		<div class="block-table">
 			<div class="row">
 				<div class="col-1 c middle">TOP50</div>
 				<div class="col c middle">Зал Славы</div>
@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<div class="separator"></div>
-		<div class="table">
+		<div class="block-table">
 			<div class="row">
 				<div class="col-1 c">Место</div>
 				<div class="col c">
@@ -33,7 +33,7 @@
 					<template v-else>О</template>
 				</div>
 				<div class="col-2 th" :class="{positive: page['time'] === log['time']}">
-					{{ log['time'] | date('d.m.y H:i') }}
+					{{ $date(log['time'], 'd.m.y H:i') }}
 				</div>
 			</div>
 			<div v-if="page['hall'].length === 0" class="row">

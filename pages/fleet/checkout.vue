@@ -1,7 +1,7 @@
 <template>
 	<ViewsRouterForm v-if="page" action="/fleet/send/">
 		<input v-for="ship in page.ships" type="hidden" :name="'ship['+ship.id+']'" :value="ship['count']">
-		<div class="table">
+		<div class="block-table">
 			<div class="row">
 				<div class="c col-12">Отправка флота</div>
 			</div>
@@ -26,30 +26,30 @@
 			</div>
 			<div class="row">
 				<div class="th col-6">Расстояние</div>
-				<div class="th col-6">{{ distance|number }}</div>
+				<div class="th col-6">{{ $number(distance) }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Продолжительность полёта (к цели)</div>
-				<div class="th col-6">{{ duration|time(':', true) }}</div>
+				<div class="th col-6">{{ $time(duration, ':', true) }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ target_time|date('d.m.Y H:i:s') }}</div>
+				<div class="th col-6">{{ $date(target_time, 'd.m.Y H:i:s') }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Максимальная скорость</div>
-				<div class="th col-6">{{ maxspeed|number }}</div>
+				<div class="th col-6">{{ $number(maxspeed) }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Потребление топлива</div>
-				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ consumption|number }}</span></div>
+				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $number(consumption) }}</span></div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Грузоподъёмность</div>
-				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ storage|number }}</span></div>
+				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $number(storage) }}</span></div>
 			</div>
 			<div class="row">
-				<div class="c col-12">Ссылки <nuxt-link to="/fleet/shortcut/">(Просмотр / Редактирование)</nuxt-link></div>
+				<div class="c col-12">Ссылки <NuxtLinkLocale to="/fleet/shortcut/">(Просмотр / Редактирование)</NuxtLinkLocale></div>
 			</div>
 
 			<div v-if="page['shortcuts'].length > 0" class="row">
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 			<div v-else class="row">
-				<div class="th col-12"><nuxt-link to="/fleet/shortcut/add/" class="button">Добавить</nuxt-link></div>
+				<div class="th col-12"><NuxtLinkLocale to="/fleet/shortcut/add/" class="button">Добавить</NuxtLinkLocale></div>
 			</div>
 
 			<div v-if="page['planets'].length > 0" class="row">
@@ -80,13 +80,13 @@
 			<div v-if="page['moons'].length > 0" class="row">
 				<div class="c col-12">
 					Межгалактические врата
-					<span v-if="page['gate_time'] > 0" class="small">(заряжено через {{ page['gate_time']|time(':', true) }})</span>
+					<span v-if="page['gate_time'] > 0" class="small">(заряжено через {{ $time(page['gate_time'], ':', true) }})</span>
 				</div>
 			</div>
 			<div v-if="page['moons'].length > 0" class="row">
 				<div v-for="(moon, i) in page['moons']" class="th" :class="['col-'+(page['moons'].length % 2 > 0 && i === page['moons'].length - 1 ? 12 : 6)]">
 					<input type="radio" name="moon" :value="moon['id']" :id="'moon'+moon['id']">
-					<label :for="'moon'+moon['id']">{{ moon['name'] }} [{{ moon['galaxy'] }}:{{ moon['system'] }}:{{ moon['planet'] }}] <span v-if="moon['timer'] > 0">{{ moon['timer']|time(':', true) }}</span></label>
+					<label :for="'moon'+moon['id']">{{ moon['name'] }} [{{ moon['galaxy'] }}:{{ moon['system'] }}:{{ moon['planet'] }}] <span v-if="moon['timer'] > 0">{{ $time(moon['timer'], ':', true) }}</span></label>
 				</div>
 			</div>
 
@@ -119,7 +119,7 @@
 							<th class="negative">Миссия невозможна</th>
 						</tr>
 						<tr>
-							<th>Время прилёта: {{ target_time|date('d.m.Y H:i:s') }}</th>
+							<th>Время прилёта: {{ $date(target_time, 'd.m.Y H:i:s') }}</th>
 						</tr>
 					</table>
 				</div>
@@ -146,7 +146,7 @@
 						<tr>
 							<th>Остаток</th>
 							<th colspan="2">
-								<span :class="[capacity >= 0 ? 'positive' : 'negative']">{{ capacity|number }}</span>
+								<span :class="[capacity >= 0 ? 'positive' : 'negative']">{{ $number(capacity) }}</span>
 							</th>
 						</tr>
 						<tr>
@@ -182,7 +182,7 @@
 									<option value="32">32</option>
 								</select>
 								<div v-if="hold > 0">
-									<br>Потребуется <span class="positive">{{ hold|number }}</span> дейтерия
+									<br>Потребуется <span class="positive">{{ $number(hold) }}</span> дейтерия
 								</div>
 							</th>
 						</tr>

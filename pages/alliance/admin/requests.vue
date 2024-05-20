@@ -7,7 +7,7 @@
 			<td colspan="2" class="padding-0">
 				<ViewsRouterForm :action="'/alliance/admin/requests?show='+page['request']['id']+''">
 					<div class="separator"></div>
-					<div class="table">
+					<div class="block-table">
 						<div class="row">
 							<div class="col th">Заявка от {{ page['request']['username'] }}</div>
 						</div>
@@ -33,15 +33,15 @@
 		</tr>
 		<tr v-if="page['list'].length > 0">
 			<td class="c text-center">
-				<nuxt-link to="/alliance/admin/requests?sort=1">Логин</nuxt-link>
+				<NuxtLinkLocale to="/alliance/admin/requests?sort=1">Логин</NuxtLinkLocale>
 			</td>
 			<td class="c text-center">
-				<nuxt-link to="/alliance/admin/requests?sort=0">Дата подачи заявки</nuxt-link>
+				<NuxtLinkLocale to="/alliance/admin/requests?sort=0">Дата подачи заявки</NuxtLinkLocale>
 			</td>
 		</tr>
 		<tr v-for="list in page['list']">
 			<th class="text-center">
-				<nuxt-link :to="'/alliance/admin/requests?show='+list['id']+''">{{ list['username'] }}</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance/admin/requests?show='+list['id']+''">{{ list['username'] }}</NuxtLinkLocale>
 			</th>
 			<th class="text-center">
 				{{ list['time'] }}
@@ -51,7 +51,7 @@
 			<th colspan="2">Список заявок пуст</th>
 		</tr>
 		<tr>
-			<td class="c" colspan="2"><nuxt-link to="/alliance/">Назад</nuxt-link></td>
+			<td class="c" colspan="2"><NuxtLinkLocale to="/alliance/">Назад</NuxtLinkLocale></td>
 		</tr>
 	</table>
 </template>

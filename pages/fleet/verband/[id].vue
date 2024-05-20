@@ -18,26 +18,26 @@
 							<a v-if="(item['start']['time'] + 1) === item['target']['time']">(F)</a>
 						</th>
 						<th>
-							<Popper>
-								<div v-for="data in item['ships']">{{ $t('TECH.'+data['id']) }}: {{ data['count'] }}</div>
-								<template slot="reference">
-									{{ item['ships_total'] | number }}
+							<Popper hover>
+								<template #content>
+									<div v-for="data in item['ships']">{{ $t('TECH.'+data['id']) }}: {{ data['count'] }}</div>
 								</template>
+								{{ $number(item['ships_total']) }}
 							</Popper>
 						</th>
 						<th>
-							<planet-link :galaxy="item['start']['galaxy']" :system="item['start']['system']" :planet="item['start']['planet']"></planet-link>
+							<ViewsPlanetLink :galaxy="item['start']['galaxy']" :system="item['start']['system']" :planet="item['start']['planet']"></ViewsPlanetLink>
 							<div>{{ item['start']['name'] }}</div>
 						</th>
 						<th>
-							{{ item['start']['time']|date('d.m H:i:s') }}
+							{{ $date(item['start']['time'], 'd.m H:i:s') }}
 							<timer :value="item['start']['time'] + 1" class="positive"></timer>
 						</th>
 						<th>
-							<planet-link :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"></planet-link>
+							<ViewsPlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"></ViewsPlanetLink>
 							<div>{{ item['target']['name'] }}</div>
 						</th>
-						<th>{{ item['target']['time']|date('d.m H:i:s') }}</th>
+						<th>{{ $date(item['target']['time'], 'd.m H:i:s') }}</th>
 					</tr>
 					<tr v-if="page['list'].length === 0"><th colspan="9">-</th></tr>
 				</table>
@@ -49,7 +49,7 @@
 			<div class="content border-0">
 				<ViewsRouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
 					<input type="hidden" name="action" value="add">
-					<div class="table">
+					<div class="block-table">
 						<div class="row">
 							<div class="col th">
 								<input type="text" name="name" :value="'AKS'+rand(100000, 999999999)" size="50">
@@ -65,7 +65,7 @@
 		<div v-else-if="page['aks'] && page['fleetid'] === page['aks']['fleet_id']" class="block">
 			<div class="title">Ассоциация флота {{ page['aks']['name'] }}</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col th">
 							<ViewsRouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
@@ -120,22 +120,31 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import Popper from 'vue3-popper';
+	import { toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		methods: {
-			rand (min, max) {
-				return Math.floor(Math.random() * (max - min + 1)) + min
-			}
-		}
-	})
+	const route = useRoute();
+
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
+
+	function rand (min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min
+	}
 </script>

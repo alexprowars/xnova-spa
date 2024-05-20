@@ -7,7 +7,7 @@
 			<div class="content border-0">
 				<div class="table tutorial">
 					<div class="row">
-						<div class="col k text-left">
+						<div class="col k text-start">
 							<div class="row">
 								<div class="col-3 text-center">
 									<img :src="'/images/tutorial/'+page['stage']+'.jpg'" class="img-fluid" alt="">

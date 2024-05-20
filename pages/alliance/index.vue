@@ -5,8 +5,8 @@
 				<td class="c" colspan="2">Альянсы</td>
 			</tr>
 			<tr>
-				<th><nuxt-link to="/alliance/make">Создать альянс</nuxt-link></th>
-				<th><nuxt-link to="/alliance/search">Поиск альянса</nuxt-link></th>
+				<th><NuxtLinkLocale to="/alliance/make">Создать альянс</NuxtLinkLocale></th>
+				<th><NuxtLinkLocale to="/alliance/search">Поиск альянса</NuxtLinkLocale></th>
 			</tr>
 		</table>
 
@@ -17,7 +17,7 @@
 			<template v-for="item in page['list']">
 				<tr>
 					<th width="70%">{{ item[2] }} [{{ item[1] }}]</th>
-					<th>{{ item[3] | date('d.m.Y H:i') }}</th>
+					<th>{{ $date(item[3], 'd.m.Y H:i') }}</th>
 				</tr>
 				<tr>
 					<th colspan="2">
@@ -38,7 +38,7 @@
 			</tr>
 			<tr v-for="(item, i) in page['allys']">
 				<th>{{ i + 1 }}</th>
-				<th><nuxt-link :to="'/alliance/info/'+item['id']+''">{{ item['name'] }} [{{ item['tag'] }}]</nuxt-link></th>
+				<th><NuxtLinkLocale :to="'/alliance/info/'+item['id']+''">{{ item['name'] }} [{{ item['tag'] }}]</NuxtLinkLocale></th>
 				<th>{{ item['members'] }}</th>
 				<th>{{ item['total_points'] }}</th>
 			</tr>
@@ -68,7 +68,7 @@
 					<th>
 						{{ page['members'] }}
 						<template v-if="page['members_list']">
-							(<nuxt-link to="/alliance/members">список</nuxt-link>)
+							(<NuxtLinkLocale to="/alliance/members">список</NuxtLinkLocale>)
 						</template>
 					</th>
 				</tr>
@@ -77,14 +77,14 @@
 					<th>
 						{{ page['range'] }}
 						<template v-if="page['alliance_admin']">
-							(<nuxt-link to="/alliance/admin">управление альянсом</nuxt-link>)
+							(<NuxtLinkLocale to="/alliance/admin">управление альянсом</NuxtLinkLocale>)
 						</template>
 					</th>
 				</tr>
 				<tr v-if="page['diplomacy'] !== false">
 					<th>Дипломатия</th>
 					<th>
-						<nuxt-link to="/alliance/diplomacy">Просмотр</nuxt-link>
+						<NuxtLinkLocale to="/alliance/diplomacy">Просмотр</NuxtLinkLocale>
 						<template v-if="page['diplomacy'] > 0">
 							({{ page['diplomacy'] }} новых запросов)
 						</template>
@@ -93,7 +93,7 @@
 				<tr v-if="page['requests'] > 0">
 					<th>Заявки</th>
 					<th>
-						<nuxt-link to="/alliance/admin/equests">{{ page['requests'] }} заявок</nuxt-link>
+						<NuxtLinkLocale to="/alliance/admin/equests">{{ page['requests'] }} заявок</NuxtLinkLocale>
 					</th>
 				</tr>
 				<tr v-if="page['chat_access']">
@@ -103,7 +103,7 @@
 							({{ $state.user.alliance.messages }} новых)
 						</template>
 					</th>
-					<th><nuxt-link to="/alliance/chat">Войти в чат</nuxt-link></th>
+					<th><NuxtLinkLocale to="/alliance/chat">Войти в чат</NuxtLinkLocale></th>
 				</tr>
 				<tr>
 					<td class="b" colspan="2" height="100" style="padding:3px;">

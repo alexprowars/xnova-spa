@@ -9,7 +9,7 @@
 				<div class="col-6 k big">Бионики</div>
 			</div>
 			<div class="row">
-				<div class="th col-6 text-left">
+				<div class="th col-6 text-start">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race1.gif'" alt="">
@@ -27,11 +27,11 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<nuxt-link to="/race/index/sel/1/"><input type="button" value="Выбрать"></nuxt-link>
+						<NuxtLinkLocale to="/race/index/sel/1/"><input type="button" value="Выбрать"></NuxtLinkLocale>
 					</div>
 					<br>
 				</div>
-				<div class="th col-6 text-left">
+				<div class="th col-6 text-start">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race2.gif'" alt="">
@@ -49,7 +49,7 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<nuxt-link to="/race/index/sel/2/"><input type="button" value="Выбрать"></nuxt-link>
+						<NuxtLinkLocale to="/race/index/sel/2/"><input type="button" value="Выбрать"></NuxtLinkLocale>
 					</div>
 					<br>
 				</div>
@@ -59,7 +59,7 @@
 				<div class="col-6 k big">Древние</div>
 			</div>
 			<div class="row">
-				<div class="th col-6 text-left">
+				<div class="th col-6 text-start">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race3.gif'" alt="">
@@ -77,11 +77,11 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<nuxt-link to="/race/index/sel/3/"><input type="button" value="Выбрать"></nuxt-link>
+						<NuxtLinkLocale to="/race/index/sel/3/"><input type="button" value="Выбрать"></NuxtLinkLocale>
 					</div>
 					<br>
 				</div>
-				<div class="th col-6 text-left">
+				<div class="th col-6 text-start">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race4.gif'" alt="">
@@ -99,7 +99,7 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<nuxt-link to="/race/index/sel/4/"><input type="button" value="Выбрать"></nuxt-link>
+						<NuxtLinkLocale to="/race/index/sel/4/"><input type="button" value="Выбрать"></NuxtLinkLocale>
 					</div>
 					<br>
 				</div>
@@ -137,7 +137,7 @@
 </template>
 
 <script>
-	import InfoPopup from '~/components/page/info/popup.vue'
+	import InfoPopup from '~/components/Page/Info/popup.vue'
 	import { defineNuxtComponent } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import useStore from '~/store';

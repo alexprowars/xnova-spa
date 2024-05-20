@@ -22,9 +22,9 @@
 						<br><br>
 					</div>
 					<div v-if="type !== ''" class="col th">
-						<div class="table">
+						<div class="block-table">
 							<div class="row">
-								<div class="c col">Обменять {{ $t('RESOURCES.'+type) | lower }} на</div>
+								<div class="c col">Обменять {{ $lower($t('RESOURCES.'+type)) }} на</div>
 							</div>
 							<div class="row">
 								<div class="col-3 th"></div>

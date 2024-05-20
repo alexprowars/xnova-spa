@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import MessageForm from '~/components/page/messages/form.vue'
+	import MessageForm from '~/components/Page/Messages/form.vue'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
 

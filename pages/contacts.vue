@@ -2,7 +2,7 @@
 	<div class="block">
 		<div class="title">Начальство</div>
 		<div class="content border-0">
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col th">
 						<font color="orange">Здесь вы найдёте адреса всех администраторов и операторов игры для обратной связи</font>

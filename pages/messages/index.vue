@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="content noborder">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col-1 th text-center">
 							<input type="checkbox" class="checkAll" v-model="checkAll">
@@ -33,10 +33,10 @@
 					</div>
 				</div>
 
-				<div v-if="page['pagination']['total'] > page['pagination']['limit']" class="float-left">
+				<div v-if="page['pagination']['total'] > page['pagination']['limit']" class="float-start">
 					<pagination :options="page['pagination']"></pagination>
 				</div>
-				<div v-if="deleteItems.length > 0" class="float-right" style="padding: 5px">
+				<div v-if="deleteItems.length > 0" class="float-end" style="padding: 5px">
 					<input name="deletemessages" value="Удалить отмеченные" type="button" @click.prevent="submitForm">
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-	import MessagesRow from '~/components/page/messages/row.vue'
+	import MessagesRow from '~/components/Page/Messages/row.vue'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
 

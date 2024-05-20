@@ -2,8 +2,8 @@
 	<div class="page-chat">
 		<div class="col-12 th">
 			<div ref="chatbox" class="page-chat-messages">
-				<div v-for="item in messages" class="page-chat-messages-row text-left">
-					<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ item['time']|date('H:i') }}</span>
+				<div v-for="item in messages" class="page-chat-messages-row text-start">
+					<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ $date(item['time'], 'H:i') }}</span>
 					<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" @click="toPlayer(item['user'])">{{ item['user'] }}</span>:
 					<span v-if="item['tou'].length" :class="[item['private'] ? 'private' : 'player']">
 						{{ item['private'] ? 'приватно' : 'для' }} [<span v-for="(u, i) in item['tou']">{{ i > 0 ? ',' : '' }}<a v-if="!item['private']" @click.prevent="toPlayer(u)">{{ u }}</a><a v-else @click.prevent="toPrivate(u)">{{ u }}</a></span>]
@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<div class="col-12 th">
-			<div class="float-right">
+			<div class="float-end">
 				<div class="editor-component-toolbar d-inline-block">
 					<button type="button" class="buttons" title="Вставить ссылку" @click="addTag('[url]|[/url]', 1)">
 						<span class="sprite bb_world_link"></span>

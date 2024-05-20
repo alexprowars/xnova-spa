@@ -1,13 +1,13 @@
 <template>
-	<div v-if="page && $state['user']" class="page-overview">
+	<div v-if="user" class="page-overview">
 		<div v-if="page['bonus']" class="block page-overview-bonus">
 			<div class="title text-center">
 				Ежедневный бонус
 			</div>
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col th">
-						Сейчас вы можете получить по <b class="positive">{{ page['bonus_count'] | number }}</b> Металла, Кристаллов и Дейтерия.<br>
+						Сейчас вы можете получить по <b class="positive">{{ $number(page['bonus_count']) }}</b> Металла, Кристаллов и Дейтерия.<br>
 						Каждый день размер бонуса будет увеличиваться.<br>
 						<br>
 						<button @click.prevent="getDailyBonus" class="button">Получить ресурсы</button><br>
@@ -21,10 +21,10 @@
 				<div class="row">
 					<div class="col-12 col-sm-6">
 						{{ $t('PLANET_TYPE.'+planet['type']) }} "{{ planet['name'] }}"
-						<nuxt-link :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
+						<NuxtLinkLocale :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
 							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['position'] }}]
-						</nuxt-link>
-						<nuxt-link to="/overview/rename/" title="Редактирование планеты">(изменить)</nuxt-link>
+						</NuxtLinkLocale>
+						<NuxtLinkLocale to="/overview/rename/" title="Редактирование планеты">(изменить)</NuxtLinkLocale>
 					</div>
 					<div class="separator d-sm-none"></div>
 					<div class="col-12 col-sm-6">
@@ -49,13 +49,13 @@
 						<div class="row">
 							<div class="col-12">
 								<div class="planet-image">
-									<nuxt-link to="/overview/rename/">
+									<NuxtLinkLocale to="/overview/rename/">
 										<img :src="'/images/planeten/'+planet['image']+'.jpg'" alt="">
-									</nuxt-link>
+									</NuxtLinkLocale>
 									<div v-if="page['moon']" class="moon-image">
-										<nuxt-link :to="'/overview/?chpl='+page['moon']['id']" :title="page['moon']['name']">
+										<NuxtLinkLocale :to="'/overview/?chpl='+page['moon']['id']" :title="page['moon']['name']">
 											<img :src="'/images/planeten/'+page['moon']['image']+'.jpg'" height="50" width="50" alt="">
-										</nuxt-link>
+										</NuxtLinkLocale>
 									</div>
 								</div>
 
@@ -75,32 +75,34 @@
 							</div>
 							<div class="col-12 page-overview-officiers">
 								<div v-for="item in user['officiers']" class="page-overview-officiers-item">
-									<nuxt-link to="/officier/">
-										<Popper>
-											{{ $t('TECH.'+item['id']) }}
-											<br>
-											<span v-if="item['time'] > $store.getters.getServerTime">
-												Нанят до <font color="lime">{{ item['time'] | date('d.m.Y H:i') }}</font>
-											</span>
-											<font v-else color="lime">Не нанят</font>
-											<template slot="reference">
-												<span class="officier" :class="['of'+item['id']+(item['time'] > $store.getters.getServerTime ? '_ikon' : '')]"></span>
+									<NuxtLinkLocale to="/officier/">
+										<Popper hover>
+											<template #content>
+												<div>
+													{{ $t('TECH.'+item['id']) }}
+													<br>
+													<span v-if="item['time'] > store.getServerTime">
+														Нанят до <font color="lime">{{ $date(item['time'], 'd.m.Y H:i') }}</font>
+													</span>
+													<font v-else color="lime">Не нанят</font>
+												</div>
 											</template>
+											<span class="officier" :class="['of'+item['id']+(item['time'] > store.getServerTime ? '_ikon' : '')]"></span>
 										</Popper>
-									</nuxt-link>
+									</NuxtLinkLocale>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-4 col-12">
 						<div class="separator d-sm-none"></div>
-						<div class="table container-fluid">
+						<div class="block-table container-fluid">
 							<div class="row">
 								<div class="col-12 c">Диаметр</div>
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									{{ planet['diameter'] | number }} км
+									{{ $number(planet['diameter']) }} км
 								</div>
 							</div>
 							<div class="row">
@@ -131,10 +133,10 @@
 								<div class="col-12 th doubleth middle">
 									<div>
 										<img src="/images/skin/s_metal.png" alt="" align="absmiddle" v-tooltip="'Металл'">
-										{{ page['debris']['metal'] | number }}
+										{{ $number(page['debris']['metal']) }}
 										/
 										<img src="/images/skin/s_crystal.png" alt="" align="absmiddle" v-tooltip="'Кристалл'">
-										{{ page['debris']['crystal'] | number }}
+										{{ $number(page['debris']['crystal']) }}
 									</div>
 								</div>
 							</div>
@@ -152,14 +154,14 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									Фракция: <nuxt-link to="/race/">{{ $t('RACES.'+$state['user']['race']) }}</nuxt-link>
+									Фракция: <NuxtLinkLocale to="/race/">{{ $t('RACES.'+user['race']) }}</NuxtLinkLocale>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									<nuxt-link to="/refers/">
-										https://{{ $state['host'] }}/?{{ $state['user']['id'] }}
-									</nuxt-link>
+									<NuxtLinkLocale to="/refers/">
+										https://{{ host }}/?{{ user['id'] }}
+									</NuxtLinkLocale>
 									[{{ page['links'] }}]
 								</div>
 							</div>
@@ -167,47 +169,47 @@
 					</div>
 					<div class="col-sm-4 col-12">
 						<div class="separator d-sm-none"></div>
-						<div class="table container-fluid">
+						<div class="block-table container-fluid">
 							<div class="row">
 								<div class="c col-sm-5 col-6">Игрок:</div>
 								<div class="c col-sm-7 col-6" style="word-break: break-all;">
-									<a :href="'/players/'+$state['user']['id']+'/'" @click.prevent="openPlayerPopup">{{ $state['user']['name'] }}</a>
+									<a :href="'/players/'+user['id']+'/'" @click.prevent="openPlayerPopup">{{ user['name'] }}</a>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Постройки:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ page['points']['build'] | number }}</span>
+									<span class="positive">{{ $number(page['points']['build']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Флот:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ page['points']['fleet'] | number }}</span>
+									<span class="positive">{{ $number(page['points']['fleet']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Оборона:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ page['points']['defs'] | number }}</span>
+									<span class="positive">{{ $number(page['points']['defs']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Наука:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ page['points']['tech'] | number }}</span>
+									<span class="positive">{{ $number(page['points']['tech']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Всего:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ page['points']['total'] | number }}</span>
+									<span class="positive">{{ $number(page['points']['total']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Место:</div>
 								<div class="th col-sm-7 col-6">
-									<nuxt-link :to="'/stat/?view=players&range='+page['points']['place']">{{ page['points']['place'] }}</nuxt-link>
+									<NuxtLinkLocale :to="'/stat/?view=players&range='+page['points']['place']">{{ page['points']['place'] }}</NuxtLinkLocale>
 									<span title="Изменение места в рейтинге">
 										<span v-if="page['points']['diff'] >= 1" class="positive">+{{ page['points']['diff'] }}</span>
 										<span v-else-if="page['points']['diff'] < 0" class="negative">{{ page['points']['diff'] }}</span>
@@ -224,7 +226,7 @@
 							</div>
 							<div class="row">
 								<div class="th col-12">
-									{{ page['lvl']['mine']['p'] | number }} / {{ page['lvl']['mine']['u'] | number }} exp
+									{{ $number(page['lvl']['mine']['p']) }} / {{ $number(page['lvl']['mine']['u']) }} exp
 								</div>
 							</div>
 							<div class="row">
@@ -237,7 +239,7 @@
 							</div>
 							<div class="row">
 								<div class="th col-12">
-									{{ page['lvl']['raid']['p'] | number }} / {{ page['lvl']['raid']['u'] | number }} exp
+									{{ $number(page['lvl']['raid']['p']) }} / {{ $number(page['lvl']['raid']['u']) }} exp
 								</div>
 							</div>
 						</div>
@@ -248,7 +250,7 @@
 
 				<div v-if="page['build_list'].length > 0">
 					<div class="separator"></div>
-					<div class="table">
+					<div class="block-table">
 						<queue-row v-for="(list, i) in page['build_list']" :key="i" :item="list"></queue-row>
 					</div>
 				</div>
@@ -261,10 +263,10 @@
 			<table class="table" style="max-width: 100%">
 				<tbody>
 					<tr>
-						<th class="text-left">
+						<th class="text-start">
 							<div style="overflow-y: auto;overflow-x: hidden;">
 								<div v-for="item in page['chat']" class="activity">
-									<div class="date1" style="display: inline-block;padding-right:5px;">{{ item.time | date('H:i') }}</div>
+									<div class="date1" style="display: inline-block;padding-right:5px;">{{ $date(item.time, 'H:i') }}</div>
 									<div style="display: inline;white-space:pre-wrap" v-html="item.message"></div>
 								</div>
 							</div>
@@ -276,57 +278,60 @@
 	</div>
 </template>
 
-<script>
-	import PlayerInfo from '~/components/page/players/info.vue'
-	import Fleets from '~/components/page/overview/fleets.vue'
-	import Clock from '~/components/page/overview/clock.vue'
-	import QueueRow from '~/components/page/overview/queue-row.vue'
+<script setup>
+	import PlayerInfo from '~/components/Page/Players/info.vue'
+	import Fleets from '~/components/Page/Overview/fleets.vue'
+	import Clock from '~/components/Page/Overview/clock.vue'
+	import QueueRow from '~/components/Page/Overview/queue-row.vue'
 	import { sendMission } from '~/utils/fleet'
-	import { mapState } from 'pinia'
+	import { storeToRefs } from 'pinia'
 	import useStore from '~/store';
-	import { defineNuxtComponent } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
+	import { toRefs, watch } from 'vue';
+	import Popper from 'vue3-popper';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		components: {
-			Fleets,
-			Clock,
-			QueueRow,
-		},
-		computed: {
-			...mapState(useStore, [
-				'user',
-				'planet',
-			])
-		},
-		methods: {
-			sendRecycle () {
-				sendMission(
-					8,
-					this.planet['coordinates']['galaxy'],
-					this.planet['coordinates']['system'],
-					this.planet['coordinates']['position'],
-					2
-				)
-			},
-			async getDailyBonus ()
-			{
-				const result = await useApiPost('/overview/', {
-					bonus: 'Y'
-				})
+	const route = useRoute();
 
-				useStore().PAGE_LOAD(result)
-			},
-			openPlayerPopup () {
-				this.$modal.showAjax(PlayerInfo, '/players/'+this.$store.state['user']['id']+'/')
-			}
-		}
-	})
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
+
+	const store = useStore();
+	const { user, planet, host } = storeToRefs(store);
+
+	function sendRecycle () {
+		sendMission(
+			8,
+			planet.value['coordinates']['galaxy'],
+			planet.value['coordinates']['system'],
+			planet.value['coordinates']['position'],
+			2
+		)
+	}
+
+	async function getDailyBonus ()
+	{
+		const result = await useApiPost('/overview/', {
+			bonus: 'Y'
+		})
+
+		useStore().PAGE_LOAD(result)
+	}
+
+	function openPlayerPopup () {
+		this.$modal.showAjax(PlayerInfo, '/players/'+user.value['id']+'/')
+	}
 </script>

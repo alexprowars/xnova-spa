@@ -7,11 +7,11 @@
 						Занято полей
 						<span class="positive">{{ planet['field_used'] }}</span> из <span class="negative">{{ planet['field_max'] }}</span>
 					</div>
-					<div class="text-sm-right col-12 col-sm-6">
+					<div class="text-sm-end col-12 col-sm-6">
 						Осталось
 						<span class="positive">{{ fields_empty }}</span>
-						{{ fields_empty | morph('свободное', 'свободных', 'свободных') }}
-						{{ fields_empty | morph('поле', 'поля', 'полей') }}
+						{{ $morph(fields_empty, 'свободное', 'свободных', 'свободных') }}
+						{{ $morph(fields_empty, 'поле', 'поля', 'полей') }}
 					</div>
 				</div>
 			</div>
@@ -28,8 +28,8 @@
 </template>
 
 <script>
-	import BuildRow from '~/components/page/buildings/build-row.vue'
-	import BuildQueue from '~/components/page/buildings/build-queue.vue'
+	import BuildRow from '~/components/Page/Buildings/build-row.vue'
+	import BuildQueue from '~/components/Page/Buildings/build-queue.vue'
 	import { mapState } from 'pinia'
 	import useStore from '~/store';
 	import { defineNuxtComponent } from '#imports';

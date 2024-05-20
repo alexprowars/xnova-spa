@@ -1,16 +1,16 @@
 <template>
 	<div class="page-alliance-chat">
 		<ViewsRouterForm action="/alliance/chat">
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col-12 c">
-						<nuxt-link to="/alliance/chat">Обновить</nuxt-link>
+						<NuxtLinkLocale to="/alliance/chat">Обновить</NuxtLinkLocale>
 					</div>
 				</div>
 
 				<div v-for="(item, index) in page['items']" class="row">
 					<div class="col-2 b text-center">
-						{{ item['time']|date('H:i:s') }}
+						{{ $date(item['time'], 'H:i:s') }}
 						<br>
 						<a :href="'/players/'+item['user_id']+'/'" target="_blank">{{ item['user'] }}</a>
 						<a @click.prevent="quote(index)"> -> </a>
@@ -66,7 +66,7 @@
 			</table>
 		</ViewsRouterForm>
 		<span style="float:left;margin-left:10px;margin-top:7px;">
-			<nuxt-link to="/alliance">[назад к альянсу]</nuxt-link>
+			<NuxtLinkLocale to="/alliance">[назад к альянсу]</NuxtLinkLocale>
 		</span>
 	</div>
 </template>

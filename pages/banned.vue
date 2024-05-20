@@ -16,21 +16,21 @@
 			</tr>
 			<tr v-for="item in page['items']">
 				<td class="b text-center">
-					<nuxt-link :to="'/players/'+item['user']['id']+'/'">
+					<NuxtLinkLocale :to="'/players/'+item['user']['id']+'/'">
 						{{ item['user']['name'] }}
-					</nuxt-link>
+					</NuxtLinkLocale>
 				</td>
 				<td class="b text-center">
-					<small>{{ item['time']|date('d.m.Y H:i:s') }}</small>
+					<small>{{ $date(item['time'], 'd.m.Y H:i:s') }}</small>
 				</td>
 				<td class="b text-center">
-					<small>{{ item['time_end']|date('d.m.Y H:i:s') }}</small>
+					<small>{{ $date(item['time_end'], 'd.m.Y H:i:s') }}</small>
 				</td>
 				<td class="b text-center">{{ item['reason'] }}</td>
 				<td class="b text-center">
-					<nuxt-link :to="'/players/'+item['moderator']['id']+'/'">
+					<NuxtLinkLocale :to="'/players/'+item['moderator']['id']+'/'">
 						{{ item['moderator']['name'] }}
-					</nuxt-link>
+					</NuxtLinkLocale>
 				</td>
 			</tr>
 			<tr>

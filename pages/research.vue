@@ -12,7 +12,7 @@
 </template>
 
 <script>
-	import TechRow from '~/components/page/buildings/tech-row.vue'
+	import TechRow from '~/components/Page/Buildings/tech-row.vue'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
 

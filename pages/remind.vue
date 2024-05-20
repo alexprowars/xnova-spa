@@ -2,7 +2,7 @@
 	<div class="page-remind">
 		<div v-if="errors" v-html="errors.message" :class="[errors.type]" class="message"></div>
 		<form action="" method="post" class="form" @submit.prevent="send">
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col th">
 						Введите ваш Email, который вы указали при регистрации.

@@ -5,14 +5,14 @@
 				Текущие задания
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row" v-for="quest in page['list']">
 						<div class="col-1 th" style="max-width:30px">{{ quest['ID'] }}</div>
 						<div class="col-1 th" style="max-width:30px">
 							<img :src="'/images/'+(quest['FINISH'] ? 'check' : 'none')+'.gif'" height="11" width="12" alt="">
 						</div>
-						<div class="col th text-left">
-							<nuxt-link v-if="quest['AVAILABLE']" :to="'/tutorial/'+quest['ID']+'/'"><span class="positive">{{ quest['TITLE'] }}</span></nuxt-link>
+						<div class="col th text-start">
+							<NuxtLinkLocale v-if="quest['AVAILABLE']" :to="'/tutorial/'+quest['ID']+'/'"><span class="positive">{{ quest['TITLE'] }}</span></NuxtLinkLocale>
 							<span v-else class="positive">{{ quest['TITLE'] }}</span>
 							<template v-if="quest['AVAILABLE'] === false && Object.keys(quest['REQUIRED']).length > 0">
 								<br><br>Требования:
@@ -30,17 +30,26 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { showError, useAsyncData, definePageMeta, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-	})
+	const route = useRoute();
+
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
 </script>

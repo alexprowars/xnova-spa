@@ -102,7 +102,7 @@
 		</tr>
 		<tr>
 			<td class="c" colspan="2">
-				<nuxt-link to="/alliance/admin">вернутся к обзору</nuxt-link>
+				<NuxtLinkLocale to="/alliance/admin">вернутся к обзору</NuxtLinkLocale>
 			</td>
 		</tr>
 	</table>

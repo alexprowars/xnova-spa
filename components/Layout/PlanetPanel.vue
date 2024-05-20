@@ -1,0 +1,143 @@
+<template>
+	<div v-if="planet" class="row resource-panel">
+		<div class="col-md-10 col-sm-10 col-12">
+			<div class="row">
+				<div class="col-3 text-center">
+					<PanelResource :type="'metal'" :resource="planet['resources']['metal']"/>
+				</div>
+				<div class="col-3 text-center">
+					<PanelResource :type="'crystal'" :resource="planet['resources']['crystal']"/>
+				</div>
+				<div class="col-3 text-center">
+					<PanelResource :type="'deuterium'" :resource="planet['resources']['deuterium']"/>
+				</div>
+				<div class="col-3 text-center">
+					<div class="resource-panel-item">
+						<InfoPopup :id="4" title="Солнечная батарея" class="resource-panel-item-icon">
+							<Popper hover>
+								<div>
+									<span class="sprite skin_energy"></span>
+									<span class="sprite skin_s_energy"></span>
+								</div>
+								<template #content>
+									<div class="resource-panel-item-tooltip">
+										<h1>Энергия</h1>
+										<div class="line"></div>
+										<table>
+											<tr>
+												<td>Доступно:</td>
+												<td align="right">{{ $number(planet['resources']['energy']['value']) }}</td>
+											</tr>
+											<tr>
+												<td>Производится:</td>
+												<td align="right">{{ $number(planet['resources']['energy']['capacity']) }}</td>
+											</tr>
+											<tr>
+												<td>Потребление:</td>
+												<td align="right">{{ $number(planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) }}</td>
+											</tr>
+										</table>
+									</div>
+								</template>
+							</Popper>
+						</InfoPopup>
+						<div class="neutral">{{ $t('RESOURCES.energy') }}</div>
+						<div title="Доступно энергии">
+							<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['value']) }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2 col-sm-2 col-12">
+			<div class="row">
+				<div class="col text-center">
+					<div class="resource-panel-item">
+						<NuxtLinkLocale to="/credits/" class="d-sm-inline-block resource-panel-item-icon">
+							<Popper hover>
+								<span class="sprite skin_kredits"></span>
+								<template #content>
+									<table width="550">
+										<tr>
+											<td v-for="officier in user['officiers']" class="text-center">
+												<div class="separator"></div>
+												<span :class="['officier', 'of'+officier['id']+(officier['time'] > ((new Date).getTime() / 1000) ? '_ikon' : '')]"></span>
+											</td>
+										</tr>
+										<tr>
+											<td v-for="officier in user['officiers']" class="text-center">
+												<span v-if="officier['time'] > store.getServerTime">Нанят до <span class="positive">{{ $date(officier['time'], 'd.m.Y H:i') }}</span></span>
+												<span v-else><span class="positive">Не нанят</span></span>
+											</td>
+										</tr>
+									</table>
+								</template>
+							</Popper>
+						</NuxtLinkLocale>
+						<div class="neutral">Кредиты</div>
+						{{ $number(user['credits']) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script setup>
+	import PanelResource from './PlanetPanelResource.vue'
+	import InfoPopup from '~/components/Page/Info/popup.vue'
+	import useStore from '~/store';
+	import { onBeforeUnmount, onUpdated, ref } from 'vue';
+	import { storeToRefs } from 'pinia';
+	import Popper from 'vue3-popper';
+
+	const updated = ref(0);
+	let timer = null;
+
+	const store = useStore();
+	const { user, planet } = storeToRefs(store);
+
+	clearTimeout(timer);
+	update();
+
+	onUpdated(() => {
+		clearTimeout(timer);
+		update();
+	});
+
+	onBeforeUnmount(() => {
+		clearTimeout(timer);
+	});
+
+	function update () {
+		if (!planet.value) {
+			return;
+		}
+
+		if (updated.value === 0)
+			updated.value = (new Date).getTime();
+
+		let factor = ((new Date).getTime() - updated.value) / 1000;
+
+		if (factor < 0)
+			return;
+
+		updated.value = (new Date).getTime();
+		let resources = {};
+
+		['metal', 'crystal', 'deuterium'].forEach((res) => {
+			if (typeof planet.value['resources'][res] === 'undefined')
+				return;
+
+			let power = (planet.value['resources'][res]['value'] >= planet.value['resources'][res]['capacity']) ? 0 : 1;
+
+			resources[res] = planet.value['resources'][res]['value'] + ((planet.value['resources'][res]['production'] / 3600) * power * factor);
+		});
+
+		if (Object.keys(resources).length > 0) {
+			store.setPlanetResources(resources);
+		}
+
+		timer = setTimeout(update.value, 1000);
+	}
+</script>

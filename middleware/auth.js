@@ -1,6 +1,10 @@
-export default function ({ store, redirect })
-{
-	return;
-	if (store.state.user === null)
-		return redirect('/')
-}
+import { defineNuxtRouteMiddleware, navigateTo } from '#imports';
+import useStore from '~/store';
+
+export default defineNuxtRouteMiddleware(() => {
+	const store = useStore();
+
+	if (store.user === null) {
+		return navigateTo('/');
+	}
+});

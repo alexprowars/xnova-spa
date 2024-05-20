@@ -5,7 +5,7 @@
 			<div class="content border-0">
 				<ViewsRouterForm action="">
 					<input type="hidden" name="save" value="Y">
-					<div class="table">
+					<div class="block-table">
 						<div class="row">
 							<div class="col th">Введите ваш игровой ник</div>
 							<div class="col th"><input name="character" size="20" maxlength="20" type="text" :value="page['name']" title=""></div>

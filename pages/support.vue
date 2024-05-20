@@ -5,7 +5,7 @@
 				Служба техподдержки
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div v-if="!page['items'].length" class="row">
 						<div class="col th">Нет запросов в техподдержку</div>
 					</div>
@@ -39,7 +39,7 @@
 		<div v-if="!request">
 			<div class="separator"></div>
 			<div class="row">
-				<div class="col text-right">
+				<div class="col text-end">
 					<button @click="newRequest">Создать запрос</button>
 				</div>
 			</div>
@@ -49,8 +49,8 @@
 </template>
 
 <script>
-	import SupportDetail from '~/components/page/support/detail.vue'
-	import SupportNew from '~/components/page/support/new.vue'
+	import SupportDetail from '~/components/Page/Support/detail.vue'
+	import SupportNew from '~/components/Page/Support/new.vue'
 	import { defineNuxtComponent } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import useStore from '~/store';

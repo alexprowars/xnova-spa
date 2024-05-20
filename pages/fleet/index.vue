@@ -3,17 +3,17 @@
 		<div class="page-fleet-fly block">
 			<div class="title">
 				<div class="row">
-					<div class="col text-left">
+					<div class="col text-start">
 						Флоты <span :class="[page['curFleets'] < page['maxFleets'] ? 'positive' : 'negative']">{{ page['curFleets'] }}</span> из <span class="negative">{{ page['maxFleets'] }}</span>
 					</div>
-					<div v-if="page['maxExpeditions'] > 0" class="col text-right">
+					<div v-if="page['maxExpeditions'] > 0" class="col text-end">
 						Экспедиции {{ page['curExpeditions'] }}/{{ page['maxExpeditions'] }}
 					</div>
 				</div>
 			</div>
 
 			<div class="content">
-				<div class="table">
+				<div class="block-table">
 					<div v-if="page.fleets.length > 0" class="row">
 						<div class="col-3 col-sm-1 th">№</div>
 						<div class="col-6 col-sm-2 th">Миссия</div>
@@ -57,7 +57,7 @@
 								<a :title="$t('TECH.'+ship.id)">{{ $t('TECH.'+ship.id) }}</a>
 							</div>
 							<div class="th col-sm-2 col-2 middle">
-								<a @click.prevent="maxShips(ship['id'])">{{ ship['count']|number }}</a>
+								<a @click.prevent="maxShips(ship['id'])">{{ $number(ship['count']) }}</a>
 							</div>
 							<div v-if="ship.id === 212" class="th col-sm-3 col-4"></div>
 							<div v-else="" class="th col-sm-3 col-4">
@@ -102,7 +102,7 @@
 						Нет кораблей на планете
 						<div>
 							<div class="separator"></div>
-							<nuxt-link to="/shipyard/" class="button">Перейти в верфь</nuxt-link>
+							<NuxtLinkLocale to="/shipyard/" class="button">Перейти в верфь</NuxtLinkLocale>
 						</div>
 					</div>
 				</div>
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-	import FlyRow from '~/components/page/fleet/fly-row.vue'
+	import FlyRow from '~/components/Page/Fleet/fly-row.vue'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
 

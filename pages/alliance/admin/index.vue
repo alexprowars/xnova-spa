@@ -5,16 +5,16 @@
 			<td class="c">Управление альянсом</td>
 		</tr>
 		<tr>
-			<th><nuxt-link to="/alliance/admin/rights">Установить ранги</nuxt-link></th>
+			<th><NuxtLinkLocale to="/alliance/admin/rights">Установить ранги</NuxtLinkLocale></th>
 		</tr>
 		<tr v-if="page['can_view_members']">
-			<th><nuxt-link to="/alliance/admin/members">Члены альянса</nuxt-link></th>
+			<th><NuxtLinkLocale to="/alliance/admin/members">Члены альянса</NuxtLinkLocale></th>
 		</tr>
 		<tr>
-			<th><nuxt-link to="/alliance/admin/tag">Изменить аббревиатуру альянса</nuxt-link></th>
+			<th><NuxtLinkLocale to="/alliance/admin/tag">Изменить аббревиатуру альянса</NuxtLinkLocale></th>
 		</tr>
 		<tr>
-			<th><nuxt-link to="/alliance/admin/name">Изменить название альянса</nuxt-link></th>
+			<th><NuxtLinkLocale to="/alliance/admin/name">Изменить название альянса</NuxtLinkLocale></th>
 		</tr>
 	</table>
 	
@@ -25,9 +25,9 @@
 				<td class="c" colspan="3">Редактировать текст</td>
 			</tr>
 			<tr>
-				<th><nuxt-link to="/alliance/admin?t=1">Внешний текст</nuxt-link></th>
-				<th><nuxt-link to="/alliance/admin?t=2">Внутренний текст</nuxt-link></th>
-				<th><nuxt-link to="/alliance/admin?t=3">Текст заявки</nuxt-link></th>
+				<th><NuxtLinkLocale to="/alliance/admin?t=1">Внешний текст</NuxtLinkLocale></th>
+				<th><NuxtLinkLocale to="/alliance/admin?t=2">Внутренний текст</NuxtLinkLocale></th>
+				<th><NuxtLinkLocale to="/alliance/admin?t=3">Текст заявки</NuxtLinkLocale></th>
 			</tr>
 			<tr>
 				<td class="c" colspan="3">Текст альянса</td>

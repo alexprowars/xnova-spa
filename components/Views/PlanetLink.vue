@@ -1,25 +1,22 @@
 <template>
-	<router-link :to="'/galaxy/?galaxy='+galaxy+'&system='+system+'&planet='+planet">
+	<NuxtLinkLocale :to="'/galaxy/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet">
 		[{{ galaxy }}:{{ system }}:{{ planet }}]
-	</router-link>
+	</NuxtLinkLocale>
 </template>
 
-<script>
-	export default {
-		name: "planet-link",
-		props: {
-			galaxy: {
-				type: Number,
-				default: 1
-			},
-			system: {
-				type: Number,
-				default: 1
-			},
-			planet: {
-				type: Number,
-				default: 1
-			}
+<script setup>
+	const props = defineProps({
+		galaxy: {
+			type: Number,
+			default: 1
+		},
+		system: {
+			type: Number,
+			default: 1
+		},
+		planet: {
+			type: Number,
+			default: 1
 		}
-	}
+	});
 </script>

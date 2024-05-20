@@ -5,15 +5,15 @@
 				Список друзей
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col text-center j">
-							<nuxt-link to="/buddy/requests/">Запросы</nuxt-link>
+							<NuxtLinkLocale to="/buddy/requests/">Запросы</NuxtLinkLocale>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col text-center j">
-							<nuxt-link to="/buddy/requests/my/">Мои запросы</nuxt-link>
+							<NuxtLinkLocale to="/buddy/requests/my/">Мои запросы</NuxtLinkLocale>
 						</div>
 					</div>
 					<div class="row">
@@ -29,14 +29,14 @@
 							{{ i + 1 }}
 						</div>
 						<div class="col th middle">
-							<nuxt-link :to="'/messages/write/'+item['user']['id']+'/'">{{ item['user']['name'] }}</nuxt-link>
+							<NuxtLinkLocale :to="'/messages/write/'+item['user']['id']+'/'">{{ item['user']['name'] }}</NuxtLinkLocale>
 						</div>
 						<div class="col th middle">
-							<nuxt-link v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']+'/'">{{ item['user']['alliance']['name'] }}</nuxt-link>
+							<NuxtLinkLocale v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']+'/'">{{ item['user']['alliance']['name'] }}</NuxtLinkLocale>
 							<template v-else>-</template>
 						</div>
 						<div class="col th middle">
-							<nuxt-link :to="'/galaxy/?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</nuxt-link>
+							<NuxtLinkLocale :to="'/galaxy/?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLinkLocale>
 						</div>
 						<div class="col th middle">
 							<span v-if="item['online'] < 10" class="positive">

@@ -66,7 +66,7 @@
 									<th>
 										<input v-if="!page['opt_isemail']" type="text" name="email" value="" title="">
 										<template v-else>
-											{{ page['opt_mail_data'] }} <nuxt-link to="/options/email/" class="button">сменить</nuxt-link>
+											{{ page['opt_mail_data'] }} <NuxtLinkLocale to="/options/email/" class="button">сменить</NuxtLinkLocale>
 										</template>
 									</th>
 								</tr>
@@ -258,10 +258,10 @@
 							</tr>
 							<tr v-for="auth in page['auth']">
 								<th>{{ auth['external_id'] }}</th>
-								<th>{{ auth['create_time'] | date('d.m.Y H:i:s') }}</th>
+								<th>{{ $date(auth['create_time'], 'd.m.Y H:i:s') }}</th>
 								<th>
 									<template v-if="auth['enter_time'] > 0">
-										{{ auth['enter_time'] | date('d.m.Y H:i:s') }}
+										{{ $date(auth['enter_time'], 'd.m.Y H:i:s') }}
 									</template>
 									<template>
 										-
@@ -290,7 +290,7 @@
 
 		<template v-if="typeof page['bot_auth'] === 'object'">
 			<br><br>
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col-12 th">
 						Ваш код для привязки Telegram-бота:<br><br><b>{{ page['bot_auth']['code'] }}</b>

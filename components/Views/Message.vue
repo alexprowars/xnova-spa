@@ -1,5 +1,5 @@
 <template>
-	<div class="table">
+	<div class="block-table">
 		<div class="row" v-if="data['title'] && data['title'].length">
 			<div class="col-12 c error" v-html="data['title']"></div>
 		</div>
@@ -10,6 +10,8 @@
 </template>
 
 <script>
+	import { navigateTo } from '#imports';
+
 	export default {
 		name: "error-message",
 		props: {
@@ -25,7 +27,7 @@
 			if (this.data['timeout'] > 0 && this.data['redirect'])
 			{
 				this.timeout = setTimeout(() => {
-					this.$router.push(this.data['redirect'])
+					navigateTo(this.data['redirect'])
 				}, this.data['timeout'] * 1000);
 			}
 		},

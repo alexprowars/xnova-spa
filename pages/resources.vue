@@ -1,6 +1,6 @@
 <template>
 	<div class="page-resources">
-		<div class="table">
+		<div class="block-table">
 			<div class="row">
 				<div class="col-5 c">Уровень производства</div>
 				<div class="col-2 th">{{ page['production_level'] }}%</div>
@@ -10,7 +10,7 @@
 			</div>
 			<div class="row">
 				<div class="col-5 c">
-					<nuxt-link to="/info/113/">{{ $t('TECH.113') }}</nuxt-link>
+					<NuxtLinkLocale to="/info/113/">{{ $t('TECH.113') }}</NuxtLinkLocale>
 				</div>
 				<div class="col-2 th">
 					{{ page['energy_tech'] }} ур.
@@ -26,17 +26,17 @@
 				Управление шахтами и энергетикой
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col col-sm-6 th">
-							<nuxt-link to="/resources/?production&active=Y" class="button">
+							<NuxtLinkLocale to="/resources/?production&active=Y" class="button">
 								Включить на всех<br>планетах
-							</nuxt-link>
+							</NuxtLinkLocale>
 						</div>
 						<div class="col col-sm-6 th">
-							<nuxt-link to="/resources/?production&active=N" class="button">
+							<NuxtLinkLocale to="/resources/?production&active=N" class="button">
 								Выключить на всех<br>планетах
-							</nuxt-link>
+							</NuxtLinkLocale>
 						</div>
 					</div>
 				</div>
@@ -63,7 +63,7 @@
 									<th width="100">КПД</th>
 								</tr>
 								<tr>
-									<th class="text-left" nowrap>Базовое производство</th>
+									<th class="text-start" nowrap>Базовое производство</th>
 									<td class="k">-</td>
 									<td class="k">-</td>
 									<td v-for="res in page['resources']" class="k">{{ page['production'][res]['basic'] }}</td>
@@ -76,11 +76,11 @@
 									<th>{{ page['bonus_h'] }}%</th>
 									<td v-for="res in page['resources']" class="k" v-once>
 										<span :class="[(page['production'][res]['capacity'] > $state['planet']['resources'][res]['value']) ? 'positive' : 'negative']">
-											{{(page['production'][res]['capacity'] / 1000) | number }} k
+											{{ $number(page['production'][res]['capacity'] / 1000) }} k
 										</span>
 									</td>
 									<td class="k">
-										<font color="#00ff00">{{ page['production']['energy']['capacity'] | number }}</font>
+										<font color="#00ff00">{{ $number(page['production']['energy']['capacity']) }}</font>
 									</td>
 									<td class="k">
 										<input name="action" value="Пересчитать" type="submit">
@@ -91,7 +91,7 @@
 									<td v-for="res in page['resources']" class="k">
 										<colored :value="page['production'][res]['total']"></colored>
 									</td>
-									<td class="k">{{ page['production']['energy']['total']|number }}</td>
+									<td class="k">{{ $number(page['production']['energy']['total']) }}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -105,7 +105,7 @@
 				Информация о производстве
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col-2 th">&nbsp;</div>
 						<div class="col-2 th">Час</div>
@@ -139,7 +139,7 @@
 				Статус хранилища
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row" v-for="res in page['resources']">
 						<div class="col-2 th">
 							{{ $t('RESOURCES.'+res) }}
@@ -160,7 +160,7 @@
 				Покупка ресурсов (8 ч. выработка ресурсов)
 			</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col-4 th">
 							<span v-if="!page['buy_form']['time']">
@@ -169,7 +169,7 @@
 							<span v-else>
 								Следующая покупка через
 								<br>
-								{{ page['buy_form']['time']|time }}
+								{{ $time(page['buy_form']['time']) }}
 							</span>
 						</div>
 						<div class="col-8 th middle">
@@ -188,9 +188,9 @@
 </template>
 
 <script>
-	import ResourcesBar from '~/components/page/resources/bar.vue'
-	import ResourcesRow from '~/components/page/resources/row.vue'
-	import InfoPopup from '~/components/page/info/popup.vue'
+	import ResourcesBar from '~/components/Page/Resources/bar.vue'
+	import ResourcesRow from '~/components/Page/Resources/row.vue'
+	import InfoPopup from '~/components/Page/Info/popup.vue'
 	import { mapState } from 'pinia'
 	import useStore from '~/store';
 	import { defineNuxtComponent } from '#imports';

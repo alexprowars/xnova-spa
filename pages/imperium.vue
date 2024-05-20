@@ -8,23 +8,23 @@
 			<tr>
 				<th>&nbsp;</th>
 				<th v-for="planet in page['planets']" width="75">
-					<nuxt-link :to="'/overview/?chpl='+planet['id']">
+					<NuxtLinkLocale :to="'/overview/?chpl='+planet['id']">
 						<img :src="'/images/planeten/small/s_'+planet['image']+'.jpg'" height="75" width="75" alt="">
-					</nuxt-link>
+					</NuxtLinkLocale>
 				</th>
 				<th width="100">Сумма</th>
 			</tr>
 			<tr>
 				<th>Название</th>
 				<th v-for="planet in page['planets']">
-					<nuxt-link :to="'/overview/?chpl='+planet['id']">{{ planet['name'] }}</nuxt-link>
+					<NuxtLinkLocale :to="'/overview/?chpl='+planet['id']">{{ planet['name'] }}</NuxtLinkLocale>
 				</th>
 				<th>&nbsp;</th>
 			</tr>
 			<tr>
 				<th>Координаты</th>
 				<th v-for="planet in page['planets']">
-					[<nuxt-link :to="'/galaxy/'+planet['position']['galaxy']+'/'+planet['position']['system']+'/'">{{ planet['position']['galaxy'] }}:{{ planet['position']['system'] }}:{{ planet['position']['planet'] }}</nuxt-link>]
+					[<NuxtLinkLocale :to="'/galaxy/'+planet['position']['galaxy']+'/'+planet['position']['system']+'/'">{{ planet['position']['galaxy'] }}:{{ planet['position']['system'] }}:{{ planet['position']['planet'] }}</NuxtLinkLocale>]
 				</th>
 				<th>&nbsp;</th>
 			</tr>
@@ -39,7 +39,7 @@
 				<th>Кредиты</th>
 				<th :colspan="rows - 2">&nbsp;</th>
 				<th>
-					<span class="neutral">{{ page['credits']|number }}</span>
+					<span class="neutral">{{ $number(page['credits']) }}</span>
 				</th>
 			</tr>
 			<tr>
@@ -48,21 +48,21 @@
 			<tr v-for="(i, res) in $t('RESOURCES')" v-if="res !== 'energy'">
 				<th>{{ $t('RESOURCES.'+res) }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources'][res]['current'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ planet['resources'][res]['current']|number }}</span>
+					<span :class="[planet['resources'][res]['current'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ $number(planet['resources'][res]['current']) }}</span>
 				</th>
-				<th>{{ total['resources'][res]|number }}</th>
+				<th>{{ $number(total['resources'][res]) }}</th>
 			</tr>
 			<tr>
 				<th>{{ $t('RESOURCES.energy') }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources']['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ planet['resources']['energy']['current']|number }}</span>
+					<span :class="[planet['resources']['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['current']) }}</span>
 				</th>
-				<th>{{ total['resources']['energy']|number }}</th>
+				<th>{{ $number(total['resources']['energy']) }}</th>
 			</tr>
 			<tr>
 				<th>Заряд</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources']['energy']['storage'] === 100 ? 'positive' : 'negative']">{{ planet['resources']['energy']['storage']|number }}</span>%
+					<span :class="[planet['resources']['energy']['storage'] === 100 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['storage']) }}</span>%
 				</th>
 				<th>&nbsp;</th>
 			</tr>
@@ -72,8 +72,8 @@
 			</tr>
 			<tr v-for="(i, res) in $t('RESOURCES')" v-if="res !== 'energy'">
 				<th>{{ $t('RESOURCES.'+res) }}</th>
-				<th v-for="planet in page['planets']">{{ planet['resources'][res]['production']|number }}</th>
-				<th>{{ total['production'][res]|number }}</th>
+				<th v-for="planet in page['planets']">{{ $number(planet['resources'][res]['production']) }}</th>
+				<th>{{ $number(total['production'][res]) }}</th>
 			</tr>
 
 			<tr>
@@ -82,7 +82,7 @@
 			<tr v-for="(item, i) in [1, 2, 3, 4, 12, 212]">
 				<th>{{ $t('TECH.'+item) }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['factor'][item] >= 100 ? 'positive' : 'negative']">{{ planet['factor'][item]|number }}</span>%
+					<span :class="[planet['factor'][item] >= 100 ? 'positive' : 'negative']">{{ $number(planet['factor'][item]) }}</span>%
 				</th>
 				<th v-if="i === 0" rowspan="6">&nbsp;</th>
 			</tr>
@@ -93,17 +93,17 @@
 				<th>{{ name }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]['current'] > 0 || planet['elements'][id]['build'] > 0">
-						{{ planet['elements'][id]['current']|number }}
+						{{ $number(planet['elements'][id]['current']) }}
 					</span>
 					<span v-else>-</span>
-					<span v-if="planet['elements'][id]['build'] > 0" class="positive">-> {{ planet['elements'][id]['build']|number }}</span>
+					<span v-if="planet['elements'][id]['build'] > 0" class="positive">-> {{ $number(planet['elements'][id]['build']) }}</span>
 				</th>
 				<th>
 					<span>
-						{{ total['elements'][id]['current']|number }}
+						{{ $number(total['elements'][id]['current']) }}
 					</span>
 					<span v-if="total['elements'][id]['build'] > 0" class="positive">
-						-> {{ total['elements'][id]['build']|number }}
+						-> {{ $number(total['elements'][id]['build']) }}
 					</span>
 				</th>
 			</tr>
@@ -114,25 +114,25 @@
 				<th>{{ name }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]['current'] > 0 || planet['elements'][id]['build'] > 0 || planet['elements'][id]['fly'] > 0">
-						{{ planet['elements'][id]['current']|number }}
+						{{ $number(planet['elements'][id]['current']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]['build'] > 0" class="positive">
-						+ {{ planet['elements'][id]['build']|number }}
+						+ {{ $number(planet['elements'][id]['build']) }}
 					</span>
 					<span v-if="planet['elements'][id]['fly'] > 0" class="neutral">
-						+ {{ planet['elements'][id]['fly']|number }}
+						+ {{ $number(planet['elements'][id]['fly']) }}
 					</span>
 				</th>
 				<th>
 					<span>
-						{{ total['elements'][id]['current']|number }}
+						{{ $number(total['elements'][id]['current']) }}
 					</span>
 					<span v-if="total['elements'][id]['build'] > 0" class="positive">
-						+ {{ total['elements'][id]['build']|number }}
+						+ {{ $number(total['elements'][id]['build']) }}
 					</span>
 					<span v-if="total['elements'][id]['fly'] > 0" class="neutral">
-						+ {{ total['elements'][id]['fly']|number }}
+						+ {{ $number(total['elements'][id]['fly']) }}
 					</span>
 				</th>
 			</tr>
@@ -143,19 +143,19 @@
 				<th>{{ name }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]['current'] > 0 || planet['elements'][id]['build'] > 0">
-						{{ planet['elements'][id]['current']|number }}
+						{{ $number(planet['elements'][id]['current']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]['build'] > 0" class="positive">
-						+ {{ planet['elements'][id]['build']|number }}
+						+ {{ $number(planet['elements'][id]['build']) }}
 					</span>
 				</th>
 				<th>
 					<span>
-						{{ total['elements'][id]['current']|number }}
+						{{ $number(total['elements'][id]['current']) }}
 					</span>
 					<span v-if="total['elements'][id]['build'] > 0" class="positive">
-						+ {{ total['elements'][id]['build']|number }}
+						+ {{ $number(total['elements'][id]['build']) }}
 					</span>
 				</th>
 			</tr>

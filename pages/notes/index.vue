@@ -5,7 +5,7 @@
 		</div>
 		<div class="content">
 			<ViewsRouterForm action="/notes/">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col-1 c"></div>
 						<div class="col-3 c">Дата</div>
@@ -19,9 +19,9 @@
 							{{ item['time'] }}
 						</div>
 						<div class="col-8 th">
-							<nuxt-link :to="'/notes/edit/'+item['id']+'/'">
+							<NuxtLinkLocale :to="'/notes/edit/'+item['id']+'/'">
 								<span :style="'color:'+item['color']">{{ item['title'] }}</span>
-							</nuxt-link>
+							</NuxtLinkLocale>
 						</div>
 					</div>
 					<div class="row" v-if="page['items'].length === 0">
@@ -29,9 +29,9 @@
 					</div>
 				</div>
 				<div class="separator"></div>
-				<div class="text-right">
+				<div class="text-end">
 					<input v-if="deleteItems.length > 0" class="negative" value="Удалить выбранное" type="submit">
-					<nuxt-link class="button" to="/notes/new/">Создать новую заметку</nuxt-link>
+					<NuxtLinkLocale class="button" to="/notes/new/">Создать новую заметку</NuxtLinkLocale>
 				</div>
 			</ViewsRouterForm>
 		</div>

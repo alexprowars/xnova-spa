@@ -3,7 +3,7 @@
 		<div v-if="page['ref'].length > 0" class="block">
 			<div class="title">Привлечённые игроки</div>
 			<div class="content border-0">
-				<div class="table">
+				<div class="block-table">
 					<div class="row">
 						<div class="col c">Ник</div>
 						<div class="col c">Дата регистрации</div>
@@ -11,9 +11,9 @@
 					</div>
 					<div class="row" v-for="list in page['ref']">
 						<div class="col th">
-							<nuxt-link :to="'/players/'+list['id']+'/'">{{ list['username'] }}</nuxt-link>
+							<NuxtLinkLocale :to="'/players/'+list['id']+'/'">{{ list['username'] }}</NuxtLinkLocale>
 						</div>
-						<div class="col th">{{ list['create_time'] | date('d.m.Y H:i') }}</div>
+						<div class="col th">{{ $date(list['create_time'], 'd.m.Y H:i') }}</div>
 						<div class="col th">П:{{ list['lvl_minier'] }}, В:{{ list['lvl_raid'] }}</div>
 					</div>
 				</div>
@@ -21,11 +21,11 @@
 		</div>
 
 		<template v-if="page['you'] !== undefined">
-			<div class="table">
+			<div class="block-table">
 				<div class="row">
 					<div class="col th">Вы были привлечены игроком:</div>
 					<div class="col th">
-						<nuxt-link :to="'/players/'+page['you']['id']+'/'">{{ page['you']['username'] }}</nuxt-link>
+						<NuxtLinkLocale :to="'/players/'+page['you']['id']+'/'">{{ page['you']['username'] }}</NuxtLinkLocale>
 					</div>
 				</div>
 			</div>
@@ -34,7 +34,7 @@
 		<template v-if="!$state.isSocial">
 			<div class="block">
 				<div class="content border-0">
-					<div class="table">
+					<div class="block-table">
 						<div class="row">
 							<div class="col th" style="padding:15px;">
 								Помоги проекту, поделись им с друзьями!<br><br>
@@ -54,7 +54,7 @@
 			<div class="block">
 				<div class="title">Юзербар</div>
 				<div class="content border-0">
-					<div class="table">
+					<div class="block-table">
 						<div class="row">
 							<div class="col text-center">
 								<br>

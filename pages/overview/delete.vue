@@ -6,7 +6,7 @@
 				<ViewsRouterForm action="/overview/delete/">
 					<input type="hidden" name="id" :value="page['id']">
 					<input type="hidden" name="password" :value="page['number_check']">
-					<div class="table">
+					<div class="block-table">
 						<div class="row">
 							<div class="col th">
 								Подтвердите удаление планеты {{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }} вводом правильного ответа

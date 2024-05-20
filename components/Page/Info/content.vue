@@ -1,0 +1,50 @@
+<template>
+	<div class="page-info">
+		<div class="page-info-description block">
+			<div class="title">{{ $t('TECH.'+page['i']) }}</div>
+			<div class="content table border-bottom-0">
+				<div class="row">
+					<div class="col d-flex">
+						<div>
+							<img v-if="page['i'] < 600" :src="'/images/gebaeude/'+page['i']+'.gif'" class="info" height="120" width="120" alt="">
+							<img v-else-if="page['i'] < 700" :src="'/images/officiers/'+page['i']+'.jpg'" class="info" height="120" width="120" alt="">
+							<img v-else :src="'/images/skin/race'+(page['i'] - 700)+'.gif'" style="float:left;margin:0 20px 10px 0" height="35" width="35" alt="">
+						</div>
+						<div v-html="page['description']"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<InfoProduction v-if="page['production']" :item="page['i']" :production="page['production']"/>
+		<InfoFleet v-if="page['fleet']" :item="page['i']" :fleet="page['fleet']"/>
+		<InfoDefence v-if="page['defence']" :item="page['i']" :defence="page['defence']"/>
+		<InfoMissile v-if="page['missile']" :item="page['i']" :missile="page['missile']"/>
+
+		<InfoDestroy v-if="page['destroy']" :item="page['i']" :data="page['destroy']"/>
+	</div>
+</template>
+
+<script>
+	import InfoProduction from '~/components/Page/Info/production.vue'
+	import InfoFleet from '~/components/Page/Info/fleet.vue'
+	import InfoDefence from '~/components/Page/Info/defence.vue'
+	import InfoDestroy from '~/components/Page/Info/destroy.vue'
+	import InfoMissile from '~/components/Page/Info/missile.vue'
+
+	export default {
+		name: "info-content",
+		components: {
+			InfoDestroy,
+			InfoProduction,
+			InfoFleet,
+			InfoDefence,
+			InfoMissile
+		},
+		props: {
+			page: {
+				type: Object
+			}
+		},
+	}
+</script>

@@ -22,7 +22,6 @@
     "laravel-echo": "^1.16.1",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
-    "popper.js": "^1.16.1",
     "qs": "^6.12.1",
     "sass": "^1.77.2",
     "socket.io-client": "^2.5.0",
@@ -30,6 +29,7 @@
     "vue-directive-tooltip": "^1.6.3",
     "vue-final-modal": "^4.5.4",
     "vue-toasted": "^1.1.28",
+    "vue3-popper": "^1.5.0",
     "vue3-touch-events": "^4.1.8",
     "vuejs-dialog": "^1.4.2"
   },

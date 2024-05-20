@@ -3,7 +3,7 @@
 </template>
 
 <script>
-	import PlayerInfo from '~/components/page/players/info.vue'
+	import PlayerInfo from '~/components/Page/Players/info.vue'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
 

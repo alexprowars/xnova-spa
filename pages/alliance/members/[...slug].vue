@@ -6,22 +6,22 @@
 		<tr>
 			<th>№</th>
 			<th>
-				<nuxt-link :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/1/sort2/'+page['s']+'/'">Ник</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/1/sort2/'+page['s']+'/'">Ник</NuxtLinkLocale>
 			</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>
-				<nuxt-link :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/2/sort2/'+page['s']+'/'">Ранг</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/2/sort2/'+page['s']+'/'">Ранг</NuxtLinkLocale>
 			</th>
 			<th>
-				<nuxt-link :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/3/sort2/'+page['s']+'/'">Очки</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/3/sort2/'+page['s']+'/'">Очки</NuxtLinkLocale>
 			</th>
 			<th>Координаты</th>
 			<th>
-				<nuxt-link :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/4/sort2/'+page['s']+'/'">Дата вступления</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/4/sort2/'+page['s']+'/'">Дата вступления</NuxtLinkLocale>
 			</th>
 			<th v-if="page['status']">
-				<nuxt-link :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/5/sort2/'+page['s']+'/'">Активность</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance/'+(page['admin'] ? 'admin/edit/members' : 'members')+'/sort1/5/sort2/'+page['s']+'/'">Активность</NuxtLinkLocale>
 			</th>
 			<th v-if="page['admin']">Управление</th>
 		</tr>
@@ -46,7 +46,7 @@
 					{{ m['points'] }}
 				</th>
 				<th>
-					<nuxt-link :to="'/galaxy/?galaxy='+m['galaxy']+'&system='+m['system']">{{ m['galaxy'] }}:{{ m['system'] }}:{{ m['planet'] }}</nuxt-link>
+					<NuxtLinkLocale :to="'/galaxy/?galaxy='+m['galaxy']+'&system='+m['system']">{{ m['galaxy'] }}:{{ m['system'] }}:{{ m['planet'] }}</NuxtLinkLocale>
 				</th>
 				<th>
 					{{ m['time'] }}
@@ -57,9 +57,9 @@
 						<img src="/images/abort.gif" alt="">
 					</a>
 					&nbsp;
-					<nuxt-link :to="'/alliance/admin/members?rank='+m['id']+''">
+					<NuxtLinkLocale :to="'/alliance/admin/members?rank='+m['id']+''">
 						<img src="/images/key.gif" alt="">
-					</nuxt-link>
+					</NuxtLinkLocale>
 				</th>
 			</tr>
 			<tr v-else>
@@ -78,7 +78,7 @@
 		</template>
 		<tr>
 			<td class="c" colspan="10">
-				<nuxt-link :to="'/alliance'+(page['admin'] ? '/admin' : '')+''">вернутся к обзору</nuxt-link>
+				<NuxtLinkLocale :to="'/alliance'+(page['admin'] ? '/admin' : '')+''">вернутся к обзору</NuxtLinkLocale>
 			</td>
 		</tr>
 	</table>
