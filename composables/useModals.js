@@ -1,8 +1,9 @@
-import { useNuxtApp } from '#app';
+import { useNuxtApp, useLoadingIndicator } from '#imports';
 import { useModal, useModalSlot, useVfm } from 'vue-final-modal'
 import Modal from '~/components/Dialogs/Modal.vue'
 import ConfirmPopup from '~/components/Dialogs/Confirm.vue'
 import { stopLoading } from '~/composables/useLoading.js'
+import { useApiGet } from '~/composables/useApi';
 
 export const openPopupModal = (component, attrs = {}, events = {}) => {
 	const { open, close } = useModal({
@@ -64,6 +65,23 @@ export const openAlertModal = (title, content) => {
 	});
 
 	return open?.();
+}
+
+export const openAjaxPopupModal = async (component, url, attrs = {}, events = {}) => {
+	const { start, finish } = useLoadingIndicator();
+
+	start();
+
+	const result = await useApiGet(url, {
+		popup: 'Y'
+	});
+
+	finish();
+
+	attrs = attrs || {};
+	attrs.page = result['page'];
+
+	await openPopupModal(component, attrs, events);
 }
 
 export const openErrorModal = (e) => {

@@ -31,6 +31,7 @@
 <script>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { openAlertModal } from '~/composables/useModals';
 
 	export default {
 		name: "support-new",
@@ -41,25 +42,17 @@
 			}
 		},
 		methods: {
-			request ()
-			{
+			request () {
 				useApiPost('/support/add/', {
 					subject: this.subject,
 					text: this.text
 				})
-				.then((result) =>
-				{
-					if (result.error)
-					{
-						this.$dialog.alert({
-							title: result.error.title,
-							body: result.error.message
-						}, {
-							okText: 'Закрыть'
-						});
-					}
-					else
-					{
+				.then((result) => {
+					if (result.error) {
+						openAlertModal(
+							result.error.title, result.error.message
+						);
+					} else {
 						useStore().PAGE_LOAD(result)
 						this.$emit('close');
 					}

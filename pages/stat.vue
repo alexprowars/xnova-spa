@@ -45,9 +45,9 @@
 </template>
 
 <script>
-	import StatPlayers from '~/components/Page/Stat/players.vue'
-	import StatAlliances from '~/components/Page/Stat/alliances.vue'
-	import StatRaces from '~/components/Page/Stat/races.vue'
+	import StatPlayers from '~/components/Page/Stat/Players.vue'
+	import StatAlliances from '~/components/Page/Stat/Alliances.vue'
+	import StatRaces from '~/components/Page/Stat/Races.vue'
 	import { defineNuxtComponent } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';

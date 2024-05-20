@@ -89,7 +89,7 @@
 								<tr>
 									<th colspan="3">Сумма:</th>
 									<td v-for="res in page['resources']" class="k">
-										<colored :value="page['production'][res]['total']"></colored>
+										<Colored :value="page['production'][res]['total']"></Colored>
 									</td>
 									<td class="k">{{ $number(page['production']['energy']['total']) }}</td>
 								</tr>
@@ -118,16 +118,16 @@
 							{{ $t('RESOURCES.'+res) }}
 						</div>
 						<div class="col-2 th">
-							<colored :value="page['production'][res]['production']"></colored>
+							<Colored :value="page['production'][res]['production']"></Colored>
 						</div>
 						<div class="col-2 th">
-							<colored :value="page['production'][res]['production'] * 24"></colored>
+							<Colored :value="page['production'][res]['production'] * 24"></Colored>
 						</div>
 						<div class="col-3 th">
-							<colored :value="page['production'][res]['production'] * 24 * 7"></colored>
+							<Colored :value="page['production'][res]['production'] * 24 * 7"></Colored>
 						</div>
 						<div class="col-3 th">
-							<colored :value="page['production'][res]['production'] * 24 * 7 * 30"></colored>
+							<Colored :value="page['production'][res]['production'] * 24 * 7 * 30"></Colored>
 						</div>
 					</div>
 				</div>
@@ -175,9 +175,9 @@
 						<div class="col-8 th middle">
 							<div>
 								Вы можете купить:
-								<colored :value="page['buy_form']['metal']"></colored> металла,
-								<colored :value="page['buy_form']['crystal']"></colored> кристалла,
-								<colored :value="page['buy_form']['deuterium']"></colored> дейтерия
+								<Colored :value="page['buy_form']['metal']"></Colored> металла,
+								<Colored :value="page['buy_form']['crystal']"></Colored> кристалла,
+								<Colored :value="page['buy_form']['deuterium']"></Colored> дейтерия
 							</div>
 						</div>
 					</div>
@@ -188,12 +188,12 @@
 </template>
 
 <script>
-	import ResourcesBar from '~/components/Page/Resources/bar.vue'
-	import ResourcesRow from '~/components/Page/Resources/row.vue'
-	import InfoPopup from '~/components/Page/Info/popup.vue'
+	import ResourcesBar from '~/components/Page/Resources/Bar.vue'
+	import ResourcesRow from '~/components/Page/Resources/Row.vue'
+	import InfoPopup from '~/components/Page/Info/Popup.vue'
 	import { mapState } from 'pinia'
 	import useStore from '~/store';
-	import { defineNuxtComponent } from '#imports';
+	import { defineNuxtComponent, openConfirmModal } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 
 	export default defineNuxtComponent({
@@ -215,24 +215,24 @@
 			])
 		},
 		methods: {
-			buyResources ()
-			{
-				this.$dialog
-					.confirm({
-						body: 'Купить ресурсы за 10 кредитов?',
+			buyResources () {
+				openConfirmModal(
+					null,
+					'Купить ресурсы за 10 кредитов?',
+					[{
+						title: 'Нет',
 					}, {
-						okText: 'Да',
-						cancelText: 'Нет',
-					})
-					.then(() =>
-					{
-						useApiGet('/resources/', {
-							buy: 'Y'
-						})
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+						title: 'Да',
+						handler: () => {
+							useApiGet('/resources/', {
+								buy: 'Y'
+							})
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			}
 		}
 	})

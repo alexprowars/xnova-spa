@@ -52,6 +52,7 @@
 <script>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { openConfirmModal } from '~/composables/useModals';
 
 	export default {
 		name: "officier-row",
@@ -59,26 +60,25 @@
 			item: Object
 		},
 		methods: {
-			submit (value, price)
-			{
-				this.$dialog
-					.confirm({
-						body: 'Вы действительно хотите нанять офицера "<b>'+this.$t('TECH.'+this.item['id'])+'</b>" на <b>'+value+'</b> дней за <b>'+price+'</b> кредитов?',
-						title: 'Вербовка офицера'
+			submit (value, price) {
+				openConfirmModal(
+					'Вербовка офицера',
+				'Вы действительно хотите нанять офицера "<b>'+this.$t('TECH.'+this.item['id'])+'</b>" на <b>'+value+'</b> дней за <b>'+price+'</b> кредитов?',
+					[{
+						title: 'Отменить',
 					}, {
-						okText: 'Нанять',
-						cancelText: 'Отменить',
-					})
-					.then(() =>
-					{
-						useApiPost('/officier/buy/', {
-							id: this.item['id'],
-							duration: value
-						})
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+						title: 'Нанять',
+						handler: () => {
+							useApiPost('/officier/buy/', {
+								id: this.item['id'],
+								duration: value
+							})
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			}
 		}
 	}

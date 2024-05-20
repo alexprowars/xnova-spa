@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-	import AuthForm from '~/components/Page/Index/authForm.vue'
+	import AuthForm from '~/components/Page/Index/AuthForm.vue'
 	import RegistrationForm from './registration.vue'
 	import RemindForm from './remind.vue'
 	import { addScript } from '~/utils/helpers'

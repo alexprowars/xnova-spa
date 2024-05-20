@@ -112,7 +112,7 @@
 </template>
 
 <script>
-	import FlyRow from '~/components/Page/Fleet/fly-row.vue'
+	import FlyRow from '~/components/Page/Fleet/FlyRow.vue'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
 

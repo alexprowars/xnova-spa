@@ -21,9 +21,10 @@
 </template>
 
 <script>
-	import BuildRowPrice from '~/components/Page/Buildings/build-row-price.vue'
+	import BuildRowPrice from '~/components/Page/Buildings/BuildRowPrice.vue'
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { openConfirmModal } from '~/composables/useModals';
 
 	export default {
 		name: "info-destroy",
@@ -35,25 +36,25 @@
 			item: Number
 		},
 		methods: {
-			destroyAction ()
-			{
-				this.$dialog
-					.confirm({
-						body: 'Снести постройку <b>'+this.$t('TECH.'+this.item)+' '+this.data['level']+' ур.</b>?',
+			destroyAction () {
+				openConfirmModal(
+					null,
+					'Снести постройку <b>'+this.$t('TECH.'+this.item)+' '+this.data['level']+' ур.</b>?',
+					[{
+						title: 'Закрыть',
 					}, {
-						okText: 'Снести',
-						cancelText: 'Закрыть',
-					})
-					.then(() =>
-					{
-						useApiPost('/buildings/', {
-							cmd: 'destroy',
-							building: this.item
-						})
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+						title: 'Снести',
+						handler: () => {
+							useApiPost('/buildings/', {
+								cmd: 'destroy',
+								building: this.item
+							})
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			}
 		}
 	}

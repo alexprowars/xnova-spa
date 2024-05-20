@@ -64,7 +64,8 @@
 </template>
 
 <script>
-	import PlayerInfo from '~/components/Page/Players/info.vue'
+	import PlayerInfo from '~/components/Page/Players/Info.vue'
+	import { openAjaxPopupModal } from '~/composables/useModals';
 
 	export default {
 		name: "stat-players",
@@ -73,7 +74,7 @@
 		},
 		methods: {
 			openPlayerPopup (id) {
-				this.$modal.showAjax(PlayerInfo, '/players/'+id+'/')
+				openAjaxPopupModal(PlayerInfo, '/players/'+id+'/')
 			},
 		},
 	}

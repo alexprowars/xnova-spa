@@ -2,15 +2,15 @@
 	<div></div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { showError, useAsyncData } from '#imports';
 	import useStore from '~/store';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	const { data, error } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-			return {}
-		},
-	})
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

@@ -32,16 +32,22 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	const route = useRoute();
 
-			return {}
-		},
-		watchQuery: true,
-	})
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
 </script>

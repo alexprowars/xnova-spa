@@ -6,6 +6,7 @@
 
 <script>
 	import { useApiGet } from '~/composables/useApi';
+	import { openPopupModal } from '~/composables/useModals';
 
 	export default {
 		name: "popup-link",
@@ -29,12 +30,10 @@
 				useApiGet(this.to, {
 					popup: 'Y'
 				})
-				.then(async (result) =>
-				{
+				.then(async (result) => {
 					let component = this.$router.getMatchedComponents(this.to)
 
-					if (component.length)
-					{
+					if (component.length) {
 						let comp = null
 
 						if (typeof component[0] === 'object')
@@ -42,9 +41,8 @@
 						else
 							comp = await component[0]()
 
-						this.$modal.show(comp, {
-							popup: result['page']
-						}, {
+						await openPopupModal(comp, {
+							popup: result['page'],
 							width: this.width,
 							height: 'auto'
 						})

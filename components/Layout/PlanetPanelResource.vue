@@ -20,7 +20,7 @@
 
 <script setup>
 	import ResourceTooltip from './PlanetPanelResourceTooltip.vue'
-	import InfoPopup from '~/components/Page/Info/popup.vue'
+	import InfoPopup from '~/components/Page/Info/Popup.vue'
 	import Popper from 'vue3-popper';
 	import { ref } from 'vue';
 

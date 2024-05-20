@@ -31,7 +31,7 @@
 						</th>
 						<th>
 							{{ $date(item['start']['time'], 'd.m H:i:s') }}
-							<timer :value="item['start']['time'] + 1" class="positive"></timer>
+							<Timer :value="item['start']['time'] + 1" class="positive"></Timer>
 						</th>
 						<th>
 							<ViewsPlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"></ViewsPlanetLink>

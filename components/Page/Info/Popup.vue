@@ -5,7 +5,8 @@
 </template>
 
 <script>
-	import InfoContent from '~/components/Page/Info/content.vue'
+	import InfoContent from '~/components/Page/Info/Content.vue'
+	import { openAjaxPopupModal } from '~/composables/useModals';
 
 	export default {
 		name: "info-popup",
@@ -21,7 +22,7 @@
 				if (this.id <= 0)
 					return
 
-				this.$modal.showAjax(InfoContent, '/info/'+this.id+'/')
+				openAjaxPopupModal(InfoContent, '/info/'+this.id+'/')
 			},
 		}
 	}

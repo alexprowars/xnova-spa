@@ -31,48 +31,46 @@
 			</div>
 		</template>
 
-		<template v-if="!$state.isSocial">
-			<div class="block">
-				<div class="content border-0">
-					<div class="block-table">
-						<div class="row">
-							<div class="col th" style="padding:15px;">
-								Помоги проекту, поделись им с друзьями!<br><br>
+		<div class="block">
+			<div class="content border-0">
+				<div class="block-table">
+					<div class="row">
+						<div class="col th" style="padding:15px;">
+							Помоги проекту, поделись им с друзьями!<br><br>
 
-								<div class="yashare-auto-init"
-									data-yashareL10n="ru"
-									data-yashareTheme="counter"
-									data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"
-									:data-yashareLink="host+'/?'+$state.user.id"
-									data-yashareTitle=""
-								></div>
-							</div>
+							<div class="yashare-auto-init"
+								data-yashareL10n="ru"
+								data-yashareTheme="counter"
+								data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"
+								:data-yashareLink="host+'/?'+$state.user.id"
+								data-yashareTitle=""
+							></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="block">
-				<div class="title">Юзербар</div>
-				<div class="content border-0">
-					<div class="block-table">
-						<div class="row">
-							<div class="col text-center">
-								<br>
-								<img :src="'/userbar'+$state.user.id+'.jpg'" alt="">
+		</div>
+		<div class="block">
+			<div class="title">Юзербар</div>
+			<div class="content border-0">
+				<div class="block-table">
+					<div class="row">
+						<div class="col text-center">
+							<br>
+							<img :src="'/userbar'+$state.user.id+'.jpg'" alt="">
 
-								<br><br>
-								HTML код:
-								<br>
-								<input style="width:100%" type="text" :value="html" title="">
-								<div class="separator"></div>
-								BB код:
-								<input style="width:100%" type="text" :value="'[url='+host+'/?'+$state.user.id+'][img]'+host+'/userbar'+$state.user.id+'.jpg[/img][/url]'" title="">
-							</div>
+							<br><br>
+							HTML код:
+							<br>
+							<input style="width:100%" type="text" :value="html" title="">
+							<div class="separator"></div>
+							BB код:
+							<input style="width:100%" type="text" :value="'[url='+host+'/?'+$state.user.id+'][img]'+host+'/userbar'+$state.user.id+'.jpg[/img][/url]'" title="">
 						</div>
 					</div>
 				</div>
 			</div>
-		</template>
+		</div>
 	</div>
 </template>
 

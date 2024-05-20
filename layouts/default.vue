@@ -33,6 +33,7 @@
 	import { useLocaleHead } from '#i18n';
 	import { useRoute, navigateTo, useHead } from '#imports';
 	import { ref, computed, watch, onMounted } from 'vue';
+	import { toast } from 'vue3-toastify';
 
 	const store = useStore();
 	const route = useRoute();
@@ -83,7 +84,7 @@
 
 	watch(notifications, (val) => {
 		val.forEach((item) => {
-			this.$toasted.show(item.text, {
+			toast(item.text, {
 				type: item.type
 			})
 		})
@@ -133,7 +134,7 @@
 		htmlAttrs: () => head.value?.htmlAttrs || {},
 		bodyAttrs: {
 			page: controller.value,
-			class: store.isSocial ? 'iframe' : 'window'
+			class: 'window'
 		},
 	})
 </script>

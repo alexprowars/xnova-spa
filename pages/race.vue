@@ -137,8 +137,8 @@
 </template>
 
 <script>
-	import InfoPopup from '~/components/Page/Info/popup.vue'
-	import { defineNuxtComponent } from '#imports';
+	import InfoPopup from '~/components/Page/Info/Popup.vue'
+	import { defineNuxtComponent, openPopupModal } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import useStore from '~/store';
 
@@ -158,22 +158,17 @@
 				return this.$store.state.user ? this.$store.state.user.race : 0
 			}
 		},
-		mounted ()
-		{
-			if (this.race === 0)
-			{
+		mounted () {
+			if (this.race === 0) {
 				useApiGet('/content/welcome/', {
 					popup: 'Y'
 				})
-				.then(result =>
-				{
+				.then(result => {
 					let component = this.$router.getMatchedComponents(result.url)
 
-					if (component.length)
-					{
-						this.$modal.show(component[0], {
-							popup: result['page']
-						}, {
+					if (component.length) {
+						openPopupModal(component[0], {
+							popup: result['page'],
 							width: this.width,
 							height: 'auto'
 						})

@@ -35,7 +35,7 @@
 <script>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
-	import { navigateTo } from '#imports';
+	import { navigateTo, openAlertModal } from '#imports';
 
 	export default {
 		name: "support-detail",
@@ -54,12 +54,9 @@
 				{
 					if (result.error && (result.error.type === 'error' || result.error.type === 'success'))
 					{
-						this.$dialog.alert({
-							title: result.error.title,
-							body: result.error.message,
-						}, {
-							okText: 'Закрыть'
-						});
+						openAlertModal(
+							result.error.title, result.error.message,
+						);
 
 						if (result.error.type === 'success')
 						{

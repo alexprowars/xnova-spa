@@ -28,7 +28,7 @@
 					</div>
 					<div class="separator d-sm-none"></div>
 					<div class="col-12 col-sm-6">
-						<div class="float-sm-right"><clock></clock></div>
+						<div class="float-sm-end"><clock></clock></div>
 						<div class="clearfix d-sm-none"></div>
 					</div>
 				</div>
@@ -279,10 +279,10 @@
 </template>
 
 <script setup>
-	import PlayerInfo from '~/components/Page/Players/info.vue'
-	import Fleets from '~/components/Page/Overview/fleets.vue'
-	import Clock from '~/components/Page/Overview/clock.vue'
-	import QueueRow from '~/components/Page/Overview/queue-row.vue'
+	import PlayerInfo from '~/components/Page/Players/Info.vue'
+	import Fleets from '~/components/Page/Overview/Feets.vue'
+	import Clock from '~/components/Page/Overview/Clock.vue'
+	import QueueRow from '~/components/Page/Overview/QueueRow.vue'
 	import { sendMission } from '~/utils/fleet'
 	import { storeToRefs } from 'pinia'
 	import useStore from '~/store';
@@ -290,6 +290,7 @@
 	import { useApiPost } from '~/composables/useApi';
 	import { toRefs, watch } from 'vue';
 	import Popper from 'vue3-popper';
+	import { openAjaxPopupModal } from '~/composables/useModals';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -332,6 +333,6 @@
 	}
 
 	function openPlayerPopup () {
-		this.$modal.showAjax(PlayerInfo, '/players/'+user.value['id']+'/')
+		openAjaxPopupModal(PlayerInfo, '/players/'+user.value['id']+'/')
 	}
 </script>

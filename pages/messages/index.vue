@@ -45,7 +45,7 @@
 </template>
 
 <script>
-	import MessagesRow from '~/components/Page/Messages/row.vue'
+	import MessagesRow from '~/components/Page/Messages/Row.vue'
 	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
 

@@ -36,21 +36,27 @@
 	</div>
 </template>
 
-<script>
-	import OfficierRow from '~/components/Page/Officier/row.vue'
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import OfficierRow from '~/components/Page/Officier/Row.vue';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		components: {
-			OfficierRow
-		}
-	})
+	const route = useRoute();
+
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
 </script>

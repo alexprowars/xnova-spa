@@ -59,7 +59,7 @@
 </template>
 
 <script>
-	import GalaxySelectorShortcut from './selector-shortcut.vue'
+	import GalaxySelectorShortcut from './SelectorShortcut.vue'
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 

@@ -26,6 +26,7 @@
 <script>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { openConfirmModal } from '#imports';
 
 	export default {
 		name: "build-queue-row",
@@ -36,45 +37,44 @@
 		methods: {
 			deleteItem ()
 			{
-				this.$dialog
-					.confirm({
-						body: 'Удалить <b>'+this.item['name']+' '+this.item['level']+' ур.</b> из очереди?',
-						title: 'Очередь построек'
+				openConfirmModal(
+					'Очередь построек',
+					'Удалить <b>'+this.item['name']+' '+this.item['level']+' ур.</b> из очереди?',
+					[{
+						title: 'Закрыть',
 					}, {
-						okText: 'Удалить',
-						cancelText: 'Закрыть',
-					})
-					.then(() =>
-					{
-						useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
-							cmd: 'remove',
-							listid: this.index
-						})
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+						title: 'Удалить',
+						handler: () => {
+							useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
+								cmd: 'remove',
+								listid: this.index
+							})
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				)
 			},
-			cancelItem ()
-			{
-				this.$dialog
-					.confirm({
-						body: 'Отменить постройку <b>'+this.item['name']+' '+this.item['level']+' ур.</b>?',
-						title: 'Очередь построек'
+			cancelItem () {
+				openConfirmModal(
+					'Очередь построек',
+					'Отменить постройку <b>'+this.item['name']+' '+this.item['level']+' ур.</b>?',
+					[{
+						title: 'Закрыть',
 					}, {
-						okText: 'Отменить',
-						cancelText: 'Закрыть',
-					})
-					.then(() =>
-					{
-						useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
-							cmd: 'cancel',
-							listid: this.index - 1
-						})
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+						title: 'Отменить',
+						handler: () => {
+							useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
+								cmd: 'cancel',
+								listid: this.index - 1
+							})
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			}
 		}
 	}

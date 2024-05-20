@@ -63,7 +63,7 @@
 </template>
 
 <script>
-	import { defineNuxtComponent } from '#imports';
+import { defineNuxtComponent, openConfirmModal } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 
@@ -76,22 +76,22 @@
 		watchQuery: true,
 		middleware: 'auth',
 		methods: {
-			deleteItem (id)
-			{
-				this.$dialog
-					.confirm({
-						body: 'Удалить друга?',
+			deleteItem (id) {
+				openConfirmModal(
+					null,
+					'Удалить друга?',
+					[{
+						title: 'Нет',
 					}, {
-						okText: 'Да',
-						cancelText: 'Нет',
-					})
-					.then(() =>
-					{
-						useApiPost('/buddy/delete/'+id+'/')
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+						title: 'Да',
+						handler: () => {
+							useApiPost('/buddy/delete/'+id+'/')
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			},
 		}
 	})

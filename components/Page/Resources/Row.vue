@@ -6,16 +6,16 @@
 			</InfoPopup>
 		</th>
 		<th>
-			<colored :value="item['level']"></colored>
+			<Colored :value="item['level']"></Colored>
 		</th>
 		<th>
 			{{ item['bonus'] }}%
 		</th>
 		<th v-for="res in resources">
-			<colored :value="item['resources'][res]"></colored>
+			<Colored :value="item['resources'][res]"></Colored>
 		</th>
 		<th>
-			<colored :value="item['resources']['energy']"></colored>
+			<Colored :value="item['resources']['energy']"></Colored>
 		</th>
 		<th>
 			<select :name="item['name']" v-model="item['factor']">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-	import InfoPopup from '~/components/Page/Info/popup.vue'
+	import InfoPopup from '~/components/Page/Info/Popup.vue'
 
 	export default {
 		name: 'resource-row',

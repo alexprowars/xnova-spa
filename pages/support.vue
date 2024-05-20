@@ -49,8 +49,8 @@
 </template>
 
 <script>
-	import SupportDetail from '~/components/Page/Support/detail.vue'
-	import SupportNew from '~/components/Page/Support/new.vue'
+	import SupportDetail from '~/components/Page/Support/Detail.vue'
+	import SupportNew from '~/components/Page/Support/New.vue'
 	import { defineNuxtComponent } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import useStore from '~/store';

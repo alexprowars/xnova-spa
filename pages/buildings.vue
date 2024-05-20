@@ -27,36 +27,37 @@
 	</div>
 </template>
 
-<script>
-	import BuildRow from '~/components/Page/Buildings/build-row.vue'
-	import BuildQueue from '~/components/Page/Buildings/build-queue.vue'
-	import { mapState } from 'pinia'
+<script setup>
+	import BuildRow from '~/components/Page/Buildings/BuildRow.vue';
+	import BuildQueue from '~/components/Page/Buildings/BuildQueue.vue';
+	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { defineNuxtComponent } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { computed, toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		components: {
-			BuildRow,
-			BuildQueue
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		computed: {
-			...mapState(useStore, [
-				'planet'
-			]),
-			fields_empty ()
-			{
-				if (!this.page)
-					return 0
+	const route = useRoute();
 
-				return this.planet['field_max'] - this.planet['field_used'] - this.page.queue.length
-			}
-		},
-	})
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
+	const { planet } = storeToRefs(useStore());
+
+	const fields_empty = computed(() => {
+		if (!page.value)
+			return 0
+
+		return planet.value['field_max'] - planet.value['field_used'] - page.value.queue.length
+	});
 </script>

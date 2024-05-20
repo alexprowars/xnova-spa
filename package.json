@@ -26,10 +26,9 @@
     "sass": "^1.77.2",
     "socket.io-client": "^2.5.0",
     "vue": "^3.4.27",
-    "vue-directive-tooltip": "^1.6.3",
     "vue-final-modal": "^4.5.4",
-    "vue-toasted": "^1.1.28",
     "vue3-popper": "^1.5.0",
+    "vue3-toastify": "^0.2.1",
     "vue3-touch-events": "^4.1.8",
     "vuejs-dialog": "^1.4.2"
   },

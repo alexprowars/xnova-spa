@@ -2,7 +2,7 @@
 	<div class="row flight">
 		<div class="th col-4 col-sm-2">
 			<div class="z">
-				<timer :value="item[0]"></timer>
+				<Timer :value="item[0]"></Timer>
 			</div>
 			<span class="positive d-sm-none">{{ $date(item[0], 'd.m H:i:s') }}</span>
 		</div>
@@ -11,7 +11,7 @@
 				<NuxtLinkLocale v-if="item[1] === $state.user.planet" :to="'/buildings/?chpl='+item[1]" style="color:#33ff33;">{{ item[2] }}</NuxtLinkLocale><span v-else>{{ item[2] }}</span>:
 			</span>
 			<span class="holding colony">{{ item[3] }}</span>
-			<span class="positive float-sm-right d-none d-sm-inline">{{ $date(item[0], 'd.m H:i:s') }}</span>
+			<span class="positive float-sm-end d-none d-sm-inline">{{ $date(item[0], 'd.m H:i:s') }}</span>
 		</div>
 	</div>
 </template>

@@ -55,10 +55,11 @@
 </template>
 
 <script>
-	import BuildRowPrice from './build-row-price.vue'
-	import InfoContent from '~/components/Page/Info/content.vue'
+	import BuildRowPrice from './BuildRowPrice.vue'
+	import InfoContent from '~/components/Page/Info/Content.vue'
 	import { mapState } from 'pinia'
 	import useStore from '~/store';
+	import { openAjaxPopupModal } from '~/composables/useModals';
 
 	export default {
 		name: 'unit-row',
@@ -116,7 +117,7 @@
 				}
 			},
 			openInfoPopup () {
-				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')
+				openAjaxPopupModal(InfoContent, '/info/'+this.item['i']+'/')
 			},
 		}
 	}

@@ -1,8 +1,11 @@
 import Echo from 'laravel-echo'
 import io from 'socket.io-client'
+import { defineNuxtPlugin } from '#imports';
+import useStore from '~/store';
+import useChatStore from '~/store/chat';
 
-export default ({ $axios, store }, inject) =>
-{
+export default defineNuxtPlugin((nuxtApp) => {
+	return;
 	const echo = new Echo({
 		broadcaster: 'socket.io',
 		client: io,
@@ -11,25 +14,29 @@ export default ({ $axios, store }, inject) =>
 		withoutInterceptors: true,
 	})
 
-	$axios.interceptors.request.use((config) => {
+	/*$axios.interceptors.request.use((config) => {
 		if (echo.socketId()) {
 			config.headers['X-Socket-Id'] = echo.socketId()
 		}
 
 		return config
-	})
+	})*/
 
-	if (store.getters.isAuthorized) {
+	const store = useStore();
+
+	if (store.isAuthorized) {
+		const chatStore = useChatStore();
+
 		echo.channel('chat')
 			.listen('ChatMessage', ({ message }) => {
-				store.commit('chat/addMessage', message)
-			})
+				chatStore.addMessage(message);
+			});
 
-		echo.private('game.' + store.state.user.id)
+		echo.private('game.' + store.user.id)
 			.listen('ChatPrivateMessage', ({ message }) => {
-				store.commit('chat/addMessage', message)
-			})
+				chatStore.addMessage(message);
+			});
 	}
 
-	inject('echo', echo)
-}
+	nuxtApp.provide('echo', echo);
+});

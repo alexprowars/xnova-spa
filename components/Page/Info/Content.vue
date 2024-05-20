@@ -26,11 +26,11 @@
 </template>
 
 <script>
-	import InfoProduction from '~/components/Page/Info/production.vue'
-	import InfoFleet from '~/components/Page/Info/fleet.vue'
-	import InfoDefence from '~/components/Page/Info/defence.vue'
-	import InfoDestroy from '~/components/Page/Info/destroy.vue'
-	import InfoMissile from '~/components/Page/Info/missile.vue'
+	import InfoProduction from '~/components/Page/Info/Production.vue'
+	import InfoFleet from '~/components/Page/Info/Fleet.vue'
+	import InfoDefence from '~/components/Page/Info/Defence.vue'
+	import InfoDestroy from '~/components/Page/Info/Destroy.vue'
+	import InfoMissile from '~/components/Page/Info/Missile.vue'
 
 	export default {
 		name: "info-content",

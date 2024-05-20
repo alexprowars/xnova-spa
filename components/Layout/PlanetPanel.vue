@@ -85,7 +85,7 @@
 
 <script setup>
 	import PanelResource from './PlanetPanelResource.vue'
-	import InfoPopup from '~/components/Page/Info/popup.vue'
+	import InfoPopup from '~/components/Page/Info/Popup.vue'
 	import useStore from '~/store';
 	import { onBeforeUnmount, onUpdated, ref } from 'vue';
 	import { storeToRefs } from 'pinia';

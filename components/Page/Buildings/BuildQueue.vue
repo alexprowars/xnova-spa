@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import BuildQueueRow from './build-queue-row.vue'
+	import BuildQueueRow from './BuildQueueRow.vue'
 	import { navigateTo } from '#imports';
 
 	export default {

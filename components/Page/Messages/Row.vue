@@ -35,9 +35,10 @@
 </template>
 
 <script>
-	import PlayerInfo from '~/components/Page/Players/info.vue'
+	import PlayerInfo from '~/components/Page/Players/Info.vue'
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { openAjaxPopupModal, openConfirmModal } from '~/composables/useModals';
 
 	export default {
 		name: "messages-row",
@@ -45,25 +46,25 @@
 			item: Object
 		},
 		methods: {
-			abuseAction ()
-			{
-				this.$dialog
-					.confirm('Вы уверены что хотите отправить жалобу на это сообщение?', {
-						okText: 'Да',
-						cancelText: 'Нет',
-					})
-					.then(() =>
-					{
-						useApiPost('/messages/abuse/'+this.item['id']+'/', {
-
-						})
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+			abuseAction () {
+				openConfirmModal(
+					null,
+					'Вы уверены что хотите отправить жалобу на это сообщение?',
+					[{
+						title: 'Нет',
+					}, {
+						title: 'Да',
+						handler: () => {
+							useApiPost('/messages/abuse/'+this.item['id']+'/')
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			},
 			openPlayerPopup (id) {
-				this.$modal.showAjax(PlayerInfo, '/players/'+id+'/')
+				openAjaxPopupModal(PlayerInfo, '/players/'+id+'/')
 			}
 		}
 	}

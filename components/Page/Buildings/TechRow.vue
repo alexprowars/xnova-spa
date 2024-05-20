@@ -59,10 +59,11 @@
 </template>
 
 <script>
-	import BuildRowPrice from './build-row-price.vue'
-	import InfoContent from '~/components/Page/Info/content.vue'
+	import BuildRowPrice from './BuildRowPrice.vue'
+	import InfoContent from '~/components/Page/Info/Content.vue'
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { openAjaxPopupModal, openConfirmModal } from '~/composables/useModals';
 
 	export default {
 		name: "tech-row",
@@ -121,26 +122,28 @@
 					useStore().PAGE_LOAD(result)
 				})
 			},
-			cancelAction ()
-			{
-				this.$dialog
-					.confirm('Отменить изучение <b>'+this.$t('TECH.'+this.item['i'])+' '+this.item['level']+' ур.</b>?', {
-						okText: 'Отменить',
-						cancelText: 'Закрыть',
-					})
-					.then(() =>
-					{
-						useApiPost('/research/', {
-							cmd: 'cancel',
-							tech: this.item['i']
-						})
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+			cancelAction () {
+				openConfirmModal(
+					null,
+					'Отменить изучение <b>'+this.$t('TECH.'+this.item['i'])+' '+this.item['level']+' ур.</b>?',
+					[{
+						title: 'Закрыть',
+					}, {
+						title: 'Отменить',
+						handler: () => {
+							useApiPost('/research/', {
+								cmd: 'cancel',
+								tech: this.item['i']
+							})
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			},
 			openInfoPopup () {
-				this.$modal.showAjax(InfoContent, '/info/'+this.item['i']+'/')
+				openAjaxPopupModal(InfoContent, '/info/'+this.item['i']+'/')
 			},
 		},
 		watch: {

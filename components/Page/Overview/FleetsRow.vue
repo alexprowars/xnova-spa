@@ -2,7 +2,7 @@
 	<div class="row overview-fleets-row">
 		<div class="col-3 col-sm-2 th">
 			<div class="z">
-				<timer :value="item['time']"></timer>
+				<Timer :value="item['time']"></Timer>
 			</div>
 			<div class="positive">{{ item['date'] }}</div>
 		</div>

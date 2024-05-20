@@ -27,7 +27,7 @@
 				</NuxtLinkLocale>
 			</div>
 			{{ $date(item['start']['time'], 'd.m H:i:s') }}
-			<timer :value="item['start']['time']" delimiter="" class="positive"></timer>
+			<Timer :value="item['start']['time']" delimiter="" class="positive"></Timer>
 		</div>
 		<div v-if="item['target']['time']" class="col-4 col-sm-3 th">
 			<div>
@@ -36,7 +36,7 @@
 				</NuxtLinkLocale>
 			</div>
 			{{ $date(item['target']['time'], 'd.m H:i:s') }}
-			<timer :value="item['target']['time']" delimiter="" class="positive"></timer>
+			<Timer :value="item['target']['time']" delimiter="" class="positive"></Timer>
 		</div>
 		<div v-else class="col-4 col-sm-3 th">
 			-
@@ -60,6 +60,7 @@
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 	import Popper from 'vue3-popper';
+	import { openConfirmModal } from '~/composables/useModals';
 
 	const props = defineProps({
 		i: {
@@ -71,20 +72,22 @@
 	})
 
 	function backAction () {
-		this.$dialog
-			.confirm({
-				body: 'Вернуть флот?',
+		openConfirmModal(
+			null,
+			'Вернуть флот?',
+			[{
+				title: 'Нет',
 			}, {
-				okText: 'Да',
-				cancelText: 'Нет',
-			})
-			.then(() => {
-				useApiPost('/fleet/back/', {
-					id: props.item['id'],
-				})
-				.then((result) => {
-					useStore().PAGE_LOAD(result)
-				})
-			})
+				title: 'Да',
+				handler: () => {
+					useApiPost('/fleet/back/', {
+						id: props.item['id'],
+					})
+					.then((result) => {
+						useStore().PAGE_LOAD(result)
+					})
+				}
+			}]
+		);
 	}
 </script>

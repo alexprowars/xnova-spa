@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import FleetsRow from './fleets-row.vue'
+	import FleetsRow from './FleetsRow.vue'
 
 	export default {
 		name: "overview-fleets",

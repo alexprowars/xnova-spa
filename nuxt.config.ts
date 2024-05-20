@@ -29,9 +29,8 @@ let config = {
 		},
 	},
 	css: [
-		'~/assets/styles/bootstrap/bootstrap.scss',
-		'~/assets/app.scss',
-		'vuejs-dialog/dist/vuejs-dialog.min.css',
+		'~/assets/vendors.scss',
+		'~/assets/styles.scss',
 	],
 	telemetry: false,
 	devtools: {

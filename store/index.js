@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import { useRouter } from '#imports';
 import { useApiGet } from '~/composables/useApi';
+import { toast } from 'vue3-toastify';
 
 export const useStore = defineStore('app', {
 	state: () => ({
-		isSocial: false,
 		path: null,
 		version: null,
 		host: null,
@@ -71,17 +71,17 @@ export const useStore = defineStore('app', {
 			}
 
 			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['toast'] !== '') {
-				this.$toasted.show(data['tutorial']['toast'], {
+				toast(data['tutorial']['toast'], {
 					type: 'info'
 				})
 			}
 
-			let page = JSON.parse(JSON.stringify(data.page))
+			let page = JSON.parse(JSON.stringify(data.page));
 
-			delete data.page
+			delete data.page;
 
-			this.PAGE_LOAD(data)
-			this.setLoadingStatus(false)
+			this.PAGE_LOAD(data);
+			this.setLoadingStatus(false);
 
 			return {
 				page

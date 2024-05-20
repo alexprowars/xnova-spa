@@ -55,7 +55,7 @@
 </template>
 
 <script>
-	import { defineNuxtComponent } from '#imports';
+import { defineNuxtComponent, openConfirmModal } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 
@@ -75,22 +75,22 @@
 					useStore().PAGE_LOAD(result)
 				})
 			},
-			deleteRequest (id)
-			{
-				this.$dialog
-					.confirm({
-						body: 'Удалить запрос?',
+			deleteRequest (id) {
+				openConfirmModal(
+					null,
+					'Удалить запрос?',
+					[{
+						title: 'Нет',
 					}, {
-						okText: 'Да',
-						cancelText: 'Нет',
-					})
-					.then(() =>
-					{
-						useApiPost('/buddy/delete/'+id+'/')
-						.then((result) => {
-							useStore().PAGE_LOAD(result)
-						})
-					})
+						title: 'Да',
+						handler: () => {
+							useApiPost('/buddy/delete/'+id+'/')
+							.then((result) => {
+								useStore().PAGE_LOAD(result)
+							})
+						}
+					}]
+				);
 			},
 		}
 	})
