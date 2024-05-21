@@ -17,7 +17,7 @@
 					</div>
 					<div class="row">
 						<div class="col th">
-							<text-editor v-model="text"></text-editor>
+							<TextEditor v-model="text"/>
 						</div>
 					</div>
 					<div class="row">

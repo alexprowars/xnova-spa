@@ -3,7 +3,7 @@
 		<div v-if="page['sex'] === 0 || page['avatar'] === 0" class="block start">
 			<div class="title">Основная информация</div>
 			<div class="content border-0">
-				<ViewsRouterForm action="">
+				<RouterForm action="">
 					<input type="hidden" name="save" value="Y">
 					<div class="block-table">
 						<div class="row">
@@ -15,8 +15,8 @@
 						</div>
 						<div class="row">
 							<div class="col th">
-								<ViewsTabs>
-									<ViewsTab name="Мужской">
+								<Tabs>
+									<Tab name="Мужской">
 										<div class="row">
 											<div v-for="i in 8" class="col-3">
 												<input type="radio" name="face" :value="'1_'+i" :id="'f1_'+i" title="">
@@ -25,8 +25,8 @@
 												</label>
 											</div>
 										</div>
-									</ViewsTab>
-									<ViewsTab name="Женский">
+									</Tab>
+									<Tab name="Женский">
 										<div class="row">
 											<div v-for="i in 8" class="col-3">
 												<input type="radio" name="face" :value="'2_'+i" :id="'f2_'+i" title="">
@@ -35,8 +35,8 @@
 												</label>
 											</div>
 										</div>
-									</ViewsTab>
-								</ViewsTabs>
+									</Tab>
+								</Tabs>
 							</div>
 						</div>
 						<div class="row">
@@ -45,13 +45,13 @@
 							</div>
 						</div>
 					</div>
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 		<div v-else="page['race'] === 0" class="block start race">
 			<div class="title">Выбор фракции</div>
 			<div class="content">
-				<ViewsRouterForm action="" id="tabs">
+				<RouterForm action="" id="tabs">
 					<input type="hidden" name="save" value="Y">
 					<template v-for="race in page['races']">
 						<input type="radio" name="race" :value="race['i']" :id="'f_'+race['i']">
@@ -64,7 +64,7 @@
 					<br>
 					<button type="submit">Продолжить</button>
 					<br><br>
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 	</div>

@@ -18,7 +18,7 @@
 		</tr>
 	</table>
 	
-	<ViewsRouterForm action="/alliance/admin">
+	<RouterForm action="/alliance/admin">
 		<input type="hidden" name="t" :value="page['t']">
 		<table class="table">
 			<tr>
@@ -34,7 +34,7 @@
 			</tr>
 			<tr>
 				<th colspan="3" class="p-a-0">
-					<text-editor :text="page['text']"></text-editor>
+					<TextEditor :text="page['text']"/>
 				</th>
 			</tr>
 			<tr>
@@ -43,9 +43,9 @@
 				</th>
 			</tr>
 		</table>
-	</ViewsRouterForm>
+	</RouterForm>
 	<div class="separator"></div>
-	<ViewsRouterForm action="/alliance/admin">
+	<RouterForm action="/alliance/admin">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Дополнительные настройки</td>
@@ -85,7 +85,7 @@
 				</th>
 			</tr>
 		</table>
-	</ViewsRouterForm>
+	</RouterForm>
 	
 	<div class="separator"></div>
 	<div class="row">

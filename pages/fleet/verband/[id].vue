@@ -26,7 +26,7 @@
 							</Popper>
 						</th>
 						<th>
-							<ViewsPlanetLink :galaxy="item['start']['galaxy']" :system="item['start']['system']" :planet="item['start']['planet']"></ViewsPlanetLink>
+							<PlanetLink :galaxy="item['start']['galaxy']" :system="item['start']['system']" :planet="item['start']['planet']"/>
 							<div>{{ item['start']['name'] }}</div>
 						</th>
 						<th>
@@ -34,7 +34,7 @@
 							<Timer :value="item['start']['time'] + 1" class="positive"></Timer>
 						</th>
 						<th>
-							<ViewsPlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"></ViewsPlanetLink>
+							<PlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"/>
 							<div>{{ item['target']['name'] }}</div>
 						</th>
 						<th>{{ $date(item['target']['time'], 'd.m H:i:s') }}</th>
@@ -47,7 +47,7 @@
 		<div v-if="page['group'] === 0" class="block">
 			<div class="title">Создание ассоциации флота</div>
 			<div class="content border-0">
-				<ViewsRouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
+				<RouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
 					<input type="hidden" name="action" value="add">
 					<div class="block-table">
 						<div class="row">
@@ -58,7 +58,7 @@
 							</div>
 						</div>
 					</div>
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 
@@ -68,12 +68,12 @@
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">
-							<ViewsRouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
+							<RouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
 								<input type="hidden" name="action" value="changename">
 								<input type="text" name="name" :value="page['aks']['name']" size="50">
 								<br>
 								<input type="submit" value="Изменить">
-							</ViewsRouterForm>
+							</RouterForm>
 						</div>
 					</div>
 					<div class="row">
@@ -91,7 +91,7 @@
 										</select>
 									</th>
 									<th>
-										<ViewsRouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
+										<RouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
 											<input type="hidden" name="action" value="adduser">
 											<div v-if="page['friends'].length > 0 || page['alliance'].length > 0">
 												<select name="user_id" size="10" style="width:75%;">
@@ -108,7 +108,7 @@
 											<input type="text" name="user_name" size="40" placeholder="Введите игровой ник">
 											<br>
 											<input type="submit" value="OK">
-										</ViewsRouterForm>
+										</RouterForm>
 									</th>
 								</tr>
 							</table>

@@ -40,9 +40,9 @@
 					<div class="th col-sm-1 col-2">
 						<img v-if="item['race']" :src="'/images/skin/race'+item['race']+'.gif'" width="16" height="16" style="margin-right:7px;">
 
-						<popup-link v-if="$state.user" :to="'/messages/write/'+item['id']+'/'" :width="680" :title="item['name']+': отправить сообщение'">
+						<PopupLink v-if="user" :to="'/messages/write/'+item['id']+'/'" :width="680" :title="item['name']+': отправить сообщение'">
 							<span class="sprite skin_m"></span>
-						</popup-link>
+						</PopupLink>
 					</div>
 					<div class="th col-sm-3 d-none d-sm-block row-alliance">
 						<NuxtLinkLocale v-if="item['alliance']" :class="{neutral: item['alliance']['marked']}" :to="'/alliance/info/'+item['alliance']['id']+'/'">
@@ -63,19 +63,19 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import PlayerInfo from '~/components/Page/Players/Info.vue'
 	import { openAjaxPopupModal } from '~/composables/useModals';
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store';
 
-	export default {
-		name: "stat-players",
-		props: {
-			items: Array
-		},
-		methods: {
-			openPlayerPopup (id) {
-				openAjaxPopupModal(PlayerInfo, '/players/'+id+'/')
-			},
-		},
+	defineProps({
+		items: Array
+	});
+
+	const { user } = storeToRefs(useStore());
+
+	function openPlayerPopup (id) {
+		openAjaxPopupModal(PlayerInfo, '/players/' + id + '/');
 	}
 </script>

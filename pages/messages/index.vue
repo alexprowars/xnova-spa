@@ -1,5 +1,5 @@
 <template>
-	<ViewsRouterForm ref="form" action="/messages/">
+	<RouterForm ref="form" action="/messages/">
 		<div class="block">
 			<div class="title">
 				Сообщения
@@ -34,14 +34,14 @@
 				</div>
 
 				<div v-if="page['pagination']['total'] > page['pagination']['limit']" class="float-start">
-					<pagination :options="page['pagination']"></pagination>
+					<Pagination :options="page['pagination']"/>
 				</div>
 				<div v-if="deleteItems.length > 0" class="float-end" style="padding: 5px">
 					<input name="deletemessages" value="Удалить отмеченные" type="button" @click.prevent="submitForm">
 				</div>
 			</div>
 		</div>
-	</ViewsRouterForm>
+	</RouterForm>
 </template>
 
 <script>

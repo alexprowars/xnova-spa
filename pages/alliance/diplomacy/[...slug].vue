@@ -49,7 +49,7 @@
 			</tr>
 		</table>
 		<div class="separator"></div>
-		<ViewsRouterForm action="/alliance/diplomacy?edit=add">
+		<RouterForm action="/alliance/diplomacy?edit=add">
 			<table class="table">
 				<tr>
 					<td class="c" colspan="2">Добавить альянс в список</td>
@@ -77,7 +77,7 @@
 					</td>
 				</tr>
 			</table>
-		</ViewsRouterForm>
+		</RouterForm>
 	</div>
 </template>
 

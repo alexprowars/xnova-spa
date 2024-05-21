@@ -9,7 +9,6 @@
 	import { openPopupModal } from '~/composables/useModals';
 
 	export default {
-		name: "popup-link",
 		props: {
 			to: String,
 			width: {

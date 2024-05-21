@@ -21,10 +21,10 @@
 				</tr>
 				<tr>
 					<th colspan="2">
-						<ViewsRouterForm action="/alliance">
+						<RouterForm action="/alliance">
 							<input type="hidden" name="r_id" :value="item[0]">
 							<input type="submit" name="bcancel" value="Убрать заявку">
-						</ViewsRouterForm>
+						</RouterForm>
 					</th>
 				</tr>
 			</template>
@@ -107,7 +107,7 @@
 				</tr>
 				<tr>
 					<td class="b" colspan="2" height="100" style="padding:3px;">
-						<text-viewer :text="page['description']"></text-viewer>
+						<TextViewer :text="page['description']"/>
 					</td>
 				</tr>
 				<tr v-if="page['web'] !== ''">
@@ -119,7 +119,7 @@
 				</tr>
 				<tr>
 					<td class="b" colspan="2" height="100" style="padding:3px;">
-						<text-viewer :text="page['text']"></text-viewer>
+						<TextViewer :text="page['text']"/>
 					</td>
 				</tr>
 				<tr v-if="page['owner'] !== ''">

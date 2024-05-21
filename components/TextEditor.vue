@@ -101,7 +101,7 @@
 </template>
 
 <script>
-	import parser from '../../utils/parser.js'
+	import parser from '../utils/parser.js'
 
 	export default {
 		name: "text-editor",

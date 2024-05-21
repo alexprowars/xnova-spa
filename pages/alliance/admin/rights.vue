@@ -1,6 +1,6 @@
 <template>
 	<div>
-	<ViewsRouterForm action="/alliance/admin/rights">
+	<RouterForm action="/alliance/admin/rights">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="13">Установить ранги</td>
@@ -39,9 +39,9 @@
 				<th colspan="13" align="center">нет рангов</th>
 			</tr>
 		</table>
-	</ViewsRouterForm>
+	</RouterForm>
 	<div class="separator"></div>
-	<ViewsRouterForm action="/alliance/admin/rights?add=name">
+	<RouterForm action="/alliance/admin/rights?add=name">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Создать новый ранг</td>
@@ -54,7 +54,7 @@
 				<th colspan="2"><input type="submit" value="Создать"></th>
 			</tr>
 		</table>
-	</ViewsRouterForm>
+	</RouterForm>
 	<div class="separator"></div>
 	<table class="table">
 		<tr>

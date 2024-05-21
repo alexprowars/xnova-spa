@@ -238,9 +238,9 @@
 
 		<th class="actions" style="white-space: nowrap;" width="135">
 			<template v-if="item && item['u_id'] !== store['user']['id'] && !item['p_delete']">
-				<popup-link :title="item['u_name']+': отправить сообщение'" :to="'/messages/write/'+item['u_id']+'/'" :width="680">
+				<PopupLink :title="item['u_name']+': отправить сообщение'" :to="'/messages/write/'+item['u_id']+'/'" :width="680">
 					<span class="sprite skin_m"></span>
-				</popup-link>
+				</PopupLink>
 				<NuxtLinkLocale :to="'/buddy/new/'+item['u_id']+'/'" title="Добавить в друзья">
 					<span class="sprite skin_b"></span>
 				</NuxtLinkLocale>

@@ -1,5 +1,5 @@
 <template>
-	<ViewsRouterForm :action="'/alliance/admin/give?id='+page['id']+''">
+	<RouterForm :action="'/alliance/admin/give?id='+page['id']+''">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="8">Передача альянса</td>
@@ -13,7 +13,7 @@
 				<td class="c" colspan="8"><NuxtLinkLocale to="/alliance/admin">назад</NuxtLinkLocale></td>
 			</tr>
 		</table>
-	</ViewsRouterForm>
+	</RouterForm>
 </template>
 
 <script>

@@ -44,7 +44,10 @@ function handleError (e) {
 	}
 
 	if (e.response && e.response.status !== 200) {
-		return error({message: e.response.statusText, statusCode: e.response.status})
+		return showError({
+			statusCode: e.response.status,
+			statusMessage: e.response.statusText,
+		});
 	}
 
 	return parseData(e.response.data.data)

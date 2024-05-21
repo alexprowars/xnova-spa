@@ -1,5 +1,5 @@
 <template>
-	<ViewsRouterForm v-if="page" action="/fleet/send/">
+	<RouterForm v-if="page" action="/fleet/send/">
 		<input v-for="ship in page.ships" type="hidden" :name="'ship['+ship.id+']'" :value="ship['count']">
 		<div class="block-table">
 			<div class="row">
@@ -199,7 +199,7 @@
 		<input type="hidden" name="alliance" v-model="alliance">
 		<input type="hidden" name="fleet" :value="page['fleet']">
 		<input type="hidden" name="mission" :value="page['mission']">
-	</ViewsRouterForm>
+	</RouterForm>
 </template>
 
 <!--suppress JSUnusedGlobalSymbols -->

@@ -3,7 +3,7 @@
 		<div class="block">
 			<div class="title">Переименовать или покинуть планету</div>
 			<div class="content border-0">
-				<ViewsRouterForm :action="'/overview/rename/?planet='+page['planet_id']">
+				<RouterForm :action="'/overview/rename/?planet='+page['planet_id']">
 					<input type="hidden" name="action" value="name">
 					<div class="table middle">
 						<div class="row">
@@ -21,13 +21,13 @@
 							<div class="col th"><button type="submit">Сменить название</button></div>
 						</div>
 					</div>
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 		<div v-if="page['type'] !== ''" class="block page-overview-planet-image">
 			<div class="title">Сменить фон планеты</div>
 			<div class="content border-0">
-				<ViewsRouterForm :action="'/overview/rename/?planet='+page['planet_id']">
+				<RouterForm :action="'/overview/rename/?planet='+page['planet_id']">
 					<input type="hidden" name="action" value="image">
 					<div class="block-table">
 						<div class="row">
@@ -44,7 +44,7 @@
 							</div>
 						</div>
 					</div>
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 	</div>

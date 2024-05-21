@@ -1,6 +1,6 @@
 <template>
 	<div class="page-alliance-chat">
-		<ViewsRouterForm action="/alliance/chat">
+		<RouterForm action="/alliance/chat">
 			<div class="block-table">
 				<div class="row">
 					<div class="col-12 c">
@@ -16,7 +16,7 @@
 						<a @click.prevent="quote(index)"> -> </a>
 					</div>
 					<div class="col-9 b">
-						<text-viewer v-if="page['parser']" :text="item['text']"></text-viewer>
+						<TextViewer v-if="page['parser']" :text="item['text']"/>
 						<div v-else="">{{ item['text'] }}</div>
 					</div>
 					<div v-if="page['owner']" class="col-1 b text-center">
@@ -30,7 +30,7 @@
 
 				<div class="row">
 					<div class="col-12 th">
-						<pagination :options="page['pagination']"></pagination>
+						<Pagination :options="page['pagination']"/>
 					</div>
 				</div>
 
@@ -45,16 +45,16 @@
 					</div>
 				</div>
 			</div>
-		</ViewsRouterForm>
+		</RouterForm>
 		<div class="separator"></div>
-		<ViewsRouterForm action="/alliance/chat">
+		<RouterForm action="/alliance/chat">
 			<table class="table">
 				<tr>
 					<td class="c">Отправить сообщение в чат альянса</td>
 				</tr>
 				<tr>
 					<th class="p-a-0">
-						<text-editor v-model="text"></text-editor>
+						<TextEditor v-model="text"/>
 					</th>
 				</tr>
 				<tr>
@@ -64,7 +64,7 @@
 					</td>
 				</tr>
 			</table>
-		</ViewsRouterForm>
+		</RouterForm>
 		<span style="float:left;margin-left:10px;margin-top:7px;">
 			<NuxtLinkLocale to="/alliance">[назад к альянсу]</NuxtLinkLocale>
 		</span>

@@ -1,5 +1,5 @@
 <template>
-	<ViewsRouterForm action="/alliance/make/">
+	<RouterForm action="/alliance/make/">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Создать альянс</td>
@@ -16,5 +16,5 @@
 				<th colspan="2"><input type="submit" value="Создать"></th>
 			</tr>
 		</table>
-	</ViewsRouterForm>
+	</RouterForm>
 </template>

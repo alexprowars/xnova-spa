@@ -3,7 +3,7 @@
 		<div class="block">
 			<div class="title">Поиск по игре</div>
 			<div class="content border-0">
-				<ViewsRouterForm action="/search/">
+				<RouterForm action="/search/">
 					<div class="table middle">
 						<div class="row">
 							<div class="col th">
@@ -20,7 +20,7 @@
 							</div>
 						</div>
 					</div>
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 		<div class="separator"></div>
@@ -39,9 +39,9 @@
 					<tr v-for="result in page['result']">
 						<th>{{ result['username'] }}</th>
 						<th nowrap>
-							<popup-link :to="'/messages/write/'+result['id']+'/'" :title="result['username']+': отправить сообщение'" :width="680">
+							<PopupLink :to="'/messages/write/'+result['id']+'/'" :title="result['username']+': отправить сообщение'" :width="680">
 								<span class='sprite skin_m'></span>
-							</popup-link>
+							</PopupLink>
 							<NuxtLinkLocale :to="'/buddy/new/'+result['id']+'/'" title="Предложение подружиться">
 								<span class='sprite skin_b'></span>
 							</NuxtLinkLocale>

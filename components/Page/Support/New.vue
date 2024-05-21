@@ -14,7 +14,7 @@
 				<div class="row">
 					<div class="col-3 th">Текст сообщения:</div>
 					<div class="col-9 th">
-						<text-editor v-model="text"></text-editor>
+						<TextEditor v-model="text"/>
 					</div>
 				</div>
 				<div class="row">

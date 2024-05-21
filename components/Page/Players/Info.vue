@@ -8,9 +8,9 @@
 						<div class="col-4 text-center">
 							<img :src="page['avatar']" :alt="page['username']" width="100%">
 							<div v-if="$state.user">
-								<popup-link :to="'/messages/write/'+page['id']+'/'" :width="680" :title="page['username']+': отправить сообщение'">
+								<PopupLink :to="'/messages/write/'+page['id']+'/'" :width="680" :title="page['username']+': отправить сообщение'">
 									<span class="sprite skin_m"></span>
-								</popup-link>&nbsp;
+								</PopupLink>&nbsp;
 								<NuxtLinkLocale :to="'/buddy/new/'+page['id']+'/'" title="Добавить в друзья">
 									<span class='sprite skin_b'></span>
 								</NuxtLinkLocale>
@@ -124,7 +124,7 @@
 					<div class="block-table">
 						<div class="row">
 							<div class="b col">
-								<text-viewer :text="page['about']"></text-viewer>
+								<TextViewer :text="page['about']"/>
 							</div>
 						</div>
 					</div>

@@ -4,7 +4,7 @@
 			Заметки
 		</div>
 		<div class="content">
-			<ViewsRouterForm action="/notes/">
+			<RouterForm action="/notes/">
 				<div class="block-table">
 					<div class="row">
 						<div class="col-1 c"></div>
@@ -33,7 +33,7 @@
 					<input v-if="deleteItems.length > 0" class="negative" value="Удалить выбранное" type="submit">
 					<NuxtLinkLocale class="button" to="/notes/new/">Создать новую заметку</NuxtLinkLocale>
 				</div>
-			</ViewsRouterForm>
+			</RouterForm>
 		</div>
 	</div>
 </template>

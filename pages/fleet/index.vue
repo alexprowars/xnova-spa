@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="content">
-				<ViewsRouterForm action="/fleet/checkout/">
+				<RouterForm action="/fleet/checkout/">
 					<div class="table fleet_ships container">
 						<div class="row">
 							<div class="th col-sm-7 col-6">Тип корабля</div>
@@ -92,7 +92,7 @@
 					<input type="hidden" name="planet" :value="page['selected']['planet']">
 					<input type="hidden" name="planet_type" :value="page['selected']['planet_type']">
 					<input type="hidden" name="mission" :value="page['selected']['mission']">
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 		<div v-else class="block page-fleet-select">

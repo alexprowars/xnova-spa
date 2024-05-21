@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<ViewsRouterForm :action="'/notes/edit/'+page['id']+'/'">
+		<RouterForm :action="'/notes/edit/'+page['id']+'/'">
 			<table class="table">
 				<tr>
 					<td class="c">Просмотр заметки</td>
 				</tr>
 				<tr>
 					<th style="text-align:left;font-weight:normal;">
-						<text-viewer :text="page['text']"></text-viewer>
+						<TextViewer :text="page['text']"/>
 					</th>
 				</tr>
 			</table>
@@ -30,7 +30,7 @@
 				</tr>
 				<tr>
 					<th colspan="2" class="p-a-0">
-						<text-editor :text="page['text']"></text-editor>
+						<TextEditor :text="page['text']"/>
 					</th>
 				</tr>
 				<tr>
@@ -40,7 +40,7 @@
 					</td>
 				</tr>
 			</table>
-		</ViewsRouterForm>
+		</RouterForm>
 		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLinkLocale to="/notes/">Назад</NuxtLinkLocale></span>
 	</div>
 </template>

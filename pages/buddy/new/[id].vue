@@ -1,5 +1,5 @@
 <template>
-	<ViewsRouterForm :action="'/buddy/new/'+page['id']+'/'">
+	<RouterForm :action="'/buddy/new/'+page['id']+'/'">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Предложение подружиться</td>
@@ -16,7 +16,7 @@
 				<td class="c"><input type="submit" value="Отправить заявку"></td>
 			</tr>
 		</table>
-	</ViewsRouterForm>
+	</RouterForm>
 </template>
 
 <script>

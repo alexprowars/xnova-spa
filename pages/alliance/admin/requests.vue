@@ -5,7 +5,7 @@
 		</tr>
 		<tr v-if="page['request'] !== null">
 			<td colspan="2" class="padding-0">
-				<ViewsRouterForm :action="'/alliance/admin/requests?show='+page['request']['id']+''">
+				<RouterForm :action="'/alliance/admin/requests?show='+page['request']['id']+''">
 					<div class="separator"></div>
 					<div class="block-table">
 						<div class="row">
@@ -28,7 +28,7 @@
 						</div>
 					</div>
 					<div class="separator"></div>
-				</ViewsRouterForm>
+				</RouterForm>
 			</td>
 		</tr>
 		<tr v-if="page['list'].length > 0">

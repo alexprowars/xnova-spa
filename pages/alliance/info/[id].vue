@@ -20,7 +20,7 @@
 		</tr>
 		<tr v-if="page['description'] !== ''">
 			<td class="b" colspan="2" height="100" style="padding:3px;">
-				<text-viewer :text="page['description']"></text-viewer>
+				<TextViewer :text="page['description']"/>
 			</td>
 		</tr>
 		<tr v-if="page['web'] !== ''">

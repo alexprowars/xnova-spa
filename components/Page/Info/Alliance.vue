@@ -2,7 +2,7 @@
 	<div class="block">
 		<div class="title">Отправка топлива</div>
 		<div class="content border-0">
-			<ViewsRouterForm action="/info/34/">
+			<RouterForm action="/info/34/">
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">Флоты на удержании возле планеты</div>
@@ -21,7 +21,7 @@
 						</div>
 					</div>
 				</div>
-			</ViewsRouterForm>
+			</RouterForm>
 		</div>
 	</div>
 </template>

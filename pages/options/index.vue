@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ViewsRouterForm v-if="page['vacation']" action="/options/change/">
+		<RouterForm v-if="page['vacation']" action="/options/change/">
 			<table class="table">
 				<tbody>
 					<tr>
@@ -28,11 +28,11 @@
 					</tr>
 				</tbody>
 			</table>
-		</ViewsRouterForm>
+		</RouterForm>
 
-		<ViewsRouterForm v-else action="/options/change/">
-			<ViewsTabs>
-				<ViewsTab name="Информация">
+		<RouterForm v-else action="/options/change/">
+			<Tabs>
+				<Tab name="Информация">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -83,8 +83,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</ViewsTab>
-				<ViewsTab name="Интерфейс">
+				</Tab>
+				<Tab name="Интерфейс">
 					<template v-if="page['social']">
 						<div style="display: none">
 							<input name="chatbox" v-model="page['opt_chatbox_data']" type="checkbox" title="">
@@ -191,13 +191,13 @@
 							</tr>
 						</tbody>
 					</table>
-				</ViewsTab>
-				<ViewsTab name="Описание">
+				</Tab>
+				<Tab name="Описание">
 					<table class="table">
 						<tbody>
 							<tr>
 								<th colspan="2" class="p-a-0">
-									<text-editor :text="page['about']"></text-editor>
+									<TextEditor :text="page['about']"/>
 								</th>
 							</tr>
 							<tr>
@@ -205,8 +205,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</ViewsTab>
-				<ViewsTab name="Отпуск / Удаление">
+				</Tab>
+				<Tab name="Отпуск / Удаление">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -232,8 +232,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</ViewsTab>
-				<ViewsTab name="Личное дело">
+				</Tab>
+				<Tab name="Личное дело">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -247,8 +247,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</ViewsTab>
-				<ViewsTab v-if="!page['social']" name="Точки входа">
+				</Tab>
+				<Tab v-if="!page['social']" name="Точки входа">
 					<table v-if="page['auth'].length" class="table">
 						<tbody>
 							<tr>
@@ -284,9 +284,9 @@
 							</tr>
 						</tbody>
 					</table>
-				</ViewsTab>
-			</ViewsTabs>
-		</ViewsRouterForm>
+				</Tab>
+			</Tabs>
+		</RouterForm>
 
 		<template v-if="typeof page['bot_auth'] === 'object'">
 			<br><br>

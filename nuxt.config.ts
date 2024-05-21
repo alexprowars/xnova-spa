@@ -91,6 +91,7 @@ if (process.env.NODE_ENV !== 'production' || (typeof process.env.PROXY_URL !== '
 	const proxyUrl = process.env.PROXY_URL;
 
 	config.nitro.devProxy = {
+		'/admin/': { target: proxyUrl + '/admin/', changeOrigin: true, cookieDomainRewrite: {"*": ""}, secure: false },
 		'/api/': { target: proxyUrl + '/api/', changeOrigin: true, cookieDomainRewrite: {"*": ""}, secure: false },
 		'/broadcasting/': { target: proxyUrl + '/broadcasting/', cookieDomainRewrite: {"*": ""}, changeOrigin: true, secure: false },
 		'/upload/': { target: proxyUrl + '/upload/', changeOrigin: true, secure: false },

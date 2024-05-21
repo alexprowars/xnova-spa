@@ -42,10 +42,10 @@
 			-
 		</div>
 		<div class="col-4 col-sm-2 th">
-			<ViewsRouterForm v-if="item['stage'] === 0 && item['mission'] !== 20 && item.target.id !== 1" action="/fleet/back/">
+			<RouterForm v-if="item['stage'] === 0 && item['mission'] !== 20 && item.target.id !== 1" action="/fleet/back/">
 				<input name="fleetid" :value="item.id" type="hidden">
 				<input value="Возврат" type="submit" name="send">
-			</ViewsRouterForm>
+			</RouterForm>
 
 			<NuxtLinkLocale v-if="item['stage'] === 0 && item['mission'] === 1 && item.target.id !== 1" :to="'/fleet/verband/'+item.id+'/'" class="button">
 				Объединить

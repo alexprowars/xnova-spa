@@ -46,8 +46,8 @@
 				<NuxtLinkLocale to="/banned/">Блокировки</NuxtLinkLocale>  |
 				<NuxtLinkLocale to="/contacts/">Администрация</NuxtLinkLocale>
 			</div>
-			<div v-if="$state['stats']" class="copy">
-				<a @click.prevent title="Игроков в сети" style="color:green">{{ $state['stats']['online'] }}</a> / <a @click.prevent title="Всего игроков" style="color:yellow">{{ $state['stats']['users'] }}</a>&nbsp;&nbsp;&nbsp;&copy; {{ (new Date).getFullYear() }} XNOVA.SU
+			<div v-if="store['stats']" class="copy">
+				<a @click.prevent title="Игроков в сети" style="color:green">{{ store['stats']['online'] }}</a> / <a @click.prevent title="Всего игроков" style="color:yellow">{{ store['stats']['users'] }}</a>&nbsp;&nbsp;&nbsp;&copy; {{ (new Date).getFullYear() }} XNOVA.SU
 			</div>
 		</div>
 		<div id="mask"></div>

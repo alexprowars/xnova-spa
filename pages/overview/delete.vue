@@ -3,7 +3,7 @@
 		<div class="block">
 			<div class="title">Система безопасности</div>
 			<div class="content border-0">
-				<ViewsRouterForm action="/overview/delete/">
+				<RouterForm action="/overview/delete/">
 					<input type="hidden" name="id" :value="page['id']">
 					<input type="hidden" name="password" :value="page['number_check']">
 					<div class="block-table">
@@ -18,7 +18,7 @@
 							<div class="col th"><input type="submit" name="action" value="Удалить колонию"></div>
 						</div>
 					</div>
-				</ViewsRouterForm>
+				</RouterForm>
 			</div>
 		</div>
 	</div>

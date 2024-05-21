@@ -49,7 +49,7 @@
 			</div>
 			<div class="content border-0">
 				<div class="table-responsive">
-					<ViewsRouterForm action="/resources/">
+					<RouterForm action="/resources/">
 						<table class="table">
 							<tbody>
 								<tr>
@@ -95,7 +95,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</ViewsRouterForm>
+					</RouterForm>
 				</div>
 			</div>
 		</div>

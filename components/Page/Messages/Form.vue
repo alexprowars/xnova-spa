@@ -17,7 +17,7 @@
 					</div>
 					<div class="row">
 						<div class="col th p-a-0">
-							<text-editor :class="{error: v$.text.$error}" v-model="text"></text-editor>
+							<TextEditor :class="{error: v$.text.$error}" v-model="text"/>
 						</div>
 					</div>
 					<div class="row">

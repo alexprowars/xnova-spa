@@ -26,7 +26,7 @@
 						<br><br>
 
 
-						<ViewsRouterForm action="/credits/">
+						<RouterForm action="/credits/">
 							Введите ID игрока, на счет которого будут зачислены кредиты:
 							<br>(если поле не заполнено, то кредиты поступят на ваш счет)
 							<br><br>
@@ -37,7 +37,7 @@
 							<input type="text" name="summ" value="10">
 							<br>
 							<input type="submit" value="Купить">
-						</ViewsRouterForm>
+						</RouterForm>
 
 						<br><br>
 					</div>

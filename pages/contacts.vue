@@ -23,7 +23,7 @@
 					</div>
 					<div class="row" v-if="item['info'].length > 0">
 						<div class="col c">
-							<text-viewer :text="item['info']"></text-viewer>
+							<TextViewer :text="item['info']"/>
 						</div>
 					</div>
 				</template>

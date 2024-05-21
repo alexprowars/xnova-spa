@@ -1,5 +1,5 @@
 <template>
-	<ViewsRouterForm action="/alliance/admin/name">
+	<RouterForm action="/alliance/admin/name">
 		<div class="block">
 			<div class="title">Введите новое название альянса</div>
 			<div class="content table border-0 middle">
@@ -14,7 +14,7 @@
 				</div>
 			</div>
 		</div>
-	</ViewsRouterForm>
+	</RouterForm>
 </template>
 
 <script>

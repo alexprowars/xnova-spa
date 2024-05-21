@@ -26,7 +26,7 @@
 		<div class="row">
 			<div :style="'background-color:'+$t('MESSAGE_TYPES_BACKGROUNDS.'+item['type'])" class="col-12 b">
 				<div v-if="$parent.$parent.page['parser']">
-					<text-viewer :text="item['text']"></text-viewer>
+					<TextViewer :text="item['text']"/>
 				</div>
 				<div v-else v-html="item['text']"></div>
 			</div>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ViewsRouterForm action="/notes/new/">
+		<RouterForm action="/notes/new/">
 			<table class="table">
 				<tr>
 					<td class="c" colspan="2">Создание заметки</td>
@@ -19,7 +19,7 @@
 				</tr>
 				<tr>
 					<th colspan="2" class="p-a-0">
-						<text-editor></text-editor>
+						<TextEditor/>
 					</th>
 				</tr>
 				<tr>
@@ -29,7 +29,7 @@
 					</td>
 				</tr>
 			</table>
-		</ViewsRouterForm>
+		</RouterForm>
 		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLinkLocale to="/notes/">Назад</NuxtLinkLocale></span>
 	</div>
 </template>

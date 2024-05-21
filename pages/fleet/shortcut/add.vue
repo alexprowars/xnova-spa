@@ -3,7 +3,7 @@
 		<div v-if="page['id'] < 0" class="title">Имя [Галактика:Система:Планета]</div>
 		<div v-else class="title">{{ page['name'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]</div>
 		<div class="content border-0">
-			<ViewsRouterForm :action="page['id'] < 0 ? '/fleet/shortcut/add/' : '/fleet/shortcut/'+page['id']+'/'">
+			<RouterForm :action="page['id'] < 0 ? '/fleet/shortcut/add/' : '/fleet/shortcut/'+page['id']+'/'">
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">
@@ -30,7 +30,7 @@
 						</div>
 					</div>
 				</div>
-			</ViewsRouterForm>
+			</RouterForm>
 		</div>
 	</div>
 </template>

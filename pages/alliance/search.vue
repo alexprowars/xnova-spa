@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ViewsRouterForm action="/alliance/search/">
+		<RouterForm action="/alliance/search/">
 			<table class="table">
 				<tr>
 					<td class="c" colspan="2">Поиск альянса</td>
@@ -13,7 +13,7 @@
 					</th>
 				</tr>
 			</table>
-		</ViewsRouterForm>
+		</RouterForm>
 
 		<div v-if="page['result'].length">
 			<div class="separator"></div>

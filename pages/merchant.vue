@@ -2,7 +2,7 @@
 	<div class="block start">
 		<div class="title">Обмен сырья</div>
 		<div class="content border-0">
-			<ViewsRouterForm action="/merchant/" class="container-fluid table">
+			<RouterForm action="/merchant/" class="container-fluid table">
 				<input type="hidden" name="exchange" value="Y">
 				<input type="hidden" name="type" v-model="type">
 				<div class="row">
@@ -35,7 +35,7 @@
 								<div class="col-3 th middle">{{ $t('RESOURCES.'+res) }}</div>
 								<div class="col-3 th middle">{{ page['modifiers'][res] / page['modifiers'][type] }}</div>
 								<div class="col-6 th middle">
-									<number v-if="type !== res" :name="res" min="0" v-model="exchange[res]" placeholder="введите кол-во" v-on:input="calculate"></number>
+									<Number v-if="type !== res" :name="res" min="0" v-model="exchange[res]" placeholder="введите кол-во" v-on:input="calculate"/>
 									<span v-else="">{{ exchange[res] }}</span>
 								</div>
 							</div>
@@ -48,7 +48,7 @@
 						</div>
 					</div>
 				</div>
-			</ViewsRouterForm>
+			</RouterForm>
 		</div>
 	</div>
 </template>

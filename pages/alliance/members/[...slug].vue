@@ -34,7 +34,7 @@
 					{{ m['username'] }}
 				</th>
 				<th>
-					<popup-link :to="'/messages/write/'+m['id']+'/'" :title="m['username']+': отправить сообщение'" :width="680"><span class='sprite skin_m'></span></popup-link>
+					<PopupLink :to="'/messages/write/'+m['id']+'/'" :title="m['username']+': отправить сообщение'" :width="680"><span class='sprite skin_m'></span></PopupLink>
 				</th>
 				<th>
 					<img :src="'/images/skin/race'+m['race']+'.gif'" width="16" height="16" alt="">
@@ -64,7 +64,7 @@
 			</tr>
 			<tr v-else>
 				<td colspan="10">
-					<ViewsRouterForm :action="'/alliance/admin/members?id='+m['id']+''">
+					<RouterForm :action="'/alliance/admin/members?id='+m['id']+''">
 						<table class="table">
 							<tr>
 								<th colspan="7">{{ m['Rank_for'] }}</th>
@@ -72,7 +72,7 @@
 								<th colspan="2"><input type="submit" value="Сохранить"></th>
 							</tr>
 						</table>
-					</ViewsRouterForm>
+					</RouterForm>
 				</td>
 			</tr>
 		</template>
