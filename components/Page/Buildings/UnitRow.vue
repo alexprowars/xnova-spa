@@ -28,10 +28,8 @@
 							</div>
 						</template>
 
-						<div v-if="item['is_max']">
-							<center class="negative">
-								Вы можете построить только {{ item.max }} постройку данного типа
-							</center>
+						<div v-if="item['is_max']" class="text-center negative">
+							Вы можете построить только {{ item.max }} постройку данного типа
 						</div>
 						<div v-else-if="max > 0" class="buildmax">
 							<a @click.prevent="setMax">
@@ -54,71 +52,66 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import BuildRowPrice from './BuildRowPrice.vue'
 	import InfoContent from '~/components/Page/Info/Content.vue'
-	import { mapState } from 'pinia'
 	import useStore from '~/store';
-	import { openAjaxPopupModal } from '~/composables/useModals';
+	import { useI18n, openAjaxPopupModal } from '#imports';
+	import { computed, ref } from 'vue';
 
-	export default {
-		name: 'unit-row',
-		components: {
-			BuildRowPrice,
-		},
-		props: {
-			item: {
-				type: Object
-			}
-		},
-		data () {
-			return {
-				count: ''
-			}
-		},
-		computed: {
-			...mapState(useStore, {
-				resources: state => state.planet.resources,
-			}),
-			max ()
-			{
-				let max = -1
-
-				if (this.$store.state.resources === false) {
-					return max
-				}
-
-				let resources = Object.keys(this.$t('RESOURCES'))
-
-				resources.forEach((item) => {
-					let count = Math.floor(this.resources[item]['value'] / this.item['price'][item])
-
-					if (max < 0) {
-						max = count
-					} else if (max > count) {
-						max = count
-					}
-				})
-
-				if (this.item['max'] > 0 && this.item['max'] < max) {
-					max = this.item['max']
-				}
-
-				return max
-			}
-		},
-		methods: {
-			setMax ()
-			{
-				if (this.count === '' || parseInt(this.count) === 0) {
-					this.count = this.max
-				} else {
-					this.count = ''
-				}
-			},
-			openInfoPopup () {
-				openAjaxPopupModal(InfoContent, '/info/'+this.item['i']+'/')
-			},
+	const props = defineProps({
+		item: {
+			type: Object
 		}
+	});
+
+	const count = ref('');
+	const store = useStore();
+	const { tm } = useI18n();
+
+	defineExpose({
+		count
+	});
+
+	const resources = computed(() => {
+		return store.planet.resources;
+	});
+
+	const max = computed(() => {
+		let max = -1
+
+		if (resources.value === false) {
+			return max
+		}
+
+		let resourceKeys = Object.keys(tm('RESOURCES'))
+
+		resourceKeys.forEach((item) => {
+			let count = Math.floor(resources.value[item]['value'] / props.item['price'][item])
+
+			if (max < 0) {
+				max = count
+			} else if (max > count) {
+				max = count
+			}
+		})
+
+		if (props.item['max'] > 0 && props.item['max'] < max) {
+			max = props.item['max']
+		}
+
+		return max
+	});
+
+	function setMax () {
+		if (count.value === '' || parseInt(count.value) === 0) {
+			count.value = max.value;
+		} else {
+			count.value = '';
+		}
+	}
+
+	function openInfoPopup () {
+		openAjaxPopupModal(InfoContent, '/info/' + props.item['i'] + '/')
 	}
 </script>

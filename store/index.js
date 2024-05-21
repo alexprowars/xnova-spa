@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { useRouter } from '#imports';
 import { useApiGet } from '~/composables/useApi';
 import { toast } from 'vue3-toastify';
+import { useNow } from '@vueuse/core';
 
 export const useStore = defineStore('app', {
 	state: () => ({
@@ -18,11 +19,11 @@ export const useStore = defineStore('app', {
 		user: null,
 		menu: null,
 		planet: null,
-		start_time: Math.floor(((new Date()).getTime()) / 1000),
+		start_time: Math.floor(useNow().value.getTime() / 1000),
 	}),
 	getters: {
 		getServerTime: state => {
-			return Math.floor((new Date).getTime() / 1000) + state.stats.time - state.start_time;
+			return Math.floor(useNow().value.getTime() / 1000) + state.stats.time - state.start_time;
 		},
 		isAuthorized: state => {
 			return state.user && state.user.id > 0

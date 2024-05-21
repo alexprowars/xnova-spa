@@ -61,7 +61,7 @@ let config = {
 	i18n: {
 		baseUrl: 'https://xnova.su',
 		locales: [
-			{ code: 'ru', iso: 'ru-RU', file: 'ru.js' },
+			{ code: 'ru', iso: 'ru-RU', file: 'ru.json' },
 		],
 		lazy: true,
 		langDir: './locales/',

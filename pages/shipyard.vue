@@ -11,7 +11,7 @@
 							</div>
 						</div>
 
-						<UnitRow v-for="(item, i) in page.items" :key="i" :item="item"/>
+						<UnitRow v-for="(item, i) in page.items" ref="itemsRef" :key="i" :item="item"/>
 
 						<div class="col-12">
 							<div class="c">
@@ -25,46 +25,52 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import UnitRow from '~/components/Page/Buildings/UnitRow.vue'
 	import UnitQueue from '~/components/Page/Buildings/UnitQueue.vue'
-	import { defineNuxtComponent } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute, startLoading, stopLoading } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { ref, toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		components: {
-			UnitRow,
-			UnitQueue
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		methods: {
-			constructAction ()
-			{
-				useStore().setLoadingStatus(true)
+	const route = useRoute();
+	const store = useStore();
 
-				useApiPost('/'+this.page.mode+'/', new FormData(this.$refs['form']))
-				.then((result) =>
-				{
-					this.$children.forEach((item) =>
-					{
-						if (typeof item['count'] !== 'undefined')
-							item['count'] = '';
-					});
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
 
-					useStore().PAGE_LOAD(result)
-					useStore().setLoadingStatus(false)
-				})
-				.catch(() => {
-					alert('Что-то пошло не так!? Попробуйте еще раз')
-				})
-			}
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
+	const itemsRef = ref([]);
+
+	async function constructAction () {
+		startLoading()
+
+		try {
+			const result = await useApiPost('/'+this.page.mode+'/', new FormData(this.$refs['form']))
+
+			itemsRef.value.forEach((item) => {
+				if (typeof item['count'] !== 'undefined') {
+					item['count'] = '';
+				}
+			});
+
+			store.PAGE_LOAD(result)
+			stopLoading();
+		} catch {
+			alert('Что-то пошло не так!? Попробуйте еще раз')
 		}
-	})
+
+		stopLoading();
+	}
 </script>

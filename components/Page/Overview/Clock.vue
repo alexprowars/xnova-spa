@@ -13,10 +13,9 @@
 
 	watch(time,() => {
 		clockStart();
-	});
+	}, { immediate: true });
 
 	onMounted(() => {
-		clockStop();
 		clockUpdate();
 	})
 

@@ -12,7 +12,7 @@
 			<div v-else class="z">
 				Завершено
 				<br>
-				<NuxtLinkLocale :to="'/buildings/?planet='+$state.user.planet+''">Продолжить</NuxtLinkLocale>
+				<NuxtLinkLocale :to="'/buildings/?planet='+planet.id+''">Продолжить</NuxtLinkLocale>
 			</div>
 			<div class="positive">{{ $date(item['end'], 'd.m H:i:s') }}</div>
 		</div>
@@ -23,59 +23,57 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { openConfirmModal } from '#imports';
+	import { storeToRefs } from 'pinia';
 
-	export default {
-		name: "build-queue-row",
-		props: {
-			index: Number,
-			item: Object
-		},
-		methods: {
-			deleteItem ()
-			{
-				openConfirmModal(
-					'Очередь построек',
-					'Удалить <b>'+this.item['name']+' '+this.item['level']+' ур.</b> из очереди?',
-					[{
-						title: 'Закрыть',
-					}, {
-						title: 'Удалить',
-						handler: () => {
-							useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
-								cmd: 'remove',
-								listid: this.index
-							})
-							.then((result) => {
-								useStore().PAGE_LOAD(result)
-							})
-						}
-					}]
-				)
-			},
-			cancelItem () {
-				openConfirmModal(
-					'Очередь построек',
-					'Отменить постройку <b>'+this.item['name']+' '+this.item['level']+' ур.</b>?',
-					[{
-						title: 'Закрыть',
-					}, {
-						title: 'Отменить',
-						handler: () => {
-							useApiPost('/buildings/?planet='+this.$store.state.user.planet, {
-								cmd: 'cancel',
-								listid: this.index - 1
-							})
-							.then((result) => {
-								useStore().PAGE_LOAD(result)
-							})
-						}
-					}]
-				);
-			}
-		}
+	const props = defineProps({
+		index: Number,
+		item: Object
+	});
+
+	const store = useStore();
+	const { planet } = storeToRefs(store);
+
+	function deleteItem () {
+		openConfirmModal(
+			'Очередь построек',
+			'Удалить <b>'+props.item['name']+' '+props.item['level']+' ур.</b> из очереди?',
+			[{
+				title: 'Закрыть',
+			}, {
+				title: 'Удалить',
+				handler: async () => {
+					const result = await useApiPost('/buildings/?planet='+planet.value.id, {
+						cmd: 'remove',
+						listid: props.index
+					})
+
+					store.PAGE_LOAD(result)
+				}
+			}]
+		)
+	}
+
+	function cancelItem () {
+		openConfirmModal(
+			'Очередь построек',
+			'Отменить постройку <b>'+props.item['name']+' '+props.item['level']+' ур.</b>?',
+			[{
+				title: 'Закрыть',
+			}, {
+				title: 'Отменить',
+				handler: async () => {
+					const result = await useApiPost('/buildings/?planet='+planet.value.id, {
+						cmd: 'cancel',
+						listid: props.index - 1
+					})
+
+					store.PAGE_LOAD(result)
+				}
+			}]
+		);
 	}
 </script>

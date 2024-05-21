@@ -3,17 +3,17 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import useStore from '~/store';
 
 	const props = defineProps({
 		value: {
 			type: Number,
-			default: 0
+			default: 0,
 		},
 		delimiter: {
 			type: String,
-			default: ':'
+			default: ':',
 		}
 	});
 
@@ -40,7 +40,7 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 			return;
 		}
 
-		time.value = time.value - store.getServerTime;
+		time.value = props.value - store.getServerTime;
 	}
 
 	function stop () {

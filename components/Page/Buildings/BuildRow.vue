@@ -4,13 +4,15 @@
 
 			<div class="building-info">
 				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" :style="{backgroundImage: 'url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'}">
-					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.'+item.i)">
+					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.' + item.i)">
 					<div class="building-effects">
 						<template v-if="item['effects']">
-							<div v-for="(value, resource) in item['effects']" v-if="value !== 0" class="building-effects-row">
-								<span :class="'sprite skin_s_'+resource" :title="$t('RESOURCES.'+resource)"></span>
-								<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
-							</div>
+							<template v-for="(value, resource) in item['effects']">
+								<div v-if="value !== 0" class="building-effects-row">
+									<span :class="'sprite skin_s_'+resource" :title="$t('RESOURCES.' + resource)"></span>
+									<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
+								</div>
+							</template>
 						</template>
 					</div>
 				</a>
@@ -40,19 +42,19 @@
 						</div>
 
 						<div class="building-info-upgrade">
-							<div v-if="$parent.fields_empty <= 0" class="negative">
+							<div v-if="fields_empty <= 0" class="negative">
 								нет места
 							</div>
-							<a v-else-if="$parent.page['queue_max'] > 1 && $parent.page['queue'].length > 0" @click.prevent="addAction">
+							<a v-else-if="page['queue_max'] > 1 && page['queue'].length > 0" @click.prevent="addAction">
 								Добавить в очередь
 							</a>
 							<div v-else-if="!hasResources" class="negative text-center">
 								нет ресурсов
 							</div>
-							<div v-else-if="$parent.page['queue_max'] <= $parent.page['queue'].length" class="negative">
+							<div v-else-if="page['queue_max'] <= page['queue'].length" class="negative">
 								очередь заполнена
 							</div>
-							<a v-else-if="$parent.page['queue'].length === 0" @click.prevent="addAction" class="button">
+							<a v-else-if="page['queue'].length === 0" @click.prevent="addAction" class="button">
 								{{ item.level === 0 ? 'Построить' : 'Улучшить' }}
 							</a>
 						</div>
@@ -72,57 +74,55 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import BuildRowPrice from './BuildRowPrice.vue'
 	import InfoContent from '~/components/Page/Info/Content.vue'
-	import { mapState } from 'pinia'
+	import { useI18n } from '#imports';
 	import useStore from '~/store';
 	import { useApiPost } from '~/composables/useApi';
 	import { openAjaxPopupModal } from '~/composables/useModals';
+	import { computed, getCurrentInstance } from 'vue';
 
-	export default {
-		name: "build-row",
-		props: {
-			item: {
-				type: Object
-			}
-		},
-		components: {
-			BuildRowPrice,
-		},
-		computed: {
-			...mapState(useStore, {
-				resources: state => state.planet.resources,
-			}),
-			hasResources ()
-			{
-				return Object.keys(this.$t('RESOURCES')).every(res => {
-					if (typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0) {
-						if (res === 'energy') {
-							if (this.resources[res].capacity < this.item.price[res])
-								return false
-						} else if (this.resources[res].value < this.item.price[res]) {
-							return false
-						}
-					}
-
-					return true
-				})
-			}
-		},
-		methods: {
-			async addAction ()
-			{
-				const result = await useApiPost('/buildings/', {
-					cmd: 'insert',
-					building: this.item['i']
-				})
-
-				useStore().PAGE_LOAD(result)
-			},
-			openInfoPopup () {
-				openAjaxPopupModal(InfoContent, '/info/'+this.item['i']+'/')
-			},
+	const props = defineProps({
+		item: {
+			type: Object
 		}
+	});
+
+	const { tm } = useI18n();
+	const instance = getCurrentInstance();
+	const page = instance.parent.exposed['page'];
+	const fields_empty = instance.parent.exposed['fields_empty'];
+
+	const resources = computed(() => {
+		return useStore().planet.resources;
+	});
+
+	const hasResources = computed(() => {
+		return Object.keys(tm('RESOURCES')).every(res => {
+			if (typeof props.item.price[res] !== 'undefined' && props.item.price[res] > 0) {
+				if (res === 'energy') {
+					if (resources.value[res].capacity < props.item.price[res])
+						return false
+				} else if (resources.value[res].value < props.item.price[res]) {
+					return false
+				}
+			}
+
+			return true
+		})
+	});
+
+	async function addAction () {
+		const result = await useApiPost('/buildings/', {
+			cmd: 'insert',
+			building: props.item['i']
+		});
+
+		useStore().PAGE_LOAD(result);
+	}
+
+	function openInfoPopup () {
+		openAjaxPopupModal(InfoContent, '/info/' + props.item['i'] + '/');
 	}
 </script>

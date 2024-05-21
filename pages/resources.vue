@@ -70,12 +70,12 @@
 									<td class="k">{{ page['production']['energy']['basic'] }}</td>
 									<td class="k">100%</td>
 								</tr>
-								<tr is="resources-row" v-for="(item, index) in page['items']" :key="index" :item="item" :resources="page['resources']"></tr>
+								<ResourcesRow v-for="(item, index) in page['items']" :key="index" :item="item" :resources="page['resources']"/>
 								<tr>
 									<th colspan="2">Вместимость:</th>
 									<th>{{ page['bonus_h'] }}%</th>
 									<td v-for="res in page['resources']" class="k" v-once>
-										<span :class="[(page['production'][res]['capacity'] > $state['planet']['resources'][res]['value']) ? 'positive' : 'negative']">
+										<span :class="[(page['production'][res]['capacity'] > planet['resources'][res]['value']) ? 'positive' : 'negative']">
 											{{ $number(page['production'][res]['capacity'] / 1000) }} k
 										</span>
 									</td>
@@ -187,53 +187,52 @@
 	</div>
 </template>
 
-<script>
-	import ResourcesBar from '~/components/Page/Resources/Bar.vue'
-	import ResourcesRow from '~/components/Page/Resources/Row.vue'
-	import InfoPopup from '~/components/Page/Info/Popup.vue'
-	import { mapState } from 'pinia'
+<script setup>
+	import ResourcesBar from '~/components/Page/Resources/Bar.vue';
+	import ResourcesRow from '~/components/Page/Resources/Row.vue';
+	import InfoPopup from '~/components/Page/Info/Popup.vue';
+	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { defineNuxtComponent, openConfirmModal } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute, openConfirmModal } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
+	import { toRefs, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		components: {
-			ResourcesBar,
-			ResourcesRow,
-			InfoPopup,
-		},
-		computed: {
-			...mapState(useStore, [
-				'planet',
-			])
-		},
-		methods: {
-			buyResources () {
-				openConfirmModal(
-					null,
-					'Купить ресурсы за 10 кредитов?',
-					[{
-						title: 'Нет',
-					}, {
-						title: 'Да',
-						handler: () => {
-							useApiGet('/resources/', {
-								buy: 'Y'
-							})
-							.then((result) => {
-								useStore().PAGE_LOAD(result)
-							})
-						}
-					}]
-				);
-			}
-		}
-	})
+	const route = useRoute();
+	const store = useStore();
+
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
+	const { planet } = storeToRefs(store);
+
+	function buyResources() {
+		openConfirmModal(
+			null,
+			'Купить ресурсы за 10 кредитов?',
+			[{
+				title: 'Нет',
+			}, {
+				title: 'Да',
+				handler: async () => {
+					const result = await useApiGet('/resources/', {
+						buy: 'Y'
+					});
+
+					store.PAGE_LOAD(result);
+				}
+			}]
+		);
+	}
 </script>

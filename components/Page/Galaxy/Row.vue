@@ -18,13 +18,13 @@
 										<a :href="'/phalanx/?galaxy='+galaxy+'&system='+system+'&planet='+planet+''" target="_blank">Фаланга</a>
 									</div>
 
-									<div v-if="item['u_id'] !== store['user']['id']">
+									<div v-if="item['u_id'] !== currentUser['id']">
 										<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=1'">Атаковать</NuxtLinkLocale>
 										<br>
 										<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=5'">Удерживать</NuxtLinkLocale>
 									</div>
 									<div v-else>
-										<NuxtLinkLocale v-if="item['u_id'] === store['user']['id']" :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=4'">Оставить</NuxtLinkLocale>
+										<NuxtLinkLocale v-if="item['u_id'] === currentUser['id']" :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=4'">Оставить</NuxtLinkLocale>
 									</div>
 									<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=3'">Транспорт</NuxtLinkLocale>
 								</th>
@@ -39,7 +39,7 @@
 			<div v-if="item && !item['p_delete']">
 				<span v-if="item['p_active'] <= 10" class="star">(*)</span>
 				<span v-else-if="item['p_active'] < 60" class="star">({{ Math.floor(item['p_active']) }})</span>
-				<span :class="{negative: item['u_id'] === store['user']['id']}">{{ item['p_name'] }}</span>
+				<span :class="{negative: item['u_id'] === currentUser['id']}">{{ item['p_name'] }}</span>
 			</div>
 			<div v-else-if="item && item['p_delete']">
 				Планета уничтожена
@@ -78,7 +78,7 @@
 										</tr>
 										<tr>
 											<th colspan="2" align="center">
-												<div v-if="item['u_id'] !== store['user']['id']">
+												<div v-if="item['u_id'] !== currentUser['id']">
 													<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=1'">Атаковать</NuxtLinkLocale>
 													<br>
 													<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=5'">Удерживать</NuxtLinkLocale>
@@ -162,11 +162,11 @@
 								<td v-if="user_avatar !== ''" width="122" height="126" rowspan="3" valign="middle" class="c" :style="'background:url('+user_avatar+') 50% 50% no-repeat;background-size:cover;'"></td>
 								<td v-else width="122" height="126" rowspan="3" valign="middle" class="c">нет<br>аватара</td>
 
-								<th v-if="item['u_id'] !== store['user']['id']">
+								<th v-if="item['u_id'] !== currentUser['id']">
 									<NuxtLinkLocale :to="'/messages/write/'+item['u_id']+'/'">Послать сообщение</NuxtLinkLocale>
 								</th>
 							</tr>
-							<tr v-if="item['u_id'] !== store['user']['id']">
+							<tr v-if="item['u_id'] !== currentUser['id']">
 								<th>
 									<NuxtLinkLocale :to="'/buddy/new/'+item['u_id']+'/'">Добавить в друзья</NuxtLinkLocale>
 								</th>
@@ -225,10 +225,10 @@
 						</tbody>
 					</table>
 				</template>
-				<span :class="{allymember: store['user']['alliance']['id'] === item['a_id']}">{{ item['a_tag'] }}</span>
+				<span :class="{allymember: currentUser['alliance']?.['id'] === item['a_id']}">{{ item['a_tag'] }}</span>
 			</Popper>
 
-			<div v-if="store['user']['alliance']['id'] !== item['a_id']">
+			<div v-if="currentUser['alliance']?.['id'] !== item['a_id']">
 				<small v-if="item['d_type'] === 0">[нейтральное]</small>
 				<small v-if="item['d_type'] === 1" class="neutral">[перемирие]</small>
 				<small v-if="item['d_type'] === 2" class="positive">[мир]</small>
@@ -237,7 +237,7 @@
 		</th>
 
 		<th class="actions" style="white-space: nowrap;" width="135">
-			<template v-if="item && item['u_id'] !== store['user']['id'] && !item['p_delete']">
+			<template v-if="item && item['u_id'] !== currentUser['id'] && !item['p_delete']">
 				<PopupLink :title="item['u_name']+': отправить сообщение'" :to="'/messages/write/'+item['u_id']+'/'" :width="680">
 					<span class="sprite skin_m"></span>
 				</PopupLink>
@@ -251,13 +251,13 @@
 
 				<Popper v-if="user['spy_sonde'] && !item['u_vacation']" hover>
 					<template #content>
-						<center>
+						<div class="text-center">
 							<input type="text" v-model.number="spyCount">
 							<br>
 							<input type="button" @click.prevent="spy(item['p_type'], $event)" value="Отправить на планету">
 							<br>
 							<input v-if="!item['l_delete'] && item['l_id']" type="button" @click.prevent="spy(3, $event)" value="Отправить на луну">
-						</center>
+						</div>
 					</template>
 					<span class="sprite skin_e"></span>
 				</Popper>
@@ -282,6 +282,7 @@
 	import { computed, ref } from 'vue';
 	import useStore from '~/store';
 	import Popper from 'vue3-popper';
+	import { storeToRefs } from 'pinia';
 
 	const props = defineProps({
 		galaxy: {
@@ -303,6 +304,7 @@
 	});
 
 	const store = useStore();
+	const { user: currentUser } = storeToRefs(store);
 
 	const races = ref(['', 'Конфедерация', 'Бионики', 'Сайлоны', 'Древние']);
 	const spyCount = ref(props.user['spy']);

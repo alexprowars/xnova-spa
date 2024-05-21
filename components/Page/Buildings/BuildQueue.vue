@@ -6,56 +6,51 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import BuildQueueRow from './BuildQueueRow.vue'
 	import { navigateTo } from '#imports';
+	import useStore from '~/store';
+	import { storeToRefs } from 'pinia';
+	import { onBeforeUnmount, onMounted, watch } from 'vue';
 
-	export default {
-		name: "build-queue",
-		props: {
-			queue: Array
-		},
-		components: {
-			BuildQueueRow
-		},
-		data () {
-			return {
-				timeout: null
-			}
-		},
-		mounted () {
-			this.init();
-		},
-		methods:
-		{
-			init ()
-			{
-				clearTimeout(this.timeout);
+	const props = defineProps({
+		queue: Array
+	});
 
-				if (this.queue.length > 0)
-					this.timeout = setTimeout(this.timer, 1000);
-			},
-			timer ()
-			{
-				this.queue[0]['time'] -= 1;
+	const store = useStore();
+	const { planet } = storeToRefs(store);
 
-				if (this.queue[0]['time'] <= 0)
-				{
-					this.timeout = setTimeout(() => {
-						navigateTo('/buildings/?planet='+this.$store.state.user.planet);
-					}, 5000);
-				}
-				else
-					this.timeout = setTimeout(this.timer, 1000);
-			},
-		},
-		watch: {
-			page () {
-				this.init();
-			}
-		},
-		destroyed () {
-			clearTimeout(this.timeout);
+	let timeout;
+
+	onMounted(() => {
+		init();
+	});
+
+	onBeforeUnmount(() => {
+		clearTimeout(timeout);
+	});
+
+	watch(() => props.queue, () => {
+		init();
+	});
+
+	function init () {
+		clearTimeout(timeout);
+
+		if (props.queue.length > 0) {
+			timeout = setTimeout(timer, 1000);
+		}
+	}
+
+	function timer () {
+		props.queue[0]['time'] -= 1;
+
+		if (props.queue[0]['time'] <= 0) {
+			timeout = setTimeout(() => {
+				navigateTo('/buildings/?planet=' + planet.value.id);
+			}, 5000);
+		} else {
+			timeout = setTimeout(timer, 1000);
 		}
 	}
 </script>

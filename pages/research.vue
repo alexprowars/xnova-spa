@@ -11,21 +11,27 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import TechRow from '~/components/Page/Buildings/TechRow.vue'
-	import { defineNuxtComponent } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { toRefs, watch } from 'vue';
 	import useStore from '~/store';
 
-	export default defineNuxtComponent({
-		components: {
-			TechRow
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-	})
+	const route = useRoute();
+
+	const { data, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { page } = toRefs(data.value);
 </script>

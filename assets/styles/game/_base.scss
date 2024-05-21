@@ -45,7 +45,7 @@ p td {
 	font-size: 0.9rem;
 }
 
-table table td, .table table td {
+table table td, .table table td, .table-block table td {
 	padding: 0;
 	margin-right: 0;
 	border: 0;
@@ -60,12 +60,12 @@ body {
 	line-height: normal;
 }
 
-#__nuxt, #__layout {
+#__nuxt, #__nuxt > div {
 	max-height: 100%;
 	height: 100%;
 }
 
-table th, .table th, .th {
+table th, .table th, .table-block th, .th {
 	text-align: center;
 	padding: 2px 3px;
 	background: $main-bg-color;
@@ -732,7 +732,7 @@ ul {
 	}
 }
 
-table td.c, table th, .table th {
+table td.c, table th, .table th, .table-block th {
 	padding: 4px;
 	vertical-align: middle;
 }
@@ -1083,7 +1083,7 @@ div.block-table {
 	margin-right: auto;
 }
 
-.table {
+.table, .block-table {
 	margin-bottom: 0;
 
 	> :last-child {
@@ -1115,10 +1115,10 @@ div.block-table {
 	.table {
 		background: transparent;
 	}
-}
 
-.table + .block {
-	padding-top: 10px;
+	& + .block {
+		padding-top: 10px;
+	}
 }
 
 input[type=number]::-webkit-inner-spin-button,

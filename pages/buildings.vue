@@ -55,9 +55,15 @@
 	const { planet } = storeToRefs(useStore());
 
 	const fields_empty = computed(() => {
-		if (!page.value)
-			return 0
+		if (!page.value) {
+			return 0;
+		}
 
 		return planet.value['field_max'] - planet.value['field_used'] - page.value.queue.length
 	});
+
+	defineExpose({
+		page,
+		fields_empty
+	})
 </script>

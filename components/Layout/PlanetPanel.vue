@@ -97,7 +97,6 @@
 	const store = useStore();
 	const { user, planet } = storeToRefs(store);
 
-	clearTimeout(timer);
 	update();
 
 	onUpdated(() => {
