@@ -286,13 +286,17 @@
 	import { sendMission } from '~/utils/fleet'
 	import { storeToRefs } from 'pinia'
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import { watch } from 'vue';
 	import { openAjaxPopupModal } from '~/composables/useModals';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Обзор',
 	});
 
 	const route = useRoute();
@@ -308,7 +312,8 @@
 	}
 
 	const store = useStore();
-	const { user, planet, host } = storeToRefs(store);
+	const { user, planet } = storeToRefs(store);
+	const { host } = useRequestURL();
 
 	function sendRecycle () {
 		sendMission(

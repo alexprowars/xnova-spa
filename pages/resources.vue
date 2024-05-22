@@ -193,12 +193,16 @@
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useRoute, openConfirmModal } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute, openConfirmModal, useHead } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Сырьё',
 	});
 
 	const route = useRoute();

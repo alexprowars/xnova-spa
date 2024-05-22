@@ -75,13 +75,17 @@
 </template>
 
 <script setup>
-	import { addScript, definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { addScript, definePageMeta, showError, useAsyncData, useHead, useRoute, useRequestURL } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Рефералы',
 	});
 
 	const route = useRoute();
@@ -98,13 +102,10 @@
 	}
 
 	const { user } = storeToRefs(store);
+	const { host } = useRequestURL();
 
 	onMounted(() => {
 		addScript('https://yandex.st/share/share.js');
-	});
-
-	const host = computed(() => {
-		return process.server ? '' : window.location.origin
 	});
 
 	const html = computed(() => {

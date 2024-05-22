@@ -4,7 +4,7 @@
 
 <script setup>
 	import InfoContent from '~/components/Page/Info/Content.vue';
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useI18n } from '#imports';
 	import useStore from '~/store';
 	import { watch } from 'vue';
 
@@ -13,6 +13,7 @@
 	});
 
 	const route = useRoute();
+	const { t } = useI18n();
 
 	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
@@ -23,4 +24,8 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
+
+	useHead({
+		title: t('tech.' + page.value['i']),
+	});
 </script>

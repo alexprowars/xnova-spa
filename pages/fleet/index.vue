@@ -113,12 +113,16 @@
 
 <script setup>
 	import FlyRow from '~/components/Page/Fleet/FlyRow.vue'
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Флот',
 	});
 
 	const route = useRoute();

@@ -31,12 +31,16 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, definePageMeta, useRoute } from '#imports';
+	import { showError, useAsyncData, definePageMeta, useRoute, useHead } from '#imports';
 	import useStore from '~/store';
 	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Обучение',
 	});
 
 	const route = useRoute();

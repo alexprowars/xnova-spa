@@ -48,9 +48,13 @@
 	import StatPlayers from '~/components/Page/Stat/Players.vue';
 	import StatAlliances from '~/components/Page/Stat/Alliances.vue';
 	import StatRaces from '~/components/Page/Stat/Races.vue';
-	import { showError, useApiPost, useAsyncData, useRoute } from '#imports';
+	import { showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref, watch } from 'vue';
+
+	useHead({
+		title: 'Статистика',
+	});
 
 	const route = useRoute();
 

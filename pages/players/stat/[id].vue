@@ -43,11 +43,15 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, useRoute } from '#imports';
+	import { showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { nextTick, onMounted, ref, watch } from 'vue';
 	import Chart from 'chart.js';
 	import { number, date } from '~/utils/format';
+
+	useHead({
+		title: 'Статистика игрока',
+	});
 
 	const route = useRoute();
 

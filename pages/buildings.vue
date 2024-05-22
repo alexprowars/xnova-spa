@@ -32,11 +32,15 @@
 	import BuildQueue from '~/components/Page/Buildings/BuildQueue.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import { computed, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Постройки',
 	});
 
 	const route = useRoute();

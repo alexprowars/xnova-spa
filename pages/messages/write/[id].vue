@@ -6,12 +6,16 @@
 
 <script setup>
 	import MessageForm from '~/components/Page/Messages/Form.vue'
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Отправка сообщения',
 	});
 
 	const route = useRoute();

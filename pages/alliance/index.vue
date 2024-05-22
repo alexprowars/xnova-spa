@@ -131,13 +131,17 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Ваш альянс',
 	});
 
 	const route = useRoute();
@@ -158,4 +162,10 @@
 	const hasAlliance = computed(() => {
 		return typeof page.value['id'] === 'undefined'
 	})
+
+	if (!hasAlliance.value) {
+		useHead({
+			title: 'Альянсы',
+		});
+	}
 </script>

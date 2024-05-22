@@ -71,8 +71,12 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData } from '#imports';
+	import { showError, useAsyncData, useHead } from '#imports';
 	import useStore from '~/store';
+
+	useHead({
+		title: 'Выбор персонажа',
+	});
 
 	const { data: page, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();

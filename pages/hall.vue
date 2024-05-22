@@ -44,12 +44,16 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiPost, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Зал славы',
 	});
 
 	const route = useRoute();

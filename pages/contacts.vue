@@ -33,9 +33,13 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, useRoute } from '#imports';
+	import { showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { watch } from 'vue';
+
+	useHead({
+		title: 'Администрация',
+	});
 
 	const route = useRoute();
 

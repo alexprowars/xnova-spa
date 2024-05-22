@@ -63,12 +63,16 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useApiPost, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { toRefs, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Список друзей',
 	});
 
 	const route = useRoute();

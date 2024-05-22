@@ -28,13 +28,17 @@
 <script setup>
 	import UnitRow from '~/components/Page/Buildings/UnitRow.vue'
 	import UnitQueue from '~/components/Page/Buildings/UnitQueue.vue'
-	import { definePageMeta, showError, useAsyncData, useRoute, startLoading, stopLoading } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute, startLoading, stopLoading, useHead } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { ref, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Верфь',
 	});
 
 	const route = useRoute();

@@ -54,7 +54,7 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation, minLength } from '@vuelidate/validators'
 	import { ref, onMounted } from 'vue';
-	import { showError, useAsyncData, useRuntimeConfig } from '#imports';
+	import { showError, useAsyncData, useHead, useRuntimeConfig } from '#imports';
 	import useStore from '~/store';
 	import { useApiPost } from '~/composables/useApi';
 
@@ -63,6 +63,12 @@
 			type: Object
 		}
 	});
+
+	if (process.server) {
+		useHead({
+			title: 'Регистрация',
+		});
+	}
 
 	const { data: page, error } = await useAsyncData(async () => {
 		if (process.server) {

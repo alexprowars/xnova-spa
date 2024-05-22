@@ -18,3 +18,11 @@
 		</table>
 	</RouterForm>
 </template>
+
+<script setup>
+	import { useHead } from '#imports';
+
+	useHead({
+		title: 'Создать альянс',
+	});
+</script>

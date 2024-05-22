@@ -27,13 +27,17 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
 		layout: 'empty',
+	});
+
+	useHead({
+		title: 'Сенсорная фаланга',
 	});
 
 	const route = useRoute();

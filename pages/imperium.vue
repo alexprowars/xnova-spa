@@ -177,12 +177,16 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useI18n, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useI18n, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Империя',
 	});
 
 	const route = useRoute();

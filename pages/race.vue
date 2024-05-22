@@ -138,12 +138,16 @@
 
 <script setup>
 	import InfoPopup from '~/components/Page/Info/Popup.vue'
-	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Фракции',
 	});
 
 	const route = useRoute();

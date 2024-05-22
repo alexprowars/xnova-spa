@@ -59,11 +59,15 @@
 	import RegistrationForm from './registration.vue'
 	import RemindForm from './remind.vue'
 	import { addScript } from '~/utils/helpers'
-	import { useAsyncData, showError, navigateTo } from '#imports';
+	import { useAsyncData, showError, navigateTo, useHead } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { onMounted } from 'vue';
 	import { openPopupModal } from '~/composables/useModals';
+
+	useHead({
+		title: 'Вход в игру',
+	});
 
 	const { error } = await useAsyncData(async () => {
 		await useStore().loadPage()

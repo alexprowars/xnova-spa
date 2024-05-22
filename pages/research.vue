@@ -13,12 +13,16 @@
 
 <script setup>
 	import TechRow from '~/components/Page/Buildings/TechRow.vue'
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import { watch } from 'vue';
 	import useStore from '~/store';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Исследования',
 	});
 
 	const route = useRoute();

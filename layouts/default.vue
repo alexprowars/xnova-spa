@@ -1,11 +1,11 @@
 <template>
 	<div ref="application" class="application" :class="['set_'+controller]" v-touch:swipe.left.right="swipe">
-		<AppHeader v-if="views && views['header']"/>
+		<LayoutHeader v-if="view['header']"/>
 		<main>
-			<MainMenu v-if="views['menu']" :active="sidebar === 'menu'" @toggle="sidebarToggle('menu')"/>
-			<PlanetsList v-if="views['planets']" :active="sidebar === 'planet'" @toggle="sidebarToggle('planet')"/>
+			<LayoutMainMenu v-if="view['menu']" :active="sidebar === 'menu'" @toggle="sidebarToggle('menu')"/>
+			<LayoutPlanetsList v-if="view['planets']" :active="sidebar === 'planet'" @toggle="sidebarToggle('planet')"/>
 			<div class="main-content" v-touch:tap="tap">
-				<PlanetPanel v-if="views['resources']"/>
+				<LayoutPlanetPanel v-if="view['resources']"/>
 				<div class="main-content-row">
 					<ErrorMessage v-if="error" :data="error"/>
 					<slot v-else/>
@@ -14,81 +14,38 @@
 		</main>
 
 		<ClientOnly>
-			<Chat v-if="store.isAuthorized" :visible="controller !== 'chat' && views['menu'] && views['chat']"/>
+			<Chat v-if="store.isAuthorized" :visible="controller !== 'chat' && view['menu'] && view['chat']"/>
 		</ClientOnly>
 
-		<AppFooter v-if="views && views['header']"/>
+		<LayoutFooter v-if="view['header']"/>
 	</div>
 </template>
 
 <script setup>
-	import MainMenu from '~/components/Layout/MainMenu.vue'
-	import AppHeader from '~/components/Layout/Header.vue'
-	import AppFooter from '~/components/Layout/Footer.vue'
-	import PlanetsList from '~/components/Layout/PlanetsList.vue'
-	import PlanetPanel from '~/components/Layout/PlanetPanel.vue'
-	import Chat from '~/components/Views/Chat.vue'
-	import ErrorMessage from '~/components/Views/Message.vue'
 	import useStore from '~/store';
-	import { useLocaleHead } from '#i18n';
-	import { useRoute, navigateTo, useHead } from '#imports';
-	import { ref, computed, watch, onMounted } from 'vue';
-	import { toast } from 'vue3-toastify';
+	import { useRoute } from '#imports';
+	import { ref, computed, watch } from 'vue';
+	import { storeToRefs } from 'pinia';
 
 	const store = useStore();
 	const route = useRoute();
 	const sidebar = ref('');
+	const { error, view } = storeToRefs(store);
 
 	const controller = computed(() => {
 		return (store.route && store.route.controller) || 'index'
-	})
-
-	const error = computed(() => {
-		return store.error || false
-	})
-
-	const redirect = computed(() => {
-		return store.redirect || ''
-	})
-
-	const messages = computed(() => {
-		return (store.messages || []).filter((item) => {
-			return item['type'].indexOf('-static') >= 0;
-		})
-	})
-
-	const views = computed(() => {
-		return store['view'] || {}
-	})
-
-	const notifications = computed(() => {
-		return (store.messages || []).filter((item) => {
-			return item['type'].indexOf('-static') < 0;
-		})
 	});
 
 	watch(() => route.fullPath, () => {
 		sidebar.value = '';
-	})
-
-	watch(redirect, (val) => {
-		if (val && val.length > 0)
-			navigateTo(val)
-	})
-
-	watch(notifications, (val) => {
-		val.forEach((item) => {
-			toast(item.text, {
-				type: item.type
-			})
-		})
-	})
+	});
 
 	function sidebarToggle (type) {
-		if (sidebar.value === type)
-			sidebar.value = ''
-		else
-			sidebar.value = type
+		if (sidebar.value === type) {
+			sidebar.value = '';
+		} else {
+			sidebar.value = type;
+		}
 	}
 
 	function swipe (direction, ev) {
@@ -113,21 +70,4 @@
 		if (sidebar.value !== '')
 			sidebar.value = ''
 	}
-
-	const head = useLocaleHead({
-		addDirAttribute: true,
-		addSeoAttributes: true,
-	});
-
-	useHead({
-		title: () => store.title || '',
-		titleTemplate: '%s | Звездная Империя',
-		meta: () => [
-			{ hid: 'og:title', property: 'og:title', content: store.title || '' }
-		],
-		htmlAttrs: () => head.value?.htmlAttrs || {},
-		bodyAttrs: {
-			page: controller.value,
-		},
-	})
 </script>

@@ -28,8 +28,12 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation } from '@vuelidate/validators'
 	import { ref } from 'vue';
-	import { showError, useAsyncData } from '#imports';
+	import { showError, useAsyncData, useHead } from '#imports';
 	import useStore from '~/store';
+
+	useHead({
+		title: 'Восстановление пароля',
+	});
 
 	const props = defineProps({
 		popup: {

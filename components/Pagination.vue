@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-	import { navigateTo } from '#imports';
+	import { navigateTo, useRoute } from '#imports';
 	import { computed } from 'vue';
 	import useStore from '~/store';
 
@@ -45,6 +45,8 @@
 	});
 
 	function load (page) {
-		navigateTo(useStore().url+(useStore().url.indexOf('?') >= 0 ? '&' : '?')+'p='+page);
+		const route = useRoute();
+
+		navigateTo(route.fullPath + (route.fullPath.indexOf('?') >= 0 ? '&' : '?') + 'p=' + page);
 	}
 </script>

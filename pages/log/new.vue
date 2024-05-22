@@ -17,3 +17,11 @@
 		</tr>
 	</table>
 </template>
+
+<script setup>
+	import { useHead } from '#imports';
+
+	useHead({
+		title: 'Добавить боевой доклад',
+	});
+</script>

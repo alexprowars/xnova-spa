@@ -4,11 +4,12 @@
 
 <script setup>
 	import { ECOTree } from '~/utils/techtree'
-	import { showError, useAsyncData, useRoute } from '#imports';
+	import { showError, useAsyncData, useHead, useRoute, useI18n } from '#imports';
 	import useStore from '~/store';
 	import { onMounted, watch } from 'vue';
 
 	const route = useRoute();
+	const { t } = useI18n();
 
 	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
@@ -19,6 +20,10 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
+
+	useHead({
+		title: t('tech.' + page.value['element']),
+	});
 
 	let counter = 0;
 

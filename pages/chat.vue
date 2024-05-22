@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useChatStore from '~/store/chat';
 	import useStore from '~/store';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
@@ -47,6 +47,10 @@
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Межгалактический чат',
 	});
 
 	const route = useRoute();

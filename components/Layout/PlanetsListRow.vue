@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-	import { navigateTo } from '#imports';
+	import { navigateTo, useRoute } from '#imports';
 	import useStore from '~/store';
 
 	const props = defineProps({
@@ -29,14 +29,14 @@
 	const store = useStore();
 
 	function changeItem () {
-		let path = window.location.pathname.replace(store.path, '').split('/');
+		let path = useRoute().path.split('/');
 
 		if (path[0] === '') {
 			path.splice(0, 1);
 		}
 
-		let url = '/'+path[0]+(path[1] !== undefined && path[1] !== '' && path[0] !== 'galaxy' && path[0] !== 'fleet' ? '/'+path[1] : '')+'/?chpl='+this.item.id;
+		let url = '/'+path[0] + (path[1] !== undefined && path[1] !== '' && path[0] !== 'galaxy' && path[0] !== 'fleet' ? '/'+path[1] : '') + '/?chpl=' + props.item.id;
 
-		navigateTo(url, { replace: true });
+		navigateTo({ to: url, force: true}, { replace: true });
 	}
 </script>

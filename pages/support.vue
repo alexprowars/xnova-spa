@@ -51,12 +51,16 @@
 <script setup>
 	import SupportDetail from '~/components/Page/Support/Detail.vue'
 	import SupportNew from '~/components/Page/Support/New.vue'
-	import { definePageMeta, showError, useApiGet, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Техподдержка',
 	});
 
 	const route = useRoute();
