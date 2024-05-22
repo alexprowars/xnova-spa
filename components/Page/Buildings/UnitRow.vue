@@ -22,10 +22,12 @@
 						</div>
 
 						<template v-if="item['effects']">
-							<div v-for="(value, resource) in item['effects']" v-if="value !== 0" class="building-effects-row">
-								<span :class="'sprite skin_s_'+resource" :title="$t('resources.'+resource)"></span>
-								<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
-							</div>
+							<template v-for="(value, resource) in item['effects']">
+								<div v-if="value !== 0" class="building-effects-row">
+									<span :class="'sprite skin_s_'+resource" :title="$t('resources.'+resource)"></span>
+									<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
+								</div>
+							</template>
 						</template>
 
 						<div v-if="item['is_max']" class="text-center negative">

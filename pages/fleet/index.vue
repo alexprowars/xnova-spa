@@ -60,7 +60,7 @@
 								<a @click.prevent="maxShips(ship['id'])">{{ $number(ship['count']) }}</a>
 							</div>
 							<div v-if="ship.id === 212" class="th col-sm-3 col-4"></div>
-							<div v-else="" class="th col-sm-3 col-4">
+							<div v-else class="th col-sm-3 col-4">
 								<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
 								<input type="number" min="0" :max="ship['count']" :name="'ship['+ship['id']+']'" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
 								<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>

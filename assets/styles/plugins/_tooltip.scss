@@ -122,20 +122,15 @@
 	box-shadow: 0 0 30px 5px rgba(40, 40, 40, 0.75);
 }
 
-.toasted {
-	display: inline-block !important;
-	padding-top: 10px !important;
-	padding-bottom: 10px !important;
-}
-
-.toasted .primary, .toasted.toasted-primary {
-	color: #ffffff !important;
-}
-
 .popper {
 	text-align: center;
 }
 
 a.tooltip {
 	display: inline-block !important;
+}
+
+.Toastify__close-button {
+	min-width: auto;
+	margin: 0;
 }

@@ -1,5 +1,5 @@
 <template>
-	<form ref="form" action="" class="page-galaxy-select" @submit.prevent="send">
+	<form ref="form" action="" class="page-galaxy-select" @submit.prevent="change">
 		<input type="hidden" name="direction" v-model="direction">
 
 		<div class="row">
@@ -75,11 +75,11 @@
 		},
 		shortcuts: {
 			type: Array,
-			default: () => {
-				return []
-			}
+			default: () => []
 		}
 	});
+
+	const emit = defineEmits(['change']);
 
 	const direction = ref('');
 	const inputGalaxy = computed(() => props.galaxy);
@@ -87,18 +87,17 @@
 
 	watch(direction, (val) => {
 		if (val !== '') {
-			send();
+			change();
 		}
 	});
 
-	async function send () {
-		const result = await useApiPost('/galaxy/', {
+	function change() {
+		emit('change', {
 			galaxy: inputGalaxy.value,
 			system: inputSystem.value,
 			direction: direction.value,
 		});
 
 		direction.value = '';
-		useStore().PAGE_LOAD(result);
 	}
 </script>

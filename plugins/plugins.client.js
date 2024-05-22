@@ -20,7 +20,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 	nuxtApp.vueApp.use(FloatingVue);
 
 	nuxtApp.vueApp.use(Vue3Toastify, {
-		autoClose: 5000,
+		autoClose: 3000,
 		position: toast.POSITION.TOP_CENTER,
 	});
 

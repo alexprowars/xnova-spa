@@ -1,6 +1,6 @@
 <template>
 	<div v-if="page" class="page-galaxy">
-		<GalaxySelector :shortcuts="page['shortcuts']" :galaxy="page['galaxy']" :system="page['system']"/>
+		<GalaxySelector :shortcuts="page['shortcuts']" :galaxy="page['galaxy']" :system="page['system']" @change="changeCoordinates"/>
 		<div class="separator"></div>
 
 		<MissileAttack v-if="missile" :page="page" :planet="missilePlanet" @close="missile = false"/>
@@ -23,12 +23,10 @@
 						<td class="c">Действия</td>
 					</tr>
 
-					<GalaxyRow v-for="(item, index) in page['items']"
-						:key="index"
+					<GalaxyRow v-for="(item, index) in rows"
+						:key="rows['p_id']"
 						:item="item"
 						:user="page['user']"
-						:galaxy="page['galaxy']"
-						:system="page['system']"
 						:planet="index + 1"
 						@sendMissile="sendMissile(item['planet'])"
 					/>
@@ -41,8 +39,8 @@
 					</tr>
 					<tr>
 						<td class="c" colspan="6">
-							<span v-if="planetsCount === 0">нет заселённых планет</span>
-							<span v-else>{{ planetsCount }} {{ $morph(planetsCount, 'заселённая планета', 'заселённые планеты', 'заселённых планет') }}</span>
+							<span v-if="page.items.length === 0">нет заселённых планет</span>
+							<span v-else>{{ page.items.length }} {{ $morph(page.items.length, 'заселённая планета', 'заселённые планеты', 'заселённых планет') }}</span>
 						</td>
 						<td class="c" colspan="3">
 							<Popper>
@@ -72,12 +70,16 @@
 	import GalaxySelector from '~/components/Page/Galaxy/Selector.vue';
 	import GalaxyLegend from '~/components/Page/Galaxy/Legend.vue';
 	import MissileAttack from '~/components/Page/Galaxy/MissileAttack.vue';
-	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
+	});
+
+	useHead({
+		title: 'Галактика',
 	});
 
 	const route = useRoute();
@@ -95,16 +97,27 @@
 	const missile = ref(false);
 	const missilePlanet = ref(0);
 
-	const planetsCount = computed(() => {
-		if (!page.value.items) {
-			return 0;
+	const rows = computed(() => {
+		let result = [];
+
+		for (let i = 0; i < 15; i++) {
+			result[i] = page.value.items.find(item => item.planet === i) || null;
 		}
 
-		return page.value.items.filter(item => item !== false).length;
-	})
+		return result;
+	});
 
 	function sendMissile (planet) {
 		missile.value = true
 		missilePlanet.value = planet
+	}
+
+	async function changeCoordinates(value) {
+		const result = await useApiPost('/galaxy/', value);
+
+		page.value = result['page'];
+		delete result['page'];
+
+		useStore().PAGE_LOAD(result);
 	}
 </script>

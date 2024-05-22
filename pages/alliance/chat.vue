@@ -17,7 +17,7 @@
 					</div>
 					<div class="col-9 b">
 						<TextViewer v-if="page['parser']" :text="item['text']"/>
-						<div v-else="">{{ item['text'] }}</div>
+						<div v-else>{{ item['text'] }}</div>
 					</div>
 					<div v-if="page['owner']" class="col-1 b text-center">
 						<input name="delete[]" type="checkbox" :value="item['id']" v-model="marked">

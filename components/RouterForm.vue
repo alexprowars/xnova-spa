@@ -23,6 +23,7 @@
 
 	const store = useStore();
 	const formRef = ref(null);
+	const emit = defineEmits(['page']);
 
 	async function send () {
 		startLoading();
@@ -36,12 +37,17 @@
 		}
 
 		try {
-			const result = await useApiPost(action, formData)
+			const result = await useApiPost(action, formData);
 
-			store.PAGE_LOAD(result)
-			stopLoading()
+			if (result['page'] !== null) {
+				emit('page', result['page']);
+				delete result['page'];
+			}
+
+			store.PAGE_LOAD(result);
+			stopLoading();
 		} catch(e) {
-			alert(e.message)
+			alert(e.message);
 		}
 	}
 </script>

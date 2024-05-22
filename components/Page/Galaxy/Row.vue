@@ -7,7 +7,7 @@
 					<table width="240">
 						<tbody>
 							<tr>
-								<td class="c" colspan="2">Планета {{ item['p_name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]</td>
+								<td class="c" colspan="2">Планета {{ item['p_name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ planet }}]</td>
 							</tr>
 							<tr>
 								<th width="80">
@@ -15,18 +15,18 @@
 								</th>
 								<th align="left">
 									<div v-if="user['phalanx'] > 0">
-										<a :href="'/phalanx/?galaxy='+galaxy+'&system='+system+'&planet='+planet+''" target="_blank">Фаланга</a>
+										<a :href="'/phalanx/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+''" target="_blank">Фаланга</a>
 									</div>
 
 									<div v-if="item['u_id'] !== currentUser['id']">
-										<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=1'">Атаковать</NuxtLinkLocale>
+										<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type='+item['p_type']+'&mission=1'">Атаковать</NuxtLinkLocale>
 										<br>
-										<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=5'">Удерживать</NuxtLinkLocale>
+										<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type='+item['p_type']+'&mission=5'">Удерживать</NuxtLinkLocale>
 									</div>
 									<div v-else>
-										<NuxtLinkLocale v-if="item['u_id'] === currentUser['id']" :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=4'">Оставить</NuxtLinkLocale>
+										<NuxtLinkLocale v-if="item['u_id'] === currentUser['id']" :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type='+item['p_type']+'&mission=4'">Оставить</NuxtLinkLocale>
 									</div>
-									<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+'&mission=3'">Транспорт</NuxtLinkLocale>
+									<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type='+item['p_type']+'&mission=3'">Транспорт</NuxtLinkLocale>
 								</th>
 							</tr>
 						</tbody>
@@ -52,7 +52,7 @@
 						<tbody>
 							<tr>
 								<td class="c" colspan="2">
-									Луна: {{ item['l_name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]
+									Луна: {{ item['l_name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ planet }}]
 								</td>
 							</tr>
 							<tr>
@@ -79,18 +79,18 @@
 										<tr>
 											<th colspan="2" align="center">
 												<div v-if="item['u_id'] !== currentUser['id']">
-													<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=1'">Атаковать</NuxtLinkLocale>
+													<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=3&mission=1'">Атаковать</NuxtLinkLocale>
 													<br>
-													<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=5'">Удерживать</NuxtLinkLocale>
+													<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=3&mission=5'">Удерживать</NuxtLinkLocale>
 
 													<div v-if="user['destroy'] > 0">
-														<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=9'">Уничтожить</NuxtLinkLocale>
+														<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=3&mission=9'">Уничтожить</NuxtLinkLocale>
 													</div>
 												</div>
 												<div v-else>
-													<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=4'">Оставить</NuxtLinkLocale>
+													<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=3&mission=4'">Оставить</NuxtLinkLocale>
 												</div>
-												<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=3&mission=3'">Транспорт</NuxtLinkLocale>
+												<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=3&mission=3'">Транспорт</NuxtLinkLocale>
 											</th>
 										</tr>
 										</tbody>
@@ -111,7 +111,7 @@
 						<tbody>
 							<tr>
 								<td class="c" colspan="2">
-									Обломки: [{{ galaxy }}:{{ system }}:{{ planet }}]
+									Обломки: [{{ item['galaxy'] }}:{{ item['system'] }}:{{ planet }}]
 								</td>
 							</tr>
 							<tr>
@@ -138,7 +138,7 @@
 										</tr>
 										<tr>
 											<th colspan="2" align="left">
-												<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=2&mission=8'">Отправить флот</NuxtLinkLocale>
+												<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=2&mission=8'">Отправить флот</NuxtLinkLocale>
 											</th>
 										</tr>
 									</table>
@@ -183,7 +183,7 @@
 					<span :class="[user_status_class]">{{ item['u_name'] }}</span>
 
 					<span v-if="user_status" :class="[user_status_class]">
-						<font color="white">(</font><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLinkLocale to="/banned/" :class="[user_status_class]">{{ user_status }}</NuxtLinkLocale></span><span v-else="">{{ user_status }}</span><font color="white">)</font>
+						<font color="white">(</font><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLinkLocale to="/banned/" :class="[user_status_class]">{{ user_status }}</NuxtLinkLocale></span><span v-else>{{ user_status }}</span><font color="white">)</font>
 					</span>
 
 					<span v-if="item['u_admin'] === 3" class="negative">A</span>
@@ -194,7 +194,7 @@
 		</th>
 		<th width="20">
 			<NuxtLinkLocale v-if="item && !item.delete && item['u_race']" :to="'/info/70'+item['u_race']+'/'">
-				<img :src="'/images/skin/race'+item['u_race']+'.gif'" width="20" height="20" :alt="races[item['u_race']]" :title="races[item['u_race']]">
+				<img :src="'/images/skin/race'+item['u_race']+'.gif'" width="20" height="20" :alt="$t('races.' + item['u_race'])" :title="$t('races.' + item['u_race'])">
 			</NuxtLinkLocale>
 		</th>
 		<th width="100">
@@ -228,7 +228,7 @@
 				<span :class="{allymember: currentUser['alliance']?.['id'] === item['a_id']}">{{ item['a_tag'] }}</span>
 			</Popper>
 
-			<div v-if="currentUser['alliance']?.['id'] !== item['a_id']">
+			<div v-if="item && currentUser['alliance']?.['id'] !== item['a_id']">
 				<small v-if="item['d_type'] === 0">[нейтральное]</small>
 				<small v-if="item['d_type'] === 1" class="neutral">[перемирие]</small>
 				<small v-if="item['d_type'] === 2" class="positive">[мир]</small>
@@ -265,12 +265,12 @@
 				<NuxtLinkLocale :to="'/players/'+item['u_id']+'/'" title="Информация об игроке">
 					<span class="sprite skin_s"></span>
 				</NuxtLinkLocale>
-				<NuxtLinkLocale :to="'/fleet/shortcut/add/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type='+item['p_type']+''" title="Добавить в закладки">
+				<NuxtLinkLocale :to="'/fleet/shortcut/add/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type='+item['p_type']+''" title="Добавить в закладки">
 					<span class="sprite skin_z"></span>
 				</NuxtLinkLocale>
 			</template>
 
-			<NuxtLinkLocale v-if="!item && user['colonizer']" :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&mission=7'" title="Колонизация">
+			<NuxtLinkLocale v-if="!item && user['colonizer']" :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&mission=7'" title="Колонизация">
 				<span class="sprite skin_e"></span>
 			</NuxtLinkLocale>
 		</th>
@@ -284,28 +284,21 @@
 	import { storeToRefs } from 'pinia';
 
 	const props = defineProps({
-		galaxy: {
-			type: Number,
-			default: 1
-		},
-		system: {
-			type: Number,
-			default: 1
-		},
 		planet: {
 			type: Number,
 			default: 1
 		},
-		item: {},
+		item: {
+			type: Object,
+			default: null,
+		},
 		user: {
-			type: Object
+			type: Object,
 		},
 	});
 
 	const store = useStore();
 	const { user: currentUser } = storeToRefs(store);
-
-	const races = ref(['', 'Конфедерация', 'Бионики', 'Сайлоны', 'Древние']);
 	const spyCount = ref(props.user['spy']);
 
 	const user_status = computed(() => {
@@ -316,66 +309,67 @@
                RowUserPoints = 0;
 
 		if (props.item['u_ban'] > store.getServerTime && props.item['u_vacation'] > 0)
-			return "UG";
+			return 'UG';
 		else if (props.item['u_ban'] > store.getServerTime)
-			return "G";
+			return 'G';
 		else if (props.item['u_vacation'] > 0)
-			return "U";
+			return 'U';
 		else if (props.item['u_online'] === 1)
-			return "i";
+			return 'i';
 		else if (props.item['u_online'] === 2)
-			return "iI";
+			return 'iI';
 		else if (RowUserPoints * 5 < CurrentPoints || RowUserPoints <= 5000)
-			return "N";
+			return 'N';
 		else if (RowUserPoints > CurrentPoints * 5)
-			return "S";
+			return 'S';
 		else
 			return '';
 	})
 
 	const user_status_class = computed(() => {
 		if (user_status.value === 'UG')
-			return "vacation";
+			return 'vacation';
 		else if (user_status.value === 'G')
-			return "banned";
+			return 'banned';
 		else if (user_status.value === 'U')
-			return "vacation";
+			return 'vacation';
 		else if (user_status.value === 'i')
-			return "inactive";
+			return 'inactive';
 		else if (user_status.value === 'iI')
-			return "longinactive";
+			return 'longinactive';
 		else if (user_status.value === 'N')
-			return "noob";
+			return 'noob';
 		else if (user_status.value === 'S')
-			return "strong";
+			return 'strong';
 
 		return '';
 	});
 
 	const debris_class = computed(() => {
-		if (!props.item)
+		if (!props.item) {
 			return '';
+		}
 
 		let debris = parseInt(props.item['p_metal']) + parseInt(props.item['p_crystal']);
 
 		if (debris >= 10000000)
-			return 'debris_100'
+			return 'debris_100';
 		else if (debris >= 1000000)
-			return 'debris_50'
+			return 'debris_50';
 		else if (debris >= 100000)
-			return 'debris_0'
+			return 'debris_0';
 
 		return '';
 	});
 
 	const user_avatar = computed(() => {
-		if (!props.item)
+		if (!props.item) {
 			return '';
+		}
 
-		if (props.item['u_image'].length > 0)
+		if (props.item['u_image'].length > 0) {
 			return props.item['u_image'];
-		else if (props.item['u_avatar'] > 0)
-		{
+		} else if (props.item['u_avatar'] > 0) {
 			if (props.item['u_avatar'] !== 99)
 				return '/images/faces/'+props.item['u_sex']+'/'+props.item['u_avatar']+'s.png';
 			else
@@ -395,12 +389,12 @@
 	function spy (planet_type, event) {
 		event.target.setAttribute('disabled', 'disabled')
 
-		sendMission(6, props.galaxy, props.system, props.planet, planet_type, spyCount.value).then(() => {
+		sendMission(6, props.item['galaxy'], props.item['system'], props.planet, planet_type, spyCount.value).then(() => {
 			event.target.setAttribute('disabled', '')
 		});
 	}
 
 	function debris () {
-		sendMission(8, props.galaxy, props.system, props.planet, 2, 0)
+		sendMission(8, props.item['galaxy'], props.item['system'], props.planet, 2, 0)
 	}
 </script>
