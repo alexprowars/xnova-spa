@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<RouterForm v-if="page['vacation']" action="/options/change/">
+		<RouterForm v-if="page['vacation']" action="/options/save/">
 			<table class="table">
 				<tbody>
 					<tr>
@@ -30,7 +30,7 @@
 			</table>
 		</RouterForm>
 
-		<RouterForm v-else action="/options/change/">
+		<RouterForm v-else action="/options/save/">
 			<Tabs>
 				<Tab name="Информация">
 					<table class="table">
@@ -46,31 +46,29 @@
 									<template v-else>{{ page['opt_usern_data'] }}</template>
 								</th>
 							</tr>
-							<template v-if="!page['social']">
-								<template v-if="page['opt_isemail']">
-									<tr>
-										<th>Старый пароль</th>
-										<th><input name="password" size="20" value="" type="password" title="" autocomplete="current-password"></th>
-									</tr>
-									<tr>
-										<th>Новый пароль (мин. 8 Знаков)</th>
-										<th><input name="new_password" size="20" maxlength="40" type="password" title="" autocomplete="new-password"></th>
-									</tr>
-									<tr>
-										<th>Новый пароль (повтор)</th>
-										<th><input name="new_password_confirm" size="20" maxlength="40" type="password" title="" autocomplete="new-password"></th>
-									</tr>
-								</template>
+							<template v-if="page['opt_isemail']">
 								<tr>
-									<th>Адрес e-mail (логин)</th>
-									<th>
-										<input v-if="!page['opt_isemail']" type="text" name="email" value="" title="">
-										<template v-else>
-											{{ page['opt_mail_data'] }} <NuxtLinkLocale to="/options/email/" class="button">сменить</NuxtLinkLocale>
-										</template>
-									</th>
+									<th>Старый пароль</th>
+									<th><input name="password" size="20" value="" type="password" title="" autocomplete="current-password"></th>
+								</tr>
+								<tr>
+									<th>Новый пароль (мин. 8 Знаков)</th>
+									<th><input name="new_password" size="20" maxlength="40" type="password" title="" autocomplete="new-password"></th>
+								</tr>
+								<tr>
+									<th>Новый пароль (повтор)</th>
+									<th><input name="new_password_confirm" size="20" maxlength="40" type="password" title="" autocomplete="new-password"></th>
 								</tr>
 							</template>
+							<tr>
+								<th>Адрес e-mail (логин)</th>
+								<th>
+									<input v-if="!page['opt_isemail']" type="text" name="email" value="" title="">
+									<template v-else>
+										{{ page['opt_mail_data'] }} <NuxtLinkLocale to="/options/email/" class="button">сменить</NuxtLinkLocale>
+									</template>
+								</th>
+							</tr>
 							<tr>
 								<th>Пол</th>
 								<th><select name="sex" title="">
@@ -85,12 +83,6 @@
 					</table>
 				</Tab>
 				<Tab name="Интерфейс">
-					<template v-if="page['social']">
-						<div style="display: none">
-							<input name="chatbox" v-model="page['opt_chatbox_data']" type="checkbox" title="">
-							<input name="planetlistselect" v-model="page['opt_planetlistselect_data']" type="checkbox" title="">
-						</div>
-					</template>
 					<table class="table">
 						<tbody>
 							<tr>
@@ -128,7 +120,7 @@
 								<th>Показывать только доступные постройки</th>
 								<th><input name="available" v-model="page['opt_available_data']" type="checkbox" title=""></th>
 							</tr>
-							<tr v-if="!page['social']">
+							<tr>
 								<th>Показывать панель чата</th>
 								<th><input name="chatbox" v-model="page['opt_chatbox_data']" type="checkbox" title=""></th>
 							</tr>
@@ -248,7 +240,7 @@
 						</tbody>
 					</table>
 				</Tab>
-				<Tab v-if="!page['social']" name="Точки входа">
+				<Tab name="Точки входа">
 					<table v-if="page['auth'].length" class="table">
 						<tbody>
 							<tr>

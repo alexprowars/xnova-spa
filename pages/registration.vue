@@ -23,7 +23,7 @@
 				</div>
 				<div class="row">
 					<div class="col th text-center">
-						<div ref="captchaRef" :data-sitekey="page['captcha']"></div>
+						<div ref="captchaRef"></div>
 					</div>
 				</div>
 				<div class="row">
@@ -54,7 +54,7 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation, minLength } from '@vuelidate/validators'
 	import { ref, onMounted } from 'vue';
-	import { showError, useAsyncData } from '#imports';
+	import { showError, useAsyncData, useRuntimeConfig } from '#imports';
 	import useStore from '~/store';
 	import { useApiPost } from '~/composables/useApi';
 
@@ -64,11 +64,9 @@
 		}
 	});
 
-	const { data, error } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		if (process.server) {
-			const data = await useStore().loadPage();
-
-			return { data: data.page }
+			return await useStore().loadPage();
 		} else {
 			return {}
 		}
@@ -78,7 +76,6 @@
 		throw showError(error.value);
 	}
 
-	const page = ref({});
 	const email = ref('');
 	const password = ref('');
 	const password_confirm = ref('');
@@ -86,12 +83,13 @@
 	const laws = ref(false);
 	const captcha = ref(null);
 	const captchaRef = ref(null);
+	const { public: { recaptchaKey } } = useRuntimeConfig();
 
-	page.value = props.popup !== undefined ? props.popup : data.value;
+	page.value = props.popup !== undefined ? props.popup : page.value;
 
 	onMounted(() => {
 		captcha.value = grecaptcha.render(captchaRef.value, {
-			sitekey: page.value['captcha']
+			sitekey: recaptchaKey,
 		});
 	})
 

@@ -80,6 +80,11 @@ let config = {
 	runtimeConfig: {
 		public: {
 			gtmId: null,
+			recaptchaKey: null,
+			reverbAppKey: null,
+			reverbHost: null,
+			reverbPort: null,
+			reverbScheme: null,
 		}
 	},
 	nitro: {

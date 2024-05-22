@@ -87,7 +87,7 @@
 
 		useApiGet('/registration/').then((data) => {
 			openPopupModal(RegistrationForm, {
-				popup: data.page
+				popup: data.page,
 			})
 		})
 	}

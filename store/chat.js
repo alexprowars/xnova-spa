@@ -9,9 +9,7 @@ export const useChatStore = defineStore('chat', {
 	}),
 	getters: {
 		sortedMessages: state => {
-			return state.messages.sort((a , b) => {
-				return a['time'] < b['time'] ? -1 : 1
-			})
+			return state.messages.sort((a, b) => a['time'] < b['time'] ? -1 : 1);
 		}
 	},
 	actions: {

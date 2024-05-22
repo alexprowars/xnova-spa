@@ -1,26 +1,28 @@
 import Echo from 'laravel-echo'
-import io from 'socket.io-client'
-import { defineNuxtPlugin } from '#imports';
+import Pusher from 'pusher-js';
+import { defineNuxtPlugin, useRuntimeConfig } from '#imports';
 import useStore from '~/store';
 import useChatStore from '~/store/chat';
 
 export default defineNuxtPlugin((nuxtApp) => {
-	return;
+	const runtimeConfig = useRuntimeConfig();
+
+	if (typeof runtimeConfig.public.reverbAppKey === 'undefined' || !runtimeConfig.public.reverbAppKey) {
+		return;
+	}
+
+	window.Pusher = Pusher;
+
 	const echo = new Echo({
-		broadcaster: 'socket.io',
-		client: io,
-		host: window.location.protocol + '//' + window.location.hostname,
+		broadcaster: 'reverb',
+		key: runtimeConfig.public.reverbAppKey,
+		wsHost: runtimeConfig.public.reverbHost,
+		wsPort: runtimeConfig.public.reverbPort ?? 80,
+		wssPort: runtimeConfig.public.reverbPort ?? 443,
+		forceTLS: (runtimeConfig.public.reverbScheme ?? 'https') === 'https',
+		enabledTransports: ['ws', 'wss'],
 		namespace: 'Xnova.Events',
-		withoutInterceptors: true,
-	})
-
-	/*$axios.interceptors.request.use((config) => {
-		if (echo.socketId()) {
-			config.headers['X-Socket-Id'] = echo.socketId()
-		}
-
-		return config
-	})*/
+	});
 
 	const store = useStore();
 
@@ -32,7 +34,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 				chatStore.addMessage(message);
 			});
 
-		echo.private('game.' + store.user.id)
+		echo.private('user.' + store.user.id)
 			.listen('ChatPrivateMessage', ({ message }) => {
 				chatStore.addMessage(message);
 			});
