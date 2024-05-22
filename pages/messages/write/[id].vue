@@ -4,22 +4,25 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import MessageForm from '~/components/Page/Messages/Form.vue'
-	import { defineNuxtComponent } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		name: "messages-write",
-		components: {
-			MessageForm,
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-	})
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

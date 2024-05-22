@@ -48,42 +48,37 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import SupportDetail from '~/components/Page/Support/Detail.vue'
 	import SupportNew from '~/components/Page/Support/New.vue'
-	import { defineNuxtComponent } from '#imports';
-	import { useApiGet } from '~/composables/useApi';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		data () {
-			return {
-				detail: false,
-				request: false
-			}
-		},
-		components: {
-			SupportDetail,
-			SupportNew
-		},
-		methods: {
-			newRequest () {
-				this.request = !this.request
-			},
-			getInfo (id)
-			{
-				useApiGet('/support/info/'+id+'/')
-				.then((result) => {
-					this.detail = result
-				})
-			}
-		}
-	})
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const detail = ref(false);
+	const request = ref(false);
+
+	function newRequest () {
+		request.value = !request.value
+	}
+
+	async function getInfo (id) {
+		detail.value = await useApiGet('/support/info/' + id + '/')
+	}
 </script>

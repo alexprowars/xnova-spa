@@ -1,10 +1,10 @@
 <template>
-	<RouterForm ref="form" action="/messages/">
+	<RouterForm ref="formRef" action="/messages/">
 		<div class="block">
 			<div class="title">
 				Сообщения
 				<select name="category" @change.prevent="submitForm" v-model="page['category']">
-					<option v-for="(type, index) in $t('MESSAGE_TYPES')" :value="index">{{ type }}</option>
+					<option v-for="type in Object.keys($tm('message_types'))" :value="type">{{ $t('message_types.' + type) }}</option>
 				</select>
 				по
 				<select name="limit" @change.prevent="submitForm" v-model="page['limit']">
@@ -17,7 +17,7 @@
 			</div>
 			<div class="content noborder">
 				<div class="block-table">
-					<div class="row">
+					<div v-if="messages.length" class="row">
 						<div class="col-1 th text-center">
 							<input type="checkbox" class="checkAll" v-model="checkAll">
 						</div>
@@ -26,7 +26,7 @@
 						<div class="col-2 th text-center"></div>
 					</div>
 
-					<messages-row v-for="item in messages" :key="item['id']" :item="item"></messages-row>
+					<MessagesRow v-for="item in messages" :key="item['id']" :item="item"/>
 
 					<div v-if="page['pagination']['total'] === 0" class="row">
 						<div class="col-12 th text-center">нет сообщений</div>
@@ -44,65 +44,54 @@
 	</RouterForm>
 </template>
 
-<script>
+<script setup>
 	import MessagesRow from '~/components/Page/Messages/Row.vue'
-	import { defineNuxtComponent } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { computed, ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		components: {
-			MessagesRow
-		},
-		computed: {
-			messages ()
-			{
-				if (!this.page.items)
-					return [];
+	const route = useRoute();
 
-				this.page.items.forEach((item) => {
-					this.$set(item, 'deleted', false);
-				});
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-				return this.page.items;
-			},
-			deleteItems ()
-			{
-				let del = [];
+	watch(() => route.query, () => refresh());
 
-				this.messages.forEach((item, i) =>
-				{
-					if (item.deleted === true)
-						del.push(i);
-				});
+	if (error.value) {
+		throw showError(error.value);
+	}
 
-				return del;
-			}
-		},
-		data () {
-			return {
-				checkAll: false,
-				limit: [5, 10, 25, 50, 100, 200]
-			}
-		},
-		watch: {
-			checkAll (value)
-			{
-				this.messages.forEach((item) => {
-					item.deleted = value;
-				});
-			}
-		},
-		methods: {
-			submitForm () {
-				this.$refs['form'].send()
-			}
-		}
-	})
+	const formRef = ref(null);
+	const checkAll = ref(false);
+	const limit = ref([5, 10, 25, 50, 100, 200]);
+
+	watch(checkAll, (value) => {
+		messages.value.forEach((item) => {
+			item.deleted = value;
+		});
+	});
+
+	const messages = computed(() => {
+		if (!page.value.items)
+			return [];
+
+		page.value.items.forEach((item) => {
+			item['deleted'] = false;
+		});
+
+		return page.value.items;
+	});
+
+	const deleteItems = computed(() => {
+		return messages.value.filter((item) => item.deleted === true);
+	});
+
+	function submitForm () {
+		formRef.value.send();
+	}
 </script>

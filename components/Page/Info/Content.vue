@@ -1,8 +1,8 @@
 <template>
 	<div class="page-info">
 		<div class="page-info-description block">
-			<div class="title">{{ $t('TECH.'+page['i']) }}</div>
-			<div class="content table border-bottom-0">
+			<div class="title">{{ $t('tech.'+page['i']) }}</div>
+			<div class="content block-table border-bottom-0">
 				<div class="row">
 					<div class="col d-flex">
 						<div>

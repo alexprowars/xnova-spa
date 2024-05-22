@@ -1,5 +1,5 @@
 <template>
-	<div ref="application" class="application" :class="['set_'+controller, (!loader ? 'preload' : '')]" v-touch:swipe.left.right="swipe">
+	<div ref="application" class="application" :class="['set_'+controller]" v-touch:swipe.left.right="swipe">
 		<AppHeader v-if="views && views['header']"/>
 		<main>
 			<MainMenu v-if="views['menu']" :active="sidebar === 'menu'" @toggle="sidebarToggle('menu')"/>
@@ -37,9 +37,7 @@
 
 	const store = useStore();
 	const route = useRoute();
-
 	const sidebar = ref('');
-	const loader = ref(false);
 
 	const controller = computed(() => {
 		return (store.route && store.route.controller) || 'index'
@@ -67,10 +65,6 @@
 		return (store.messages || []).filter((item) => {
 			return item['type'].indexOf('-static') < 0;
 		})
-	});
-
-	onMounted(() => {
-		loader.value = true
 	});
 
 	watch(() => route.fullPath, () => {
@@ -134,7 +128,6 @@
 		htmlAttrs: () => head.value?.htmlAttrs || {},
 		bodyAttrs: {
 			page: controller.value,
-			class: 'window'
 		},
 	})
 </script>

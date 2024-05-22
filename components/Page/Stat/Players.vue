@@ -1,7 +1,7 @@
 <template>
 	<div class="block page-stat-players">
 		<div class="content border-0">
-			<div class="table middle">
+			<div class="block-table middle">
 				<div class="row">
 					<div class="c col-sm-1 col-2 middle">Место</div>
 					<div class="c col-sm-1 d-none d-sm-block middle">+/-</div>

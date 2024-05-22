@@ -1,8 +1,7 @@
 <template>
 	<div class="resource-panel-item-tooltip">
-		<h1>{{ $t('RESOURCES.'+type+'') }}</h1>
+		<h1>{{ $t('resources.' + type) }}</h1>
 		<div class="line"></div>
-
 		<table>
 			<tbody>
 				<tr>
@@ -22,17 +21,14 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		name: "planet-panel-resource-tooltip",
-		props: {
-			resource: {
-				type: Object
-			},
-			type: {
-				type: String,
-				default: ''
-			}
+<script setup>
+	defineProps({
+		resource: {
+			type: Object
 		},
-	}
+		type: {
+			type: String,
+			default: ''
+		}
+	})
 </script>

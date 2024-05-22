@@ -135,8 +135,8 @@
 							<tr>
 								<th>Цвет ваших сообщений в чате</th>
 								<th>
-									<select name='color' style='width:170px' title="" v-model="page['color']">
-										<option v-for="(color, id) in $t('colors')" v-if="color[1] !== ''" :value="id" :style="'color:'+color[0]">{{ color[1] }}</option>
+									<select name="color" style='width:170px' title="" v-model="page['color']">
+										<option v-for="id in Object.keys($tm('colors')).filter((c) => $t('colors.' + c + '.1') !== '')" :value="id" :style="'color:'+$t('colors.' + id + '.0')">{{ $t('colors.' + id + '.1') }}</option>
 									</select>
 								</th>
 							</tr>
@@ -277,9 +277,6 @@
 							</tr>
 							<tr>
 								<th>
-									<br>
-									<div id="uLogin" data-uloginid="e4860195" :x-ulogin-params="'display=panel;fields=first_name,last_name,photo;providers=vkontakte,odnoklassniki,facebook,twitter,yandex,googleplus,mailru;redirect_uri=http%3A%2F%2F'+$state['host']+'%2Foptions%2Fexternal%2F'"></div>
-									<br>
 								</th>
 							</tr>
 						</tbody>
@@ -301,17 +298,25 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-	})
+	const route = useRoute();
+	const store = useStore();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

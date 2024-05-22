@@ -1,7 +1,7 @@
 <template>
 	<div class="block page-stat-races">
 		<div class="content border-0">
-			<div class="table middle">
+			<div class="block-table middle">
 				<div class="row">
 					<div class="c col-2">Место</div>
 					<div class="c col-1">&nbsp;</div>

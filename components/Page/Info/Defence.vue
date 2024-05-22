@@ -55,7 +55,7 @@
 					</div>
 					<div v-for="(battle, fId) in defence['rapidfire']" class="row">
 						<div class="col th text-start">
-							<NuxtLinkLocale :to="'/info/'+fId+'/'">{{ $t('TECH.'+fId) }}</NuxtLinkLocale>
+							<NuxtLinkLocale :to="'/info/'+fId+'/'">{{ $t('tech.'+fId) }}</NuxtLinkLocale>
 						</div>
 						<div class="col th positive">
 							<span v-if="battle['TO']">{{ battle['TO'] }}</span>

@@ -2,7 +2,7 @@
 	<div class="row page-fleet-fly-item">
 		<div class="col-3 col-sm-1 th">{{ i + 1 }}</div>
 		<div class="col-6 col-sm-2 th">
-			<a>{{ $t('FLEET_MISSION.'+item.mission) }}</a>
+			<a>{{ $t('fleet_mission.'+item.mission) }}</a>
 			<div v-if="item.start.time + 1 === item.target.time">
 				<a title="Возврат домой">(R)</a>
 			</div>
@@ -11,10 +11,10 @@
 			</div>
 		</div>
 		<div class="col-3 col-sm-1 th">
-			<Popper hover>
+			<Popper>
 				<template #content>
 					<div v-for="(fleetData, fleetId) in item['units']">
-						{{ $t('TECH.'+fleetId) }}: {{ fleetData['count'] }}
+						{{ $t('tech.'+fleetId) }}: {{ fleetData['count'] }}
 					</div>
 				</template>
 				{{ $number(item['amount']) }}
@@ -59,7 +59,6 @@
 <script setup>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
-	import Popper from 'vue3-popper';
 	import { openConfirmModal } from '~/composables/useModals';
 
 	const props = defineProps({

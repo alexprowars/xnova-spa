@@ -1,3 +1,9 @@
+@import "./game/variables";
+
+$body-color: $text-color !default;
+$font-family-base: verdana, arial, sans-serif;
+$font-weight-base: 400;
+$line-height-base: 1.2;
 $grid-gutter-width: 10px !default;
 
 $grid-breakpoints: (

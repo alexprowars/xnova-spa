@@ -1,13 +1,12 @@
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { showError, useAsyncData } from '#imports';
 	import useStore from '~/store';
 
-	export default defineNuxtComponent({
-		name: "login_social",
-		async asyncData () {
-			await useStore().loadPage();
+	const { error } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-			return {}
-		},
-	})
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

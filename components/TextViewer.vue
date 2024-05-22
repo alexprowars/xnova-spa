@@ -2,21 +2,18 @@
 	<div v-html="parsed"></div>
 </template>
 
-<script>
-	import parser from '~/utils/parser'
+<script setup>
+	import parser from '~/utils/parser';
+	import { computed } from 'vue';
 
-	export default {
-		name: "text-viewer",
-		props: {
-			text: {
-				type: String,
-				default: '',
-			}
-		},
-		computed: {
-			parsed () {
-				return parser.parse(this.text);
-			}
+	const props = defineProps({
+		text: {
+			type: String,
+			default: '',
 		}
-	}
+	});
+
+	const parsed = computed(() => {
+		return parser.parse(props.text);
+	});
 </script>

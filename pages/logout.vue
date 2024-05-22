@@ -6,7 +6,7 @@
 	import { showError, useAsyncData } from '#imports';
 	import useStore from '~/store';
 
-	const { data, error } = await useAsyncData(async () => {
+	const { error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 

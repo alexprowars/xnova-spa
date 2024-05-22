@@ -2,14 +2,14 @@
 	<div class="col-md-6 col-12">
 		<div class="page-building-items-item building" :class="{blocked: !item.allow}">
 			<div class="building-info">
-				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" v-tooltip="$t('TECH.'+item.i)">
-					<img :src="'/images/gebaeude/'+item.i+'.gif'" :alt="$t('TECH.'+item.i)" class="img-fluid">
+				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" v-tooltip="$t('tech.'+item.i)">
+					<img :src="'/images/gebaeude/'+item.i+'.gif'" :alt="$t('tech.'+item.i)" class="img-fluid">
 				</a>
 
 				<div class="building-info-actions">
 					<div class="building-title">
 						<NuxtLinkLocale :to="'/info/'+item.i+'/'">
-							{{ $t('TECH.'+item.i) }}
+							{{ $t('tech.'+item.i) }}
 						</NuxtLinkLocale>
 						<span v-if="item.level" class="positive" title="Текущий уровень постройки">
 							{{ $number(item.level) }} <template v-if="item.max > 0">из <span class="neutral">{{ $number(item.max) }}</span></template>
@@ -47,7 +47,7 @@
 					<div v-else-if="item['requirements']" class="building-required">
 						<div v-for="req in item['requirements']">
 							<span class="negative">
-								{{ $t('TECH.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
+								{{ $t('tech.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
 							</span>
 						</div>
 					</div>
@@ -87,7 +87,7 @@
 			},
 			hasResources ()
 			{
-				return Object.keys(this.$t('RESOURCES')).every(res =>
+				return Object.keys(this.$t('resources')).every(res =>
 				{
 					return !(typeof this.item.price[res] !== 'undefined' && this.item.price[res] > 0
 						&& this.resources[res] && this.resources[res].value < this.item.price[res])
@@ -104,7 +104,7 @@
 					return
 				}
 
-				this.time = this.item['build']['time'] - this.$store.getters.getServerTime
+				this.time = this.item['build']['time'] - useStore().getServerTime
 			},
 			stop () {
 				clearTimeout(this.timeout)
@@ -125,7 +125,7 @@
 			cancelAction () {
 				openConfirmModal(
 					null,
-					'Отменить изучение <b>'+this.$t('TECH.'+this.item['i'])+' '+this.item['level']+' ур.</b>?',
+					'Отменить изучение <b>'+this.$t('tech.'+this.item['i'])+' '+this.item['level']+' ур.</b>?',
 					[{
 						title: 'Закрыть',
 					}, {

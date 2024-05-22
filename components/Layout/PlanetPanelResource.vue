@@ -1,7 +1,7 @@
 <template>
 	<div class="resource-panel-item">
 		<InfoPopup :id="building[type]" class="resource-panel-item-icon">
-			<Popper hover>
+			<Popper>
 				<span class="sprite" :class="['skin_'+type]"></span>
 				<span class="sprite" :class="['skin_s_'+type]"></span>
 				<template #content>
@@ -9,7 +9,7 @@
 				</template>
 			</Popper>
 		</InfoPopup>
-		<div class="neutral">{{ $t('RESOURCES.'+type+'') }}</div>
+		<div class="neutral">{{ $t('resources.'+type+'') }}</div>
 		<div title="Количество ресурса на планете">
 			<span :class="[resource.capacity > resource.value ? 'positive' : 'negative']">
 				{{ $number(resource.value) }}
@@ -21,7 +21,6 @@
 <script setup>
 	import ResourceTooltip from './PlanetPanelResourceTooltip.vue'
 	import InfoPopup from '~/components/Page/Info/Popup.vue'
-	import Popper from 'vue3-popper';
 	import { ref } from 'vue';
 
 	defineProps({

@@ -45,15 +45,15 @@
 			<tr>
 				<td class="c" :colspan="rows" align="left">Ресурсы на планете</td>
 			</tr>
-			<tr v-for="res in Object.keys($tm('RESOURCES')).filter((r) => r !== 'energy')">
-				<th>{{ $t('RESOURCES.' + res) }}</th>
+			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
+				<th>{{ $t('resources.' + res) }}</th>
 				<th v-for="planet in page['planets']">
 					<span :class="[planet['resources'][res]['current'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ $number(planet['resources'][res]['current']) }}</span>
 				</th>
 				<th>{{ $number(total['resources'][res]) }}</th>
 			</tr>
 			<tr>
-				<th>{{ $t('RESOURCES.energy') }}</th>
+				<th>{{ $t('resources.energy') }}</th>
 				<th v-for="planet in page['planets']">
 					<span :class="[planet['resources']['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['current']) }}</span>
 				</th>
@@ -70,8 +70,8 @@
 			<tr>
 				<td class="c" :colspan="rows" align="left">Производство в час</td>
 			</tr>
-			<tr v-for="res in Object.keys($tm('RESOURCES')).filter((r) => r !== 'energy')">
-				<th>{{ $t('RESOURCES.'+res) }}</th>
+			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
+				<th>{{ $t('resources.'+res) }}</th>
 				<th v-for="planet in page['planets']">{{ $number(planet['resources'][res]['production']) }}</th>
 				<th>{{ $number(total['production'][res]) }}</th>
 			</tr>
@@ -80,7 +80,7 @@
 				<td class="c" :colspan="rows" align="left">Уровень производства</td>
 			</tr>
 			<tr v-for="(item, i) in [1, 2, 3, 4, 12, 212]">
-				<th>{{ $t('TECH.'+item) }}</th>
+				<th>{{ $t('tech.'+item) }}</th>
 				<th v-for="planet in page['planets']">
 					<span :class="[planet['factor'][item] >= 100 ? 'positive' : 'negative']">{{ $number(planet['factor'][item]) }}</span>%
 				</th>
@@ -89,8 +89,8 @@
 			<tr>
 				<td class="c" :colspan="rows" align="left">Постройки</td>
 			</tr>
-			<tr v-for="id in Object.keys($tm('TECH')).filter((r) => r < 100)">
-				<th>{{ $t('TECH.' + id) }}</th>
+			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r < 100)">
+				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['current'] > 0 || planet['elements'][id]?.['build'] > 0">
 						{{ $number(planet['elements'][id]['current']) }}
@@ -110,8 +110,8 @@
 			<tr>
 				<td class="c" :colspan="rows" align="left">Флот</td>
 			</tr>
-			<tr v-for="id in Object.keys($tm('TECH')).filter((r) => r > 200 && r < 300)">
-				<th>{{ $t('TECH.' + id) }}</th>
+			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 200 && r < 300)">
+				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['current'] > 0 || planet['elements'][id]?.['build'] > 0 || planet['elements'][id]?.['fly'] > 0">
 						{{ $number(planet['elements'][id]?.['current']) }}
@@ -139,8 +139,8 @@
 			<tr>
 				<td class="c" :colspan="rows" align="left">Оборона</td>
 			</tr>
-			<tr v-for="id in Object.keys($tm('TECH')).filter((r) => r > 400 && r < 600)">
-				<th>{{ $t('TECH.' + id) }}</th>
+			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 400 && r < 600)">
+				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['current'] > 0 || planet['elements'][id]?.['build'] > 0">
 						{{ $number(planet['elements'][id]['current']) }}
@@ -163,7 +163,7 @@
 				<td class="c" :colspan="rows" align="left">Технологии</td>
 			</tr>
 			<tr v-for="(item, id) in page['tech']">
-				<th :colspan="rows - 1">{{ $t('TECH.'+id) }}</th>
+				<th :colspan="rows - 1">{{ $t('tech.'+id) }}</th>
 				<th>
 					<span class="neutral">{{ item['current'] }}</span>
 					<span v-if="item['build'] > 0" class="positive">
@@ -179,7 +179,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useI18n, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { computed, toRefs, watch } from 'vue';
+	import { computed, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -188,7 +188,7 @@
 	const route = useRoute();
 	const store = useStore();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await store.loadPage();
 	});
 
@@ -199,7 +199,6 @@
 	}
 
 	const { tm } = useI18n();
-	const { page } = toRefs(data.value);
 
 	const rows = computed(() => {
 		if (!page.value) {
@@ -218,8 +217,8 @@
 			elements: {},
 		};
 
-		let resources = Object.keys(tm('RESOURCES'));
-		let elements = Object.keys(tm('TECH'));
+		let resources = Object.keys(tm('resources'));
+		let elements = Object.keys(tm('tech'));
 
 		for (let res of resources) {
 			result.resources[res] = 0

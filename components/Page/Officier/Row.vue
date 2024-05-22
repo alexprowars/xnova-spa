@@ -1,7 +1,7 @@
 <template>
 	<div class="row officiers-item">
 		<div class="col-12 officiers-item-title">
-			{{ $t('TECH.'+item['id']) }}
+			{{ $t('tech.'+item['id']) }}
 			(<span v-if="item['time'] > 0" class="positive">Нанят до: {{ $date(item['time'], 'd.m.Y H:i') }}</span><span v-else class="negative">Не нанят</span>)
 		</div>
 		<div class="d-none d-sm-block col-sm-2 text-center officiers-item-image">
@@ -13,7 +13,7 @@
 				<tbody>
 				<tr>
 					<td :rowspan="(item['power'].length + 1)" valign="top" class="padding-0">
-						<img :src="'/images/officiers/'+item['id']+'.gif'" :alt="$t('TECH.'+item['id'])">
+						<img :src="'/images/officiers/'+item['id']+'.gif'" :alt="$t('tech.'+item['id'])">
 					</td>
 				</tr>
 				<tr v-for="power in item['power']">
@@ -63,7 +63,7 @@
 			submit (value, price) {
 				openConfirmModal(
 					'Вербовка офицера',
-				'Вы действительно хотите нанять офицера "<b>'+this.$t('TECH.'+this.item['id'])+'</b>" на <b>'+value+'</b> дней за <b>'+price+'</b> кредитов?',
+				'Вы действительно хотите нанять офицера "<b>'+this.$t('tech.'+this.item['id'])+'</b>" на <b>'+value+'</b> дней за <b>'+price+'</b> кредитов?',
 					[{
 						title: 'Отменить',
 					}, {

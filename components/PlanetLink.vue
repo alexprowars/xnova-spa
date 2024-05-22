@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-	const props = defineProps({
+	defineProps({
 		galaxy: {
 			type: Number,
 			default: 1

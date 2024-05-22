@@ -1,6 +1,6 @@
 <template>
 	<li>
-		<NuxtLinkLocale :to="item.url">{{ item.title }}</NuxtLinkLocale>
+		<NuxtLink :to="{ path: localePath(item.url), force: true }">{{ item.title }}</NuxtLink>
 	</li>
 </template>
 

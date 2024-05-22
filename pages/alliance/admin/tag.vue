@@ -2,7 +2,7 @@
 	<RouterForm action="/alliance/admin/tag">
 		<div class="block">
 			<div class="title">Введите новую аббревиатуру альянса</div>
-			<div class="content table border-0 middle">
+			<div class="content block-table border-0 middle">
 				<div class="row">
 					<div class="col th">
 						<input type="text" name="tag" :value="page['tag']">
@@ -17,17 +17,24 @@
 	</RouterForm>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-	})
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

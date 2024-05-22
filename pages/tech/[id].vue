@@ -2,78 +2,76 @@
 	<div id="rf_techinfo"></div>
 </template>
 
-<script>
+<script setup>
 	import { ECOTree } from '~/utils/techtree'
-	import { defineNuxtComponent } from '#imports';
+	import { showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { onMounted, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	const route = useRoute();
 
-			return {}
-		},
-		watchQuery: true,
-		methods: {
-			createTree (tid, prntid, element, level, access, fwrd)
-			{
-				let data = JSON.parse(JSON.stringify(this.page['data'][element]));
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-				let active = "lime";
+	watch(() => route.query, () => refresh());
 
-				if (!access)
-					active = "red";
+	if (error.value) {
+		throw showError(error.value);
+	}
 
-				if (element !== -1)
-					window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+data.name+'</span></div><img id="tch_img_'+tid+'" name="'+element+'" src="'+'/images/gebaeude/' + data.img+'" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
-				else
-					window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+fwrd+'</span></div><img id="tch_img_'+tid+'" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+	let counter = 0;
 
-				this.counter++
-				window.object.UpdateTree();
-
-				if (!access)
-					$('#tch_img_'+prntid).attr('class', 'tch_icon_red');
-
-				if (element !== -1)
-				{
-					if (data['req'].length)
-					{
-						let reqnum = data['req'].length;
-
-						for (let i = 0; i < reqnum; i++)
-						{
-							let actclr = "lime";
-
-							if (data['req'][i][2] < data['req'][i][4])
-								actclr = "red";
-
-							let lvtmp = '';
-
-							if (data['req'][i][3] !== -1)
-								lvtmp = '<font color='+actclr+'>' + data['req'][i][2] + '</font><font color=gold>+'+data['req'][i][3]+'</font>/<font color=lime>' + data['req'][i][4] + '</font>';
-							else
-								lvtmp = '<font color='+actclr+'>' + data['req'][i][2] + '</font>/<font color=lime>' + data['req'][i][4] + '</font>';
-
-							let fwrld = '';
-
-							if (data['req'][i][0] === -1)
-								fwrld = data['req'][i][1];
-
-							this.createTree(this.counter + 1, tid, data['req'][i][0], lvtmp, data['req'][i][2] < data['req'][i][4], fwrld);
-						}
-					}
-				}
-
-				window.object.UpdateTree();
-			}
-		},
-		mounted ()
-		{
-			window.object = new ECOTree('object', 'rf_techinfo');
-			this.counter = 0;
-
-			this.createTree(1, -1, this.page['element'], this.page['level'], this.page['access']);
-		}
+	onMounted(() => {
+		window.object = new ECOTree('object', 'rf_techinfo');
+		createTree(1, -1, page.value['element'], page.value['level'], page.value['access']);
 	})
+
+	function createTree (tid, prntid, element, level, access, fwrd) {
+		let data = page.value['data'].find((el) => el.id === element);
+
+		let active = "lime";
+
+		if (!access) {
+			active = "red";
+		}
+
+		if (element !== -1) {
+			window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+data.name+'</span></div><img id="tch_img_'+tid+'" name="'+element+'" src="'+'/images/gebaeude/' + data.img+'" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+		} else {
+			window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+fwrd+'</span></div><img id="tch_img_'+tid+'" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+		}
+
+		counter++;
+		window.object.UpdateTree();
+
+		if (!access) {
+			document.querySelector('#tch_img_'+prntid)?.classList.add('tch_icon_red');
+		}
+
+		if (element !== -1 && data['req'].length) {
+			for (let req of data['req']) {
+				let actclr = "lime";
+
+				if (req[2] < req[4])
+					actclr = "red";
+
+				let lvtmp = '';
+
+				if (req[3] !== -1)
+					lvtmp = '<font color='+actclr+'>' + req[2] + '</font><font color=gold>+'+req[3]+'</font>/<font color=lime>' + req[4] + '</font>';
+				else
+					lvtmp = '<font color='+actclr+'>' + req[2] + '</font>/<font color=lime>' + req[4] + '</font>';
+
+				let fwrld = '';
+
+				if (req[0] === -1)
+					fwrld = req[1];
+
+				createTree(counter + 1, tid, req[0], lvtmp, req[2] < req[4], fwrld);
+			}
+		}
+
+		window.object.UpdateTree();
+	}
 </script>

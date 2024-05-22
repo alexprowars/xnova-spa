@@ -4,50 +4,47 @@
 	</a>
 </template>
 
-<script>
+<script setup>
 	import { useApiGet } from '~/composables/useApi';
 	import { openPopupModal } from '~/composables/useModals';
+	import useStore from '~/store';
 
-	export default {
-		props: {
-			to: String,
-			width: {
-				type: Number,
-				default: 600
-			},
-			title: {
-				type: String,
-				default: ''
-			},
+	const props = defineProps({
+		to: String,
+		width: {
+			type: Number,
+			default: 600
 		},
-		methods: {
-			load ()
-			{
-				if (this.$store.getters.isMobile)
-					return window.location.href = this.to.split('ajax').join('').split('popup').join('')
+		title: {
+			type: String,
+			default: ''
+		},
+	})
 
-				useApiGet(this.to, {
-					popup: 'Y'
-				})
-				.then(async (result) => {
-					let component = this.$router.getMatchedComponents(this.to)
+	async function load () {
+		if (useStore().isMobile) {
+			return window.location.href = props.to.split('ajax').join('').split('popup').join('');
+		}
 
-					if (component.length) {
-						let comp = null
+		const result = await useApiGet(props.to, {
+			popup: 'Y'
+		});
 
-						if (typeof component[0] === 'object')
-							comp = component[0]
-						else
-							comp = await component[0]()
+		let component = useRouter().resolve(props.to)
+			.matched.flatMap(record => Object.values(record.components));
 
-						await openPopupModal(comp, {
-							popup: result['page'],
-							width: this.width,
-							height: 'auto'
-						})
-					}
-				})
+		if (component.length) {
+			let comp;
+
+			if (typeof component[0] === 'object') {
+				comp = component[0];
+			} else {
+				comp = await component[0]();
 			}
+
+			await openPopupModal(comp, {
+				popup: result['page'],
+			})
 		}
 	}
 </script>

@@ -26,53 +26,52 @@
 	</table>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
-
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
+	definePageMeta({
+		middleware: ['auth'],
 		layout: 'empty',
-		data () {
-			return {
-				timer: null,
-				times: []
-			}
-		},
-		methods: {
-			updateTimes ()
-			{
-				if (!this.page)
-					return
+	});
 
-				this.times = []
+	const route = useRoute();
 
-				this.page['items'].forEach((item) => {
-					this.times.push(item['time'] - this.$store.getters.getServerTime)
-				})
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-				this.startTimer()
-			},
-			startTimer () {
-				this.timer = setTimeout(() => {
-					this.updateTimes()
-				}, 1000)
-			},
-			stopTimer () {
-				clearTimeout(this.timer)
-			},
-		},
-		mounted () {
-			this.updateTimes()
-		},
-		destroyed () {
-			this.stopTimer()
-		}
-	})
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const times = ref([]);
+
+	let timer;
+
+	onMounted(() => {
+		updateTimes();
+	});
+
+	onBeforeUnmount(() => {
+		stopTimer();
+	});
+
+	function updateTimes () {
+		times.value = page.value['items']
+			.map((item) => item['time'] - useStore().getServerTime);
+
+		startTimer();
+	}
+
+	function startTimer () {
+		timer = setTimeout(updateTimes, 1000);
+	}
+
+	function stopTimer () {
+		clearTimeout(timer);
+	}
 </script>

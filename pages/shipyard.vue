@@ -3,7 +3,7 @@
 		<UnitQueue v-if="page.queue.length > 0" :queue="page.queue"/>
 		<div class="block">
 			<div class="content page-building-items">
-				<form ref="form" action="" method="post" @submit.prevent="constructAction">
+				<form ref="formRef" action="" method="post" @submit.prevent="constructAction">
 					<div class="row">
 						<div class="col-12">
 							<div class="c">
@@ -31,7 +31,7 @@
 	import { definePageMeta, showError, useAsyncData, useRoute, startLoading, stopLoading } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
-	import { ref, toRefs, watch } from 'vue';
+	import { ref, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -40,7 +40,7 @@
 	const route = useRoute();
 	const store = useStore();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await store.loadPage();
 	});
 
@@ -50,14 +50,14 @@
 		throw showError(error.value);
 	}
 
-	const { page } = toRefs(data.value);
+	const formRef = ref(null);
 	const itemsRef = ref([]);
 
 	async function constructAction () {
 		startLoading()
 
 		try {
-			const result = await useApiPost('/'+this.page.mode+'/', new FormData(this.$refs['form']))
+			const result = await useApiPost('/' + page.value.mode + '/', new FormData(formRef.value))
 
 			itemsRef.value.forEach((item) => {
 				if (typeof item['count'] !== 'undefined') {

@@ -5,7 +5,7 @@
 				{{ page['info']['TITLE'] }}
 			</div>
 			<div class="content border-0">
-				<div class="table tutorial">
+				<div class="block-table tutorial">
 					<div class="row">
 						<div class="col k text-start">
 							<div class="row">
@@ -42,17 +42,24 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-	})
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

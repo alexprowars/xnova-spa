@@ -54,44 +54,48 @@
 	</div>
 </template>
 
-<script>
-import { defineNuxtComponent, openConfirmModal } from '#imports';
-	import { useApiPost } from '~/composables/useApi';
+<script setup>
+	import { definePageMeta, openConfirmModal, showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		methods: {
-			approveRequest (id)
-			{
-				useApiPost('/buddy/approve/'+id+'/')
-				.then((result) => {
-					useStore().PAGE_LOAD(result)
-				})
-			},
-			deleteRequest (id) {
-				openConfirmModal(
-					null,
-					'Удалить запрос?',
-					[{
-						title: 'Нет',
-					}, {
-						title: 'Да',
-						handler: () => {
-							useApiPost('/buddy/delete/'+id+'/')
-							.then((result) => {
-								useStore().PAGE_LOAD(result)
-							})
-						}
-					}]
-				);
-			},
-		}
-	})
+	const route = useRoute();
+	const store = useStore();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	async function approveRequest (id) {
+		const result = await useApiPost('/buddy/approve/'+id+'/')
+
+		store.PAGE_LOAD(result);
+	}
+
+	function deleteRequest (id) {
+		openConfirmModal(
+			null,
+			'Удалить запрос?',
+			[{
+				title: 'Нет',
+			}, {
+				title: 'Да',
+				handler: async () => {
+					const result = await useApiPost('/buddy/delete/' + id + '/');
+
+					store.PAGE_LOAD(result);
+				}
+			}]
+		);
+	}
 </script>

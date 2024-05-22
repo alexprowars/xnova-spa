@@ -33,7 +33,7 @@
 <script setup>
 	import { showError, useAsyncData, definePageMeta, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { toRefs, watch } from 'vue';
+	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -41,7 +41,7 @@
 
 	const route = useRoute();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 
@@ -50,6 +50,4 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
-
-	const { page } = toRefs(data.value);
 </script>

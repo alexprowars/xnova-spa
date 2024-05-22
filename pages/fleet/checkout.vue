@@ -12,7 +12,7 @@
 					<input type="number" name="system" min="1" :max="page['system_max']" v-model="page['target']['system']">
 					<input type="number" name="planet" min="1" :max="page['planet_max']" v-model="page['target']['planet']">
 					<select name="planet_type" v-model="page['target']['planet_type']">
-						<option v-for="(item, index) in $t('PLANET_TYPE')" :value="index">{{ item }}</option>
+						<option v-for="(item, index) in $t('planet_type')" :value="index">{{ item }}</option>
 					</select>
 				</div>
 			</div>
@@ -108,7 +108,7 @@
 						<tr v-for="mission in page['missions']">
 							<th style="text-align: left !important">
 								<input :id="'m_'+mission" type="radio" name="mission" v-model="page['mission']" :value="mission">
-								<label :for="'m_'+mission">{{ $t('FLEET_MISSION.'+mission) }}</label>
+								<label :for="'m_'+mission">{{ $t('fleet_mission.'+mission) }}</label>
 
 								<center v-if="mission === 15" class="negative">
 									Внимание во время экспедиции возможна потеря флота!
@@ -202,197 +202,191 @@
 	</RouterForm>
 </template>
 
-<!--suppress JSUnusedGlobalSymbols -->
-<script>
-	import { getDistance, getSpeed, getDuration, getConsumption, getStorage } from '~/utils/fleet'
-	import { defineNuxtComponent } from '#imports';
-	import { useApiPost } from '~/composables/useApi';
+<script setup>
+	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { storeToRefs } from 'pinia';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		computed: {
-			resources () {
-				return this.$store.state.resources
-			},
-			position () {
-				return this.$store.state.user.position;
-			},
-			hold ()
-			{
-				let hold = 0
+	const route = useRoute();
+	const store = useStore();
 
-				if (this.page['mission'] === 5)
-					hold = this.page['ships'].reduce((summ, item) => item['stay'] * this.hold_hours, 0)
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
 
-				return hold
-			},
-			capacity () {
-				return this.storage - this.resource.metal - this.resource.crystal - this.resource.deuterium - this.hold
-			},
-		},
-		data () {
-			return {
-				resource: {
-					metal: 0,
-					crystal: 0,
-					deuterium: 0,
-				},
-				speed: 10,
-				distance: 0,
-				duration: 0,
-				storage: 0,
-				maxspeed: 0,
-				consumption: 0,
+	watch(() => route.query, () => refresh());
 
-				target_time: 0,
-				target_timeout: null,
+	if (error.value) {
+		throw showError(error.value);
+	}
 
-				alliance: 0,
-				hold_hours: 1,
-			}
-		},
-		watch: {
-			target_time () {
-				this.startTimer()
-			},
-			'page.target': {
-				async handler ()
-				{
-					let ships = {}
+	const resource = ref({
+		metal: 0, crystal: 0, deuterium: 0,
+	});
+	const speed = ref(10);
+	const distance = ref(0);
+	const duration = ref(0);
+	const storage = ref(0);
+	const maxspeed = ref(0);
+	const consumption = ref(0);
 
-					this.page['ships'].forEach((item) => {
-						ships[item['id']] = item['count']
-					})
+	const target_time = ref(0);
+	let target_timeout;
 
-					let data = await useApiPost('/fleet/checkout/', {
-						galaxy: this.page['target']['galaxy'],
-						system: this.page['target']['system'],
-						planet: this.page['target']['planet'],
-						planet_type: this.page['target']['planet_type'],
-						mission: 0,
-						ship: ships,
-					})
-					.then((result) =>
-					{
-						delete result['page']['target']
-						return result['page']
-					})
+	const alliance = ref(0);
+	const hold_hours = ref(1);
 
-					this.page = Object.assign(this.page, data)
+	const { planet } = storeToRefs(store);
 
-					this.info()
-				},
-				deep: true,
-			}
-		},
-		methods: {
-			info ()
-			{
-				this.distance = getDistance(this.position, this.page['target'])
-				this.maxspeed = getSpeed(this.page['ships'])
+	const resources = computed(() => {
+		return planet.value.resources;
+	});
 
-				this.duration = getDuration({
-					factor: this.speed,
-					distance: this.distance,
-					max_speed: this.maxspeed,
-					universe_speed: this.$store.state['speed']['fleet']
-				})
-
-				this.consumption = getConsumption({
-					ships: this.page['ships'],
-					duration: this.duration,
-					distance: this.distance,
-					universe_speed: this.$store.state['speed']['fleet']
-				})
-
-				this.storage = getStorage(this.page['ships']) - this.consumption
-
-				this.clearTimer()
-				this.target_time = this.$store.getters.getServerTime + this.duration
-			},
-			startTimer ()
-			{
-				this.target_timeout = setTimeout(() =>
-				{
-					this.target_time = this.$store.getters.getServerTime + this.duration
-
-					if (this.page['gate_time'] > 0)
-						this.page['gate_time']--
-
-					this.page['moons'].forEach((item) =>
-					{
-						if (item['timer'] > 0)
-							item['timer']--
-					})
-
-				}, 1000)
-			},
-			clearTimer () {
-				clearTimeout(this.target_timeout)
-			},
-			setTarget (galaxy, system, planet, type)
-			{
-				this.page['target']['galaxy'] = galaxy
-				this.page['target']['system'] = system
-				this.page['target']['planet'] = planet
-
-				if (typeof type === 'undefined')
-					type = 1
-
-				this.page['target']['planet_type'] = type
-			},
-			allianceSet (index)
-			{
-				let al = this.page['alliances'][index]
-
-				this.alliance = al['id']
-				this.setTarget(al['galaxy'], al['system'], al['planet'], al['planet_type'])
-			},
-			maxRes (type)
-			{
-				let current = this.resource.metal + this.resource.crystal + this.resource.deuterium
-				current -= this.resource[type]
-
-				let free = this.storage - current
-
-				if (type === 'deuterium')
-					this.resource[type] = Math.max(Math.min(Math.floor(this.resources[type]['current'] - this.consumption), free), 0)
-				else
-					this.resource[type] = Math.max(Math.min(Math.floor(this.resources[type]['current']), free), 0)
-			},
-			maxResAll ()
-			{
-				let free = this.storage - Math.floor(this.resources['metal']['current']) - Math.floor(this.resources['crystal']['current']) - Math.floor(this.resources['deuterium']['current'] - this.consumption)
-
-				if (free < 0)
-				{
-					this.resource.metal = Math.max(Math.min(Math.floor(this.resources['metal']['current']), this.storage), 0)
-					this.resource.crystal = Math.max(Math.min(Math.floor(this.resources['crystal']['current']), this.storage - this.resource.metal), 0)
-					this.resource.deuterium = Math.max(Math.min(Math.floor(this.resources['deuterium']['current'] - this.consumption), this.storage - this.resource.metal - this.resource.crystal), 0)
-				}
-				else
-				{
-					this.resource.metal = Math.max(Math.floor(this.resources['metal']['current']), 0)
-					this.resource.crystal = Math.max(Math.floor(this.resources['crystal']['current']), 0)
-					this.resource.deuterium = Math.max(Math.floor(this.resources['deuterium']['current'] - this.consumption), 0)
-				}
-			},
-			clearResAll () {
-				this.resource.metal = this.resource.crystal = this.resource.deuterium = 0
-			},
-		},
-		mounted () {
-			this.info()
-		},
-		destroyed () {
-			this.clearTimer()
-		}
+	const position = computed(() => {
+		return store.user.position;
 	})
+
+	const hold = computed(() => {
+		let hold = 0;
+
+		if (page.value['mission'] === 5) {
+			hold = page.value['ships'].reduce((summ, item) => item['stay'] * hold_hours.value, 0);
+		}
+
+		return hold;
+	})
+
+	const capacity = computed(() => {
+		return storage.value - resource.value.metal - resource.value.crystal - resource.value.deuterium - hold.value;
+	})
+
+	watch(target_time, () => {
+		startTimer();
+	});
+
+	onMounted(() => {
+		info();
+	});
+
+	onBeforeUnmount(() => {
+		clearTimer();
+	});
+
+	watch(() => page.value.target, async () => {
+		let ships = {}
+
+		page.value['ships'].forEach((item) => {
+			ships[item['id']] = item['count']
+		})
+
+		let result = await useApiPost('/fleet/checkout/', {
+			galaxy: page.value['target']['galaxy'],
+			system: page.value['target']['system'],
+			planet: page.value['target']['planet'],
+			planet_type: page.value['target']['planet_type'],
+			mission: 0,
+			ship: ships,
+		});
+
+		delete result['page']['target'];
+
+		page.value = Object.assign(page.value, result['page']);
+
+		info();
+	}, { deep: true });
+
+	function info () {
+		distance.value = getDistance(position.value, page.value['target']);
+		maxspeed.value = getSpeed(page.value['ships']);
+
+		duration.value = getDuration({
+			factor: speed.value,
+			distance: distance.value,
+			max_speed: maxspeed.value,
+			universe_speed: store['speed']['fleet']
+		});
+
+		consumption.value = getConsumption({
+			ships: page.value['ships'],
+			duration: duration.value,
+			distance: distance.value,
+			universe_speed: store['speed']['fleet']
+		});
+
+		storage.value = getStorage(page.value['ships']) - consumption.value;
+
+		clearTimer();
+		target_time.value = store.getServerTime + duration.value;
+	}
+
+	function startTimer () {
+		target_timeout = setTimeout(() => {
+			target_time.value = store.getServerTime + duration.value
+
+			if (page.value['gate_time'] > 0)
+				page.value['gate_time']--
+
+			page.value['moons'].forEach((item) => {
+				if (item['timer'] > 0)
+					item['timer']--
+			})
+		}, 1000)
+	}
+
+	function clearTimer () {
+		clearTimeout(target_timeout)
+	}
+
+	function setTarget (galaxy, system, planet, type) {
+		page.value['target']['galaxy'] = galaxy
+		page.value['target']['system'] = system
+		page.value['target']['planet'] = planet
+
+		if (typeof type === 'undefined')
+			type = 1
+
+		page.value['target']['planet_type'] = type
+	}
+
+	function allianceSet (index) {
+		let al = page.value['alliances'][index]
+
+		alliance.value = al['id']
+		setTarget(al['galaxy'], al['system'], al['planet'], al['planet_type'])
+	}
+
+	function maxRes (type) {
+		let current = resource.value.metal + resource.value.crystal + resource.value.deuterium
+		current -= resource.value[type]
+
+		let free = storage.value - current
+
+		if (type === 'deuterium')
+			resource.value[type] = Math.max(Math.min(Math.floor(resources.value[type]['current'] - consumption.value), free), 0)
+		else
+			resource.value[type] = Math.max(Math.min(Math.floor(resources.value[type]['current']), free), 0)
+	}
+
+	function maxResAll () {
+		let free = storage.value - Math.floor(resources.value['metal']['current']) - Math.floor(resources.value['crystal']['current']) - Math.floor(resources.value['deuterium']['current'] - consumption.value)
+
+		if (free < 0) {
+			resource.value.metal = Math.max(Math.min(Math.floor(resources.value['metal']['current']), storage.value), 0)
+			resource.value.crystal = Math.max(Math.min(Math.floor(resources.value['crystal']['current']), storage.value - resource.value.metal), 0)
+			resource.value.deuterium = Math.max(Math.min(Math.floor(resources.value['deuterium']['current'] - consumption.value), storage.value - resource.value.metal - resource.value.crystal), 0)
+		} else {
+			resource.value.metal = Math.max(Math.floor(resources.value['metal']['current']), 0)
+			resource.value.crystal = Math.max(Math.floor(resources.value['crystal']['current']), 0)
+			resource.value.deuterium = Math.max(Math.floor(resources.value['deuterium']['current'] - consumption.value), 0)
+		}
+	}
+
+	function clearResAll () {
+		resource.value.metal = resource.value.crystal = resource.value.deuterium = 0
+	}
 </script>

@@ -14,7 +14,7 @@
 <script setup>
 	import TechRow from '~/components/Page/Buildings/TechRow.vue'
 	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
-	import { toRefs, watch } from 'vue';
+	import { watch } from 'vue';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -23,7 +23,7 @@
 
 	const route = useRoute();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 
@@ -32,6 +32,4 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
-
-	const { page } = toRefs(data.value);
 </script>

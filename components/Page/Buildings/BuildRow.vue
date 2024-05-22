@@ -4,12 +4,12 @@
 
 			<div class="building-info">
 				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" :style="{backgroundImage: 'url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'}">
-					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('TECH.'+item.i)" class="img-fluid" v-tooltip="$t('TECH.' + item.i)">
+					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('tech.'+item.i)" class="img-fluid" v-tooltip="$t('tech.' + item.i)">
 					<div class="building-effects">
 						<template v-if="item['effects']">
 							<template v-for="(value, resource) in item['effects']">
 								<div v-if="value !== 0" class="building-effects-row">
-									<span :class="'sprite skin_s_'+resource" :title="$t('RESOURCES.' + resource)"></span>
+									<span :class="'sprite skin_s_'+resource" :title="$t('resources.' + resource)"></span>
 									<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
 								</div>
 							</template>
@@ -20,7 +20,7 @@
 				<div class="building-info-actions">
 					<div class="building-title">
 						<NuxtLinkLocale :to="'/info/'+item.i+'/'">
-							{{ $t('TECH.'+item.i) }}
+							{{ $t('tech.'+item.i) }}
 						</NuxtLinkLocale>
 						<span v-if="item.level" class="positive" title="Текущий уровень постройки">
 							{{ $number(item.level) }}
@@ -62,7 +62,7 @@
 					<div v-else-if="item['requirements']" class="building-required">
 						<div v-for="req in item['requirements']">
 							<span class="negative">
-								{{ $t('TECH.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
+								{{ $t('tech.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
 							</span>
 						</div>
 					</div>
@@ -99,7 +99,7 @@
 	});
 
 	const hasResources = computed(() => {
-		return Object.keys(tm('RESOURCES')).every(res => {
+		return Object.keys(tm('resources')).every(res => {
 			if (typeof props.item.price[res] !== 'undefined' && props.item.price[res] > 0) {
 				if (res === 'energy') {
 					if (resources.value[res].capacity < props.item.price[res])

@@ -31,7 +31,7 @@
 						:system="page['system']"
 						:planet="index + 1"
 						@sendMissile="sendMissile(item['planet'])"
-					></GalaxyRow>
+					/>
 
 					<tr v-if="page['user']['allowExpedition']">
 						<th width="30">16</th>
@@ -41,11 +41,11 @@
 					</tr>
 					<tr>
 						<td class="c" colspan="6">
-							<span v-if="planets === 0">нет заселённых планет</span>
-							<span v-else>{{ planets }} {{ $morph(planets, 'заселённая планета', 'заселённые планеты', 'заселённых планет') }}</span>
+							<span v-if="planetsCount === 0">нет заселённых планет</span>
+							<span v-else>{{ planetsCount }} {{ $morph(planetsCount, 'заселённая планета', 'заселённые планеты', 'заселённых планет') }}</span>
 						</td>
 						<td class="c" colspan="3">
-							<Popper hover>
+							<Popper>
 								<template #content>
 									<GalaxyLegend/>
 								</template>
@@ -74,8 +74,7 @@
 	import MissileAttack from '~/components/Page/Galaxy/MissileAttack.vue';
 	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
-	import Popper from 'vue3-popper';
-	import { computed, ref, toRefs, watch } from 'vue';
+	import { computed, ref, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -83,7 +82,7 @@
 
 	const route = useRoute();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 
@@ -93,16 +92,15 @@
 		throw showError(error.value);
 	}
 
-	const { page } = toRefs(data.value);
-
 	const missile = ref(false);
 	const missilePlanet = ref(0);
 
-	const planets= computed(() => {
-		if (!page.value.items)
+	const planetsCount = computed(() => {
+		if (!page.value.items) {
 			return 0;
+		}
 
-		return page.value.items.filter(item => item !== false).length
+		return page.value.items.filter(item => item !== false).length;
 	})
 
 	function sendMissile (planet) {

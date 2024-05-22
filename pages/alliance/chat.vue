@@ -71,38 +71,40 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		data () {
-			return {
-				text: '',
-				marked: []
-			}
-		},
-		methods: {
-			quote (messageIndex)
-			{
-				if (typeof this.page['items'][messageIndex] === 'undefined')
-					return;
+	const route = useRoute();
 
-				let message = this.page['items'][messageIndex];
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-				let text = message['text'];
-				text = text.replace(/<br>/gi, "\n");
-			    text = text.replace(/<br \/>/gi, "\n");
+	watch(() => route.query, () => refresh());
 
-				this.text = this.text + '[quote author='+message['user']+']'+text+'[/quote]';
-			}
-		}
-	})
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const text = ref('');
+	const marked = ref([]);
+
+	function quote (messageIndex) {
+		if (typeof page.value['items'][messageIndex] === 'undefined')
+			return;
+
+		let message = page.value['items'][messageIndex];
+
+		let text = message['text'];
+		text = text.replace(/<br>/gi, "\n");
+	    text = text.replace(/<br \/>/gi, "\n");
+
+		text.value = text.value + '[quote author='+message['user']+']'+text+'[/quote]';
+	}
 </script>

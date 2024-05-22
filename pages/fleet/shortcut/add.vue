@@ -12,7 +12,7 @@
 							<input type="text" name="system" v-model.number="page['system']" size="3" maxlength="3" title="Система">
 							<input type="text" name="pplanet" v-model.number="page['planet']" size="3" maxlength="2" title="Планета">
 							<select name="pplanet_type" v-model.number="page['type']">
-								<option v-for="(title, type) in $t('PLANET_TYPE')" :value="type">{{ title }}</option>
+								<option v-for="(title, type) in $t('planet_type')" :value="type">{{ title }}</option>
 							</select>
 						</div>
 					</div>
@@ -35,16 +35,24 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-	})
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

@@ -24,7 +24,7 @@
 					<div v-if="type !== ''" class="col th">
 						<div class="block-table">
 							<div class="row">
-								<div class="c col">Обменять {{ $lower($t('RESOURCES.'+type)) }} на</div>
+								<div class="c col">Обменять {{ $lower($t('resources.'+type)) }} на</div>
 							</div>
 							<div class="row">
 								<div class="col-3 th"></div>
@@ -32,7 +32,7 @@
 								<div class="col-6 th"></div>
 							</div>
 							<div v-for="res in ['metal', 'crystal', 'deuterium']" class="row">
-								<div class="col-3 th middle">{{ $t('RESOURCES.'+res) }}</div>
+								<div class="col-3 th middle">{{ $t('resources.'+res) }}</div>
 								<div class="col-3 th middle">{{ page['modifiers'][res] / page['modifiers'][type] }}</div>
 								<div class="col-6 th middle">
 									<Number v-if="type !== res" :name="res" min="0" v-model="exchange[res]" placeholder="введите кол-во" v-on:input="calculate"/>
@@ -53,41 +53,41 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		data () {
-			return {
-				type: '',
-				exchange: {
-					metal: 0,
-					crystal: 0,
-					deuterium: 0
-				}
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const type = ref('');
+	const exchange = ref({
+		metal: 0, crystal: 0, deuterium: 0
+	});
+
+	function calculate () {
+		let res = 0;
+
+		['metal', 'crystal', 'deuterium'].forEach((item) => {
+			if (type.value !== item) {
+				res += exchange.value[item] * (page.value['modifiers'][item] / page.value['modifiers'][type.value]);
 			}
-		},
-		methods: {
-			calculate ()
-			{
-				let res = 0;
+		});
 
-				['metal', 'crystal', 'deuterium'].forEach((item) =>
-				{
-					if (this.type !== item)
-						res += this.exchange[item] * (this.page['modifiers'][item] / this.page['modifiers'][this.type]);
-				});
-
-				this.exchange[this.type] = res;
-			}
-		}
-	})
+		exchange.value[type.value] = res;
+	}
 </script>

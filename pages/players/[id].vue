@@ -2,20 +2,20 @@
 	<PlayerInfo :page="page"/>
 </template>
 
-<script>
-	import PlayerInfo from '~/components/Page/Players/Info.vue'
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		components: {
-			PlayerInfo,
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	const route = useRoute();
 
-			return {}
-		},
-		watchQuery: true,
-	})
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
 </script>

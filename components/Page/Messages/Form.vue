@@ -6,7 +6,7 @@
 				Отправка сообщения
 			</div>
 			<div class="content border-0">
-				<div class="table form-group">
+				<div class="block-table form-group">
 					<div class="row">
 						<div class="col th">
 							Получатель

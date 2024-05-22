@@ -1,7 +1,7 @@
 <template>
 	<div class="page-chat">
 		<div class="col-12 th">
-			<div ref="chatbox" class="page-chat-messages">
+			<div ref="chatboxRef" class="page-chat-messages">
 				<div v-for="item in messages" class="page-chat-messages-row text-start">
 					<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ $date(item['time'], 'H:i') }}</span>
 					<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" @click="toPlayer(item['user'])">{{ item['user'] }}</span>:
@@ -29,7 +29,7 @@
 					<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
 				</div>
 			</div>
-			<input ref="text" class="page-chat-message" type="text" v-model="message" @keypress.13.prevent="sendMessage" maxlength="750">
+			<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keypress.13.prevent="sendMessage" maxlength="750">
 
 			<input type="button" value="Очистить" @click.prevent="clear">
 			<input type="button" value="Отправить" @click.prevent="sendMessage">
@@ -37,93 +37,98 @@
 	</div>
 </template>
 
-<script>
-	import parser from '~/utils/parser'
-	import { mapState } from 'pinia'
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useChatStore from '~/store/chat';
-	import { defineNuxtComponent } from '#imports';
 	import useStore from '~/store';
+	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import parser from '~/utils/parser';
+	import { storeToRefs } from 'pinia';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		data () {
-			return {
-				smiles: false,
-				smilesList: parser.patterns.smiles,
-				message: '',
-			}
-		},
-		computed: {
-			...mapState(useChatStore, [
-				'messages',
-			]),
-		},
-		mounted () {
-			this.$store.dispatch('chat/loadMessages')
+	const route = useRoute();
 
-			window.addEventListener('resize', this.scrollToBottom, true)
-		},
-		beforeDestroy () {
-			window.removeEventListener('resize', this.scrollToBottom)
-		},
-		watch: {
-			message () {
-				this.$refs['text'].focus()
-			},
-			messages () {
-				setTimeout(() => {
-					this.scrollToBottom()
-				}, 250)
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-				if (this.active) {
-					useChatStore().clearUnread();
-				}
-			},
-		},
-		methods: {
-			scrollToBottom ()
-			{
-				if (this.$refs['chatbox']) {
-					this.$refs['chatbox'].scrollTop = this.$refs['chatbox'].scrollHeight
-				}
-			},
-			addTag (tag, type)
-			{
-				let len = this.message.length;
-				let start = this.$refs.text.selectionStart;
-				let end = this.$refs.text.selectionEnd;
+	watch(() => route.query, () => refresh());
 
-				let rep = parser.addTag(tag, this.message.substring(start, end), type)
+	if (error.value) {
+		throw showError(error.value);
+	}
 
-				this.message = this.message.substring(0, start) + rep + this.message.substring(end, len)
-			},
-			addSmile (smile)
-			{
-				this.message = this.message+' :'+smile+':';
-				this.smiles = false;
-			},
-			toPlayer (user) {
-				this.message = 'для ['+user+'] '+this.message
-			},
-			toPrivate (user) {
-				this.message = 'приватно ['+user+'] '+this.message
-			},
-			clear () {
-				this.$store.dispatch('chat/clear')
-				this.smiles = false
-			},
-			sendMessage ()
-			{
-				this.smiles = false
-				this.$store.dispatch('chat/sendMessage', this.message)
-				this.message = ''
-			},
-		},
-	})
+	const chatStore = useChatStore();
+
+	const chatboxRef = ref(null);
+	const textRef = ref(null);
+	const smiles = ref(false);
+	const smilesList = ref(parser.patterns.smiles);
+	const message = ref('');
+	const { messages } = storeToRefs(chatStore);
+
+	onMounted(() => {
+		chatStore.loadMessages();
+
+		window.addEventListener('resize', scrollToBottom, true);
+	});
+
+	onBeforeUnmount(() => {
+		window.removeEventListener('resize', scrollToBottom);
+	});
+
+	watch(message, () => {
+		textRef.value.focus()
+	});
+
+	watch(messages, () => {
+		setTimeout(scrollToBottom, 250);
+
+		if (this.active) {
+			chatStore.clearUnread();
+		}
+	});
+
+	function scrollToBottom () {
+		if (chatboxRef.value) {
+			chatboxRef.value.scrollTop = chatboxRef.value.scrollHeight
+		}
+	}
+
+	function addTag (tag, type) {
+		let len = message.value.length;
+		let start = textRef.value.selectionStart;
+		let end = textRef.value.selectionEnd;
+
+		let rep = parser.addTag(tag, message.value.substring(start, end), type)
+
+		message.value = message.value.substring(0, start) + rep + message.value.substring(end, len)
+	}
+
+	function addSmile (smile){
+		message.value = message.value + ' :'+smile+':';
+		smiles.value = false;
+	}
+
+	function toPlayer (user) {
+		message.value = 'для ['+user+'] ' + message.value;
+	}
+
+	function toPrivate (user) {
+		message.value = 'приватно ['+user+'] ' + message.value;
+	}
+
+	function clear () {
+		chatStore.clear();
+		smiles.value = false;
+	}
+
+	function sendMessage () {
+		smiles.value = false;
+		chatStore.sendMessage(message.value);
+		message.value = '';
+	}
 </script>

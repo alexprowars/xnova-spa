@@ -15,14 +15,14 @@
 					Цель:
 					<select name="target" v-model="target">
 						<option value="all">Вся оборона</option>
-						<option value="0">{{ $t('TECH.401') }}</option>
-						<option value="1">{{ $t('TECH.402') }}</option>
-						<option value="2">{{ $t('TECH.403') }}</option>
-						<option value="3">{{ $t('TECH.404') }}</option>
-						<option value="4">{{ $t('TECH.405') }}</option>
-						<option value="5">{{ $t('TECH.406') }}</option>
-						<option value="6">{{ $t('TECH.407') }}</option>
-						<option value="7">{{ $t('TECH.408') }}</option>
+						<option value="0">{{ $t('tech.401') }}</option>
+						<option value="1">{{ $t('tech.402') }}</option>
+						<option value="2">{{ $t('tech.403') }}</option>
+						<option value="3">{{ $t('tech.404') }}</option>
+						<option value="4">{{ $t('tech.405') }}</option>
+						<option value="5">{{ $t('tech.406') }}</option>
+						<option value="6">{{ $t('tech.407') }}</option>
+						<option value="7">{{ $t('tech.408') }}</option>
 					</select>
 				</div>
 			</div>

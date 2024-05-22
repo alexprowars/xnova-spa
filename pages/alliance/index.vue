@@ -99,8 +99,8 @@
 				<tr v-if="page['chat_access']">
 					<th>
 						Альянс чат
-						<template v-if="$state.user.alliance.messages > 0">
-							({{ $state.user.alliance.messages }} новых)
+						<template v-if="user.alliance.messages > 0">
+							({{ user.alliance.messages }} новых)
 						</template>
 					</th>
 					<th><NuxtLinkLocale to="/alliance/chat">Войти в чат</NuxtLinkLocale></th>
@@ -130,22 +130,32 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { computed, watch } from 'vue';
+	import { storeToRefs } from 'pinia';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		computed: {
-			hasAlliance () {
-				return typeof this.page['id'] === 'undefined'
-			}
-		},
+	const route = useRoute();
+	const store = useStore();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const { user } = storeToRefs(store);
+
+	const hasAlliance = computed(() => {
+		return typeof page.value['id'] === 'undefined'
 	})
 </script>

@@ -1,10 +1,4 @@
-export const useApiGet = (url, params = undefined) => {
-	if (params === undefined) {
-		params = {};
-	}
-
-	params['_'] = Math.random();
-
+export const useApiGet = (url, params = {}) => {
 	return $fetch('/api' + url, {
 		method: 'get', params
 	})
@@ -16,9 +10,7 @@ export const useApiGet = (url, params = undefined) => {
 	})
 }
 
-export const useApiPost = (url, data) => {
-	data = data || {}
-
+export const useApiPost = (url, data = {}) => {
 	if (data.toString().indexOf('FormData') < 0) {
 		data = objectToFormData(data);
 	}

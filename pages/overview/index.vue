@@ -20,7 +20,7 @@
 			<div class="title">
 				<div class="row">
 					<div class="col-12 col-sm-6">
-						{{ $t('PLANET_TYPE.'+planet['type']) }} "{{ planet['name'] }}"
+						{{ $t('planet_type.'+planet['type']) }} "{{ planet['name'] }}"
 						<NuxtLinkLocale :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
 							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['position'] }}]
 						</NuxtLinkLocale>
@@ -76,10 +76,10 @@
 							<div class="col-12 page-overview-officiers">
 								<div v-for="item in user['officiers']" class="page-overview-officiers-item">
 									<NuxtLinkLocale to="/officier/">
-										<Popper hover>
+										<Popper>
 											<template #content>
 												<div>
-													{{ $t('TECH.'+item['id']) }}
+													{{ $t('tech.'+item['id']) }}
 													<br>
 													<span v-if="item['time'] > store.getServerTime">
 														Нанят до <font color="lime">{{ $date(item['time'], 'd.m.Y H:i') }}</font>
@@ -154,7 +154,7 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									Фракция: <NuxtLinkLocale to="/race/">{{ $t('RACES.'+user['race']) }}</NuxtLinkLocale>
+									Фракция: <NuxtLinkLocale to="/race/">{{ $t('races.'+user['race']) }}</NuxtLinkLocale>
 								</div>
 							</div>
 							<div class="row">
@@ -288,8 +288,7 @@
 	import useStore from '~/store';
 	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
-	import { toRefs, watch } from 'vue';
-	import Popper from 'vue3-popper';
+	import { watch } from 'vue';
 	import { openAjaxPopupModal } from '~/composables/useModals';
 
 	definePageMeta({
@@ -298,7 +297,7 @@
 
 	const route = useRoute();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 
@@ -307,8 +306,6 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
-
-	const { page } = toRefs(data.value);
 
 	const store = useStore();
 	const { user, planet, host } = storeToRefs(store);
@@ -323,8 +320,7 @@
 		)
 	}
 
-	async function getDailyBonus ()
-	{
+	async function getDailyBonus () {
 		const result = await useApiPost('/overview/', {
 			bonus: 'Y'
 		})

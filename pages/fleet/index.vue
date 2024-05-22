@@ -39,13 +39,13 @@
 			<div class="title">
 				<div class="row">
 					<div class="col-12 text-center">
-						Выбрать корабли<template v-if="page['selected']['mission'] > 0"> для миссии "{{ $t('FLEET_MISSION.'+page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>:
+						Выбрать корабли<template v-if="page['selected']['mission'] > 0"> для миссии "{{ $t('fleet_mission.'+page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>:
 					</div>
 				</div>
 			</div>
 			<div class="content">
 				<RouterForm action="/fleet/checkout/">
-					<div class="table fleet_ships container">
+					<div class="block-table fleet_ships container">
 						<div class="row">
 							<div class="th col-sm-7 col-6">Тип корабля</div>
 							<div class="th col-sm-2 col-2">Кол-во</div>
@@ -54,7 +54,7 @@
 
 						<div v-for="ship in page.ships" class="row">
 							<div class="th col-sm-7 col-6 middle">
-								<a :title="$t('TECH.'+ship.id)">{{ $t('TECH.'+ship.id) }}</a>
+								<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
 							</div>
 							<div class="th col-sm-2 col-2 middle">
 								<a @click.prevent="maxShips(ship['id'])">{{ $number(ship['count']) }}</a>
@@ -62,7 +62,7 @@
 							<div v-if="ship.id === 212" class="th col-sm-3 col-4"></div>
 							<div v-else="" class="th col-sm-3 col-4">
 								<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
-								<input type="number" min="0" :max="ship['count']" :name="'ship['+ship['id']+']'" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('TECH.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
+								<input type="number" min="0" :max="ship['count']" :name="'ship['+ship['id']+']'" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
 								<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
 							</div>
 						</div>
@@ -76,12 +76,12 @@
 						<div v-if="count" class="row">
 							<div class="th col-4 col-sm-7">&nbsp;</div>
 							<div class="th col-4 col-sm-2">Вместимость</div>
-							<div class="th col-4 col-sm-3">{{ allCapacity ? $options.filters.number(allCapacity) : '-' }}</div>
+							<div class="th col-4 col-sm-3">{{ allCapacity ? $number(allCapacity) : '-' }}</div>
 						</div>
 						<div v-if="count" class="row">
 							<div class="th col-4 col-sm-7">&nbsp;</div>
 							<div class="th col-4 col-sm-2">Скорость</div>
-							<div class="th col-4 col-sm-3">{{ allSpeed ? $options.filters.number(allSpeed) : '-'}}</div>
+							<div class="th col-4 col-sm-3">{{ allSpeed ? $number(allSpeed) : '-'}}</div>
 						</div>
 						<div v-if="count && page['curFleets'] < page['maxFleets']" class="row">
 							<div class="th col-12"><input type="submit" value=" Далее "></div>
@@ -96,7 +96,7 @@
 			</div>
 		</div>
 		<div v-else class="block page-fleet-select">
-			<div class="table fleet_ships container">
+			<div class="block-table fleet_ships container">
 				<div class="row">
 					<div class="th col-12">
 						Нет кораблей на планете
@@ -111,129 +111,123 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import FlyRow from '~/components/Page/Fleet/FlyRow.vue'
-	import { defineNuxtComponent } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { computed, ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		components: {
-			FlyRow
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		computed: {
-			count ()
-			{
-				return this.page['ships'].reduce((total, ship) =>
-				{
-					let cnt = this.fleets[ship.id] || 0;
-					return (total + cnt);
-				}, 0);
-			}
-		},
-		data () {
-			return {
-				fleets: {},
-				allCapacity: 0,
-				allSpeed: 0
-			}
-		},
-		watch: {
-			'page.ships' () {
-				this.init();
-			},
-			'fleets': {
-				handler () {
-					this.calculateShips();
-				},
-				deep: true,
-			}
-		},
-		methods: {
-			init ()
-			{
-				if (!this.page || !this.page.ships)
-					return;
+	const route = useRoute();
 
-				this.fleets = {};
-			},
-			maxShips (shipId)
-			{
-				let ship = this.page['ships'].find((item) => {
-					return item.id === shipId
-				})
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
 
-				if (typeof this.fleets[ship['id']] !== "undefined" && this.fleets[ship['id']] === ship['count'])
-					this.fleets[ship['id']] = ''
-				else
-					this.$set(this.fleets, ship['id'], ship['count']);
-			},
-			clearShips ()
-			{
-				this.page.ships.forEach((ship) => {
-					this.$set(this.fleets, ship['id'], '');
-				})
-			},
-			allShips ()
-			{
-				this.page.ships.forEach((ship) =>
-				{
-					if (ship['id'] !== 212)
-						this.$set(this.fleets, ship['id'], ship['count']);
-				})
-			},
-			diffShips (shipId, val)
-			{
-				if (typeof this.fleets[shipId] === "undefined")
-					this.$set(this.fleets, shipId, 0);
+	watch(() => route.query, () => refresh());
 
-				if (!parseInt(this.fleets[shipId]))
-					this.fleets[shipId] = 0;
+	if (error.value) {
+		throw showError(error.value);
+	}
 
-				this.fleets[shipId] += val;
+	const fleets = ref({});
+	const allCapacity = ref(0);
+	const allSpeed = ref(0);
 
-				if (this.fleets[shipId] <= 0)
-					this.fleets[shipId] = '';
+	const count = computed(() => {
+		return page.value['ships'].reduce((total, ship) => {
+			let cnt = fleets.value[ship.id] || 0;
+			return (total + cnt);
+		}, 0);
+	});
 
-				let ship = this.page['ships'].find((item) => {
-					return item.id === shipId
-				})
+	watch(() => page.value.ships, () => {
+		init();
+	});
 
-				if (this.fleets[shipId] > ship.count)
-					this.fleets[shipId] = ship.count;
-			},
-			calculateShips ()
-			{
-				let maxSpeed = 1000000000;
-				let capacity = 0;
-				let speed = maxSpeed;
+	watch(fleets, () => {
+		calculateShips();
+	}, { deep: true });
 
-				this.page['ships'].forEach((ship) =>
-				{
-					let cnt = this.fleets[ship.id] || 0;
-					cnt = parseInt(cnt);
+	function init () {
+		if (!page.value || !page.value.ships)
+			return;
 
-					if (isNaN(cnt))
-						return;
+		fleets.value = {};
+	}
 
-					capacity += cnt * ship['capacity'];
+	function maxShips (shipId) {
+		let ship = page.value['ships'].find((item) => {
+			return item.id === shipId
+		})
 
-					if (cnt > 0 && ship['speed'] > 0 && ship['speed'] < speed)
-						speed = ship['speed'];
-				})
-
-				if ((speed <= 0) || (speed >= maxSpeed))
-					speed = 0;
-
-				this.allSpeed = speed;
-				this.allCapacity = capacity;
-			}
+		if (typeof fleets.value[ship['id']] !== "undefined" && fleets.value[ship['id']] === ship['count']) {
+			fleets.value[ship['id']] = '';
+		} else {
+			fleets.value[ship['id']] = ship['count'];
 		}
-	})
+	}
+
+	function clearShips () {
+		page.value.ships.forEach((ship) => {
+			fleets.value[ship['id']] = '';
+		})
+	}
+
+	function allShips () {
+		page.value.ships.forEach((ship) => {
+			if (ship['id'] !== 212) {
+				fleets.value[ship['id']] = ship['count'];
+			}
+		})
+	}
+
+	function diffShips (shipId, val) {
+		if (typeof fleets.value[shipId] === "undefined") {
+			fleets.value[shipId] = 0;
+		}
+
+		if (!parseInt(fleets.value[shipId]))
+			fleets.value[shipId] = 0;
+
+		fleets.value[shipId] += val;
+
+		if (fleets.value[shipId] <= 0)
+			fleets.value[shipId] = '';
+
+		let ship = page.value['ships'].find((item) => {
+			return item.id === shipId
+		})
+
+		if (fleets.value[shipId] > ship.count)
+			fleets.value[shipId] = ship.count;
+	}
+
+	function calculateShips () {
+		let maxSpeed = 1000000000;
+		let capacity = 0;
+		let speed = maxSpeed;
+
+		page.value['ships'].forEach((ship) => {
+			let cnt = fleets.value[ship.id] || 0;
+			cnt = parseInt(cnt);
+
+			if (isNaN(cnt))
+				return;
+
+			capacity += cnt * ship['capacity'];
+
+			if (cnt > 0 && ship['speed'] > 0 && ship['speed'] < speed)
+				speed = ship['speed'];
+		})
+
+		if ((speed <= 0) || (speed >= maxSpeed))
+			speed = 0;
+
+		allSpeed.value = speed;
+		allCapacity.value = capacity;
+	}
 </script>

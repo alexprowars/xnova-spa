@@ -2,21 +2,30 @@
 	<div v-if="page" v-html="page['raport']"></div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
-
-			return {}
-		},
+	definePageMeta({
 		layout: 'empty',
-		created ()
-		{
-			if (this.$store.state.user !== null && !this.page)
-				this.$root.setLayout('default')
-		}
-	})
+	});
+
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	if (useStore().user !== null && !page.value) {
+		definePageMeta({
+			layout: 'default',
+		});
+	}
 </script>

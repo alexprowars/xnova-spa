@@ -5,7 +5,7 @@
 			<div class="content border-0">
 				<RouterForm :action="'/overview/rename/?planet='+page['planet_id']">
 					<input type="hidden" name="action" value="name">
-					<div class="table middle">
+					<div class="block-table middle">
 						<div class="row">
 							<div class="col th d-none d-sm-flex">{{ page['galaxy_galaxy'] }}:{{ page['galaxy_system'] }}:{{ page['galaxy_planet'] }}</div>
 							<div class="col th">{{ page['planet_name'] }}</div>
@@ -50,22 +50,26 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		data () {
-			return {
-				image: 0
-			}
-		},
-	})
+	const route = useRoute();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const image = ref(0);
 </script>

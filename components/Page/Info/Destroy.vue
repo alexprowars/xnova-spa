@@ -1,6 +1,6 @@
 <template>
 	<div class="block">
-		<div class="title">Снос здания "{{ $t('TECH.'+item) }}" уровень {{ data['level'] }}</div>
+		<div class="title">Снос здания "{{ $t('tech.'+item) }}" уровень {{ data['level'] }}</div>
 		<div class="content border-0">
 			<div class="block-table">
 				<div class="row">
@@ -39,7 +39,7 @@
 			destroyAction () {
 				openConfirmModal(
 					null,
-					'Снести постройку <b>'+this.$t('TECH.'+this.item)+' '+this.data['level']+' ур.</b>?',
+					'Снести постройку <b>'+this.$t('tech.'+this.item)+' '+this.data['level']+' ур.</b>?',
 					[{
 						title: 'Закрыть',
 					}, {

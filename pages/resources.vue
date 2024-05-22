@@ -10,7 +10,7 @@
 			</div>
 			<div class="row">
 				<div class="col-5 c">
-					<NuxtLinkLocale to="/info/113/">{{ $t('TECH.113') }}</NuxtLinkLocale>
+					<NuxtLinkLocale to="/info/113/">{{ $t('tech.113') }}</NuxtLinkLocale>
 				</div>
 				<div class="col-2 th">
 					{{ page['energy_tech'] }} ур.
@@ -56,10 +56,10 @@
 									<th width="200"></th>
 									<th>Ур.</th>
 									<th>Бонус</th>
-									<th><InfoPopup :id="1" :title="$t('TECH.1')">Металл</InfoPopup></th>
-									<th><InfoPopup :id="2" :title="$t('TECH.2')">Кристалл</InfoPopup></th>
-									<th><InfoPopup :id="3" :title="$t('TECH.3')">Дейтерий</InfoPopup></th>
-									<th><InfoPopup :id="4" :title="$t('TECH.4')">Энергия</InfoPopup></th>
+									<th><InfoPopup :id="1" :title="$t('tech.1')">Металл</InfoPopup></th>
+									<th><InfoPopup :id="2" :title="$t('tech.2')">Кристалл</InfoPopup></th>
+									<th><InfoPopup :id="3" :title="$t('tech.3')">Дейтерий</InfoPopup></th>
+									<th><InfoPopup :id="4" :title="$t('tech.4')">Энергия</InfoPopup></th>
 									<th width="100">КПД</th>
 								</tr>
 								<tr>
@@ -115,7 +115,7 @@
 					</div>
 					<div class="row" v-for="res in page['resources']">
 						<div class="col-2 th">
-							{{ $t('RESOURCES.'+res) }}
+							{{ $t('resources.'+res) }}
 						</div>
 						<div class="col-2 th">
 							<Colored :value="page['production'][res]['production']"></Colored>
@@ -142,7 +142,7 @@
 				<div class="block-table">
 					<div class="row" v-for="res in page['resources']">
 						<div class="col-2 th">
-							{{ $t('RESOURCES.'+res) }}
+							{{ $t('resources.'+res) }}
 						</div>
 						<div class="col-1 th">
 							{{ page['production'][res]['storage'] }}%
@@ -195,7 +195,7 @@
 	import useStore from '~/store';
 	import { definePageMeta, showError, useAsyncData, useRoute, openConfirmModal } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
-	import { toRefs, watch } from 'vue';
+	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -204,7 +204,7 @@
 	const route = useRoute();
 	const store = useStore();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await store.loadPage();
 	});
 
@@ -214,7 +214,6 @@
 		throw showError(error.value);
 	}
 
-	const { page } = toRefs(data.value);
 	const { planet } = storeToRefs(store);
 
 	function buyResources() {

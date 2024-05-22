@@ -3,11 +3,11 @@
 		<div class="page-players-main block">
 			<div class="title">Информация об игроке</div>
 			<div class="content border-0">
-				<div class="table page-players">
+				<div class="block-table page-players">
 					<div class="row border-0">
 						<div class="col-4 text-center">
 							<img :src="page['avatar']" :alt="page['username']" width="100%">
-							<div v-if="$state.user">
+							<div v-if="user">
 								<PopupLink :to="'/messages/write/'+page['id']+'/'" :width="680" :title="page['username']+': отправить сообщение'">
 									<span class="sprite skin_m"></span>
 								</PopupLink>&nbsp;
@@ -134,13 +134,15 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		name: 'players',
-		props: {
-			page: {
-				type: Object
-			}
-		},
-	}
+<script setup>
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store';
+
+	defineProps({
+		page: {
+			type: Object
+		}
+	});
+
+	const { user } = storeToRefs(useStore());
 </script>

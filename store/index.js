@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
-import { useRouter } from '#imports';
-import { useApiGet } from '~/composables/useApi';
+import { useRouter, useApiGet, navigateTo, startLoading, stopLoading } from '#imports';
 import { toast } from 'vue3-toastify';
 import { useNow } from '@vueuse/core';
 
 export const useStore = defineStore('app', {
 	state: () => ({
+		initialized: false,
 		path: null,
 		version: null,
 		host: null,
@@ -46,11 +46,11 @@ export const useStore = defineStore('app', {
 				})
 
 				return new Promise((resolve) => {
-					return resolve({
-						page
-					})
+					return resolve(page)
 				})
 			}
+
+			startLoading();
 
 			const data = await useApiGet(url)
 
@@ -82,14 +82,13 @@ export const useStore = defineStore('app', {
 			delete data.page;
 
 			this.PAGE_LOAD(data);
-			this.setLoadingStatus(false);
 
-			return {
-				page
-			}
+			stopLoading();
+
+			return page;
 		},
 		PAGE_LOAD (data) {
-			this.start_time = Math.floor(((new Date()).getTime()) / 1000);
+			this.start_time = Math.floor((useNow().value.getTime()) / 1000);
 
 			for (let key in data) {
 				if (data.hasOwnProperty(key))
@@ -99,9 +98,6 @@ export const useStore = defineStore('app', {
 			if (data.page !== null && typeof data.page === 'object' && typeof data['url'] !== 'undefined') {
 				navigateTo(data['url']);
 			}
-		},
-		setLoadingStatus (status) {
-			this.loading = status
 		},
 		setPlanetResources (resources) {
 			for (let res in resources) {

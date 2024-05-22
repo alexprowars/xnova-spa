@@ -1,9 +1,9 @@
 <template>
 	<div class="table-responsive">
-		<form method="post" :action="'/xnsim/report/'" name="form" ref="result" autocomplete="off" target="_blank">
+		<form method="post" :action="'/xnsim/report/'" name="form" ref="resultRef" autocomplete="off" target="_blank">
 			<input type="hidden" name="r" value="">
 		</form>
-		<table ref="form" class="table">
+		<table ref="formRef" class="table">
 			<tbody>
 				<tr>
 					<th>XNova SIM</th>
@@ -36,7 +36,7 @@
 					<td class="c" :colspan="cols">Исследования и офицеры</td>
 				</tr>
 				<tr v-for="techId in page['tech']" align="center">
-					<th>{{ $t('TECH.'+techId) }}</th>
+					<th>{{ $t('tech.'+techId) }}</th>
 
 					<th v-for="i in range(0, page['slots']['max'] - 1)" v-if="i < attackers">
 						<input class="number" :value="page['slots']['attackers'][i] !== undefined && page['slots']['attackers'][i][techId] !== undefined ? page['slots']['attackers'][i][techId]['c'] : 0" type="text" :name="'gr'+i+'-'+techId" maxlength="2" title="">
@@ -49,7 +49,7 @@
 				<tr>
 					<td class="c" :colspan="cols">Флот</td>
 				</tr>
-				<tr v-for="(name, fleetId) in $t('TECH')" v-if="fleetId > 200 && fleetId < 300" align="center">
+				<tr v-for="(name, fleetId) in $t('tech')" v-if="fleetId > 200 && fleetId < 300" align="center">
 					<th>{{ name }}</th>
 
 					<th v-for="i in range(0, page['slots']['max'] - 1)" v-if="i < attackers">
@@ -64,7 +64,7 @@
 				<tr>
 					<td class="c" :colspan="cols">Оборона</td>
 				</tr>
-				<tr v-for="(name, fleetId) in $t('TECH')" v-if="fleetId > 400 && fleetId < 500" align="center">
+				<tr v-for="(name, fleetId) in $t('tech')" v-if="fleetId > 400 && fleetId < 500" align="center">
 					<th>{{ name }}</th>
 
 					<th v-for="i in range(0, page['slots']['max'] - 1)" v-if="i < attackers">
@@ -91,79 +91,75 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
+<script setup>
+	import { showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { computed, ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	const route = useRoute();
 
-			return {}
-		},
-		watchQuery: true,
-		data () {
-			return {
-				attackers: 1,
-				defenders: 1,
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const attackers = ref(1);
+	const defenders = ref(1);
+	const formRef = ref(null);
+	const resultRef = ref(null);
+
+	const cols = computed(() => {
+		return attackers.value + defenders.value + 1;
+	});
+
+	function clear (index) {
+		document.querySelectorAll('input[type=text][name^="gr'+index+'-"]').forEach((el) => el.value = '0');
+	}
+
+	function calculate () {
+		let txt = "", tstr = "", tkey, tval;
+		tkey = [];
+
+		formRef.value.querySelectorAll('input[type="text"][name^="gr"]').forEach((el) => {
+			if (el.value > 0) {
+				tstr = el.name;
+				tval = tstr.split("-");
+
+				tval[0] = parseInt(tval[0].split('gr').join(''));
+
+				if (tkey[tval[0]])
+					tkey[tval[0]] += parseInt(tval[1]) + ',' + el.value + ';';
+				else
+					tkey[tval[0]] = parseInt(tval[1]) + ',' + el.value + ';';
 			}
-		},
-		computed: {
-			cols () {
-				return this.attackers + this.defenders + 1;
+		});
+
+		if (tkey.length > 0) {
+			for (let i = 0; i < tkey.length; i++) {
+				if (tkey[i])
+					txt += tkey[i] + '|';
+				else
+					txt += '|';
 			}
-		},
-		methods: {
-			clear (index) {
-				$('input[type=text][name^="gr'+index+'-"]').val('0');
-			},
-			calculate ()
-			{
-				let txt = "", tstr = "", tkey, tval;
-				tkey = [];
-
-				$(this.$refs['form']).find('input[type="text"][name^="gr"]').each(function()
-				{
-					if (this.value > 0)
-					{
-						tstr = this.name;
-						tval = tstr.split("-");
-
-						tval[0] = parseInt(tval[0].split('gr').join(''));
-
-						if (tkey[tval[0]])
-							tkey[tval[0]] += parseInt(tval[1]) + ',' + this.value + ';';
-						else
-							tkey[tval[0]] = parseInt(tval[1]) + ',' + this.value + ';';
-					}
-				});
-
-				if (tkey.length > 0)
-				{
-					for (let i = 0; i < tkey.length; i++)
-					{
-						if (tkey[i])
-							txt += tkey[i] + '|';
-						else
-							txt += '|';
-					}
-				}
-
-				$(this.$refs['result']).find('input').val(txt);
-				$(this.$refs['result']).submit();
-			},
-			range: function (min, max)
-			{
-				let array = [], j = 0;
-
-				for (let i = min; i <= max; i++)
-				{
-					array[j] = i;
-					j++;
-				}
-
-				return array;
-			},
 		}
-	})
+
+		resultRef.value.querySelector('input').value = txt;
+		resultRef.value.requestSubmit();
+	}
+
+	function range (min, max) {
+		let array = [], j = 0;
+
+		for (let i = min; i <= max; i++) {
+			array[j] = i;
+			j++;
+		}
+
+		return array;
+	}
 </script>

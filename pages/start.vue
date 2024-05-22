@@ -73,15 +73,12 @@
 <script setup>
 	import { showError, useAsyncData } from '#imports';
 	import useStore from '~/store';
-	import { toRefs } from 'vue';
 
-	const { data, error } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 
 	if (error.value) {
 		throw showError(error.value);
 	}
-
-	const { page } = toRefs(data.value);
 </script>

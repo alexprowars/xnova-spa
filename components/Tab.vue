@@ -20,7 +20,6 @@
 	const activeTab = inject('activeTab');
 
 	const active = computed(() => {
-		console.log(activeTab.value, hash.value)
 		return activeTab.value === hash.value;
 	});
 

@@ -4,7 +4,7 @@
 			<div class="title">Поиск по игре</div>
 			<div class="content border-0">
 				<RouterForm action="/search/">
-					<div class="table middle">
+					<div class="block-table middle">
 						<div class="row">
 							<div class="col th">
 								<select name="type" title="" v-model="page['type']">
@@ -89,7 +89,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { toRefs, watch } from 'vue';
+	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -97,7 +97,7 @@
 
 	const route = useRoute();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 
@@ -106,6 +106,4 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
-
-	const { page } = toRefs(data.value);
 </script>

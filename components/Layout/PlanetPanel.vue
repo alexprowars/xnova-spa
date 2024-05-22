@@ -14,7 +14,7 @@
 				<div class="col-3 text-center">
 					<div class="resource-panel-item">
 						<InfoPopup :id="4" title="Солнечная батарея" class="resource-panel-item-icon">
-							<Popper hover>
+							<Popper>
 								<div>
 									<span class="sprite skin_energy"></span>
 									<span class="sprite skin_s_energy"></span>
@@ -41,7 +41,7 @@
 								</template>
 							</Popper>
 						</InfoPopup>
-						<div class="neutral">{{ $t('RESOURCES.energy') }}</div>
+						<div class="neutral">{{ $t('resources.energy') }}</div>
 						<div title="Доступно энергии">
 							<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['value']) }}</span>
 						</div>
@@ -54,14 +54,13 @@
 				<div class="col text-center">
 					<div class="resource-panel-item">
 						<NuxtLinkLocale to="/credits/" class="d-sm-inline-block resource-panel-item-icon">
-							<Popper hover>
-								<span class="sprite skin_kredits"></span>
+							<Popper>
 								<template #content>
 									<table width="550">
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
 												<div class="separator"></div>
-												<span :class="['officier', 'of'+officier['id']+(officier['time'] > ((new Date).getTime() / 1000) ? '_ikon' : '')]"></span>
+												<span :class="['officier', 'of' + officier['id'] + (officier['time'] > now ? '_ikon' : '')]"></span>
 											</td>
 										</tr>
 										<tr>
@@ -72,6 +71,7 @@
 										</tr>
 									</table>
 								</template>
+								<span class="sprite skin_kredits"></span>
 							</Popper>
 						</NuxtLinkLocale>
 						<div class="neutral">Кредиты</div>
@@ -87,11 +87,13 @@
 	import PanelResource from './PlanetPanelResource.vue'
 	import InfoPopup from '~/components/Page/Info/Popup.vue'
 	import useStore from '~/store';
-	import { onBeforeUnmount, onUpdated, ref } from 'vue';
+	import { computed, onBeforeUnmount, onUpdated, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import Popper from 'vue3-popper';
+	import { useNow } from '@vueuse/core';
 
 	const updated = ref(0);
+	const now = computed(() => useNow().value.getTime() / 1000);
+
 	let timer = null;
 
 	const store = useStore();

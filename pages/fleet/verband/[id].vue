@@ -14,13 +14,13 @@
 					</tr>
 					<tr v-for="item in page['list']">
 						<th>
-							<a>{{ $t('FLEET_MISSION.'+item.mission) }}</a>
+							<a>{{ $t('fleet_mission.'+item.mission) }}</a>
 							<a v-if="(item['start']['time'] + 1) === item['target']['time']">(F)</a>
 						</th>
 						<th>
-							<Popper hover>
+							<Popper>
 								<template #content>
-									<div v-for="data in item['ships']">{{ $t('TECH.'+data['id']) }}: {{ data['count'] }}</div>
+									<div v-for="data in item['ships']">{{ $t('tech.'+data['id']) }}: {{ data['count'] }}</div>
 								</template>
 								{{ $number(item['ships_total']) }}
 							</Popper>
@@ -123,8 +123,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
-	import Popper from 'vue3-popper';
-	import { toRefs, watch } from 'vue';
+	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -132,7 +131,7 @@
 
 	const route = useRoute();
 
-	const { data, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error, refresh } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	});
 
@@ -141,8 +140,6 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
-
-	const { page } = toRefs(data.value);
 
 	function rand (min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min

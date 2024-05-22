@@ -44,69 +44,56 @@
 	</div>
 </template>
 
-<script>
-	import StatPlayers from '~/components/Page/Stat/Players.vue'
-	import StatAlliances from '~/components/Page/Stat/Alliances.vue'
-	import StatRaces from '~/components/Page/Stat/Races.vue'
-	import { defineNuxtComponent } from '#imports';
-	import { useApiPost } from '~/composables/useApi';
+<script setup>
+	import StatPlayers from '~/components/Page/Stat/Players.vue';
+	import StatAlliances from '~/components/Page/Stat/Alliances.vue';
+	import StatRaces from '~/components/Page/Stat/Races.vue';
+	import { showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { nextTick } from 'vue';
+	import { ref, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	const route = useRoute();
 
-			return {}
-		},
-		watchQuery: true,
-		components: {
-			StatPlayers,
-			StatAlliances,
-			StatRaces
-		},
-		data () {
-			return {
-				form: {
-					list: '',
-					type: '',
-					page: 1,
-					pages: 0
-				},
-				items: []
-			}
-		},
-		watch: {
-			'form.list'() {
-				this.form.type = 1
-				this.form.page = 1
-			},
-			'form.type'() {
-				this.form.page = 1
-			}
-		},
-		methods: {
-			loadItems ()
-			{
-				nextTick(() =>
-				{
-					useApiPost('/stat/', {
-						view: this.form.list,
-						type: this.form.type,
-						range: this.form.page
-					})
-					.then((result) => {
-						this.items = result.page.items
-					})
-				})
-			},
-		},
-		created ()
-		{
-			this.form.list = this.page['list']
-			this.form.type = this.page['type']
-			this.form.pages = Math.ceil(this.page['elements'] / 100)
-			this.items = this.page['items']
-		}
-	})
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const form = ref({
+		list: '',
+		type: '',
+		page: 1,
+		pages: 0
+	});
+
+	const items = ref([]);
+
+	form.value.list = page.value['list'];
+	form.value.type = page.value['type'];
+	form.value.pages = Math.ceil(page.value['elements'] / 100);
+	items.value = page.value['items'];
+
+	watch(() => form.value.list, () => {
+		form.value.type = 1;
+		form.value.page = 1;
+	});
+
+	watch(() => form.value.type, () => {
+		form.value.page = 1;
+	});
+
+	async function loadItems () {
+		const result = await useApiPost('/stat/', {
+			view: form.value.list,
+			type: form.value.type,
+			range: form.value.page
+		});
+
+		items.value = result.page.items;
+	}
 </script>

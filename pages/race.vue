@@ -1,6 +1,6 @@
 <template>
 	<div class="text-center">
-		<div class="table raceSelect">
+		<div class="block-table raceSelect">
 			<div v-if="race === 0" class="row">
 				<div class="col-12 c big">Выбор фракции</div>
 			</div>
@@ -136,45 +136,50 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import InfoPopup from '~/components/Page/Info/Popup.vue'
-	import { defineNuxtComponent, openPopupModal } from '#imports';
-	import { useApiGet } from '~/composables/useApi';
+	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { computed, onMounted, watch } from 'vue';
 
-	export default defineNuxtComponent({
-		components: {
-			InfoPopup,
-		},
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		computed: {
-			race () {
-				return this.$store.state.user ? this.$store.state.user.race : 0
-			}
-		},
-		mounted () {
-			if (this.race === 0) {
-				useApiGet('/content/welcome/', {
-					popup: 'Y'
-				})
-				.then(result => {
-					let component = this.$router.getMatchedComponents(result.url)
+	const route = useRoute();
+	const store = useStore();
 
-					if (component.length) {
-						openPopupModal(component[0], {
-							popup: result['page'],
-							width: this.width,
-							height: 'auto'
-						})
-					}
-				})
-			}
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	const race = computed(() => {
+		return store.user ? store.user.race : 0;
+	});
+
+	onMounted(() => {
+		if (race.value !== 0) {
+			return;
 		}
+
+		useApiGet('/content/welcome/', {
+			popup: 'Y'
+		})
+		.then(result => {
+			let component = useRouter().resolve('/content/welcome/')
+				.matched.flatMap(record => Object.values(record.components));
+
+			if (component.length) {
+				openPopupModal(component[0], {
+					popup: result['page'],
+				});
+			}
+		})
 	})
 </script>

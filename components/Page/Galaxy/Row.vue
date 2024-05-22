@@ -2,7 +2,7 @@
 	<tr class="planetRow">
 		<th width="35">{{ planet }}</th>
 		<th width="34" class="img">
-			<Popper v-if="item && !item['p_delete']" hover>
+			<Popper v-if="item && !item['p_delete']">
 				<template #content>
 					<table width="240">
 						<tbody>
@@ -46,7 +46,7 @@
 			</div>
 		</th>
 		<th class="img" style="white-space: nowrap;" width="34">
-			<Popper v-if="item && !item['l_delete'] && item['l_id']" hover>
+			<Popper v-if="item && !item['l_delete'] && item['l_id']">
 				<template #content>
 					<table width="240">
 						<tbody>
@@ -105,7 +105,7 @@
 			<span v-if="item && item['l_delete'] && item['l_id']">~</span>
 		</th>
 		<th :class="[debris_class]" width="30">
-			<Popper v-if="item && (item['p_metal'] > 0 || item['p_crystal'] > 0)" hover>
+			<Popper v-if="item && (item['p_metal'] > 0 || item['p_crystal'] > 0)">
 				<template #content>
 					<table width="240">
 						<tbody>
@@ -151,7 +151,7 @@
 			</Popper>
 		</th>
 		<th width="180">
-			<Popper v-if="item && !item['p_delete']" hover>
+			<Popper v-if="item && !item['p_delete']">
 				<template #content>
 					<table width="280">
 						<tbody>
@@ -198,7 +198,7 @@
 			</NuxtLinkLocale>
 		</th>
 		<th width="100">
-			<Popper v-if="item && !item.delete && item['a_id']" hover>
+			<Popper v-if="item && !item.delete && item['a_id']">
 				<template #content>
 					<table width="240">
 						<tbody>
@@ -249,7 +249,7 @@
 					<span class="sprite skin_r"></span>
 				</a>
 
-				<Popper v-if="user['spy_sonde'] && !item['u_vacation']" hover>
+				<Popper v-if="user['spy_sonde'] && !item['u_vacation']">
 					<template #content>
 						<div class="text-center">
 							<input type="text" v-model.number="spyCount">
@@ -281,7 +281,6 @@
 	import { sendMission } from "~/utils/fleet";
 	import { computed, ref } from 'vue';
 	import useStore from '~/store';
-	import Popper from 'vue3-popper';
 	import { storeToRefs } from 'pinia';
 
 	const props = defineProps({

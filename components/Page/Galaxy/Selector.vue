@@ -58,65 +58,47 @@
 	</form>
 </template>
 
-<script>
+<script setup>
 	import GalaxySelectorShortcut from './SelectorShortcut.vue'
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { computed, ref, watch } from 'vue';
 
-	export default {
-		name: "galaxy-selector",
-		props: {
-			galaxy: {
-				type: Number,
-				default: 1
-			},
-			system: {
-				type: Number,
-				default: 1
-			},
-			shortcuts: {
-				type: Array,
-				default: () => {
-					return []
-				}
-			}
+	const props = defineProps({
+		galaxy: {
+			type: Number,
+			default: 1
 		},
-		data () {
-			return {
-				direction: '',
-				inputGalaxy: this.galaxy,
-				inputSystem: this.system,
-			}
+		system: {
+			type: Number,
+			default: 1
 		},
-		watch: {
-			galaxy (val) {
-				this.inputGalaxy = val
-			},
-			system (val) {
-				this.inputSystem = val
-			},
-			direction (val)
-			{
-				if (val !== '')
-					this.send()
-			}
-		},
-		components: {
-			GalaxySelectorShortcut,
-		},
-		methods: {
-			send () 
-			{
-				useApiPost('/galaxy/', {
-					galaxy: this.inputGalaxy,
-					system: this.inputSystem,
-					direction: this.direction
-				})
-				.then((result) => {
-					this.direction = ''
-					useStore().PAGE_LOAD(result)
-				})
+		shortcuts: {
+			type: Array,
+			default: () => {
+				return []
 			}
 		}
+	});
+
+	const direction = ref('');
+	const inputGalaxy = computed(() => props.galaxy);
+	const inputSystem = computed(() => props.system);
+
+	watch(direction, (val) => {
+		if (val !== '') {
+			send();
+		}
+	});
+
+	async function send () {
+		const result = await useApiPost('/galaxy/', {
+			galaxy: inputGalaxy.value,
+			system: inputSystem.value,
+			direction: direction.value,
+		});
+
+		direction.value = '';
+		useStore().PAGE_LOAD(result);
 	}
 </script>

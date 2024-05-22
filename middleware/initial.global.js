@@ -4,6 +4,12 @@ import { useApiGet } from '~/composables/useApi';
 
 export default defineNuxtRouteMiddleware(async(to, from) => {
 	try {
+		const store = useStore();
+
+		if (store.initialized) {
+			return;
+		}
+
 		const data = await useApiGet(to.path, {
 			initial: 'Y'
 		});
@@ -11,8 +17,6 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
 		if (data['redirect'] && data['redirect'].length > 0) {
 			return navigateTo(data.redirect);
 		}
-
-		const store = useStore();
 
 		for (let key in data) {
 			if (data.hasOwnProperty(key))
@@ -22,6 +26,8 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
 		if (data['route'] && data['route']['controller'] === 'error') {
 			new Error('Страница не найдена');
 		}
+
+		store.initialized = true;
 	} catch(e) {
 		return showError(e);
 	}

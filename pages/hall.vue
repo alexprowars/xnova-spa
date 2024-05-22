@@ -43,39 +43,40 @@
 	</div>
 </template>
 
-<script>
-	import { defineNuxtComponent } from '#imports';
-	import { useApiPost } from '~/composables/useApi';
+<script setup>
+	import { definePageMeta, showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { watch } from 'vue';
 
-	export default defineNuxtComponent({
-		async asyncData () {
-			await useStore().loadPage();
+	definePageMeta({
+		middleware: ['auth'],
+	});
 
-			return {}
-		},
-		watchQuery: true,
-		middleware: 'auth',
-		watch: {
-			'page.type' () {
-				this.load()
-			}
-		},
-		methods: {
-			async load ()
-			{
-				try
-				{
-					const result = await useApiPost('/hall/', {
-						type: this.page['type']
-					})
+	const route = useRoute();
 
-					this.page = result['page']
-				}
-				catch(e) {
-					alert(e.message)
-				}
-			}
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+
+	watch(() => page.value.type, () => {
+		load();
+	});
+
+	async function load() {
+		try {
+			const result = await useApiPost('/hall/', {
+				type: page.value['type']
+			})
+
+			page.value = result['page']
+		} catch(e) {
+			alert(e.message)
 		}
-	})
+	}
 </script>
