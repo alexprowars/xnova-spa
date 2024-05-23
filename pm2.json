@@ -8,6 +8,7 @@
     "max_memory_restart": "200M",
     "env": {
         "HOST": "127.0.0.1",
+        "PORT": "3200",
 		"NODE_ENV": "production"
     }
   }]
