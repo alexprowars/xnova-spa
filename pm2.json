@@ -1,12 +1,14 @@
 {
   "apps" : [{
     "name": "xnova",
-    "script": "npm",
-    "args": "run dev",
+    "script": "./.output/server/index.mjs",
+    "cwd": "./",
     "watch": false,
+    "instances": 2,
+    "max_memory_restart": "200M",
     "env": {
-		"NODE_ENV": "development",
-        "NUXT_PORT": 3200
+        "HOST": "127.0.0.1",
+		"NODE_ENV": "production"
     }
   }]
 }
