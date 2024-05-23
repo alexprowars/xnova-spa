@@ -8,7 +8,7 @@
 						<span class="positive">{{ item.count }}</span> {{ item.name }}
 					</div>
 					<div class="col-6 text-end k border-left-0">
-						{{ $time(item.end - $store.getters.getServerTime) }}
+						{{ $time(item.end - getServerTime) }}
 					</div>
 				</div>
 				<div class="row">
@@ -21,69 +21,70 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		name: "unit-queue",
-		props: {
-			queue: {
-				type: Array,
-				default: () => {
-					return []
-				}
-			}
-		},
-		data () {
-			return {
-				left_time: 0,
-				timeout: null
-			}
-		},
-		methods: {
-			start () {
-				this.timeout = setTimeout(this.update, 1000);
-			},
-			stop () {
-				clearTimeout(this.timeout);
-			},
-			update ()
-			{
-				if (this.queue.length === 0)
-					return;
+<script setup>
+import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue';
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store';
 
-				let last = this.queue[this.queue.length - 1];
-				this.left_time = last.end - this.$store.getters.getServerTime
-
-				let first = this.queue[0];
-
-				if (first.end <= this.$store.getters.getServerTime)
-					this.queue.splice(0, 1);
-				else
-				{
-					let cnt = Math.ceil((first.end - this.$store.getters.getServerTime) / first.time);
-
-					if (cnt !== this.queue[0]['count'])
-						this.queue[0]['count'] = cnt;
-				}
+	const props = defineProps({
+		queue: {
+			type: Array,
+			default: () => {
+				return []
 			}
-		},
-		watch: {
-			left_time () {
-				this.start();
+		}
+	});
+
+	const left_time = ref(0);
+	const { getServerTime } = storeToRefs(useStore());
+
+	let timeout;
+
+	watch(left_time, () => {
+		start();
+	});
+
+	onUpdated(() => {
+		stop();
+		update();
+		start();
+	});
+
+	onMounted(() => {
+		stop();
+		update();
+	});
+
+	onBeforeUnmount(() => {
+		stop();
+	});
+
+	function start () {
+		timeout = setTimeout(update, 1000);
+	}
+
+	function stop () {
+		clearTimeout(timeout);
+	}
+
+	function update () {
+		if (props.queue.length === 0) {
+			return;
+		}
+
+		let last = props.queue[props.queue.length - 1];
+		left_time.value = last.end - getServerTime.value
+
+		let first = props.queue[0];
+
+		if (first.end <= getServerTime.value) {
+			props.queue.splice(0, 1);
+		} else {
+			let cnt = Math.ceil((first.end - getServerTime.value) / first.time);
+
+			if (cnt !== props.queue[0]['count']) {
+				props.queue[0]['count'] = cnt;
 			}
-		},
-		updated ()
-		{
-			this.stop();
-			this.update();
-			this.start();
-		},
-		mounted ()
-		{
-			this.stop();
-			this.update();
-		},
-		destroyed () {
-			this.stop();
 		}
 	}
 </script>

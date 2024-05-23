@@ -7,6 +7,7 @@
 
 <script>
 	import ErrorMessage from '~/components/ErrorMessage.vue'
+	import useStore from '~/store';
 
 	export default {
 		components: {
@@ -14,7 +15,7 @@
 		},
 		computed: {
 			error () {
-				return this.$store.state.error || false;
+				return useStore().error || false;
 			},
 		}
 	}

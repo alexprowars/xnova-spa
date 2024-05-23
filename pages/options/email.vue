@@ -23,3 +23,33 @@
 		</table>
 	</RouterForm>
 </template>
+
+<script setup>
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import useStore from '~/store';
+	import { watch } from 'vue';
+
+	definePageMeta({
+		middleware: ['auth'],
+		view: {
+			resources: false,
+		}
+	});
+
+	useHead({
+		title: 'Смена Email',
+	});
+
+	const route = useRoute();
+	const store = useStore();
+
+	const { data: page, error, refresh } = await useAsyncData(async () => {
+		return await store.loadPage();
+	});
+
+	watch(() => route.query, () => refresh());
+
+	if (error.value) {
+		throw showError(error.value);
+	}
+</script>

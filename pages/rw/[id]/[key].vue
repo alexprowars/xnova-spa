@@ -9,6 +9,9 @@
 
 	definePageMeta({
 		layout: 'empty',
+		view: {
+			resources: false,
+		}
 	});
 
 	useHead({

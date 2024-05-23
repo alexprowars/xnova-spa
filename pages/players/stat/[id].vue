@@ -43,11 +43,17 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { nextTick, onMounted, ref, watch } from 'vue';
 	import Chart from 'chart.js';
 	import { number, date } from '~/utils/format';
+
+	definePageMeta({
+		view: {
+			resources: false,
+		}
+	});
 
 	useHead({
 		title: 'Статистика игрока',

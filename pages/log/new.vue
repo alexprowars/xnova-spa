@@ -19,7 +19,14 @@
 </template>
 
 <script setup>
-	import { useHead } from '#imports';
+	import { definePageMeta, useHead } from '#imports';
+
+	definePageMeta({
+		middleware: ['auth'],
+		view: {
+			resources: false,
+		}
+	});
 
 	useHead({
 		title: 'Добавить боевой доклад',

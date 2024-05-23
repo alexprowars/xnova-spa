@@ -88,7 +88,7 @@
 							<tr>
 								<th rowspan="2" width="50%">Упорядочить планеты по:</th>
 								<th>
-									<select name="settings_sort" style='width:170px' title="" v-model="page['settings']['planet_sort']">
+									<select name="settings_sort" style='width:170px' title="" v-model="page['options']['planet_sort']">
 										<option value="0">Времени колонизации</option>
 										<option value="1">Координатам</option>
 										<option value="2">Алфавитному порядку</option>
@@ -98,7 +98,7 @@
 							</tr>
 							<tr>
 								<th>
-									<select name="settings_order" style='width:170px' title="" v-model="page['settings']['planet_sort_order']">
+									<select name="settings_order" style='width:170px' title="" v-model="page['options']['planet_sort_order']">
 										<option value="0">Возрастанию</option>
 										<option value="1">Убыванию</option>
 									</select>
@@ -106,35 +106,35 @@
 							</tr>
 							<tr>
 								<th>Кол-во отправляемых шпионских зондов в меню "Космос"</th>
-								<th><input name="spy" :value="page['spy']" type="text" title=""></th>
+								<th><input name="spy" :value="page['options']['spy']" type="text" title=""></th>
 							</tr>
 							<tr>
 								<th>Участвовать в рекордах</th>
-								<th><input name="records" v-model="page['opt_record_data']" type="checkbox" title=""></th>
+								<th><input name="records" v-model="page['options']['records']" type="checkbox" title=""></th>
 							</tr>
 							<tr>
 								<th>Использовать BB коды в сообщениях</th>
-								<th><input name="bbcode" v-model="page['opt_bbcode_data']" type="checkbox" title=""></th>
+								<th><input name="bbcode" v-model="page['options']['bb_parser']" type="checkbox" title=""></th>
 							</tr>
 							<tr>
 								<th>Показывать только доступные постройки</th>
-								<th><input name="available" v-model="page['opt_available_data']" type="checkbox" title=""></th>
+								<th><input name="available" v-model="page['options']['only_available']" type="checkbox" title=""></th>
 							</tr>
 							<tr>
 								<th>Показывать панель чата</th>
-								<th><input name="chatbox" v-model="page['opt_chatbox_data']" type="checkbox" title=""></th>
+								<th><input name="chatbox" v-model="page['options']['chatbox']" type="checkbox" title=""></th>
 							</tr>
 							<tr>
 								<th>Цвет ваших сообщений в чате</th>
 								<th>
-									<select name="color" style='width:170px' title="" v-model="page['color']">
+									<select name="color" style='width:170px' title="" v-model="page['options']['color']">
 										<option v-for="id in Object.keys($tm('colors')).filter((c) => $t('colors.' + c + '.1') !== '')" :value="id" :style="'color:'+$t('colors.' + id + '.0')">{{ $t('colors.' + id + '.1') }}</option>
 									</select>
 								</th>
 							</tr>
 							<tr>
 								<th>Часовой пояс</th>
-								<th><select name='timezone' style='width:170px' title="" v-model="page['timezone']">
+								<th><select name="timezone" style="width:170px" v-model="page['options']['timezone']">
 									<option value="-30">-12</option>
 									<option value="-28">-11</option>
 									<option value="-26">-10</option>
@@ -297,6 +297,9 @@
 
 	definePageMeta({
 		middleware: ['auth'],
+		view: {
+			resources: false,
+		}
 	});
 
 	useHead({

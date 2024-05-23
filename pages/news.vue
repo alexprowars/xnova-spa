@@ -23,6 +23,9 @@
 
 	definePageMeta({
 		middleware: ['auth'],
+		view: {
+			resources: false,
+		}
 	});
 
 	useHead({

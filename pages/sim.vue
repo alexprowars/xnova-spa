@@ -92,9 +92,15 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
+
+	definePageMeta({
+		view: {
+			resources: false,
+		}
+	});
 
 	useHead({
 		title: 'Симулятор',

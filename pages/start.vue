@@ -71,8 +71,16 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead } from '#imports';
 	import useStore from '~/store';
+
+	definePageMeta({
+		view: {
+			header: false,
+			menu: false,
+			resources: false,
+		}
+	});
 
 	useHead({
 		title: 'Выбор персонажа',

@@ -22,11 +22,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 		value += (new Date()).getTimezoneOffset() * 60;
 
-		if (store['stats'] && store['stats']['timezone'])
+		if (store['stats'] && store['stats']['timezone']) {
 			value += store['stats']['timezone'];
+		}
 
-		if (store['user'] && store['user']['timezone'])
+		if (store['user'] && store['user']?.['options']['timezone']) {
 			value += store['user']['timezone'] * 1800;
+		}
 
 		return date(format, value);
 	});

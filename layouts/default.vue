@@ -1,11 +1,11 @@
 <template>
-	<div ref="application" class="application" :class="['set_'+controller]" v-touch:swipe.left.right="swipe">
-		<LayoutHeader v-if="view['header']"/>
+	<div class="application" :class="['set_'+controller]" v-touch:swipe.left.right="swipe">
+		<LayoutHeader v-if="isAuthorized && view['header']"/>
 		<main>
-			<LayoutMainMenu v-if="view['menu']" :active="sidebar === 'menu'" @toggle="sidebarToggle('menu')"/>
-			<LayoutPlanetsList v-if="view['planets']" :active="sidebar === 'planet'" @toggle="sidebarToggle('planet')"/>
+			<LayoutMainMenu v-if="isAuthorized && view['menu']" :active="sidebar === 'menu'" @toggle="sidebarToggle('menu')"/>
+			<LayoutPlanetsList v-if="isAuthorized && view['planets']" :active="sidebar === 'planet'" @toggle="sidebarToggle('planet')"/>
 			<div class="main-content" v-touch:tap="tap">
-				<LayoutPlanetPanel v-if="view['resources']"/>
+				<LayoutPlanetPanel v-if="isAuthorized && view['resources']"/>
 				<div class="main-content-row">
 					<ErrorMessage v-if="error" :data="error"/>
 					<slot v-else/>
@@ -14,10 +14,10 @@
 		</main>
 
 		<ClientOnly>
-			<Chat v-if="store.isAuthorized" :visible="controller !== 'chat' && view['menu'] && view['chat']"/>
+			<Chat v-if="isAuthorized" :visible="controller !== 'chat' && view['menu'] && view['chat']"/>
 		</ClientOnly>
 
-		<LayoutFooter v-if="view['header']"/>
+		<LayoutFooter v-if="isAuthorized && view['header']"/>
 	</div>
 </template>
 
@@ -30,7 +30,7 @@
 	const store = useStore();
 	const route = useRoute();
 	const sidebar = ref('');
-	const { error, view } = storeToRefs(store);
+	const { isAuthorized, user, error } = storeToRefs(store);
 
 	const controller = computed(() => {
 		return (store.route && store.route.controller) || 'index'
@@ -38,6 +38,23 @@
 
 	watch(() => route.fullPath, () => {
 		sidebar.value = '';
+	});
+
+	const view = computed(() => {
+		let views = Object.assign({
+			header: true,
+			footer: true,
+			planets: true,
+			menu: true,
+			resources: true,
+			chat: true,
+		}, useRoute().meta['view'] || {});
+
+		if (user && !user.value['options']['chatbox']) {
+			views.chat = false;
+		}
+
+		return views;
 	});
 
 	function sidebarToggle (type) {

@@ -4,9 +4,15 @@
 
 <script setup>
 	import { ECOTree } from '~/utils/techtree'
-	import { showError, useAsyncData, useHead, useRoute, useI18n } from '#imports';
+	import { showError, useAsyncData, useHead, useRoute, useI18n, definePageMeta } from '#imports';
 	import useStore from '~/store';
 	import { onMounted, watch } from 'vue';
+
+	definePageMeta({
+		view: {
+			resources: false,
+		}
+	});
 
 	const route = useRoute();
 	const { t } = useI18n();

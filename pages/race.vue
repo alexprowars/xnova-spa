@@ -144,6 +144,9 @@
 
 	definePageMeta({
 		middleware: ['auth'],
+		view: {
+			resources: false,
+		}
 	});
 
 	useHead({
@@ -166,6 +169,13 @@
 	const race = computed(() => {
 		return store.user ? store.user.race : 0;
 	});
+
+	if (race.value === 0) {
+		route.meta['view'].menu = false;
+		route.meta['view'].header = false;
+		route.meta['view'].footer = false;
+		route.meta['view'].planets = false;
+	}
 
 	onMounted(() => {
 		if (race.value !== 0) {

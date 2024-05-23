@@ -11,7 +11,6 @@ export const useStore = defineStore('app', {
 		messages: null,
 		page: null,
 		stats: null,
-		view: {},
 		user: null,
 		planet: null,
 		start_time: Math.floor(useNow().value.getTime() / 1000),
@@ -49,8 +48,9 @@ export const useStore = defineStore('app', {
 
 			const data = await useApiGet(url)
 
-			if (typeof data['redirect'] !== 'undefined')
+			if (typeof data['redirect'] !== 'undefined') {
 				return this.app.context.redirect(data['redirect'])
+			}
 
 			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '') {
 				$.confirm({
@@ -90,8 +90,8 @@ export const useStore = defineStore('app', {
 					this[key] = data[key];
 			}
 
-			if (data.page !== null && typeof data.page === 'object' && typeof data['url'] !== 'undefined') {
-				navigateTo(data['url']);
+			if (typeof data['redirect'] !== 'undefined') {
+				navigateTo({ to: data['redirect'], force: true }, { replace: true });
 			}
 		},
 		setPlanetResources (resources) {

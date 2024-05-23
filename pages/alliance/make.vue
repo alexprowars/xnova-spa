@@ -20,7 +20,13 @@
 </template>
 
 <script setup>
-	import { useHead } from '#imports';
+	import { definePageMeta, useHead } from '#imports';
+
+	definePageMeta({
+		view: {
+			resources: false,
+		}
+	});
 
 	useHead({
 		title: 'Создать альянс',

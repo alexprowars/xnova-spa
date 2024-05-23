@@ -25,7 +25,7 @@
 		</div>
 		<div class="row">
 			<div :style="'background-color:'+$t('message_types_backgrounds.'+item['type'])" class="col-12 b">
-				<div v-if="$parent.$parent.page['parser']">
+				<div v-if="user['options']?.['bb_parser']">
 					<TextViewer :text="item['text']"/>
 				</div>
 				<div v-else v-html="item['text']"></div>
@@ -34,38 +34,37 @@
 	</div>
 </template>
 
-<script>
-	import PlayerInfo from '~/components/Page/Players/Info.vue'
-	import { useApiPost } from '~/composables/useApi';
+<script setup>
+	import PlayerInfo from '~/components/Page/Players/Info.vue';
 	import useStore from '~/store';
-	import { openAjaxPopupModal, openConfirmModal } from '~/composables/useModals';
+	import { openAjaxPopupModal, openConfirmModal, useApiPost } from '#imports';
+	import { storeToRefs } from 'pinia';
 
-	export default {
-		name: "messages-row",
-		props: {
-			item: Object
-		},
-		methods: {
-			abuseAction () {
-				openConfirmModal(
-					null,
-					'Вы уверены что хотите отправить жалобу на это сообщение?',
-					[{
-						title: 'Нет',
-					}, {
-						title: 'Да',
-						handler: () => {
-							useApiPost('/messages/abuse/'+this.item['id']+'/')
-							.then((result) => {
-								useStore().PAGE_LOAD(result)
-							})
-						}
-					}]
-				);
-			},
-			openPlayerPopup (id) {
-				openAjaxPopupModal(PlayerInfo, '/players/'+id+'/')
-			}
-		}
+	const props = defineProps({
+		item: Object
+	});
+
+	const { user } = storeToRefs(useStore());
+
+	function abuseAction () {
+		openConfirmModal(
+			null,
+			'Вы уверены что хотите отправить жалобу на это сообщение?',
+			[{
+				title: 'Нет',
+			}, {
+				title: 'Да',
+				handler: () => {
+					useApiPost('/messages/abuse/'+props.item['id']+'/')
+					.then((result) => {
+						useStore().PAGE_LOAD(result)
+					})
+				}
+			}]
+		);
+	}
+
+	function openPlayerPopup (id) {
+		openAjaxPopupModal(PlayerInfo, '/players/'+ id +'/')
 	}
 </script>
