@@ -4,12 +4,12 @@
 			<img :src="'/images/planeten/small/s_'+item.image+'.jpg'" height="40" width="40" :alt="item.name">
 		</a>
 		<span class="d-none d-sm-block d-md-none">
-			<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.position"/>
+			<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.planet"/>
 		</span>
 		<div class="d-sm-none d-md-block">
 			{{ item.name }}<br>
 			<span>
-				<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.position"/>
+				<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.planet"/>
 			</span>
 		</div>
 		<div class="clear"></div>

@@ -4,7 +4,7 @@ import VueGtm, { useGtm } from '@gtm-support/vue-gtm';
 export default defineNuxtPlugin((nuxtApp) => {
 	const runtimeConfig = useRuntimeConfig();
 
-	if (typeof runtimeConfig.public.gtmId === 'undefined' || !runtimeConfig.public.gtmId || process.env.NODE_ENV === 'development') {
+	if (typeof runtimeConfig.public.gtmId === 'undefined' || !runtimeConfig.public.gtmId || runtimeConfig.public.gtmId === '' || process.env.NODE_ENV === 'development') {
 		return;
 	}
 

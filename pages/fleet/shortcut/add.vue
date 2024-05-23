@@ -1,27 +1,24 @@
 <template>
 	<div class="block">
-		<div v-if="page['id'] < 0" class="title">Имя [Галактика:Система:Планета]</div>
-		<div v-else class="title">{{ page['name'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]</div>
+		<div class="title">Имя [Галактика:Система:Планета]</div>
 		<div class="content border-0">
-			<RouterForm :action="page['id'] < 0 ? '/fleet/shortcut/add/' : '/fleet/shortcut/'+page['id']+'/'">
+			<RouterForm action="/fleet/shortcut/add/">
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">
-							<input type="text" name="title" v-model="page['name']" size="32" maxlength="32" title="Название">
+							<input type="text" name="title" value="" size="32" maxlength="32" title="Название">
 							<input type="text" name="galaxy" v-model.number="page['galaxy']" size="3" maxlength="2" title="Галактика">
 							<input type="text" name="system" v-model.number="page['system']" size="3" maxlength="3" title="Система">
-							<input type="text" name="pplanet" v-model.number="page['planet']" size="3" maxlength="2" title="Планета">
-							<select name="pplanet_type" v-model.number="page['type']">
-								<option v-for="(title, type) in $t('planet_type')" :value="type">{{ title }}</option>
+							<input type="text" name="planet" v-model.number="page['planet']" size="3" maxlength="2" title="Планета">
+							<select name="planet_type" v-model.number="page['planet_type']">
+								<option v-for="index in Object.keys($tm('planet_type'))" :value="index">{{ $t('planet_type.' + index) }}</option>
 							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col th">
 							<input type="reset" value="Очистить">
-							<input v-if="page['id'] < 0" type="submit" value="Добавить">
-							<input v-if="page['id'] >= 0" type="submit" value="Обновить">
-							<input v-if="page['id'] >= 0" type="submit" name="delete" value="Удалить">
+							<input type="submit" value="Добавить">
 						</div>
 					</div>
 					<div class="row">

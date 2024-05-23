@@ -30,7 +30,7 @@
 				</table>
 			</div>
 			<div class="col-sm-4 d-none d-sm-block">
-				<GalaxySelectorShortcut :items="shortcuts"/>
+				<GalaxySelectorShortcut :items="shortcuts" :galaxy="galaxy" :system="galaxy"/>
 			</div>
 			<div class="col-sm-4 col-6">
 				<table style="margin: 0 auto">
@@ -60,8 +60,6 @@
 
 <script setup>
 	import GalaxySelectorShortcut from './SelectorShortcut.vue'
-	import { useApiPost } from '~/composables/useApi';
-	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 
 	const props = defineProps({

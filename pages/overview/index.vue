@@ -22,7 +22,7 @@
 					<div class="col-12 col-sm-6">
 						{{ $t('planet_type.'+planet['type']) }} "{{ planet['name'] }}"
 						<NuxtLinkLocale :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
-							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['position'] }}]
+							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}]
 						</NuxtLinkLocale>
 						<NuxtLinkLocale to="/overview/rename/" title="Редактирование планеты">(изменить)</NuxtLinkLocale>
 					</div>
@@ -320,7 +320,7 @@
 			8,
 			planet.value['coordinates']['galaxy'],
 			planet.value['coordinates']['system'],
-			planet.value['coordinates']['position'],
+			planet.value['coordinates']['planet'],
 			2
 		)
 	}

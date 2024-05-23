@@ -1,5 +1,5 @@
 <template>
-	<RouterForm v-if="page" action="/fleet/send/">
+	<RouterForm v-if="page" action="/fleet/send/" @page="setNextState">
 		<input v-for="ship in page.ships" type="hidden" :name="'ship['+ship.id+']'" :value="ship['count']">
 		<div class="block-table">
 			<div class="row">
@@ -12,7 +12,7 @@
 					<input type="number" name="system" min="1" :max="page['system_max']" v-model="page['target']['system']">
 					<input type="number" name="planet" min="1" :max="page['planet_max']" v-model="page['target']['planet']">
 					<select name="planet_type" v-model="page['target']['planet_type']">
-						<option v-for="(item, index) in $t('planet_type')" :value="index">{{ item }}</option>
+						<option v-for="index in Object.keys($tm('planet_type'))" :value="index">{{ $t('planet_type.' + index) }}</option>
 					</select>
 				</div>
 			</div>
@@ -54,11 +54,11 @@
 
 			<div v-if="page['shortcuts'].length > 0" class="row">
 				<div v-for="link in page['shortcuts']" class="th col-6" :class="{'col-12': page['shortcuts'].length === 1}">
-					<a @click.prevent="setTarget(link[1], link[2], link[3], link[4])">
-						{{ link[0] }} {{ link[1] }}:{{ link[2] }}:{{ link[3] }}
-						<span v-if="link[4] === 1">(P)</span>
-						<span v-if="link[4] === 2">(D)</span>
-						<span v-if="link[4] === 3">(L)</span>
+					<a @click.prevent="setTarget(link['galaxy'], link['system'], link['planet'], link['planet_type'])">
+						{{ link['name'] }} {{ link['galaxy'] }}:{{ link['system'] }}:{{ link['planet'] }}
+						<span v-if="link['planet_type'] === 1">(P)</span>
+						<span v-if="link['planet_type'] === 2">(D)</span>
+						<span v-if="link['planet_type'] === 3">(L)</span>
 					</a>
 				</div>
 			</div>
@@ -110,9 +110,9 @@
 								<input :id="'m_'+mission" type="radio" name="mission" v-model="page['mission']" :value="mission">
 								<label :for="'m_'+mission">{{ $t('fleet_mission.'+mission) }}</label>
 
-								<center v-if="mission === 15" class="negative">
+								<span v-if="mission === 15" class="text-center negative">
 									Внимание во время экспедиции возможна потеря флота!
-								</center>
+								</span>
 							</th>
 						</tr>
 						<tr v-if="page['missions'].length === 0">
@@ -203,7 +203,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, showError, useApiPost, useAsyncData, useRoute } from '#imports';
+import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -246,10 +246,6 @@
 	const resources = computed(() => {
 		return planet.value.resources;
 	});
-
-	const position = computed(() => {
-		return store.user.position;
-	})
 
 	const hold = computed(() => {
 		let hold = 0;
@@ -301,7 +297,7 @@
 	}, { deep: true });
 
 	function info () {
-		distance.value = getDistance(position.value, page.value['target']);
+		distance.value = getDistance(planet.value['coordinates'], page.value['target']);
 		maxspeed.value = getSpeed(page.value['ships']);
 
 		duration.value = getDuration({
@@ -388,5 +384,9 @@
 
 	function clearResAll () {
 		resource.value.metal = resource.value.crystal = resource.value.deuterium = 0
+	}
+
+	function setNextState() {
+		navigateTo('/fleet/send/');
 	}
 </script>

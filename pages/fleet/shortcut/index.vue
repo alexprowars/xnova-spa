@@ -8,7 +8,7 @@
 				<div class="block-table">
 					<div class="row">
 						<div v-for="(item, i) in page['items']" class="col-6 th">
-							<NuxtLinkLocale :to="'/fleet/shortcut/'+i+'/'">{{ item['name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ item['planet'] }}] {{ item['type'] }}</NuxtLinkLocale>
+							<NuxtLinkLocale :to="'/fleet/shortcut/'+item['id']+'/'">{{ item['name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ item['planet'] }}] {{ $t('planet_type.' + item['planet_type']) }}</NuxtLinkLocale>
 						</div>
 						<div v-if="page['items'].length === 0" class="col th">Список ссылок пуст</div>
 					</div>

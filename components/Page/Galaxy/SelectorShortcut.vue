@@ -3,13 +3,10 @@
 		<tbody>
 			<tr>
 				<td class="c">
-					<select v-on:change="changePlanet" style="width:100%">
+					<select v-model="selected" style="width:100%">
 						<option >--- выберите планету ---</option>
-
-						<option v-for="item in items"
-								:value="'galaxy='+item.g+'&system='+item.s+''"
-								:selected="item.c ? 'selected' : ''">
-							{{ item.n }} [{{ item.g }}:{{ item.s }}:{{ item.p }}]
+						<option v-for="item in items" :value="item['id']">
+							{{ item.name }} [{{ item.galaxy }}:{{ item.system }}:{{ item.planet }}]
 						</option>
 					</select>
 				</td>
@@ -23,23 +20,40 @@
 	</table>
 </template>
 
-<script>
+<script setup>
 	import { navigateTo } from '#imports';
+	import { ref, watch } from 'vue';
 
-	export default {
-		name: "galaxy-selector-shortcut",
-		props: {
-			items: {
-				type: Array,
-				default: () => {
-					return []
-				}
-			}
+	const props = defineProps({
+		items: {
+			type: Array,
+			default: []
 		},
-		methods: {
-			changePlanet ($event) {
-				navigateTo('/galaxy/?'+$event.target.value);
-			}
-		}
+		galaxy: {
+			type: Number,
+			default: 1
+		},
+		system: {
+			type: Number,
+			default: 1
+		},
+	});
+
+	const selected = ref(null);
+
+	const item = props.items.find((item) =>
+		item['galaxy'] === props.galaxy && item['system'] === props.system
+	);
+
+	if (item) {
+		selected.value = item['id'];
 	}
+
+	watch(selected, (val) => {
+		let item = props.items.find((item) => item['id'] === val);
+
+		if (item) {
+			navigateTo('/galaxy/?galaxy='+ item.galaxy + '&system=' + item.system);
+		}
+	});
 </script>

@@ -8,6 +8,7 @@ export const useStore = defineStore('app', {
 		initialized: false,
 		version: null,
 		redirect: null,
+		error: null,
 		messages: null,
 		page: null,
 		stats: null,
@@ -49,7 +50,7 @@ export const useStore = defineStore('app', {
 			const data = await useApiGet(url)
 
 			if (typeof data['redirect'] !== 'undefined') {
-				return this.app.context.redirect(data['redirect'])
+				return navigateTo(data['redirect'])
 			}
 
 			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '') {

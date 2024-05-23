@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="content">
-				<RouterForm action="/fleet/checkout/">
+				<RouterForm action="/fleet/checkout/" @page="setNextState">
 					<div class="block-table fleet_ships container">
 						<div class="row">
 							<div class="th col-sm-7 col-6">Тип корабля</div>
@@ -84,7 +84,7 @@
 							<div class="th col-4 col-sm-3">{{ allSpeed ? $number(allSpeed) : '-'}}</div>
 						</div>
 						<div v-if="count && page['curFleets'] < page['maxFleets']" class="row">
-							<div class="th col-12"><input type="submit" value=" Далее "></div>
+							<div class="th col-12"><input type="submit" value="Далее"></div>
 						</div>
 					</div>
 					<input type="hidden" name="galaxy" :value="page['selected']['galaxy']">
@@ -113,7 +113,7 @@
 
 <script setup>
 	import FlyRow from '~/components/Page/Fleet/FlyRow.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, navigateTo } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 
@@ -126,9 +126,10 @@
 	});
 
 	const route = useRoute();
+	const store = useStore();
 
 	const { data: page, error, refresh } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await store.loadPage();
 	});
 
 	watch(() => route.query, () => refresh());
@@ -233,5 +234,10 @@
 
 		allSpeed.value = speed;
 		allCapacity.value = capacity;
+	}
+
+	function setNextState(val) {
+		store.page = val;
+		navigateTo('/fleet/checkout/');
 	}
 </script>

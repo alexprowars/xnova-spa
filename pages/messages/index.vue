@@ -1,6 +1,6 @@
 <template>
-	<RouterForm ref="formRef" action="/messages/">
-		<div class="block">
+	<RouterForm action="/messages/" @page="setState">
+		<div ref="formRef" class="block">
 			<div class="title">
 				Сообщения
 				<select name="category" @change.prevent="submitForm" v-model="page['category']">
@@ -99,6 +99,10 @@
 	});
 
 	function submitForm () {
-		formRef.value.send();
+		formRef.value.parentElement.requestSubmit();
+	}
+
+	function setState(val) {
+		page.value = val;
 	}
 </script>

@@ -9,30 +9,25 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import { navigateTo } from '#imports';
+	import { onBeforeUnmount, onMounted } from 'vue';
 
-	export default {
-		name: "error-message",
-		props: {
-			data: Object
-		},
-		data () {
-			return {
-				timeout: null
-			}
-		},
-		mounted ()
-		{
-			if (this.data['timeout'] > 0 && this.data['redirect'])
-			{
-				this.timeout = setTimeout(() => {
-					navigateTo(this.data['redirect'])
-				}, this.data['timeout'] * 1000);
-			}
-		},
-		destroyed () {
-			clearTimeout(this.timeout);
+	const props = defineProps({
+		data: Object,
+	});
+
+	let timeout;
+
+	onMounted(() => {
+		if (props.data['timeout'] > 0 && props.data['redirect']) {
+			timeout = setTimeout(() => {
+				navigateTo(props.data['redirect'])
+			}, props.data['timeout'] * 1000);
 		}
-	}
+	});
+
+	onBeforeUnmount(() => {
+		clearTimeout(timeout);
+	});
 </script>
