@@ -60,9 +60,10 @@ export const useStore = defineStore('app', {
 					confirmButton: 'Продолжить',
 					cancelButton: false,
 					backgroundDismiss: false,
-					confirm: () => {
-						if (data['tutorial']['url'] !== '')
+					confirm() {
+						if (data['tutorial']['url'] !== '') {
 							navigateTo(data['tutorial']['url']);
+						}
 					}
 				})
 			}
@@ -89,10 +90,6 @@ export const useStore = defineStore('app', {
 			for (let key in data) {
 				if (data.hasOwnProperty(key))
 					this[key] = data[key];
-			}
-
-			if (typeof data['redirect'] !== 'undefined') {
-				navigateTo({ to: data['redirect'], force: true }, { replace: true });
 			}
 		},
 		setPlanetResources (resources) {

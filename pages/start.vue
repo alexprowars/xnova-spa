@@ -3,7 +3,7 @@
 		<div v-if="page['sex'] === 0 || page['avatar'] === 0" class="block start">
 			<div class="title">Основная информация</div>
 			<div class="content border-0">
-				<RouterForm action="">
+				<RouterForm action="" @page="setState">
 					<input type="hidden" name="save" value="Y">
 					<div class="block-table">
 						<div class="row">
@@ -92,5 +92,9 @@
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	function setState(val) {
+		page.value = val;
 	}
 </script>

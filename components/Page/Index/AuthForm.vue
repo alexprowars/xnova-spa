@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="error" v-html="error.message" :class="[error.type]" class="message"></div>
+		<div v-if="error" v-html="error.text" :class="[error.type]" class="message"></div>
 		<form action="" method="post" @submit.prevent="send">
 			<input :class="{error: v$.email.$error}" name="email" class="input-text" placeholder="Email" v-model="email" type="email" autocomplete="username">
 			<input :class="{error: v$.password.$error}" name="password" class="input-text" placeholder="Пароль" v-model="password" type="password" autocomplete="current-password">
@@ -21,7 +21,7 @@
 
 	const email = ref('');
 	const password = ref('');
-	const remember = ref(false);
+	const remember = ref(true);
 	const error = ref(false);
 
 	try {
@@ -55,10 +55,11 @@
 			remember: remember.value,
 		})
 		.then((result) => {
+			console.log(result.messages)
 			if (result.redirect && result.redirect.length) {
 				window.location.href = result.redirect;
 			} else {
-				error.value = result.error;
+				error.value = result.messages.length ? result.messages[0] : false;
 			}
 		})
 	}
