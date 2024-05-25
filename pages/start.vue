@@ -48,7 +48,7 @@
 				</RouterForm>
 			</div>
 		</div>
-		<div v-else="page['race'] === 0" class="block start race">
+		<div v-else-if="page['race'] === 0" class="block start race">
 			<div class="title">Выбор фракции</div>
 			<div class="content">
 				<RouterForm action="" id="tabs">

@@ -37,6 +37,6 @@
 
 		let url = '/'+path[0] + (path[1] !== undefined && path[1] !== '' && path[0] !== 'galaxy' && path[0] !== 'fleet' ? '/'+path[1] : '') + '/?chpl=' + props.item.id;
 
-		navigateTo({ to: url, force: true}, { replace: true });
+		navigateTo({ path: url, force: true }, { replace: true });
 	}
 </script>

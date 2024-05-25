@@ -27,7 +27,7 @@
 	watch(redirect, (url) => {
 		if (url && url.length > 0) {
 			redirect.value = null;
-			navigateTo({ to: url, force: true });
+			navigateTo({ path: url, force: true });
 		}
 	});
 
