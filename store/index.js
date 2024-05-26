@@ -12,6 +12,7 @@ export const useStore = defineStore('app', {
 		messages: null,
 		page: null,
 		stats: null,
+		speed: null,
 		user: null,
 		planet: null,
 		start_time: Math.floor(useNow().value.getTime() / 1000),
@@ -28,6 +29,11 @@ export const useStore = defineStore('app', {
 		},
 	},
 	actions: {
+		async loadState() {
+			const data = await useApiGet('/state');
+
+			this.PAGE_LOAD(data);
+		},
 		async loadPage (url = undefined) {
 			if (typeof url === 'undefined') {
 				url = useRouter().currentRoute.value.path;
@@ -47,40 +53,39 @@ export const useStore = defineStore('app', {
 
 			startLoading();
 
-			const data = await useApiGet(url)
+			const responce = await useApiGet(url);
 
-			if (typeof data['redirect'] !== 'undefined') {
-				return navigateTo(data['redirect'])
+			if (typeof responce['redirect'] !== 'undefined') {
+				return navigateTo({ path: responce['redirect'], force: true });
 			}
 
-			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '') {
+			if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['popup'] !== '') {
 				$.confirm({
 					title: 'Обучение',
-					content: data['tutorial']['popup'],
+					content: responce['tutorial']['popup'],
 					confirmButton: 'Продолжить',
 					cancelButton: false,
 					backgroundDismiss: false,
 					confirm() {
-						if (data['tutorial']['url'] !== '') {
-							navigateTo(data['tutorial']['url']);
+						if (responce['tutorial']['url'] !== '') {
+							navigateTo(responce['tutorial']['url']);
 						}
 					}
 				})
 			}
 
-			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['toast'] !== '') {
-				toast(data['tutorial']['toast'], {
+			if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['toast'] !== '') {
+				toast(responce['tutorial']['toast'], {
 					type: 'info'
 				})
 			}
 
-			let page = JSON.parse(JSON.stringify(data.page));
-
-			delete data.page;
-
-			this.PAGE_LOAD(data);
+			const page = JSON.parse(JSON.stringify(responce['data']));
+			delete responce['data'];
 
 			stopLoading();
+
+			this.PAGE_LOAD(responce);
 
 			return page;
 		},

@@ -104,6 +104,9 @@
 
 	useHead({
 		title: 'Симулятор',
+		bodyAttrs: {
+			class: 'set_sim',
+		}
 	});
 
 	const route = useRoute();

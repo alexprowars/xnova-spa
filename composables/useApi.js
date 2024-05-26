@@ -2,7 +2,7 @@ export const useApiGet = (url, params = {}) => {
 	return $fetch('/api' + url, {
 		method: 'get', params
 	})
-	.then(({ data }) => {
+	.then((data) => {
 		return handleResult(data);
 	})
 	.catch((e) => {
@@ -18,7 +18,7 @@ export const useApiPost = (url, data = {}) => {
 	return $fetch('/api' + url, {
 		method: 'post', body: data
 	})
-	.then(({ data }) => {
+	.then((data) => {
 		return handleResult(data);
 	})
 	.catch((e) => {
@@ -55,8 +55,8 @@ function handleResult (data) {
 
 function parseData (data) {
 	if (data !== undefined) {
-		if (data.page !== undefined && Array.isArray(data.page) && data.page.length === 0) {
-			data.page = null
+		if (data.data !== undefined && Array.isArray(data.data) && data.data.length === 0) {
+			data.data = null
 		}
 
 		return data

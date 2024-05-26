@@ -38,9 +38,8 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, useHead } from '#imports';
 	import useChatStore from '~/store/chat';
-	import useStore from '~/store';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import parser from '~/utils/parser';
 	import { storeToRefs } from 'pinia';
@@ -55,18 +54,6 @@
 	useHead({
 		title: 'Межгалактический чат',
 	});
-
-	const route = useRoute();
-
-	const { data: page, error, refresh } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
-
-	if (error.value) {
-		throw showError(error.value);
-	}
 
 	const chatStore = useChatStore();
 

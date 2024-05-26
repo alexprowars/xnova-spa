@@ -31,10 +31,6 @@
 		}
 	});
 
-	const controller = computed(() => {
-		return (store.route && store.route.controller) || 'index'
-	});
-
 	const notifications = computed(() => {
 		return (store.messages || []).filter((item) => {
 			return item['type'].indexOf('-static') < 0;
@@ -61,8 +57,5 @@
 			{ hid: 'og:title', property: 'og:title', content: store.title || '' }
 		],
 		htmlAttrs: () => head.value?.htmlAttrs || {},
-		bodyAttrs: {
-			page: controller.value,
-		},
 	})
 </script>

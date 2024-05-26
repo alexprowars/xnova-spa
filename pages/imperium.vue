@@ -254,19 +254,23 @@
 			}
 
 			for (let id of elements) {
-				if (id < 100) {
-					if (result.elements[id].current < planet['elements']['e' + id]['current'])
-						result.elements[id].current = planet['elements']['e' + id]['current']
+				if (typeof planet['elements'][id] === 'undefined') {
+					continue;
+				}
 
-					if (result.elements[id].build < planet['elements']['e' + id]['build'])
-						result.elements[id].build = planet['elements']['e' + id]['build']
+				if (id < 100) {
+					if (result.elements[id].current < planet['elements'][id]['current'])
+						result.elements[id].current = planet['elements'][id]['current']
+
+					if (result.elements[id].build < planet['elements'][id]['build'])
+						result.elements[id].build = planet['elements'][id]['build']
 				} else if (id > 200 && id < 300) {
-					result.elements[id].current += planet['elements']['e' + id]['current']
-					result.elements[id].build += planet['elements']['e' + id]['build']
-					result.elements[id].fly += planet['elements']['e' + id]['fly']
+					result.elements[id].current += planet['elements'][id]['current']
+					result.elements[id].build += planet['elements'][id]['build']
+					result.elements[id].fly += planet['elements'][id]['fly']
 				} else if (id > 400 && id < 600) {
-					result.elements[id].current += planet['elements']['e' + id]['current']
-					result.elements[id].build += planet['elements']['e' + id]['build']
+					result.elements[id].current += planet['elements'][id]['current']
+					result.elements[id].build += planet['elements'][id]['build']
 				}
 			}
 		})

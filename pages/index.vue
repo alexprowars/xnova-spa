@@ -59,7 +59,7 @@
 	import RegistrationForm from './registration.vue'
 	import RemindForm from './remind.vue'
 	import { addScript } from '~/utils/helpers'
-	import { useAsyncData, showError, navigateTo, useHead } from '#imports';
+	import { navigateTo, useHead } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { onMounted } from 'vue';
@@ -67,16 +67,10 @@
 
 	useHead({
 		title: 'Вход в игру',
+		bodyAttrs: {
+			class: 'index-page',
+		}
 	});
-
-	const { error } = await useAsyncData(async () => {
-		await useStore().loadPage()
-		return {}
-	});
-
-	if (error.value) {
-		throw showError(error.value);
-	}
 
 	const store = useStore();
 
@@ -91,7 +85,7 @@
 
 		useApiGet('/registration/').then((data) => {
 			openPopupModal(RegistrationForm, {
-				popup: data.page,
+				popup: data.data,
 			})
 		})
 	}
@@ -101,10 +95,6 @@
 			return navigateTo('/login/reset/');
 		}
 
-		useApiGet('/login/reset/').then((data) => {
-			openPopupModal(RemindForm, {
-				popup: data.page
-			})
-		})
+		openPopupModal(RemindForm);
 	}
 </script>

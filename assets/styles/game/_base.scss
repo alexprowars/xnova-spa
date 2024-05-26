@@ -554,14 +554,12 @@ main {
 	height: 100vh;
 	align-items: center;
 	//position: relative;
+}
 
-	&.set_sim {
-
-		main {
-
-			> .main-content {
-				white-space: nowrap;
-			}
+.set_sim {
+	main {
+		> .main-content {
+			white-space: nowrap;
 		}
 	}
 }
@@ -763,10 +761,6 @@ p {
 	height: 30px;
 	color: orange;
 	margin-top: 10px;
-}
-
-.set_techtree #tabs a {
-	font-weight: normal;
 }
 
 .tch {

@@ -1,5 +1,5 @@
 <template>
-	<div class="application" :class="['set_'+controller]" v-touch:swipe.left.right="swipe">
+	<div class="application" v-touch:swipe.left.right="swipe">
 		<LayoutHeader v-if="isAuthorized && view['header']"/>
 		<main>
 			<LayoutMainMenu v-if="isAuthorized && view['menu']" :active="sidebar === 'menu'" @toggle="sidebarToggle('menu')"/>
@@ -14,7 +14,7 @@
 		</main>
 
 		<ClientOnly>
-			<Chat v-if="isAuthorized" :visible="controller !== 'chat' && view['menu'] && view['chat']"/>
+			<Chat v-if="isAuthorized" :visible="!isChatPage && view['menu'] && view['chat']"/>
 		</ClientOnly>
 
 		<LayoutFooter v-if="isAuthorized && view['header']"/>
@@ -32,8 +32,8 @@
 	const sidebar = ref('');
 	const { isAuthorized, user, error } = storeToRefs(store);
 
-	const controller = computed(() => {
-		return (store.route && store.route.controller) || 'index'
+	const isChatPage = computed(() => {
+		return useRoute().path.indexOf('/chat') !== -1;
 	});
 
 	watch(() => route.fullPath, () => {

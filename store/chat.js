@@ -27,8 +27,8 @@ export const useChatStore = defineStore('chat', {
 		},
 		async loadMessages () {
 			await useApiGet('/chat/last')
-				.then(({ page }) => {
-					page.messages.forEach((message) => {
+				.then(({ data }) => {
+					data.messages.forEach((message) => {
 						this.addMessage(message)
 					})
 

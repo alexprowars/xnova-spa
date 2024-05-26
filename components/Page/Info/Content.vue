@@ -10,7 +10,7 @@
 							<img v-else-if="page['i'] < 700" :src="'/images/officiers/'+page['i']+'.jpg'" class="info" height="120" width="120" alt="">
 							<img v-else :src="'/images/skin/race'+(page['i'] - 700)+'.gif'" style="float:left;margin:0 20px 10px 0" height="35" width="35" alt="">
 						</div>
-						<div v-html="page['description']"></div>
+						<div v-html="$t('info.' + page['i'])"></div>
 					</div>
 				</div>
 			</div>

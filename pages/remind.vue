@@ -28,34 +28,14 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation } from '@vuelidate/validators'
 	import { ref } from 'vue';
-	import { showError, useAsyncData, useHead } from '#imports';
-	import useStore from '~/store';
+	import { useHead, useApiPost } from '#imports';
 
 	useHead({
 		title: 'Восстановление пароля',
 	});
 
-	const props = defineProps({
-		popup: {
-			type: Object
-		}
-	});
-
-	const { data, error } = await useAsyncData(async () => {
-		const data = await useStore().loadPage()
-
-		return { data: data.page }
-	});
-
-	if (error.value) {
-		throw showError(error.value);
-	}
-
-	const page = ref({});
 	const email = ref('');
 	const errors = ref(false);
-
-	page.value = props.popup !== undefined ? props.popup : data.value
 
 	const validations = {
 		email: {
@@ -75,7 +55,7 @@
 			return
 		}
 
-		post('/login/reset/', {
+		useApiPost('/login/reset/', {
 			email: email.value,
 		})
 		.then((result) => {

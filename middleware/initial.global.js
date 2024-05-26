@@ -1,6 +1,5 @@
-import useStore from '~/store'
-import { defineNuxtRouteMiddleware, showError, navigateTo } from '#imports'
-import { useApiGet } from '~/composables/useApi';
+import useStore from '~/store';
+import { defineNuxtRouteMiddleware, showError } from '#imports';
 
 export default defineNuxtRouteMiddleware(async(to, from) => {
 	try {
@@ -10,22 +9,11 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
 			return;
 		}
 
-		const data = await useApiGet(to.path, {
-			initial: 'Y'
-		});
+		await store.loadState();
 
-		if (data['redirect'] && data['redirect'].length > 0) {
-			return navigateTo(data.redirect);
-		}
-
-		for (let key in data) {
-			if (data.hasOwnProperty(key))
-				store[key] = data[key];
-		}
-
-		if (data['route'] && data['route']['controller'] === 'error') {
-			new Error('Страница не найдена');
-		}
+		setInterval(async () => {
+			await store.loadState()
+		}, 30000);
 
 		store.initialized = true;
 	} catch(e) {

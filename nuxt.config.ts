@@ -69,7 +69,7 @@ let config = {
 		strategy: 'prefix_except_default',
 		customRoutes: 'config',
 		detectBrowserLanguage: false,
-		trailingSlash: true,
+		trailingSlash: false,
 		compilation: {
 			strictMessage: false,
 		},

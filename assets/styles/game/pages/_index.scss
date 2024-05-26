@@ -1,5 +1,5 @@
 
-body[page=index] {
+body.index-page {
 	margin: 0;
 	padding: 0;
 	color: #ffffff;
@@ -348,7 +348,7 @@ body[page=index] {
 }
 
 @media only screen and (max-width: 768px) {
-	body[page=index] {
+	body.index-page {
 		background: #000 url(/images/starfield_01.gif) repeat 0 0 fixed;
 	}
 }

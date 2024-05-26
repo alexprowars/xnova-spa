@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { defineNuxtPlugin, useRouter } from '#imports';
+import { defineNuxtPlugin, stopLoading, useRouter, useLoading } from '#imports';
 import 'vite/modulepreload-polyfill';
 import 'core-js/es/global-this.js';
 import 'core-js/es/array/flat.js';
@@ -33,7 +33,19 @@ export default defineNuxtPlugin((nuxtApp) => {
 		dayjs.locale(newLocale);
 	});
 
+	useRouter().beforeEach((to, from, next) => {
+		const loading = useLoading();
+
+		if (loading.value) {
+			next(false);
+		} else {
+			next();
+		}
+	})
+
 	useRouter().afterEach((to, from, failure) => {
+		stopLoading();
+
 		if (isNavigationFailure(failure)) {
 			console.log('failed navigation', failure);
 		}

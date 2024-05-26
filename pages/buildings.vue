@@ -41,6 +41,9 @@
 
 	useHead({
 		title: 'Постройки',
+		bodyAttrs: {
+			class: 'set_buildings',
+		}
 	});
 
 	const route = useRoute();

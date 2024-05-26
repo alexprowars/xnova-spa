@@ -1,14 +1,13 @@
 <template>
 	<div class="page-start">
-		<div v-if="page['sex'] === 0 || page['avatar'] === 0" class="block start">
+		<div v-if="!user['sex'] || !user['avatar']" class="block start">
 			<div class="title">Основная информация</div>
 			<div class="content border-0">
-				<RouterForm action="" @page="setState">
-					<input type="hidden" name="save" value="Y">
+				<RouterForm @submit="onSubmit">
 					<div class="block-table">
 						<div class="row">
 							<div class="col th">Введите ваш игровой ник</div>
-							<div class="col th"><input name="character" size="20" maxlength="20" type="text" :value="page['name']" title=""></div>
+							<div class="col th"><input name="username" size="20" maxlength="30" type="text" :value="user['name']" title=""></div>
 						</div>
 						<div class="row">
 							<div class="col c">Выберите ваш игровой образ</div>
@@ -19,7 +18,7 @@
 									<Tab name="Мужской">
 										<div class="row">
 											<div v-for="i in 8" class="col-3">
-												<input type="radio" name="face" :value="'1_'+i" :id="'f1_'+i" title="">
+												<input type="radio" name="avatar" :value="'1_'+i" :id="'f1_'+i" title="">
 												<label :for="'f1_'+i" class="avatar">
 													<img :src="'/images/faces/1/'+i+'s.png'" alt="">
 												</label>
@@ -29,7 +28,7 @@
 									<Tab name="Женский">
 										<div class="row">
 											<div v-for="i in 8" class="col-3">
-												<input type="radio" name="face" :value="'2_'+i" :id="'f2_'+i" title="">
+												<input type="radio" name="avatar" :value="'2_'+i" :id="'f2_'+i" title="">
 												<label :for="'f2_'+i" class="avatar">
 													<img :src="'/images/faces/2/'+i+'s.png'" alt="">
 												</label>
@@ -48,17 +47,16 @@
 				</RouterForm>
 			</div>
 		</div>
-		<div v-else-if="page['race'] === 0" class="block start race">
+		<div v-else-if="!user['race']" class="block start race">
 			<div class="title">Выбор фракции</div>
 			<div class="content">
-				<RouterForm action="" id="tabs">
-					<input type="hidden" name="save" value="Y">
-					<template v-for="race in page['races']">
-						<input type="radio" name="race" :value="race['i']" :id="'f_'+race['i']">
-						<label :for="'f_'+race['i']" class="avatar">
-							<img :src="'/images/skin/race'+race['i']+'.gif'" alt=""><br>
-							<h3>{{ race['name'] }}</h3>
-							<span v-html="race['description']"></span>
+				<RouterForm id="tabs">
+					<template v-for="(race, index) in Object.keys($tm('races'))">
+						<input type="radio" name="race" :value="race" :id="'f_'+race">
+						<label :for="'f_'+race" class="avatar">
+							<img :src="'/images/skin/race' + race + '.gif'" alt=""><br>
+							<h3>{{ $t('races.' + race) }}</h3>
+							<span v-html="$t('info.' + (701 + index))"></span>
 						</label>
 					</template>
 					<br>
@@ -71,8 +69,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, useHead } from '#imports';
 	import useStore from '~/store';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		view: {
@@ -86,15 +85,9 @@
 		title: 'Выбор персонажа',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	});
+	const { user } = storeToRefs(useStore());
 
-	if (error.value) {
-		throw showError(error.value);
-	}
-
-	function setState(val) {
-		page.value = val;
+	function onSubmit() {
+		useStore().loadState();
 	}
 </script>

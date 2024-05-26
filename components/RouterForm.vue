@@ -23,7 +23,7 @@
 
 	const store = useStore();
 	const formRef = ref(null);
-	const emit = defineEmits(['page']);
+	const emit = defineEmits(['submit', 'page']);
 
 	async function send () {
 		startLoading();
@@ -46,6 +46,8 @@
 
 			store.PAGE_LOAD(result);
 			stopLoading();
+
+			emit('submit');
 		} catch(e) {
 			alert(e.message);
 		}
