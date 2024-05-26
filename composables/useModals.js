@@ -72,14 +72,12 @@ export const openAjaxPopupModal = async (component, url, attrs = {}, events = {}
 
 	start();
 
-	const result = await useApiGet(url, {
-		popup: 'Y'
-	});
+	const result = await useApiGet(url);
 
 	finish();
 
 	attrs = attrs || {};
-	attrs.page = result['page'];
+	attrs.page = result['data'];
 
 	await openPopupModal(component, attrs, events);
 }

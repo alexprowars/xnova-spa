@@ -103,8 +103,8 @@
 	const rows = computed(() => {
 		let result = [];
 
-		for (let i = 0; i < 15; i++) {
-			result[i] = page.value.items.find(item => item.planet === i) || null;
+		for (let i = 1; i <= 15; i++) {
+			result.push(page.value.items.find(item => item.planet === i) || null);
 		}
 
 		return result;
@@ -118,8 +118,8 @@
 	async function changeCoordinates(value) {
 		const result = await useApiPost('/galaxy/', value);
 
-		page.value = result['page'];
-		delete result['page'];
+		page.value = result['data'];
+		delete result['data'];
 
 		useStore().PAGE_LOAD(result);
 	}

@@ -39,9 +39,9 @@
 		try {
 			const result = await useApiPost(action, formData);
 
-			if (result['page'] !== null) {
-				emit('page', result['page']);
-				delete result['page'];
+			if (result['data'] !== null) {
+				emit('page', result['data']);
+				delete result['data'];
 			}
 
 			store.PAGE_LOAD(result);

@@ -15,11 +15,12 @@
 	import Loader from '~/components/Layout/Loader.vue'
 	import { ModalsContainer } from 'vue-final-modal';
 	import { useLocaleHead } from '#i18n';
-	import { navigateTo, useHead } from '#imports';
+	import { navigateTo, useHead, useNuxtApp } from '#imports';
 	import { computed, watch } from 'vue';
 	import { toast } from 'vue3-toastify';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
+	import useChatStore from '~/store/chat';
 
 	const store = useStore();
 	const { redirect } = storeToRefs(store);
@@ -57,5 +58,20 @@
 			{ hid: 'og:title', property: 'og:title', content: store.title || '' }
 		],
 		htmlAttrs: () => head.value?.htmlAttrs || {},
-	})
+	});
+
+	if (store.isAuthorized) {
+		useNuxtApp().$echo.channel('chat')
+			.listen('ChatMessage', ({ message }) => {
+				useChatStore().addMessage(message);
+			});
+
+		useNuxtApp().$echo.private('user.' + store.user.id)
+			.listen('ChatPrivateMessage', ({ message }) => {
+				useChatStore().addMessage(message);
+			})
+			.listen('PlanetEntityUpdated', () => {
+				store.loadState();
+			});
+	}
 </script>

@@ -1,13 +1,14 @@
 <template>
-	<Popper v-bind="attrs" hover>
-		<slot/><template #content="props">
+	<Tooltip v-bind="attrs" :triggers="['hover', 'focus']">
+		<slot/>
+		<template #popper="props">
 			<slot name="content" v-bind="props"/>
 		</template>
-	</Popper>
+	</Tooltip>
 </template>
 
 <script setup>
-	import Popper from 'vue3-popper';
+	import { Tooltip } from 'floating-vue';
 	import { useAttrs } from 'vue';
 
 	const attrs = useAttrs();

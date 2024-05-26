@@ -81,7 +81,7 @@
 				type: page.value['type']
 			})
 
-			page.value = result['page']
+			page.value = result['data']
 		} catch(e) {
 			alert(e.message)
 		}

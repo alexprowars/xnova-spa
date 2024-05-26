@@ -74,23 +74,21 @@
 								</div>
 							</div>
 							<div class="col-12 page-overview-officiers">
-								<div v-for="item in user['officiers']" class="page-overview-officiers-item">
-									<NuxtLinkLocale to="/officier/">
-										<Popper>
-											<template #content>
-												<div>
-													{{ $t('tech.'+item['id']) }}
-													<br>
-													<span v-if="item['time'] > store.getServerTime">
-														Нанят до <font color="lime">{{ $date(item['time'], 'd.m.Y H:i') }}</font>
-													</span>
-													<font v-else color="lime">Не нанят</font>
-												</div>
-											</template>
-											<span class="officier" :class="['of'+item['id']+(item['time'] > store.getServerTime ? '_ikon' : '')]"></span>
-										</Popper>
-									</NuxtLinkLocale>
-								</div>
+								<NuxtLinkLocale v-for="item in user['officiers']" to="/officier/" class="page-overview-officiers-item">
+									<Popper>
+										<template #content>
+											<div>
+												{{ $t('tech.'+item['id']) }}
+												<br>
+												<span v-if="item['time'] > store.getServerTime">
+													Нанят до <font color="lime">{{ $date(item['time'], 'd.m.Y H:i') }}</font>
+												</span>
+												<font v-else color="lime">Не нанят</font>
+											</div>
+										</template>
+										<span class="officier" :class="['of'+item['id']+(item['time'] > store.getServerTime ? '_ikon' : '')]"></span>
+									</Popper>
+								</NuxtLinkLocale>
 							</div>
 						</div>
 					</div>
@@ -326,14 +324,12 @@
 	}
 
 	async function getDailyBonus () {
-		const result = await useApiPost('/overview/', {
-			bonus: 'Y'
-		})
+		const result = await useApiPost('/overview/dayly')
 
 		useStore().PAGE_LOAD(result)
 	}
 
 	function openPlayerPopup () {
-		openAjaxPopupModal(PlayerInfo, '/players/'+user.value['id']+'/')
+		openAjaxPopupModal(PlayerInfo, '/players/'+user.value['id'])
 	}
 </script>

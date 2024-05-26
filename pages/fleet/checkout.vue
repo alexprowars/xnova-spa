@@ -280,7 +280,7 @@ import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, get
 			ships[item['id']] = item['count']
 		})
 
-		let result = await useApiPost('/fleet/checkout/', {
+		let result = await useApiPost('/fleet/checkout', {
 			galaxy: page.value['target']['galaxy'],
 			system: page.value['target']['system'],
 			planet: page.value['target']['planet'],
@@ -289,9 +289,9 @@ import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, get
 			ship: ships,
 		});
 
-		delete result['page']['target'];
+		delete result['data']['target'];
 
-		page.value = Object.assign(page.value, result['page']);
+		page.value = Object.assign(page.value, result['data']);
 
 		info();
 	}, { deep: true });
@@ -387,6 +387,6 @@ import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, get
 	}
 
 	function setNextState() {
-		navigateTo('/fleet/send/');
+		navigateTo('/fleet/send');
 	}
 </script>

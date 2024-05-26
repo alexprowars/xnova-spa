@@ -191,7 +191,7 @@
 
 			if (component.length) {
 				openPopupModal(component[0], {
-					popup: result['page'],
+					popup: result['data'],
 				});
 			}
 		})

@@ -238,6 +238,6 @@
 
 	function setNextState(val) {
 		store.page = val;
-		navigateTo('/fleet/checkout/');
+		navigateTo('/fleet/checkout');
 	}
 </script>
