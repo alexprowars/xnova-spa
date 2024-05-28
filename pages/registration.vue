@@ -1,6 +1,6 @@
 <template>
 	<div class="page-registration">
-		<div v-for="error in page.errors" v-html="error" class="message error"></div>
+		<div v-for="error in errors" v-html="error" class="message error"></div>
 		<form action="" method="post" class="form" @submit.prevent="send">
 			<div class="block-table">
 				<div class="row">
@@ -21,9 +21,9 @@
 						<input :class="{error: v$.password_confirm.$error}" type="password" v-model="password_confirm" autocomplete="new-password">
 					</div>
 				</div>
-				<div class="row">
+				<div v-if="recaptchaKey" class="row">
 					<div class="col th text-center">
-						<div ref="captchaRef"></div>
+						<div ref="captchaRef" class="g-recaptcha" :data-sitekey="recaptchaKey"></div>
 					</div>
 				</div>
 				<div class="row">
@@ -53,16 +53,9 @@
 <script setup>
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation, minLength } from '@vuelidate/validators'
-	import { ref, onMounted } from 'vue';
-	import { showError, useAsyncData, useHead, useRuntimeConfig } from '#imports';
-	import useStore from '~/store';
-	import { useApiPost } from '~/composables/useApi';
-
-	const props = defineProps({
-		popup: {
-			type: Object
-		}
-	});
+	import { ref, onMounted, nextTick } from 'vue';
+	import { useHead, useRuntimeConfig, navigateTo, addScript, useApiPost } from '#imports';
+	import useStore from '~/store/index.js';
 
 	if (process.server) {
 		useHead({
@@ -70,18 +63,7 @@
 		});
 	}
 
-	const { data: page, error } = await useAsyncData(async () => {
-		if (process.server) {
-			return await useStore().loadPage();
-		} else {
-			return {}
-		}
-	});
-
-	if (error.value) {
-		throw showError(error.value);
-	}
-
+	const errors = ref([]);
 	const email = ref('');
 	const password = ref('');
 	const password_confirm = ref('');
@@ -91,13 +73,15 @@
 	const captchaRef = ref(null);
 	const { public: { recaptchaKey } } = useRuntimeConfig();
 
-	page.value = props.popup !== undefined ? props.popup : page.value;
-
 	onMounted(() => {
-		captcha.value = grecaptcha.render(captchaRef.value, {
-			sitekey: recaptchaKey,
-		});
-	})
+		addScript('https://www.google.com/recaptcha/api.js')
+
+		//if (recaptchaKey) {
+			//captcha.value = grecaptcha.render(captchaRef.value, {
+			//	sitekey: recaptchaKey,
+			//});
+		//}
+	});
 
 	const validations = {
 		email: {
@@ -131,19 +115,21 @@
 			return
 		}
 
-		useApiPost('/registration/', {
-			email: email.value,
-			password: password.value,
-			password_confirm: password_confirm.value,
-			captcha: grecaptcha.getResponse(captcha.value)
-		})
-		.then((result) => {
-			if (result.redirect && result.redirect.length) {
-				window.location.href = result.redirect;
-			} else {
-				grecaptcha.reset(captcha.value)
-				page.value = result.page;
+		try {
+			await useApiPost('/registration', {
+				email: email.value,
+				password: password.value,
+				password_confirmation: password_confirm.value,
+				captcha: document.querySelector('#g-recaptcha-response')?.value,
+			});
+
+			await useStore().loadState();
+
+			navigateTo('/start');
+		} catch (e) {
+			if (typeof e.data['errors'] !== 'undefined' && e.data['errors']) {
+				errors.value = e.data['errors'];
 			}
-		})
+		}
 	}
 </script>

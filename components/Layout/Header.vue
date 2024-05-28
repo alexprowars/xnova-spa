@@ -62,11 +62,11 @@
 						<use xlink:href="/images/symbols.svg#icon-settings"></use>
 					</svg>
 				</NuxtLink>
-				<NuxtLinkLocale to="/logout/" class="m1" v-tooltip="'Выход'">
+				<a href="" @click.prevent="logout" class="m1" v-tooltip="'Выход'">
 					<svg class="icon red">
 						<use xlink:href="/images/symbols.svg#icon-exit"></use>
 					</svg>
-				</NuxtLinkLocale>
+				</a>
 			</div>
 		</div>
 	</header>
@@ -75,6 +75,17 @@
 <script setup>
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
+	import { useApiPost } from '~/composables/useApi.js';
 
 	const { user } = storeToRefs(useStore());
+
+	async function logout() {
+		try {
+			const result = await useApiPost('/logout');
+
+			useStore().PAGE_LOAD(result);
+		} catch (e) {
+			alert(e.data?.message || e.message);
+		}
+	}
 </script>

@@ -74,20 +74,14 @@
 
 	const store = useStore();
 
-	onMounted(() => {
-		addScript('https://www.google.com/recaptcha/api.js')
-	});
+
 
 	function showRegistration () {
 		if (store.isMobile) {
 			return navigateTo('/registration/');
 		}
 
-		useApiGet('/registration/').then((data) => {
-			openPopupModal(RegistrationForm, {
-				popup: data.data,
-			})
-		})
+		openPopupModal(RegistrationForm)
 	}
 
 	function showRemindPassword () {

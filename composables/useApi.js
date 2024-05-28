@@ -1,6 +1,8 @@
+import { showError, navigateTo } from '#imports';
+
 export const useApiGet = (url, params = {}) => {
 	return $fetch('/api' + url, {
-		method: 'get', params
+		method: 'get', params, headers: { 'X-Requested-With': 'XMLHttpRequest' }
 	})
 	.then((data) => {
 		return handleResult(data);
@@ -16,33 +18,37 @@ export const useApiPost = (url, data = {}) => {
 	}
 
 	return $fetch('/api' + url, {
-		method: 'post', body: data
+		method: 'post', body: data, headers: { 'X-Requested-With': 'XMLHttpRequest' }
 	})
 	.then((data) => {
 		return handleResult(data);
 	})
-	.catch((e) => {
+	.catch(e => {
+		if (e.response?.status === 422) {
+			throw e;
+		}
+
 		return handleError(e);
 	})
 }
 
 function handleError (e) {
 	if (typeof e.response === 'undefined') {
-		throw new Error(e)
+		throw new Error(e);
 	}
 
-	if (e.response && typeof e.response.data === 'object' && typeof e.response.data.data === 'object') {
-		throw new Error(e.response.data.data.message)
+	if (typeof e.response._data !== 'undefined' && typeof e.response._data.message !== 'undefined') {
+		throw new Error(e.response._data.message);
 	}
 
-	if (e.response && e.response.status !== 200) {
+	if (e.response?.status !== 200) {
 		return showError({
 			statusCode: e.response.status,
-			statusMessage: e.response.statusText,
+			statusMessage: e.response?.statusText,
 		});
 	}
 
-	return parseData(e.response.data.data)
+	return parseData(e.response._data);
 }
 
 function handleResult (data) {
@@ -55,11 +61,15 @@ function handleResult (data) {
 
 function parseData (data) {
 	if (data !== undefined) {
-		if (data.data !== undefined && Array.isArray(data.data) && data.data.length === 0) {
-			data.data = null
+		if (typeof data['redirect'] !== 'undefined') {
+			navigateTo({ path: data['redirect'], force: true });
 		}
 
-		return data
+		if (data.data !== undefined && Array.isArray(data.data) && data.data.length === 0) {
+			data.data = null;
+		}
+
+		return data;
 	} else {
 		throw new Error("request error");
 	}

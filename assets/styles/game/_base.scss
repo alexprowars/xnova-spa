@@ -962,12 +962,17 @@ input[type="checkbox"], input[type="radio"] {
 		margin: 10px 5px;
 	}
 
+	.race {
+		padding: 15px;
+		margin: 10px 5px;
+	}
+
 	&.race .content {
 		text-align: center;
 	}
 
-	&.race .avatar {
-		width: 40%;
+	&.race .race {
+		width: 90%;
 		text-align: center;
 
 		span {
@@ -988,7 +993,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .start #tabs input[type=radio]:checked + label {
-	border: 1px solid #fff;
+	outline: 1px solid #fff;
 }
 
 div.errormessage {

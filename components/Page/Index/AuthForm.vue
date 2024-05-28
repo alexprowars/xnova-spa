@@ -18,6 +18,8 @@
 	import { required, email as emailValidation } from '@vuelidate/validators'
 	import { ref } from 'vue';
 	import { useApiPost } from '~/composables/useApi';
+	import { navigateTo } from '#app';
+	import useStore from '~/store/index.js';
 
 	const email = ref('');
 	const password = ref('');
@@ -49,18 +51,22 @@
 			return
 		}
 
-		useApiPost('/login/', {
-			email: email.value,
-			password: password.value,
-			remember: remember.value,
-		})
-		.then((result) => {
-			console.log(result.messages)
-			if (result.redirect && result.redirect.length) {
-				window.location.href = result.redirect;
+		try {
+			const result = await useApiPost('/login', {
+				email: email.value,
+				password: password.value,
+				remember: remember.value,
+			});
+
+			if (typeof result['messages'] !== 'undefined' && result['messages']) {
+				error.value = result['messages'][0];
 			} else {
-				error.value = result.messages.length ? result.messages[0] : false;
+				await useStore().loadState();
+
+				navigateTo('/overview');
 			}
-		})
+		} catch (e) {
+			alert(e);
+		}
 	}
 </script>
