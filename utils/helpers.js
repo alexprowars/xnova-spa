@@ -54,3 +54,7 @@ export function raport_to_bb (raport)
 
 	raport.html(txt);
 }
+
+export const isMobile = () => {
+	return typeof window !== 'undefined' ? /Android|Mini|webOS|iPhone|iPad|iPod|BlackBerry/i.test(window.navigator.userAgent) : false
+};

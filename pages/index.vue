@@ -58,7 +58,7 @@
 	import AuthForm from '~/components/Page/Index/AuthForm.vue'
 	import RegistrationForm from './registration.vue'
 	import RemindForm from './remind.vue'
-	import { addScript } from '~/utils/helpers'
+	import { addScript, isMobile } from '~/utils/helpers'
 	import { navigateTo, useHead } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
 	import useStore from '~/store';
@@ -77,7 +77,7 @@
 
 
 	function showRegistration () {
-		if (store.isMobile) {
+		if (isMobile()) {
 			return navigateTo('/registration/');
 		}
 
@@ -85,7 +85,7 @@
 	}
 
 	function showRemindPassword () {
-		if (store.isMobile) {
+		if (isMobile()) {
 			return navigateTo('/login/reset/');
 		}
 

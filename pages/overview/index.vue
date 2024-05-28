@@ -62,8 +62,8 @@
 								<div class="separator"></div>
 
 								<div style="border: 1px solid rgb(153, 153, 255); width: 100%; margin: 0 auto;">
-									<div id="CaseBarre" :style="'background-color: #'+(page['case_pourcentage'] > 80 ? 'C00000' : (page['case_pourcentage'] > 60 ? 'C0C000' : '00C000'))+'; width: '+page['case_pourcentage']+'%;  margin: 0 auto; text-align:center;'">
-										<font color="#000000"><b>{{ page['case_pourcentage'] }}%</b></font>
+									<div id="CaseBarre" :style="'background-color: #'+(userFiledsPercent > 80 ? 'C00000' : (userFiledsPercent > 60 ? 'C0C000' : '00C000'))+'; width: '+userFiledsPercent+'%;  margin: 0 auto; text-align:center;'">
+										<font color="#000000"><b>{{ userFiledsPercent }}%</b></font>
 									</div>
 								</div>
 
@@ -284,10 +284,9 @@
 	import { sendMission } from '~/utils/fleet'
 	import { storeToRefs } from 'pinia'
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute, openAjaxPopupModal } from '#imports';
 	import { useApiPost } from '~/composables/useApi';
-	import { watch } from 'vue';
-	import { openAjaxPopupModal } from '~/composables/useModals';
+	import { computed, watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -313,6 +312,10 @@
 	const { user, planet } = storeToRefs(store);
 	const { host } = useRequestURL();
 
+	const userFiledsPercent = computed(() => {
+		return Math.min(Math.floor(planet.value.field_used / planet.value.field_max * 100), 100);
+	})
+
 	function sendRecycle () {
 		sendMission(
 			8,
@@ -324,7 +327,7 @@
 	}
 
 	async function getDailyBonus () {
-		const result = await useApiPost('/overview/dayly')
+		const result = await useApiPost('/overview/daily')
 
 		useStore().PAGE_LOAD(result)
 	}

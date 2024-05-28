@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!mobile" class="component-chat" :class="{active: active}">
 		<div class="block">
-			<div class="title" v-on:click="toggleActive">
+			<div class="title" @click="toggleActive">
 				Чат
 				<span v-if="unread > 0">({{ unread }})</span>
 			</div>
@@ -9,19 +9,19 @@
 				<div class="col-12 th">
 					<div ref="chatRef" class="page-chat-messages">
 						<div v-for="item in sortedMessages" class="page-chat-messages-row text-start">
-							<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" v-on:click="toPrivate(item['user'])">{{ $date(item['time'], 'H:m') }}</span>
-							<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" v-on:click="toPlayer(item['user'])">{{ item['user'] }}</span>:
+							<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ $date(item['time'], 'H:m') }}</span>
+							<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" @click="toPlayer(item['user'])">{{ item['user'] }}</span>:
 							<span v-if="item['tou'].length" :class="[item['private'] ? 'private' : 'player']">
-								{{ item['private'] ? 'приватно' : 'для' }} [<span v-for="(u, i) in item['tou']">{{ i > 0 ? ',' : '' }}<a v-if="!item['private']" v-on:click.prevent="toPlayer(u)">{{ u }}</a><a v-else v-on:click.prevent="toPrivate(u)">{{ u }}</a></span>]
+								{{ item['private'] ? 'приватно' : 'для' }} [<span v-for="(u, i) in item['tou']">{{ i > 0 ? ',' : '' }}<a v-if="!item['private']" @click.prevent="toPlayer(u)">{{ u }}</a><a v-else @click.prevent="toPrivate(u)">{{ u }}</a></span>]
 							</span>
 							<span class="page-chat-row-message" v-html="item['text']"></span>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 th d-flex">
-					<input ref="textRef" class="page-chat-message" type="text" v-model="message" v-on:keypress.13.prevent="sendMessage" maxlength="750">
+					<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keydown.enter.prevent="sendMessage" maxlength="750">
 
-					<input type="button" value="Отправить" v-on:click.prevent="sendMessage">
+					<input type="button" value="Отправить" @click.prevent="sendMessage">
 				</div>
 			</div>
 		</div>
@@ -33,6 +33,7 @@
 	import useChatStore from '~/store/chat';
 	import useStore from '~/store';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { isMobile } from '~/utils/helpers.js';
 
 	const props = defineProps({
 		visible: {
@@ -44,7 +45,7 @@
 	const store = useStore();
 	const chatStore = useChatStore();
 
-	const mobile = ref(store.isMobile || !props.visible);
+	const mobile = ref(isMobile() || !props.visible);
 	const active = ref(localStorage.getItem('mini-chat-active') === 'Y');
 	const message = ref('');
 
@@ -78,7 +79,7 @@
 	});
 
 	watch(() => props.visible, (value) => {
-		mobile.value = store.isMobile || !value;
+		mobile.value = isMobile() || !value;
 	});
 
 	function scrollToBottom () {

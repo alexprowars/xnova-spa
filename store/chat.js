@@ -20,15 +20,15 @@ export const useChatStore = defineStore('chat', {
 			await useApiPost('/chat/send', {
 				message,
 			})
-			.then(({ page }) => {
-				this.addMessage(page.message);
+			.then(({ message }) => {
+				this.addMessage(message);
 				this.incrementUnread();
 			})
 		},
 		async loadMessages () {
 			await useApiGet('/chat/last')
-				.then(({ data }) => {
-					data.messages.forEach((message) => {
+				.then(({ messages }) => {
+					messages.forEach((message) => {
 						this.addMessage(message)
 					})
 

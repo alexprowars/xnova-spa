@@ -8,6 +8,7 @@
 	import { useApiGet } from '~/composables/useApi';
 	import { openPopupModal } from '~/composables/useModals';
 	import useStore from '~/store';
+	import { isMobile } from '~/utils/helpers.js';
 
 	const props = defineProps({
 		to: String,
@@ -22,7 +23,7 @@
 	})
 
 	async function load () {
-		if (useStore().isMobile) {
+		if (isMobile()) {
 			return window.location.href = props.to.split('ajax').join('').split('popup').join('');
 		}
 

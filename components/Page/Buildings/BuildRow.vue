@@ -3,7 +3,7 @@
 		<div class="page-building-items-item building" :class="{blocked: !item.allow}">
 
 			<div class="building-info">
-				<a :href="'/info/'+item.i+'/'" @click.prevent="openInfoPopup" class="building-info-img" :style="{backgroundImage: 'url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'}">
+				<a :href="'/info/'+item.i" @click.prevent="openInfoPopup" class="building-info-img" :style="{backgroundImage: 'url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'}">
 					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('tech.'+item.i)" class="img-fluid" v-tooltip="$t('tech.' + item.i)">
 					<div class="building-effects">
 						<template v-if="item['effects']">
@@ -19,7 +19,7 @@
 
 				<div class="building-info-actions">
 					<div class="building-title">
-						<NuxtLinkLocale :to="'/info/'+item.i+'/'">
+						<NuxtLinkLocale :to="'/info/'+item">
 							{{ $t('tech.'+item.i) }}
 						</NuxtLinkLocale>
 						<span v-if="item.level" class="positive" title="Текущий уровень постройки">
@@ -114,7 +114,7 @@
 	});
 
 	async function addAction () {
-		const result = await useApiPost('/buildings/', {
+		const result = await useApiPost('/buildings', {
 			cmd: 'insert',
 			building: props.item['i']
 		});

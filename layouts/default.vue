@@ -23,7 +23,7 @@
 
 <script setup>
 	import useStore from '~/store';
-	import { useRoute } from '#imports';
+	import { isMobile, useRoute } from '#imports';
 	import { ref, computed, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 
@@ -66,7 +66,7 @@
 	}
 
 	function swipe (direction, ev) {
-		if (!store.isMobile) {
+		if (!isMobile()) {
 			return
 		}
 
@@ -81,7 +81,7 @@
 	}
 
 	function tap () {
-		if (!store.isMobile)
+		if (!isMobile())
 			return
 
 		if (sidebar.value !== '')

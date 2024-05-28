@@ -35,7 +35,7 @@
 								<div class="col-3 th middle">{{ $t('resources.'+res) }}</div>
 								<div class="col-3 th middle">{{ page['modifiers'][res] / page['modifiers'][type] }}</div>
 								<div class="col-6 th middle">
-									<Number v-if="type !== res" :name="res" min="0" v-model="exchange[res]" placeholder="введите кол-во" v-on:input="calculate"/>
+									<Number v-if="type !== res" :name="res" min="0" v-model="exchange[res]" placeholder="введите кол-во" @input="calculate"/>
 									<span v-else>{{ exchange[res] }}</span>
 								</div>
 							</div>

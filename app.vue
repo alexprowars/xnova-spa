@@ -61,12 +61,12 @@
 	});
 
 	if (store.isAuthorized) {
-		useNuxtApp().$echo.channel('chat')
+		useNuxtApp().$echo?.channel('chat')
 			.listen('ChatMessage', ({ message }) => {
 				useChatStore().addMessage(message);
 			});
 
-		useNuxtApp().$echo.private('user.' + store.user.id)
+		useNuxtApp().$echo?.private('user.' + store.user.id)
 			.listen('ChatPrivateMessage', ({ message }) => {
 				useChatStore().addMessage(message);
 			})
