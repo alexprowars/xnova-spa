@@ -1,7 +1,7 @@
 <template>
 	<tr class="planetRow">
-		<th width="35">{{ planet }}</th>
-		<th width="34" class="img">
+		<th>{{ planet }}</th>
+		<th class="img">
 			<Popper v-if="item && !item['p_delete']">
 				<template #content>
 					<table width="240">
@@ -45,7 +45,7 @@
 				Планета уничтожена
 			</div>
 		</th>
-		<th class="img" style="white-space: nowrap;" width="34">
+		<th class="img" style="white-space: nowrap;">
 			<Popper v-if="item && !item['l_delete'] && item['l_id']">
 				<template #content>
 					<table width="240">
@@ -104,7 +104,7 @@
 			</Popper>
 			<span v-if="item && item['l_delete'] && item['l_id']">~</span>
 		</th>
-		<th :class="[debris_class]" width="30">
+		<th :class="[debris_class]">
 			<Popper v-if="item && (item['p_metal'] > 0 || item['p_crystal'] > 0)">
 				<template #content>
 					<table width="240">
@@ -150,7 +150,7 @@
 				<img src="/images/planeten/debris.jpg" height="22" width="22" alt="">
 			</Popper>
 		</th>
-		<th width="180">
+		<th>
 			<Popper v-if="item && !item['p_delete']">
 				<template #content>
 					<table width="280">
@@ -192,12 +192,12 @@
 				</div>
 			</Popper>
 		</th>
-		<th width="20">
+		<th>
 			<NuxtLinkLocale v-if="item && !item.delete && item['u_race']" :to="'/info/70'+item['u_race']+'/'">
 				<img :src="'/images/skin/race'+item['u_race']+'.gif'" width="20" height="20" :alt="$t('races.' + item['u_race'])" :title="$t('races.' + item['u_race'])">
 			</NuxtLinkLocale>
 		</th>
-		<th width="100">
+		<th>
 			<Popper v-if="item && !item.delete && item['a_id']">
 				<template #content>
 					<table width="240">
@@ -235,8 +235,7 @@
 				<small v-if="item['d_type'] === 3" class="negative">[война]</small>
 			</div>
 		</th>
-
-		<th class="actions" style="white-space: nowrap;" width="135">
+		<th class="actions" style="white-space: nowrap;">
 			<template v-if="item && item['u_id'] !== currentUser['id'] && !item['p_delete']">
 				<PopupLink :title="item['u_name']+': отправить сообщение'" :to="'/messages/write/'+item['u_id']+'/'" :width="680">
 					<span class="sprite skin_m"></span>
@@ -299,7 +298,7 @@
 
 	const store = useStore();
 	const { user: currentUser } = storeToRefs(store);
-	const spyCount = ref(props.user['spy']);
+	const spyCount = ref(parseInt(currentUser.value['options']['spy']) || 1);
 
 	const user_status = computed(() => {
 		let CurrentPoints 	= props.user['stat_points'];

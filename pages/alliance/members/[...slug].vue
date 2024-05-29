@@ -1,7 +1,7 @@
 <template>
 	<table class="table">
 		<tr>
-			<td class="c" colspan="10">Список членов альянса (количество: {{ page['i'] }})</td>
+			<td class="c" colspan="10">Список членов альянса (количество: {{ page['members'].length }})</td>
 		</tr>
 		<tr>
 			<th>№</th>
@@ -25,10 +25,10 @@
 			</th>
 			<th v-if="page['admin']">Управление</th>
 		</tr>
-		<template v-for="m in page['memberslist']">
+		<template v-for="(m, index) in page['members']">
 			<tr v-if="m['Rank_for'] === undefined || page['admin'] === false">
 				<th>
-					{{ m['i'] }}
+					{{ index + 1 }}
 				</th>
 				<th>
 					{{ m['username'] }}
@@ -49,7 +49,7 @@
 					<NuxtLinkLocale :to="'/galaxy/?galaxy='+m['galaxy']+'&system='+m['system']">{{ m['galaxy'] }}:{{ m['system'] }}:{{ m['planet'] }}</NuxtLinkLocale>
 				</th>
 				<th>
-					{{ m['time'] }}
+					{{ m['date'] }}
 				</th>
 				<th v-if="page['status']" v-html="m['onlinetime']"></th>
 				<th v-if="page['admin']">

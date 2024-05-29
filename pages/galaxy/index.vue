@@ -12,15 +12,15 @@
 						<td class="c" colspan="9">Солнечная система {{ page['galaxy'] }}:{{ page['system'] }}</td>
 					</tr>
 					<tr>
-						<td class="c">№</td>
-						<td class="c">&nbsp;</td>
+						<td class="c" width="35">№</td>
+						<td class="c" width="34">&nbsp;</td>
 						<td class="c">Планета</td>
-						<td class="c">&nbsp;</td>
-						<td class="c">ПО</td>
-						<td class="c">Игрок</td>
-						<td class="c">&nbsp;</td>
-						<td class="c">Альянс</td>
-						<td class="c">Действия</td>
+						<td class="c" width="34">&nbsp;</td>
+						<td class="c" width="30">ПО</td>
+						<td class="c" width="180">Игрок</td>
+						<td class="c" width="30">&nbsp;</td>
+						<td class="c" width="100">Альянс</td>
+						<td class="c" width="135">Действия</td>
 					</tr>
 
 					<GalaxyRow v-for="(item, index) in rows"
@@ -31,7 +31,7 @@
 						@sendMissile="sendMissile(item['planet'])"
 					/>
 
-					<tr v-if="page['user']['allowExpedition']">
+					<tr v-if="page['user']['expedition']">
 						<th width="30">16</th>
 						<th colspan="8" class="c big">
 							<NuxtLinkLocale :to="'/fleet/?galaxy='+page['galaxy']+'&system='+page['system']+'&planet=16&mission=15'">неизведанные дали</NuxtLinkLocale>

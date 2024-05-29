@@ -3,26 +3,20 @@
 		<tbody>
 			<tr>
 				<td class="c">
-					<select v-model="selected" style="width:100%">
-						<option >--- выберите планету ---</option>
-						<option v-for="item in items" :value="item['id']">
+					<select v-model="value" style="width:100%">
+						<option :value="null">--- выберите планету ---</option>
+						<option v-for="item in items" :value="item">
 							{{ item.name }} [{{ item.galaxy }}:{{ item.system }}:{{ item.planet }}]
 						</option>
 					</select>
 				</td>
-			</tr>
-			<tr>
-				<th>
-					<input value="Просмотр" type="submit" style="width:100%">
-				</th>
 			</tr>
 		</tbody>
 	</table>
 </template>
 
 <script setup>
-	import { navigateTo } from '#imports';
-	import { ref, watch } from 'vue';
+	import { watch } from 'vue';
 
 	const props = defineProps({
 		items: {
@@ -39,21 +33,9 @@
 		},
 	});
 
-	const selected = ref(null);
+	const value = defineModel();
 
-	const item = props.items.find((item) =>
-		item['galaxy'] === props.galaxy && item['system'] === props.system
-	);
-
-	if (item) {
-		selected.value = item['id'];
-	}
-
-	watch(selected, (val) => {
-		let item = props.items.find((item) => item['id'] === val);
-
-		if (item) {
-			navigateTo('/galaxy/?galaxy='+ item.galaxy + '&system=' + item.system);
-		}
-	});
+	watch(value, (val) => {
+		console.log(val)
+	})
 </script>

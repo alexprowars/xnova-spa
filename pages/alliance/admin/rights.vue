@@ -18,19 +18,27 @@
 				<th><img src="/images/alliance/r9.png" width="16" alt=""></th>
 				<th><img src="/images/alliance/r10.gif" width="16" alt=""></th>
 			</tr>
-			<tr v-for="r in page['list']">
-				<th>{{ r['delete'] }}<input type="hidden" name="id[]" :value="r['a']"></th>
-				<th>&nbsp;{{ r['r0'] }}&nbsp;</th>
-				<th>{{ r['r1'] }}</th>
-				<th>{{ r['r2'] }}</th>
-				<th>{{ r['r3'] }}</th>
-				<th>{{ r['r4'] }}</th>
-				<th>{{ r['r5'] }}</th>
-				<th>{{ r['r6'] }}</th>
-				<th>{{ r['r7'] }}</th>
-				<th>{{ r['r8'] }}</th>
-				<th>{{ r['r9'] }}</th>
-				<th>{{ r['r10'] }}</th>
+			<tr v-for="rank in page['list']">
+				<th>
+					<a href="" @click="remove(rank['id'])"><img src="/images/abort.gif" alt="Удалить ранг"></a>
+				</th>
+				<th>{{ rank['name'] }}</th>
+				<th>
+					<input v-if="user['id'] === page['alliance']['user_id']" type="checkbox" :name="'rigths[' + rank['id'] + '][delete]'" :checked="rank['rights']['delete'] || false">
+					<b v-else>{{ (rank['rights']['delete'] || false) ? '+' : '-' }}</b>
+				</th>
+				<th>
+					<input v-if="user['id'] === page['alliance']['user_id']" type="checkbox" :name="'rigths[' + rank['id'] + '][kick]'" :checked="rank['rights']['kick'] || false">
+					<b v-else>{{ (rank['rights']['kick'] || false) ? '+' : '-' }}</b>
+				</th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][request]'" :checked="rank['rights']['request'] || false"></th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][memberlist]'" :checked="rank['rights']['memberlist'] || false"></th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][accept]'" :checked="rank['rights']['accept'] || false"></th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][admin]'" :checked="rank['rights']['admin'] || false"></th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][onlinestatus]'" :checked="rank['rights']['onlinestatus'] || false"></th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][chat]'" :checked="rank['rights']['chat'] || false"></th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][rights]'" :checked="rank['rights']['rights'] || false"></th>
+				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][diplomacy]'" :checked="rank['rights']['diplomacy'] || false"></th>
 			</tr>
 			<tr v-if="page['list'].length > 0">
 				<th colspan="13"><input type="submit" value="Сохранить"></th>
@@ -112,6 +120,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -130,5 +139,10 @@
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	const { user } = storeToRefs(useStore());
+
+	function remove(val) {
 	}
 </script>
