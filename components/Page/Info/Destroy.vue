@@ -1,6 +1,6 @@
 <template>
 	<div class="block">
-		<div class="title">Снос здания "{{ $t('tech.'+item) }}" уровень {{ data['level'] }}</div>
+		<div class="title">Снос здания "{{ $t('tech.' + item) }}" уровень {{ data['level'] }}</div>
 		<div class="content border-0">
 			<div class="block-table">
 				<div class="row">
@@ -20,42 +20,39 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import BuildRowPrice from '~/components/Page/Buildings/BuildRowPrice.vue'
 	import { useApiPost } from '~/composables/useApi';
-	import useStore from '~/store';
-	import { openConfirmModal } from '~/composables/useModals';
+	import { closeModals, openConfirmModal } from '~/composables/useModals';
+	import { refreshNuxtData, useRoute, useI18n } from '#imports';
 
-	export default {
-		name: "info-destroy",
-		components: {
-			BuildRowPrice
-		},
-		props: {
-			data: Object,
-			item: Number
-		},
-		methods: {
-			destroyAction () {
-				openConfirmModal(
-					null,
-					'Снести постройку <b>'+this.$t('tech.'+this.item)+' '+this.data['level']+' ур.</b>?',
-					[{
-						title: 'Закрыть',
-					}, {
-						title: 'Снести',
-						handler: () => {
-							useApiPost('/buildings/', {
-								cmd: 'destroy',
-								building: this.item
-							})
-							.then((result) => {
-								useStore().PAGE_LOAD(result)
-							})
-						}
-					}]
-				);
-			}
-		}
+	const props = defineProps({
+		data: Object,
+		item: Number
+	});
+
+	const { t } = useI18n();
+
+	function destroyAction () {
+		openConfirmModal(
+			null,
+			'Снести постройку <b>' + t('tech.' + props.item) + ' ' + props.data['level'] + ' ур.</b>?',
+			[{
+				title: 'Закрыть',
+			}, {
+				title: 'Снести',
+				handler: async () => {
+					await useApiPost('/buildings/build/destroy', {
+						element: props.item,
+					});
+
+					await closeModals();
+
+					if (useRoute().path.indexOf('/buildings') !== -1) {
+						await refreshNuxtData('page-buildings');
+					}
+				}
+			}]
+		);
 	}
 </script>

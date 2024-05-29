@@ -44,7 +44,7 @@
 				type: item.type
 			})
 		})
-	})
+	});
 
 	const head = useLocaleHead({
 		addDirAttribute: true,

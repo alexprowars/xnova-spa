@@ -94,7 +94,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { computed, ref, watch } from 'vue';
+	import { computed, ref } from 'vue';
 
 	definePageMeta({
 		view: {
@@ -109,13 +109,9 @@
 		}
 	});
 
-	const route = useRoute();
-
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

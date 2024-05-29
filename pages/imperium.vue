@@ -179,7 +179,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useI18n, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { computed, watch } from 'vue';
+	import { computed } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -192,14 +192,11 @@
 		title: 'Империя',
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

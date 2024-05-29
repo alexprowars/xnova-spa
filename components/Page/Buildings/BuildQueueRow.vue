@@ -1,7 +1,7 @@
 <template>
 	<div class="row">
 		<div class="col-6 c">
-			{{ item['name'] }} {{ item['level'] }}{{ item['mode'] === 1 ? '. Снос здания' : '' }}
+			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? '. Снос здания' : '' }}
 		</div>
 		<div class="col-6 k" v-if="index === 0">
 			<div v-if="item['time'] > 0" class="z">
@@ -12,7 +12,7 @@
 			<div v-else class="z">
 				Завершено
 				<br>
-				<NuxtLinkLocale :to="'/buildings/?planet='+planet.id+''">Продолжить</NuxtLinkLocale>
+				<NuxtLinkLocale :to="{ path: '/buildings', force: true }">Продолжить</NuxtLinkLocale>
 			</div>
 			<div class="positive">{{ $date(item['end'], 'd.m H:i:s') }}</div>
 		</div>
@@ -25,33 +25,27 @@
 
 <script setup>
 	import { useApiPost } from '~/composables/useApi';
-	import useStore from '~/store';
-	import { openConfirmModal } from '#imports';
-	import { storeToRefs } from 'pinia';
+	import { openConfirmModal, refreshNuxtData } from '#imports';
 
 	const props = defineProps({
 		index: Number,
 		item: Object
 	});
 
-	const store = useStore();
-	const { planet } = storeToRefs(store);
-
 	function deleteItem () {
 		openConfirmModal(
 			'Очередь построек',
-			'Удалить <b>'+props.item['name']+' '+props.item['level']+' ур.</b> из очереди?',
+			'Удалить <b>' + props.item['name'] + ' ' + props.item['level'] + ' ур.</b> из очереди?',
 			[{
 				title: 'Закрыть',
 			}, {
 				title: 'Удалить',
 				handler: async () => {
-					const result = await useApiPost('/buildings/?planet='+planet.value.id, {
-						cmd: 'remove',
-						listid: props.index
-					})
+					await useApiPost('/buildings/queue/remove', {
+						index: props.index
+					});
 
-					store.PAGE_LOAD(result)
+					await refreshNuxtData('page-buildings');
 				}
 			}]
 		)
@@ -66,12 +60,11 @@
 			}, {
 				title: 'Отменить',
 				handler: async () => {
-					const result = await useApiPost('/buildings/?planet='+planet.value.id, {
-						cmd: 'cancel',
-						listid: props.index - 1
+					await useApiPost('/buildings/queue/cancel', {
+						index: props.index - 1
 					})
 
-					store.PAGE_LOAD(result)
+					await refreshNuxtData('page-buildings');
 				}
 			}]
 		);

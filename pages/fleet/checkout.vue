@@ -203,7 +203,7 @@
 </template>
 
 <script setup>
-import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -212,14 +212,11 @@ import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, get
 		middleware: ['auth'],
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

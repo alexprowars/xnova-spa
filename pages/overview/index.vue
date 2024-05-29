@@ -284,9 +284,8 @@
 	import { sendMission } from '~/utils/fleet'
 	import { storeToRefs } from 'pinia'
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute, openAjaxPopupModal } from '#imports';
-	import { useApiPost } from '~/composables/useApi';
-	import { computed, watch } from 'vue';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useApiPost, useRoute } from '#imports';
+	import { computed } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -296,13 +295,9 @@
 		title: 'Обзор',
 	});
 
-	const route = useRoute();
-
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

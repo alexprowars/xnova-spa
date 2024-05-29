@@ -4,9 +4,9 @@
 
 <script setup>
 	import { ECOTree } from '~/utils/techtree'
-	import { showError, useAsyncData, useHead, useRoute, useI18n, definePageMeta } from '#imports';
+	import { showError, useAsyncData, useHead, useI18n, definePageMeta, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { onMounted, watch } from 'vue';
+	import { onMounted } from 'vue';
 
 	definePageMeta({
 		view: {
@@ -14,14 +14,11 @@
 		}
 	});
 
-	const route = useRoute();
 	const { t } = useI18n();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

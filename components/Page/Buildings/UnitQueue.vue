@@ -5,7 +5,7 @@
 			<div class="block-table">
 				<div v-for="item in queue" class="row">
 					<div class="col-6 text-start k">
-						<span class="positive">{{ item.count }}</span> {{ item.name }}
+						<span class="positive">{{ item.count }}</span> {{ $t('tech.' + item.id) }}
 					</div>
 					<div class="col-6 text-end k border-left-0">
 						{{ $time(item.end - getServerTime) }}

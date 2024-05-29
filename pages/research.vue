@@ -4,7 +4,7 @@
 			<div class="title">Исследования</div>
 			<div class="content page-building-items">
 				<div class="row">
-					<TechRow v-for="(item, i) in page.items" :key="i" :item="item"/>
+					<TechRow v-for="item in page.items" :key="item['id']" :item="item"/>
 				</div>
 			</div>
 		</div>
@@ -14,7 +14,6 @@
 <script setup>
 	import TechRow from '~/components/Page/Buildings/TechRow.vue'
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import { watch } from 'vue';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -25,13 +24,9 @@
 		title: 'Исследования',
 	});
 
-	const route = useRoute();
-
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData('page-research', async () => {
 		return await useStore().loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

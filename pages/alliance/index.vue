@@ -133,7 +133,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { computed, watch } from 'vue';
+	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
@@ -147,14 +147,11 @@
 		title: 'Ваш альянс',
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

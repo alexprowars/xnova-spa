@@ -113,7 +113,7 @@
 
 <script setup>
 	import FlyRow from '~/components/Page/Fleet/FlyRow.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, navigateTo } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 
@@ -125,14 +125,11 @@
 		title: 'Флот',
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

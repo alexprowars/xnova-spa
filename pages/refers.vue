@@ -75,9 +75,9 @@
 </template>
 
 <script setup>
-	import { addScript, definePageMeta, showError, useAsyncData, useHead, useRoute, useRequestURL } from '#imports';
+	import { addScript, definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { computed, onMounted, watch } from 'vue';
+	import { computed, onMounted } from 'vue';
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
@@ -91,14 +91,11 @@
 		title: 'Рефералы',
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

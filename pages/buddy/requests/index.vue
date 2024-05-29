@@ -57,20 +57,16 @@
 <script setup>
 	import { definePageMeta, openConfirmModal, showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

@@ -31,9 +31,8 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, definePageMeta, useRoute, useHead } from '#imports';
+	import { showError, useAsyncData, definePageMeta, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -46,13 +45,9 @@
 		title: 'Обучение',
 	});
 
-	const route = useRoute();
-
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

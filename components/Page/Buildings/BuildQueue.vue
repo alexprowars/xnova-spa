@@ -47,7 +47,7 @@
 
 		if (props.queue[0]['time'] <= 0) {
 			timeout = setTimeout(() => {
-				navigateTo('/buildings/?planet=' + planet.value.id);
+				navigateTo({ path: '/buildings/?planet=' + planet.value.id, force: true });
 			}, 5000);
 		} else {
 			timeout = setTimeout(timer, 1000);

@@ -1,16 +1,16 @@
 <template>
 	<div class="col-md-6 col-12">
-		<div class="page-building-items-item building" :class="{blocked: !item.allow}">
+		<div class="page-building-items-item building" :class="{ blocked: !item['available'] }">
 
 			<div class="building-info">
-				<a :href="'/info/'+item.i" @click.prevent="openInfoPopup" class="building-info-img" :style="{backgroundImage: 'url(/images/buildings/planet/'+$parent.page.planet+'_'+(item.i % 4 + 1)+'.png)'}">
-					<img :src="'/images/buildings/item/'+item.i+'.png'" :alt="$t('tech.'+item.i)" class="img-fluid" v-tooltip="$t('tech.' + item.i)">
+				<a :href="'/info/' + item['id']" @click.prevent="openInfoPopup" class="building-info-img" :style="{ backgroundImage: 'url(/images/buildings/planet/' + $parent.page.planet+'_'+(item['id'] % 4 + 1) + '.png)' }">
+					<img :src="'/images/buildings/item/' + item['id'] + '.png'" :alt="$t('tech.' + item['id'])" class="img-fluid" v-tooltip="$t('tech.' + item['id'])">
 					<div class="building-effects">
 						<template v-if="item['effects']">
 							<template v-for="(value, resource) in item['effects']">
 								<div v-if="value !== 0" class="building-effects-row">
 									<span :class="'sprite skin_s_'+resource" :title="$t('resources.' + resource)"></span>
-									<span :class="{positive: value > 0, negative: value < 0}">{{ Math.abs(value) }}</span>
+									<span :class="{ positive: value > 0, negative: value < 0 }">{{ Math.abs(value) }}</span>
 								</div>
 							</template>
 						</template>
@@ -19,26 +19,26 @@
 
 				<div class="building-info-actions">
 					<div class="building-title">
-						<NuxtLinkLocale :to="'/info/'+item">
-							{{ $t('tech.'+item.i) }}
+						<NuxtLinkLocale :to="'/info/' + item['id']">
+							{{ $t('tech.'+item['id']) }}
 						</NuxtLinkLocale>
-						<span v-if="item.level" class="positive" title="Текущий уровень постройки">
-							{{ $number(item.level) }}
+						<span v-if="item['level']" class="positive" title="Текущий уровень постройки">
+							{{ $number(item['level']) }}
 						</span>
 					</div>
 
-					<div class="building-info-info" v-if="item.allow">
+					<div class="building-info-info" v-if="item['available']">
 						<div class="building-info-time">
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-time"></use>
 							</svg>
-							{{ $time(item.time) }}
+							{{ $time(item['time']) }}
 						</div>
-						<div v-if="item.exp > 0" class="building-info-time" title="Опыт">
+						<div v-if="item['exp'] > 0" class="building-info-time" title="Опыт">
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-exp"></use>
 							</svg>
-							{{ $number(item.exp) }} exp
+							{{ $number(item['exp']) }} exp
 						</div>
 
 						<div class="building-info-upgrade">
@@ -55,7 +55,7 @@
 								очередь заполнена
 							</div>
 							<a v-else-if="page['queue'].length === 0" @click.prevent="addAction" class="button">
-								{{ item.level === 0 ? 'Построить' : 'Улучшить' }}
+								{{ item['level'] === 0 ? 'Построить' : 'Улучшить' }}
 							</a>
 						</div>
 					</div>
@@ -77,10 +77,8 @@
 <script setup>
 	import BuildRowPrice from './BuildRowPrice.vue'
 	import InfoContent from '~/components/Page/Info/Content.vue'
-	import { useI18n } from '#imports';
+	import { useI18n, useApiPost, openAjaxPopupModal, refreshNuxtData } from '#imports';
 	import useStore from '~/store';
-	import { useApiPost } from '~/composables/useApi';
-	import { openAjaxPopupModal } from '~/composables/useModals';
 	import { computed, getCurrentInstance } from 'vue';
 
 	const props = defineProps({
@@ -114,15 +112,14 @@
 	});
 
 	async function addAction () {
-		const result = await useApiPost('/buildings', {
-			cmd: 'insert',
-			building: props.item['i']
+		await useApiPost('/buildings/build/insert', {
+			element: props.item['id']
 		});
 
-		useStore().PAGE_LOAD(result);
+		await refreshNuxtData('page-buildings');
 	}
 
 	function openInfoPopup () {
-		openAjaxPopupModal(InfoContent, '/info/' + props.item['i'] + '/');
+		openAjaxPopupModal(InfoContent, '/info/' + props.item['id']);
 	}
 </script>

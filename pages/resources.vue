@@ -193,9 +193,8 @@
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useRoute, openConfirmModal, useHead } from '#imports';
+	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute } from '#imports';
 	import { useApiGet } from '~/composables/useApi';
-	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -205,14 +204,11 @@
 		title: 'Сырьё',
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData(async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

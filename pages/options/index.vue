@@ -293,7 +293,6 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { watch } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -306,14 +305,9 @@
 		title: 'Hacтpoйки',
 	});
 
-	const route = useRoute();
-	const store = useStore();
-
-	const { data: page, error, refresh } = await useAsyncData(async () => {
-		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	const { data: page, error } = await useAsyncData(async () => {
+		return await useStore().loadPage();
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);

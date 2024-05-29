@@ -33,7 +33,7 @@
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import { computed, watch } from 'vue';
+	import { computed } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -46,13 +46,9 @@
 		}
 	});
 
-	const route = useRoute();
-
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData('page-buildings', async () => {
 		return await useStore().loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);
@@ -61,10 +57,6 @@
 	const { planet } = storeToRefs(useStore());
 
 	const fields_empty = computed(() => {
-		if (!page.value) {
-			return 0;
-		}
-
 		return planet.value['field_max'] - planet.value['field_used'] - page.value.queue.length
 	});
 

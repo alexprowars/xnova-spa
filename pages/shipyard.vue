@@ -28,10 +28,9 @@
 <script setup>
 	import UnitRow from '~/components/Page/Buildings/UnitRow.vue'
 	import UnitQueue from '~/components/Page/Buildings/UnitQueue.vue'
-	import { definePageMeta, showError, useAsyncData, useRoute, startLoading, stopLoading, useHead } from '#imports';
-	import { useApiPost } from '~/composables/useApi';
+	import { definePageMeta, showError, useAsyncData, startLoading, stopLoading, useHead, useApiPost, useRoute, refreshNuxtData } from '#imports';
 	import useStore from '~/store';
-	import { ref, watch } from 'vue';
+	import { ref } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -41,14 +40,11 @@
 		title: 'Верфь',
 	});
 
-	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData('page-shipyard', async () => {
 		return await store.loadPage();
-	});
-
-	watch(() => route.query, () => refresh());
+	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);
@@ -61,7 +57,7 @@
 		startLoading()
 
 		try {
-			const result = await useApiPost('/' + page.value.mode + '/', new FormData(formRef.value))
+			await useApiPost('/shipyard/queue', new FormData(formRef.value));
 
 			itemsRef.value.forEach((item) => {
 				if (typeof item['count'] !== 'undefined') {
@@ -69,7 +65,8 @@
 				}
 			});
 
-			store.PAGE_LOAD(result)
+			await refreshNuxtData('page-shipyard');
+
 			stopLoading();
 		} catch {
 			alert('Что-то пошло не так!? Попробуйте еще раз')
