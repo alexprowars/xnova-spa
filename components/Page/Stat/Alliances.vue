@@ -13,7 +13,7 @@
 				</div>
 				<div v-for="item in items" class="row page-stat-alliances-row">
 					<div class="th col-sm-1 col-2">
-						{{ item['position'] }}
+						{{ item['place'] }}
 						<div class="d-sm-none">
 							<div v-if="item['diff'] === 0" :style="{color: '#87CEEB'}">*</div>
 							<span v-else-if="item['diff'] < 0" class="negative">{{ item['diff'] }}</span>

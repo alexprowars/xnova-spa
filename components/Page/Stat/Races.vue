@@ -10,7 +10,7 @@
 					<div class="c col-3">Очки на игрока</div>
 				</div>
 				<div v-for="item in items" class="row page-stat-races-row">
-					<div class="th col-2">{{ item['position'] }}</div>
+					<div class="th col-2">{{ item['place'] }}</div>
 					<div class="th col-1 text-center">
 						<img :src="'/images/skin/race'+item['race']+'.gif'" width="30" height="30">
 					</div>

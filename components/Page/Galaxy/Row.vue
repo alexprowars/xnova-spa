@@ -173,7 +173,7 @@
 							</tr>
 							<tr>
 								<th valign="top">
-									<NuxtLinkLocale :to="'/stat/?view=players&range='+stat_page+'&pid='+item['u_id']">Статистика</NuxtLinkLocale>
+									<NuxtLinkLocale :to="'/stat/range='+stat_page+'&id='+item['u_id']">Статистика</NuxtLinkLocale>
 								</th>
 							</tr>
 						</tbody>

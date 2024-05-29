@@ -70,7 +70,7 @@
 	import GalaxySelector from '~/components/Page/Galaxy/Selector.vue';
 	import GalaxyLegend from '~/components/Page/Galaxy/Legend.vue';
 	import MissileAttack from '~/components/Page/Galaxy/MissileAttack.vue';
-	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute, useNuxtData } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref } from 'vue';
 
@@ -85,7 +85,7 @@
 		title: 'Галактика',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData('page-galaxy', async () => {
 		return await useStore().loadPage();
 	}, { watch: [() => useRoute().query] });
 
@@ -112,9 +112,11 @@
 	}
 
 	async function changeCoordinates(value) {
-		const result = await useApiPost('/galaxy/', value);
+		const result = await useApiPost('/galaxy', value);
 
-		page.value = result['data'];
+		const { data } = useNuxtData('page-galaxy');
+		data.value = result['data'];
+
 		delete result['data'];
 
 		useStore().PAGE_LOAD(result);
