@@ -4,8 +4,8 @@
 			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? '. Снос здания' : '' }}
 		</div>
 		<div class="col-6 k" v-if="index === 0">
-			<div v-if="item['time'] > 0" class="z">
-				{{ $time(item['time'], ':', true) }}
+			<div v-if="time > 0" class="z">
+				{{ $time(time, ':', true) }}
 				<br>
 				<a @click.prevent="cancelItem">Отменить</a>
 			</div>
@@ -14,11 +14,11 @@
 				<br>
 				<NuxtLinkLocale :to="{ path: '/buildings', force: true }">Продолжить</NuxtLinkLocale>
 			</div>
-			<div class="positive">{{ $date(item['end'], 'd.m H:i:s') }}</div>
+			<div class="positive">{{ dayjs(item['time']).format('DD MMM HH:mm:ss') }}</div>
 		</div>
 		<div class="col-6 k" v-else>
 			<a @click.prevent="deleteItem">Удалить</a>
-			<div class="positive">{{ $date(item['end'], 'd.m H:i:s') }}</div>
+			<div class="positive">{{ dayjs(item['time']).format('DD MMM HH:mm:ss') }}</div>
 		</div>
 	</div>
 </template>
@@ -26,11 +26,17 @@
 <script setup>
 	import { useApiPost } from '~/composables/useApi';
 	import { openConfirmModal, refreshNuxtData } from '#imports';
+	import dayjs from 'dayjs';
+	import { useNow } from '@vueuse/core';
+	import { computed } from 'vue';
 
 	const props = defineProps({
 		index: Number,
 		item: Object
 	});
+
+	const now = useNow({ interval: 1000 });
+	const time = computed(() => dayjs(props.item['time']).diff(now.value) / 1000);
 
 	function deleteItem () {
 		openConfirmModal(

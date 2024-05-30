@@ -7,50 +7,32 @@
 </template>
 
 <script setup>
-	import BuildQueueRow from './BuildQueueRow.vue'
-	import { navigateTo } from '#imports';
-	import useStore from '~/store';
-	import { storeToRefs } from 'pinia';
-	import { onBeforeUnmount, onMounted, watch } from 'vue';
+	import BuildQueueRow from './BuildQueueRow.vue';
+	import { computed, onBeforeUnmount, watch } from 'vue';
+	import { refreshNuxtData } from '#imports';
+	import { useNow } from '@vueuse/core';
+	import dayjs from 'dayjs';
 
 	const props = defineProps({
 		queue: Array
 	});
 
-	const store = useStore();
-	const { planet } = storeToRefs(store);
+	const now = useNow({ interval: 1000 });
+	const endTime = computed(() =>
+		props.queue.length ? dayjs(props.queue[0].time).diff(now.value) / 1000 : 0
+	);
 
 	let timeout;
-
-	onMounted(() => {
-		init();
-	});
 
 	onBeforeUnmount(() => {
 		clearTimeout(timeout);
 	});
 
-	watch(() => props.queue, () => {
-		init();
-	});
-
-	function init () {
-		clearTimeout(timeout);
-
-		if (props.queue.length > 0) {
-			timeout = setTimeout(timer, 1000);
-		}
-	}
-
-	function timer () {
-		props.queue[0]['time'] -= 1;
-
-		if (props.queue[0]['time'] <= 0) {
-			timeout = setTimeout(() => {
-				navigateTo({ path: '/buildings/?planet=' + planet.value.id, force: true });
+	watch(endTime, (val) => {
+		if (val <= 0) {
+			timeout = setTimeout(async () => {
+				await refreshNuxtData('page-defense');
 			}, 5000);
-		} else {
-			timeout = setTimeout(timer, 1000);
 		}
-	}
+	});
 </script>

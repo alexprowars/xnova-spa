@@ -34,7 +34,7 @@
 			</div>
 			<div class="row">
 				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ $date(target_time, 'd.m.Y H:i:s') }}</div>
+				<div class="th col-6">{{ dayjs(target_time).format('DD MMM HH:mm:ss') }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Максимальная скорость</div>
@@ -80,13 +80,16 @@
 			<div v-if="page['moons'].length > 0" class="row">
 				<div class="c col-12">
 					Межгалактические врата
-					<span v-if="page['gate_time'] > 0" class="small">(заряжено через {{ $time(page['gate_time'], ':', true) }})</span>
+					<span v-if="page['gate_time']" class="small">(заряжено через {{ $time((dayjs(page['gate_time']).diff(now) / 1000), ':', true) }})</span>
 				</div>
 			</div>
 			<div v-if="page['moons'].length > 0" class="row">
 				<div v-for="(moon, i) in page['moons']" class="th" :class="['col-'+(page['moons'].length % 2 > 0 && i === page['moons'].length - 1 ? 12 : 6)]">
 					<input type="radio" name="moon" :value="moon['id']" :id="'moon'+moon['id']">
-					<label :for="'moon'+moon['id']">{{ moon['name'] }} [{{ moon['galaxy'] }}:{{ moon['system'] }}:{{ moon['planet'] }}] <span v-if="moon['timer'] > 0">{{ $time(moon['timer'], ':', true) }}</span></label>
+					<label :for="'moon'+moon['id']">
+						{{ moon['name'] }} [{{ moon['galaxy'] }}:{{ moon['system'] }}:{{ moon['planet'] }}]
+						<span v-if="moon['jumpgate']">{{ $time((dayjs(page['jumpgate']).diff(now) / 1000), ':', true) }}</span>
+					</label>
 				</div>
 			</div>
 
@@ -119,7 +122,7 @@
 							<th class="negative">Миссия невозможна</th>
 						</tr>
 						<tr>
-							<th>Время прилёта: {{ $date(target_time, 'd.m.Y H:i:s') }}</th>
+							<th>Время прилёта: {{ dayjs(target_time).format('DD MMM HH:mm:ss') }}</th>
 						</tr>
 					</table>
 				</div>
@@ -205,8 +208,10 @@
 <script setup>
 	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useAsyncData, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { computed, onMounted, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import dayjs from 'dayjs';
+	import { useNow } from '@vueuse/core';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -232,8 +237,8 @@
 	const maxspeed = ref(0);
 	const consumption = ref(0);
 
-	const target_time = ref(0);
-	let target_timeout;
+	const now = useNow({ interval: 1000 });
+	const target_time = computed(() => now.value.getTime() + (duration.value * 1000));
 
 	const alliance = ref(0);
 	const hold_hours = ref(1);
@@ -258,16 +263,8 @@
 		return storage.value - resource.value.metal - resource.value.crystal - resource.value.deuterium - hold.value;
 	})
 
-	watch(target_time, () => {
-		startTimer();
-	});
-
 	onMounted(() => {
 		info();
-	});
-
-	onBeforeUnmount(() => {
-		clearTimer();
 	});
 
 	watch(() => page.value.target, async () => {
@@ -312,27 +309,6 @@
 		});
 
 		storage.value = getStorage(page.value['ships']) - consumption.value;
-
-		clearTimer();
-		target_time.value = store.getServerTime + duration.value;
-	}
-
-	function startTimer () {
-		target_timeout = setTimeout(() => {
-			target_time.value = store.getServerTime + duration.value
-
-			if (page.value['gate_time'] > 0)
-				page.value['gate_time']--
-
-			page.value['moons'].forEach((item) => {
-				if (item['timer'] > 0)
-					item['timer']--
-			})
-		}, 1000)
-	}
-
-	function clearTimer () {
-		clearTimeout(target_timeout)
 	}
 
 	function setTarget (galaxy, system, planet, type) {

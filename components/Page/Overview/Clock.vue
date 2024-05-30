@@ -1,37 +1,10 @@
 <template>
-	<div>{{ $date(time, 'd.m.Y H:i:s') }}</div>
+	<div>{{ dayjs(now).format('DD MMM HH:mm:ss') }}</div>
 </template>
 
 <script setup>
-	import useStore from '~/store';
-	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { useNow } from '@vueuse/core';
+	import dayjs from 'dayjs';
 
-	const time = ref(0);
-	let timeout = null;
-
-	clockUpdate();
-
-	watch(time,() => {
-		clockStart();
-	}, { immediate: true });
-
-	onMounted(() => {
-		clockUpdate();
-	})
-
-	onBeforeUnmount(() => {
-		clockStop();
-	});
-
-	function clockUpdate () {
-		time.value = useStore().getServerTime;
-	}
-
-	function clockStop () {
-		clearTimeout(timeout);
-	}
-
-	function clockStart () {
-		timeout = setTimeout(clockUpdate, 1000);
-	}
+	const now = useNow({ interval: 1000 });
 </script>

@@ -45,10 +45,10 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
-	import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import { Chart, CategoryScale, LinearScale, LineController, PointElement, LineElement, Legend, Tooltip } from 'chart.js';
 	import { number } from '~/utils/format';
-	import { useNuxtApp } from '#app';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		view: {
@@ -110,7 +110,7 @@
 		};
 
 		page.value.points.forEach((item) => {
-			labels.push(useNuxtApp().$date(item.date, 'd.m'));
+			labels.push(dayjs(item.date).format('DD MMM'));
 
 			ranks.build.push(item.rank.build);
 			ranks.tech.push(item.rank.tech);
@@ -189,7 +189,7 @@
 		let points = [];
 
 		page.value.points.forEach((item) => {
-			labels.push(useNuxtApp().$date(item.date, 'd.m'));
+			labels.push(dayjs(item.date).format('DD MMM'));
 			points.push(item.point[typeChart.value]);
 		});
 

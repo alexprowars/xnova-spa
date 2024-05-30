@@ -1,17 +1,13 @@
 <template>
 	<div class="block-table overview-fleets">
-		<fleets-row v-for="(item, i) in items" :key="i" :item="item"></fleets-row>
+		<FleetsRow v-for="(item, i) in items" :key="i" :item="item"/>
 	</div>
 </template>
 
-<script>
-	import FleetsRow from './FleetsRow.vue'
+<script setup>
+	import FleetsRow from './FleetsRow.vue';
 
-	export default {
-		name: "overview-fleets",
-		props: ['items'],
-		components: {
-			FleetsRow
-		},
-	}
+	defineProps({
+		items: Array,
+	});
 </script>

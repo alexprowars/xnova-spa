@@ -16,9 +16,7 @@
 </template>
 
 <script setup>
-	import { watch } from 'vue';
-
-	const props = defineProps({
+	defineProps({
 		items: {
 			type: Array,
 			default: []
@@ -34,8 +32,4 @@
 	});
 
 	const value = defineModel();
-
-	watch(value, (val) => {
-		console.log(val)
-	})
 </script>

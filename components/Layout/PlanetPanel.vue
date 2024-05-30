@@ -26,15 +26,15 @@
 										<table>
 											<tr>
 												<td>Доступно:</td>
-												<td align="right">{{ $number(planet['resources']['energy']['value']) }}</td>
+												<td class="text-end">{{ $number(planet['resources']['energy']['value']) }}</td>
 											</tr>
 											<tr>
 												<td>Производится:</td>
-												<td align="right">{{ $number(planet['resources']['energy']['capacity']) }}</td>
+												<td class="text-end">{{ $number(planet['resources']['energy']['capacity']) }}</td>
 											</tr>
 											<tr>
 												<td>Потребление:</td>
-												<td align="right">{{ $number(planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) }}</td>
+												<td class="text-end">{{ $number(planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) }}</td>
 											</tr>
 										</table>
 									</div>
@@ -53,19 +53,19 @@
 			<div class="row">
 				<div class="col text-center">
 					<div class="resource-panel-item">
-						<NuxtLinkLocale to="/credits/" class="d-sm-inline-block resource-panel-item-icon">
+						<NuxtLinkLocale to="/credits" class="d-sm-inline-block resource-panel-item-icon">
 							<Popper>
 								<template #content>
 									<table width="550">
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
 												<div class="separator"></div>
-												<span :class="['officier', 'of' + officier['id'] + (officier['time'] > now ? '_ikon' : '')]"></span>
+												<span class="officier" :class="['of' + officier['id'] + (officier['time'] && dayjs(officier['time']).diff() > 0 ? '_ikon' : '')]"></span>
 											</td>
 										</tr>
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
-												<span v-if="officier['time'] > store.getServerTime">Нанят до <span class="positive">{{ $date(officier['time'], 'd.m.Y H:i') }}</span></span>
+												<span v-if="officier['time'] && dayjs(officier['time']).diff() > 0">Нанят до<br><span class="positive">{{ dayjs(officier['time']).format('DD MMM HH:mm') }}</span></span>
 												<span v-else><span class="positive">Не нанят</span></span>
 											</td>
 										</tr>
@@ -84,15 +84,14 @@
 </template>
 
 <script setup>
-	import PanelResource from './PlanetPanelResource.vue'
-	import InfoPopup from '~/components/Page/Info/Popup.vue'
+	import PanelResource from './PlanetPanelResource.vue';
+	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import useStore from '~/store';
-	import { computed, onBeforeUnmount, onUpdated, ref } from 'vue';
+	import { onBeforeUnmount, onUpdated, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import { useNow } from '@vueuse/core';
+	import dayjs from 'dayjs';
 
 	const updated = ref(0);
-	const now = computed(() => useNow().value.getTime() / 1000);
 
 	let timer = null;
 
@@ -115,30 +114,26 @@
 			return;
 		}
 
-		if (updated.value === 0)
+		if (updated.value === 0) {
 			updated.value = (new Date).getTime();
+		}
 
 		let factor = ((new Date).getTime() - updated.value) / 1000;
 
-		if (factor < 0)
+		if (factor < 0) {
 			return;
-
-		updated.value = (new Date).getTime();
-		let resources = {};
-
-		['metal', 'crystal', 'deuterium'].forEach((res) => {
-			if (typeof planet.value['resources'][res] === 'undefined')
-				return;
-
-			let power = (planet.value['resources'][res]['value'] >= planet.value['resources'][res]['capacity']) ? 0 : 1;
-
-			resources[res] = planet.value['resources'][res]['value'] + ((planet.value['resources'][res]['production'] / 3600) * power * factor);
-		});
-
-		if (Object.keys(resources).length > 0) {
-			store.setPlanetResources(resources);
 		}
 
-		timer = setTimeout(update.value, 1000);
+		updated.value = (new Date).getTime();
+
+		['metal', 'crystal', 'deuterium']
+			.filter(res => typeof planet.value['resources'][res] !== 'undefined')
+			.forEach(res => {
+				let power = (planet.value['resources'][res]['value'] >= planet.value['resources'][res]['capacity']) ? 0 : 1;
+
+				planet.value['resources'][res]['value'] += ((planet.value['resources'][res]['production'] / 3600) * power * factor);
+			});
+
+		timer = setTimeout(update, 1000);
 	}
 </script>

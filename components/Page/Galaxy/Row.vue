@@ -173,7 +173,7 @@
 							</tr>
 							<tr>
 								<th valign="top">
-									<NuxtLinkLocale :to="'/stat/range='+stat_page+'&id='+item['u_id']">Статистика</NuxtLinkLocale>
+									<NuxtLinkLocale :to="'/stat?range=' + stat_page + '&id=' + item['u_id']">Статистика</NuxtLinkLocale>
 								</th>
 							</tr>
 						</tbody>
@@ -281,6 +281,7 @@
 	import { computed, ref } from 'vue';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
+	import dayjs from 'dayjs';
 
 	const props = defineProps({
 		planet: {
@@ -307,11 +308,13 @@
 		if (!RowUserPoints)
                RowUserPoints = 0;
 
-		if (props.item['u_ban'] > store.getServerTime && props.item['u_vacation'] > 0)
-			return 'UG';
-		else if (props.item['u_ban'] > store.getServerTime)
-			return 'G';
-		else if (props.item['u_vacation'] > 0)
+		if (props.item['u_ban'] && dayjs(props.item['u_ban']).diff() > 0) {
+			if (props.item['u_vacation'] > 0) {
+				return 'UG';
+			} else {
+				return 'G';
+			}
+		} else if (props.item['u_vacation'] > 0)
 			return 'U';
 		else if (props.item['u_online'] === 1)
 			return 'i';
@@ -366,7 +369,7 @@
 			return '';
 		}
 
-		if (props.item['u_image'].length > 0) {
+		if (props.item['u_image']) {
 			return props.item['u_image'];
 		} else if (props.item['u_avatar'] > 0) {
 			if (props.item['u_avatar'] !== 99)

@@ -47,7 +47,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData('page-buildings', async () => {
-		return await useStore().loadPage();
+		return await useStore().loadPage('/buildings');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

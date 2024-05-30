@@ -3,12 +3,13 @@
 </template>
 
 <script setup>
-	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
-	import useStore from '~/store';
+	import dayjs from 'dayjs';
+	import { useNow } from '@vueuse/core';
+	import { computed } from 'vue';
 
 	const props = defineProps({
 		value: {
-			type: Number,
+			type: String,
 			default: 0,
 		},
 		delimiter: {
@@ -17,37 +18,6 @@
 		}
 	});
 
-	const store = useStore();
-	const time = ref(store.getServerTime);
-
-	let timeout = null;
-
-	watch(time, () => {
-		start();
-	});
-
-	onMounted(() => {
-		stop();
-		update();
-	});
-
-	onBeforeUnmount(() => {
-		stop();
-	});
-
-	function update () {
-		if (time.value < 0) {
-			return;
-		}
-
-		time.value = props.value - store.getServerTime;
-	}
-
-	function stop () {
-		clearTimeout(timeout);
-	}
-
-	function start () {
-		timeout = setTimeout(update, 1000);
-	}
+	const now = useNow({ interval: 1000 });
+	const time = computed(() => dayjs(props.value).diff(now.value) / 1000);
 </script>

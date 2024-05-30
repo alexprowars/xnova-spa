@@ -30,14 +30,14 @@
 							<div>{{ item['start']['name'] }}</div>
 						</th>
 						<th>
-							{{ $date(item['start']['time'], 'd.m H:i:s') }}
+							{{ dayjs(item['start']['time']).format('DD MMM HH:mm:ss') }}
 							<Timer :value="item['start']['time'] + 1" class="positive"></Timer>
 						</th>
 						<th>
 							<PlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"/>
 							<div>{{ item['target']['name'] }}</div>
 						</th>
-						<th>{{ $date(item['target']['time'], 'd.m H:i:s') }}</th>
+						<th>{{ dayjs(item['target']['time']).format('DD MMM HH:mm:ss') }}</th>
 					</tr>
 					<tr v-if="page['list'].length === 0"><th colspan="9">-</th></tr>
 				</table>
@@ -123,6 +123,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],

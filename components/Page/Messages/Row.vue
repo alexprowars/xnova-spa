@@ -4,7 +4,7 @@
 			<div class="col-1 th text-center">
 				<input name="delete[]" type="checkbox" :value="item['id']" v-model="item['deleted']" title="Удалить">
 			</div>
-			<div class="col-3 th text-center">{{ $date(item['time'], 'd.m.y H:i:s') }}</div>
+			<div class="col-3 th text-center">{{ dayjs(item['time']).format('DD MMM YYYY HH:mm:ss') }}</div>
 			<div class="col-6 th text-center">
 				<a v-if="item['from'] > 0" :href="'/players/'+item['from']+'/'" @click.prevent="openPlayerPopup(item['from'])" title="От кого" v-html="item['theme']"></a>
 				<span v-else v-html="item['theme']"></span>
@@ -39,6 +39,7 @@
 	import useStore from '~/store';
 	import { openAjaxPopupModal, openConfirmModal, useApiPost } from '#imports';
 	import { storeToRefs } from 'pinia';
+	import dayjs from 'dayjs';
 
 	const props = defineProps({
 		item: Object

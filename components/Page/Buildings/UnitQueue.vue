@@ -8,7 +8,7 @@
 						<span class="positive">{{ item.count }}</span> {{ $t('tech.' + item.id) }}
 					</div>
 					<div class="col-6 text-end k border-left-0">
-						{{ $time(item.end - getServerTime) }}
+						{{ $time(dayjs(item['time']).diff(now) / 1000) }}
 					</div>
 				</div>
 				<div class="row">
@@ -22,9 +22,9 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue';
-	import { storeToRefs } from 'pinia';
-	import useStore from '~/store';
+	import { computed, watch } from 'vue';
+	import { useNow } from '@vueuse/core';
+	import dayjs from 'dayjs';
 
 	const props = defineProps({
 		queue: {
@@ -35,56 +35,26 @@ import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue';
 		}
 	});
 
-	const left_time = ref(0);
-	const { getServerTime } = storeToRefs(useStore());
+	const now = useNow({ interval: 1000 });
+	const left_time = computed(() => dayjs(props.queue[props.queue.length - 1]['time']).diff(now.value) / 1000);
 
-	let timeout;
-
-	watch(left_time, () => {
-		start();
-	});
-
-	onUpdated(() => {
-		stop();
-		update();
-		start();
-	});
-
-	onMounted(() => {
-		stop();
+	watch(now, () => {
 		update();
 	});
-
-	onBeforeUnmount(() => {
-		stop();
-	});
-
-	function start () {
-		timeout = setTimeout(update, 1000);
-	}
-
-	function stop () {
-		clearTimeout(timeout);
-	}
 
 	function update () {
 		if (props.queue.length === 0) {
 			return;
 		}
 
-		let last = props.queue[props.queue.length - 1];
-		left_time.value = last.end - getServerTime.value
-
 		let first = props.queue[0];
 
-		if (first.end <= getServerTime.value) {
+		const diff = dayjs(first['time']).diff(now.value) / 1000;
+
+		if (diff <= 0) {
 			props.queue.splice(0, 1);
 		} else {
-			let cnt = Math.ceil((first.end - getServerTime.value) / first.time);
-
-			if (cnt !== props.queue[0]['count']) {
-				props.queue[0]['count'] = cnt;
-			}
+			props.queue[0]['count'] = Math.ceil(diff / first['time_one']);
 		}
 	}
 </script>

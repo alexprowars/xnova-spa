@@ -29,9 +29,9 @@
 						<div class="building-info-upgrade">
 							<div v-if="typeof item['build'] === 'object'" class="building-info-upgrade-timer">
 								<span v-if="time > 0">
-									{{ $time(time, ':', true) }}&nbsp;<a @click.prevent="cancelAction">Отменить<span v-if="item['build'].name.length">на {{ item['build'].name }}</span></a>
+									{{ $time(time, ':', true) }}&nbsp;<a @click.prevent="cancelAction">Отменить<span v-if="item['build'].name">на {{ item['build'].name }}</span></a>
 								</span>
-								<NuxtLinkLocale v-else :to="{ path: '/research', query: { chpl: item['build'].id }, force: true }">завершено. продолжить...</NuxtLinkLocale>
+								<a v-else href="" @click.prevent="refresh">завершено. продолжить...</a>
 							</div>
 							<div v-else-if="item['max'] > 0 && item['max'] <= item['level']" class="negative">
 								максимальный уровень
@@ -59,11 +59,13 @@
 </template>
 
 <script setup>
-	import BuildRowPrice from './BuildRowPrice.vue'
-	import InfoContent from '~/components/Page/Info/Content.vue'
+	import BuildRowPrice from './BuildRowPrice.vue';
+	import InfoContent from '~/components/Page/Info/Content.vue';
 	import useStore from '~/store';
 	import { useApiPost, openAjaxPopupModal, openConfirmModal, useI18n, refreshNuxtData } from '#imports';
-	import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { computed } from 'vue';
+	import { useNow } from '@vueuse/core';
+	import dayjs from 'dayjs';
 
 	const props = defineProps({
 		item: {
@@ -73,12 +75,11 @@
 
 	const { t, tm } = useI18n();
 	const store = useStore();
-	const time = ref(0);
-
-	let timeout;
+	const now = useNow({ interval: 1000 });
+	const time = computed(() => dayjs(props.item['build']['time']).diff(now.value) / 1000);
 
 	const resources = computed(() => {
-		return store.planet.resources;
+		return store.planet['resources'];
 	});
 
 	const hasResources = computed(() => {
@@ -88,45 +89,8 @@
 		})
 	});
 
-	onMounted(() => {
-		stop();
-		update();
-	});
-
-	onBeforeUnmount(() => {
-		stop();
-	});
-
-	watch(time, (v) => {
-		if (v > 0) {
-			start();
-		}
-	});
-
-	watch(() => props.item.build, (v) => {
-		if (typeof v === 'object') {
-			stop();
-			update();
-			start();
-		}
-	});
-
-	function update () {
-		if (typeof props.item['build'] !== 'object' || time.value < 0) {
-			time.value = 0;
-			stop();
-			return;
-		}
-
-		time.value = props.item['build']['time'] - store.getServerTime;
-	}
-
-	function stop () {
-		clearTimeout(timeout)
-	}
-
-	function start() {
-		timeout = setTimeout(update, 1000)
+	async function refresh() {
+		await refreshNuxtData('page-research');
 	}
 
 	async function addAction () {

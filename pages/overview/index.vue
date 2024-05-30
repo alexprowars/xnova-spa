@@ -78,15 +78,15 @@
 									<Popper>
 										<template #content>
 											<div>
-												{{ $t('tech.'+item['id']) }}
+												{{ $t('tech.' + item['id']) }}
 												<br>
-												<span v-if="item['time'] > store.getServerTime">
-													Нанят до <font color="lime">{{ $date(item['time'], 'd.m.Y H:i') }}</font>
+												<span v-if="item['time'] && dayjs(item['time']).diff() > 0">
+													Нанят до <span class="positive">{{ dayjs(item['time']).format('DD MMM HH:mm') }}</span>
 												</span>
-												<font v-else color="lime">Не нанят</font>
+												<span v-else class="positive">Не нанят</span>
 											</div>
 										</template>
-										<span class="officier" :class="['of'+item['id']+(item['time'] > store.getServerTime ? '_ikon' : '')]"></span>
+										<span class="officier" :class="['of' + item['id'] + (item['time'] && dayjs(item['time']).diff() > 0 ? '_ikon' : '')]"></span>
 									</Popper>
 								</NuxtLinkLocale>
 							</div>
@@ -264,7 +264,7 @@
 						<th class="text-start">
 							<div style="overflow-y: auto;overflow-x: hidden;">
 								<div v-for="item in page['chat']" class="activity">
-									<div class="date1" style="display: inline-block;padding-right:5px;">{{ $date(item.time, 'H:i') }}</div>
+									<div class="date1" style="display: inline-block;padding-right:5px;">{{ dayjs(item.time).format('HH:mm') }}</div>
 									<div style="display: inline;white-space:pre-wrap" v-html="item.message"></div>
 								</div>
 							</div>
@@ -277,15 +277,16 @@
 </template>
 
 <script setup>
-	import PlayerInfo from '~/components/Page/Players/Info.vue'
-	import Fleets from '~/components/Page/Overview/Feets.vue'
-	import Clock from '~/components/Page/Overview/Clock.vue'
-	import QueueRow from '~/components/Page/Overview/QueueRow.vue'
-	import { sendMission } from '~/utils/fleet'
-	import { storeToRefs } from 'pinia'
+	import PlayerInfo from '~/components/Page/Players/Info.vue';
+	import Fleets from '~/components/Page/Overview/Feets.vue';
+	import Clock from '~/components/Page/Overview/Clock.vue';
+	import QueueRow from '~/components/Page/Overview/QueueRow.vue';
+	import { sendMission } from '~/utils/fleet';
+	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useApiPost, useRoute } from '#imports';
 	import { computed } from 'vue';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -295,15 +296,16 @@
 		title: 'Обзор',
 	});
 
+	const store = useStore();
+
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await store.loadPage('/overview');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
-	const store = useStore();
 	const { user, planet } = storeToRefs(store);
 	const { host } = useRequestURL();
 

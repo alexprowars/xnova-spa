@@ -26,7 +26,7 @@
 					[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ $date(item['start']['time'], 'd.m H:i:s') }}
+			{{ dayjs(item['start']['time']).format('DD MMM HH:mm:ss') }}
 			<Timer :value="item['start']['time']" delimiter="" class="positive"></Timer>
 		</div>
 		<div v-if="item['target']['time']" class="col-4 col-sm-3 th">
@@ -35,7 +35,7 @@
 					[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ $date(item['target']['time'], 'd.m H:i:s') }}
+			{{ dayjs(item['target']['time']).format('DD MMM HH:mm:ss') }}
 			<Timer :value="item['target']['time']" delimiter="" class="positive"></Timer>
 		</div>
 		<div v-else class="col-4 col-sm-3 th">
@@ -60,6 +60,7 @@
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { openConfirmModal } from '~/composables/useModals';
+	import dayjs from 'dayjs';
 
 	const props = defineProps({
 		i: {

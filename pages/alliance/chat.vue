@@ -10,7 +10,7 @@
 
 				<div v-for="(item, index) in page['items']" class="row">
 					<div class="col-2 b text-center">
-						{{ $date(item['time'], 'H:i:s') }}
+						{{ dayjs(item['time']).format('HH:mm:ss') }}
 						<br>
 						<a :href="'/players/'+item['user_id']+'/'" target="_blank">{{ item['user'] }}</a>
 						<a @click.prevent="quote(index)"> -> </a>
@@ -75,6 +75,7 @@
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],

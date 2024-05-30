@@ -4,17 +4,16 @@
 			<div class="z">
 				<Timer :value="item['time']"></Timer>
 			</div>
-			<div class="positive">{{ item['date'] }}</div>
+			<div class="positive">{{ dayjs(item['date']).format('DD MMM') }}</div>
 		</div>
 		<div class="col-9 col-sm-10 th text-start" :class="[item['status'], item['prefix'], item['mission']]" v-html="item['text']"></div>
 	</div>
 </template>
 
-<script>
-	export default {
-		name: "overview-fleets-row",
-		props: {
-			item: Object
-		}
-	}
+<script setup>
+	import dayjs from 'dayjs';
+
+	defineProps({
+		item: Object
+	});
 </script>

@@ -21,10 +21,10 @@
 					</NuxtLinkLocale>
 				</td>
 				<td class="b text-center">
-					<small>{{ $date(item['time'], 'd.m.Y H:i:s') }}</small>
+					<small>{{ dayjs(item['time']).format('DD MMM YYYY HH:mm:ss') }}</small>
 				</td>
 				<td class="b text-center">
-					<small>{{ $date(item['time_end'], 'd.m.Y H:i:s') }}</small>
+					<small>{{ dayjs(item['time_end']).format('DD MMM YYYY HH:mm:ss') }}</small>
 				</td>
 				<td class="b text-center">{{ item['reason'] }}</td>
 				<td class="b text-center">
@@ -43,6 +43,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		view: {

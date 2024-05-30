@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { useRouter, useApiGet, navigateTo, startLoading, stopLoading } from '#imports';
 import { toast } from 'vue3-toastify';
-import { useNow } from '@vueuse/core';
 
 export const useStore = defineStore('app', {
 	state: () => ({
@@ -15,12 +14,8 @@ export const useStore = defineStore('app', {
 		speed: null,
 		user: null,
 		planet: null,
-		start_time: Math.floor(useNow().value.getTime() / 1000),
 	}),
 	getters: {
-		getServerTime: state => {
-			return Math.floor(useNow().value.getTime() / 1000) + state.stats.time - state.start_time;
-		},
 		isAuthorized: state => {
 			return state.user && state.user.id > 0
 		},
@@ -87,18 +82,9 @@ export const useStore = defineStore('app', {
 			return page;
 		},
 		PAGE_LOAD (data) {
-			this.start_time = Math.floor((useNow().value.getTime()) / 1000);
-
 			for (let key in data) {
 				if (data.hasOwnProperty(key))
 					this[key] = data[key];
-			}
-		},
-		setPlanetResources (resources) {
-			for (let res in resources) {
-				if (resources.hasOwnProperty(res)) {
-					this.planet.resources[res]['current'] = resources[res]
-				}
 			}
 		},
 	}
