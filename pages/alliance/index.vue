@@ -17,7 +17,7 @@
 			<template v-for="item in page['list']">
 				<tr>
 					<th width="70%">{{ item[2] }} [{{ item[1] }}]</th>
-					<th>{{ $date(item[3], 'd.m.Y H:i') }}</th>
+					<th>{{ dayjs(item[3]).tz().format('DD MMM YYYY HH:mm') }}</th>
 				</tr>
 				<tr>
 					<th colspan="2">
@@ -135,6 +135,7 @@
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],

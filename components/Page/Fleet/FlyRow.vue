@@ -26,7 +26,7 @@
 					[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ dayjs(item['start']['time']).format('DD MMM HH:mm:ss') }}
+			{{ dayjs(item['start']['time']).tz().format('DD MMM HH:mm:ss') }}
 			<Timer :value="item['start']['time']" delimiter="" class="positive"></Timer>
 		</div>
 		<div v-if="item['target']['time']" class="col-4 col-sm-3 th">
@@ -35,7 +35,7 @@
 					[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ dayjs(item['target']['time']).format('DD MMM HH:mm:ss') }}
+			{{ dayjs(item['target']['time']).tz().format('DD MMM HH:mm:ss') }}
 			<Timer :value="item['target']['time']" delimiter="" class="positive"></Timer>
 		</div>
 		<div v-else class="col-4 col-sm-3 th">

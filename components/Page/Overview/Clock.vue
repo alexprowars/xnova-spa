@@ -1,5 +1,5 @@
 <template>
-	<div>{{ dayjs(now).format('DD MMM HH:mm:ss') }}</div>
+	<div>{{ dayjs(now).tz().format('DD MMM HH:mm:ss') }}</div>
 </template>
 
 <script setup>

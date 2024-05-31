@@ -1,6 +1,6 @@
 <template>
 	<div class="page-refers">
-		<div v-if="page['ref'].length > 0" class="block">
+		<div v-if="page['items'].length > 0" class="block">
 			<div class="title">Привлечённые игроки</div>
 			<div class="content border-0">
 				<div class="block-table">
@@ -9,12 +9,12 @@
 						<div class="col c">Дата регистрации</div>
 						<div class="col c">Уровень развития</div>
 					</div>
-					<div class="row" v-for="list in page['ref']">
+					<div class="row" v-for="item in page['items']">
 						<div class="col th">
-							<NuxtLinkLocale :to="'/players/'+list['id']+'/'">{{ list['username'] }}</NuxtLinkLocale>
+							<NuxtLinkLocale :to="'/players/' + item['id']">{{ item['username'] }}</NuxtLinkLocale>
 						</div>
-						<div class="col th">{{ $date(list['create_time'], 'd.m.Y H:i') }}</div>
-						<div class="col th">П:{{ list['lvl_minier'] }}, В:{{ list['lvl_raid'] }}</div>
+						<div class="col th">{{ dayjs(item['created_at']).tz().format('DD MMM YYYY HH:mm:ss') }}</div>
+						<div class="col th">П:{{ item['lvl_minier'] }}, В:{{ item['lvl_raid'] }}</div>
 					</div>
 				</div>
 			</div>
@@ -25,7 +25,7 @@
 				<div class="row">
 					<div class="col th">Вы были привлечены игроком:</div>
 					<div class="col th">
-						<NuxtLinkLocale :to="'/players/'+page['you']['id']+'/'">{{ page['you']['username'] }}</NuxtLinkLocale>
+						<NuxtLinkLocale :to="'/players/' + page['you']['id']">{{ page['you']['username'] }}</NuxtLinkLocale>
 					</div>
 				</div>
 			</div>
@@ -42,7 +42,7 @@
 								data-yashareL10n="ru"
 								data-yashareTheme="counter"
 								data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"
-								:data-yashareLink="host+'/?'+user.id"
+								:data-yashareLink="protocol + '//' + host + '/?' + user.id"
 								data-yashareTitle=""
 							></div>
 						</div>
@@ -57,7 +57,7 @@
 					<div class="row">
 						<div class="col text-center">
 							<br>
-							<img :src="'/userbar'+user.id+'.jpg'" alt="">
+							<img :src="'/userbar' + user.id + '.jpg'" alt="">
 
 							<br><br>
 							HTML код:
@@ -65,7 +65,7 @@
 							<input style="width:100%" type="text" :value="html" title="">
 							<div class="separator"></div>
 							BB код:
-							<input style="width:100%" type="text" :value="'[url='+host+'/?'+user.id+'][img]'+host+'/userbar'+user.id+'.jpg[/img][/url]'" title="">
+							<input style="width:100%" type="text" :value="'[url=' + protocol + '//' + host + '/?' + user.id + '][img]' + protocol + '//' + host + '/userbar' + user.id + '.jpg[/img][/url]'" title="">
 						</div>
 					</div>
 				</div>
@@ -79,6 +79,7 @@
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -102,13 +103,13 @@
 	}
 
 	const { user } = storeToRefs(store);
-	const { host } = useRequestURL();
+	const { protocol, host } = useRequestURL();
 
 	onMounted(() => {
 		addScript('https://yandex.st/share/share.js');
 	});
 
 	const html = computed(() => {
-		return '<a href="'+host.value+'/?'+user.value.id+'"><img src="'+host.value+'/userbar'+user.value.id+'.jpg"></a>'
+		return '<a href="' + protocol + '//' + host + '/?' + user.value.id + '"><img src="' + protocol + '//' + host + '/userbar' + user.value.id + '.jpg"></a>'
 	});
 </script>

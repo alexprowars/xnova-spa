@@ -20,20 +20,20 @@
 					{{ page['type'] === 0 ? 'Самые разрушительные бои' : 'Самые разрушительные групповые бои' }}
 				</div>
 				<div class="col-1 c">Итог</div>
-				<div class="col-2 c">Дата</div>
+				<div class="col-3 c">Дата</div>
 			</div>
-			<div v-for="(log, i) in page['hall']" class="row">
+			<div v-for="(item, i) in page['hall']" class="row">
 				<div class="col-1 th">{{ i + 1 }}</div>
 				<div class="col th">
-					<a :href="'/log/'+log['log']+'/'" target="_blank">{{ log['title'] }}</a>
+					<a :href="'/log/' + item['log']" target="_blank">{{ item['title'] }}</a>
 				</div>
 				<div class="col-1 th">
-					<template v-if="log['won'] === 0">Н</template>
-					<template v-if="log['won'] === 1">А</template>
+					<template v-if="item['won'] === 0">Н</template>
+					<template v-if="item['won'] === 1">А</template>
 					<template v-else>О</template>
 				</div>
-				<div class="col-2 th" :class="{positive: page['time'] === log['time']}">
-					{{ $date(log['time'], 'd.m.y H:i') }}
+				<div class="col-3 th" :class="{ positive: dayjs(page['time']).diff(dayjs(item['time'])) === 0 }">
+					{{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm:ss') }}
 				</div>
 			</div>
 			<div v-if="page['hall'].length === 0" class="row">
@@ -47,6 +47,7 @@
 	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { watch } from 'vue';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -60,7 +61,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useStore().loadPage('/hall');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -73,7 +74,7 @@
 
 	async function load() {
 		try {
-			const result = await useApiPost('/hall/', {
+			const result = await useApiPost('/hall', {
 				type: page.value['type']
 			})
 

@@ -3,7 +3,7 @@
 		<div class="col-12 th">
 			<div ref="chatboxRef" class="page-chat-messages">
 				<div v-for="item in messages" class="page-chat-messages-row text-start">
-					<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ $date(item['time'], 'H:i') }}</span>
+					<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ dayjs(item['time']).tz().format('HH:mm') }}</span>
 					<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" @click="toPlayer(item['user'])">{{ item['user'] }}</span>:
 					<span v-if="item['tou'].length" :class="[item['private'] ? 'private' : 'player']">
 						{{ item['private'] ? 'приватно' : 'для' }} [<span v-for="(u, i) in item['tou']">{{ i > 0 ? ',' : '' }}<a v-if="!item['private']" @click.prevent="toPlayer(u)">{{ u }}</a><a v-else @click.prevent="toPrivate(u)">{{ u }}</a></span>]
@@ -43,6 +43,7 @@
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import parser from '~/utils/parser';
 	import { storeToRefs } from 'pinia';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],

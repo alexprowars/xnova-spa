@@ -9,7 +9,7 @@
 					<tr>
 					</tr>
 					<tr>
-						<th colspan="2">Режим отпуска включён до: <br/>{{ page['um_end_date'] }}</th>
+						<th colspan="2">Режим отпуска включён до: <br/>{{ dayjs(page['um_end_date']).tz().format('DD MMM YYYY HH:mm:ss') }}</th>
 					</tr>
 					<tr>
 						<th>Имя</th>
@@ -134,33 +134,12 @@
 							</tr>
 							<tr>
 								<th>Часовой пояс</th>
-								<th><select name="timezone" style="width:170px" v-model="page['options']['timezone']">
-									<option value="-30">-12</option>
-									<option value="-28">-11</option>
-									<option value="-26">-10</option>
-									<option value="-24">-9</option>
-									<option value="-22">-8</option>
-									<option value="-20">-7</option>
-									<option value="-18">-6</option>
-									<option value="-16">-5</option>
-									<option value="-14">-4</option>
-									<option value="-12">-3</option>
-									<option value="-10">-2</option>
-									<option value="-8">-1</option>
-									<option value="-6">0</option>
-									<option value="-4">+1</option>
-									<option value="-2">+2</option>
-									<option value="0">+3 (Московское время)</option>
-									<option value="2">+4</option>
-									<option value="4">+5</option>
-									<option value="6">+6</option>
-									<option value="8">+7</option>
-									<option value="10">+8</option>
-									<option value="12">+9</option>
-									<option value="14">+10</option>
-									<option value="16">+11</option>
-									<option value="18">+12</option>
-								</select></th>
+								<th>
+									<select name="timezone" style="width:170px" v-model="page['options']['timezone']">
+										<option :value="null">Системный</option>
+										<option v-for="i in timezones" :value="i">{{ i > 0 ? '+' + i : i }}</option>
+									</select>
+								</th>
 							</tr>
 							<tr>
 								<th>Аватар</th>
@@ -250,10 +229,10 @@
 							</tr>
 							<tr v-for="auth in page['auth']">
 								<th>{{ auth['external_id'] }}</th>
-								<th>{{ $date(auth['create_time'], 'd.m.Y H:i:s') }}</th>
+								<th>{{ dayjs(auth['create_time']).tz().format('DD MMM YYYY HH:mm:ss') }}</th>
 								<th>
 									<template v-if="auth['enter_time'] > 0">
-										{{ $date(auth['enter_time'], 'd.m.Y H:i:s') }}
+										{{ dayjs(auth['enter_time']).tz().format('DD MMM YYYY HH:mm:ss') }}
 									</template>
 									<template>
 										-
@@ -293,6 +272,8 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import dayjs from 'dayjs';
+	import { ref } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -311,5 +292,11 @@
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	const timezones = ref([]);
+
+	for (let i = -12; i <= 12; i++) {
+		timezones.value.push(i);
 	}
 </script>

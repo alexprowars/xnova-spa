@@ -10,7 +10,7 @@
 
 				<div v-for="(item, index) in page['items']" class="row">
 					<div class="col-2 b text-center">
-						{{ dayjs(item['time']).format('HH:mm:ss') }}
+						{{ dayjs(item['time']).tz().format('HH:mm:ss') }}
 						<br>
 						<a :href="'/players/'+item['user_id']+'/'" target="_blank">{{ item['user'] }}</a>
 						<a @click.prevent="quote(index)"> -> </a>

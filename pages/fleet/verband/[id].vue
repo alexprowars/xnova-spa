@@ -30,14 +30,14 @@
 							<div>{{ item['start']['name'] }}</div>
 						</th>
 						<th>
-							{{ dayjs(item['start']['time']).format('DD MMM HH:mm:ss') }}
+							{{ dayjs(item['start']['time']).tz().format('DD MMM HH:mm:ss') }}
 							<Timer :value="item['start']['time'] + 1" class="positive"></Timer>
 						</th>
 						<th>
 							<PlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"/>
 							<div>{{ item['target']['name'] }}</div>
 						</th>
-						<th>{{ dayjs(item['target']['time']).format('DD MMM HH:mm:ss') }}</th>
+						<th>{{ dayjs(item['target']['time']).tz().format('DD MMM HH:mm:ss') }}</th>
 					</tr>
 					<tr v-if="page['list'].length === 0"><th colspan="9">-</th></tr>
 				</table>

@@ -24,7 +24,7 @@
 					<div v-if="type !== ''" class="col th">
 						<div class="block-table">
 							<div class="row">
-								<div class="c col">Обменять {{ $lower($t('resources.'+type)) }} на</div>
+								<div class="c col">Обменять {{ $t('resources.'+type).toLowerCase() }} на</div>
 							</div>
 							<div class="row">
 								<div class="col-3 th"></div>

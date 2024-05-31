@@ -81,7 +81,7 @@
 												{{ $t('tech.' + item['id']) }}
 												<br>
 												<span v-if="item['time'] && dayjs(item['time']).diff() > 0">
-													Нанят до <span class="positive">{{ dayjs(item['time']).format('DD MMM HH:mm') }}</span>
+													Нанят до <span class="positive">{{ dayjs(item['time']).tz().format('DD MMM HH:mm') }}</span>
 												</span>
 												<span v-else class="positive">Не нанят</span>
 											</div>
@@ -264,7 +264,7 @@
 						<th class="text-start">
 							<div style="overflow-y: auto;overflow-x: hidden;">
 								<div v-for="item in page['chat']" class="activity">
-									<div class="date1" style="display: inline-block;padding-right:5px;">{{ dayjs(item.time).format('HH:mm') }}</div>
+									<div class="date1" style="display: inline-block;padding-right:5px;">{{ dayjs(item.time).tz().format('HH:mm') }}</div>
 									<div style="display: inline;white-space:pre-wrap" v-html="item.message"></div>
 								</div>
 							</div>

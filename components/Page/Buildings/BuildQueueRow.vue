@@ -14,11 +14,11 @@
 				<br>
 				<NuxtLinkLocale :to="{ path: '/buildings', force: true }">Продолжить</NuxtLinkLocale>
 			</div>
-			<div class="positive">{{ dayjs(item['time']).format('DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ dayjs(item['time']).tz().format('DD MMM HH:mm:ss') }}</div>
 		</div>
 		<div class="col-6 k" v-else>
 			<a @click.prevent="deleteItem">Удалить</a>
-			<div class="positive">{{ dayjs(item['time']).format('DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ dayjs(item['time']).tz().format('DD MMM HH:mm:ss') }}</div>
 		</div>
 	</div>
 </template>

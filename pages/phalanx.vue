@@ -11,7 +11,7 @@
 		<tr v-for="item in page['items']">
 			<th>
 				<div class="z">{{ $time(dayjs(item['time']).diff(now) / 1000, ':', true) }}</div>
-				<font :color="item['direction'] === 1 ? 'lime' : 'green'">{{ dayjs(item['time']).format('HH:mm:ss') }}</font>
+				<font :color="item['direction'] === 1 ? 'lime' : 'green'">{{ dayjs(item['time']).tz().format('HH:mm:ss') }}</font>
 			</th>
 			<th>
 				<font :color="item['mission'] !== 6 ? 'lime' : 'orange'">

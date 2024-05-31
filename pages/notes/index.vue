@@ -4,7 +4,7 @@
 			Заметки
 		</div>
 		<div class="content">
-			<RouterForm action="/notes/">
+			<RouterForm action="/notes">
 				<div class="block-table">
 					<div class="row">
 						<div class="col-1 c"></div>
@@ -16,7 +16,7 @@
 							<input name="delete[]" :value="item['id']" v-model="deleteItems" type="checkbox">
 						</div>
 						<div class="col-3 th">
-							{{ item['time'] }}
+							{{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm') }}
 						</div>
 						<div class="col-8 th">
 							<NuxtLinkLocale :to="'/notes/edit/'+item['id']+'/'">
@@ -42,6 +42,7 @@
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],

@@ -47,25 +47,22 @@
 		},
 		methods: {
 			answer () {
-				useApiPost('/support/answer/'+this.item['id']+'/', {
+				useApiPost('/support/answer/' + this.item['id'], {
 					text: this.text
 				})
-				.then((result) =>
-				{
-					if (result.error && (result.error.type === 'error' || result.error.type === 'success'))
-					{
+				.then((result) => {
+					if (result.error && (result.error.type === 'error' || result.error.type === 'success')) {
 						openAlertModal(
 							result.error.title, result.error.message,
 						);
 
-						if (result.error.type === 'success')
-						{
+						if (result.error.type === 'success') {
 							navigateTo('/support/', { replace: true });
 							this.$emit('close');
 						}
-					}
-					else
+					} else {
 						useStore().PAGE_LOAD(result)
+					}
 				})
 			}
 		}

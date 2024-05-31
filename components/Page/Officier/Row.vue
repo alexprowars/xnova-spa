@@ -2,7 +2,7 @@
 	<div class="row officiers-item">
 		<div class="col-12 officiers-item-title">
 			{{ $t('tech.' + item['id']) }}
-			(<span v-if="item['time']" class="positive">Нанят до: {{ dayjs(item['time']).format('DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
+			(<span v-if="item['time']" class="positive">Нанят до: {{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
 		</div>
 		<div class="d-none d-sm-block col-sm-2 text-center officiers-item-image">
 			<img :src="'/images/officiers/'+item['id']+'.jpg'" align="top" alt="">

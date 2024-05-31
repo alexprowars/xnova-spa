@@ -110,7 +110,7 @@
 		};
 
 		page.value.points.forEach((item) => {
-			labels.push(dayjs(item.date).format('DD MMM'));
+			labels.push(dayjs(item.date).tz().format('DD MMM'));
 
 			ranks.build.push(item.rank.build);
 			ranks.tech.push(item.rank.tech);
@@ -189,7 +189,7 @@
 		let points = [];
 
 		page.value.points.forEach((item) => {
-			labels.push(dayjs(item.date).format('DD MMM'));
+			labels.push(dayjs(item.date).tz().format('DD MMM'));
 			points.push(item.point[typeChart.value]);
 		});
 

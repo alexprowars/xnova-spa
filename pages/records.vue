@@ -1,7 +1,7 @@
 <template>
 	<div class="block-table">
 		<div class="row">
-			<div class="col th">Обновлено в {{ $date(page['update'], 'H:i:s d.m.Y') }}</div>
+			<div class="col th">Обновлено в {{ dayjs(page['update']).tz().format('HH:mm:ss DD MMM YYYY') }}</div>
 		</div>
 		<template v-for="(list, group) in page['items']">
 			<div class="row">
@@ -21,6 +21,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		view: {

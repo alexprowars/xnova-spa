@@ -21,10 +21,10 @@
 					</NuxtLinkLocale>
 				</td>
 				<td class="b text-center">
-					<small>{{ dayjs(item['time']).format('DD MMM YYYY HH:mm:ss') }}</small>
+					<small>{{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm:ss') }}</small>
 				</td>
 				<td class="b text-center">
-					<small>{{ dayjs(item['time_end']).format('DD MMM YYYY HH:mm:ss') }}</small>
+					<small>{{ dayjs(item['time_end']).tz().format('DD MMM YYYY HH:mm:ss') }}</small>
 				</td>
 				<td class="b text-center">{{ item['reason'] }}</td>
 				<td class="b text-center">

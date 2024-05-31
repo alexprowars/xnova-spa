@@ -34,7 +34,7 @@
 			</div>
 			<div class="row">
 				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ dayjs(target_time).format('DD MMM HH:mm:ss') }}</div>
+				<div class="th col-6">{{ dayjs(target_time).tz().format('DD MMM HH:mm:ss') }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Максимальная скорость</div>
@@ -122,7 +122,7 @@
 							<th class="negative">Миссия невозможна</th>
 						</tr>
 						<tr>
-							<th>Время прилёта: {{ dayjs(target_time).format('DD MMM HH:mm:ss') }}</th>
+							<th>Время прилёта: {{ dayjs(target_time).tz().format('DD MMM HH:mm:ss') }}</th>
 						</tr>
 					</table>
 				</div>

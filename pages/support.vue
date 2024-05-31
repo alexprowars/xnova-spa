@@ -28,7 +28,7 @@
 							<span v-if="item['status'] === 2" style="color:orange">ответ админа</span>
 							<span v-if="item['status'] === 3" style="color:green">ответ игрока</span>
 						</div>
-						<div class="col-3 c">{{ item['date'] }}</div>
+						<div class="col-3 c">{{ dayjs(item['date']).tz().format('DD MMM YYYY HH:mm:ss') }}</div>
 					</div>
 				</div>
 			</div>
@@ -54,6 +54,7 @@
 	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
+	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],
