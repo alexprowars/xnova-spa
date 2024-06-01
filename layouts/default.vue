@@ -7,8 +7,7 @@
 			<div class="main-content" v-touch:tap="tap">
 				<LayoutPlanetPanel v-if="isAuthorized && view['resources']"/>
 				<div class="main-content-row">
-					<ErrorMessage v-if="error" :data="error"/>
-					<slot v-else/>
+					<slot/>
 				</div>
 			</div>
 		</main>
@@ -30,7 +29,7 @@
 	const store = useStore();
 	const route = useRoute();
 	const sidebar = ref('');
-	const { isAuthorized, user, error } = storeToRefs(store);
+	const { isAuthorized, user } = storeToRefs(store);
 
 	const isChatPage = computed(() => {
 		return useRoute().path.indexOf('/chat') !== -1;

@@ -1,4 +1,5 @@
 import { showError, navigateTo } from '#imports';
+import useStore from '~/store';
 
 export const useApiGet = (url, params = {}) => {
 	return $fetch('/api' + url, {
@@ -32,6 +33,14 @@ export const useApiPost = (url, data = {}) => {
 	})
 }
 
+export const useApiPostWithState = async (url, data = {}) => {
+	const result = await useApiPost(url, data);
+
+	useStore().PAGE_LOAD(result);
+
+	return result['data'] || null;
+}
+
 function handleError (e) {
 	if (typeof e.response === 'undefined') {
 		throw new Error(e);
@@ -39,6 +48,12 @@ function handleError (e) {
 
 	if (typeof e.response._data !== 'undefined' && typeof e.response._data.message !== 'undefined') {
 		throw new Error(e.response._data.message);
+	}
+
+	if (typeof e.response._data !== 'undefined' && typeof e.response._data.error !== 'undefined') {
+		return showError({
+			data: e.response._data,
+		});
 	}
 
 	if (e.response?.status !== 200) {

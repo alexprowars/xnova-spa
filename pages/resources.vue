@@ -10,7 +10,7 @@
 			</div>
 			<div class="row">
 				<div class="col-5 c">
-					<NuxtLinkLocale to="/info/113/">{{ $t('tech.113') }}</NuxtLinkLocale>
+					<NuxtLinkLocale to="/info/113">{{ $t('tech.113') }}</NuxtLinkLocale>
 				</div>
 				<div class="col-2 th">
 					{{ page['energy_tech'] }} ур.
@@ -29,14 +29,14 @@
 				<div class="block-table">
 					<div class="row">
 						<div class="col col-sm-6 th">
-							<NuxtLinkLocale to="/resources/?production&active=Y" class="button">
+							<button @click.prevent="shutdown('Y')" class="button">
 								Включить на всех<br>планетах
-							</NuxtLinkLocale>
+							</button>
 						</div>
 						<div class="col col-sm-6 th">
-							<NuxtLinkLocale to="/resources/?production&active=N" class="button">
+							<button @click.prevent="shutdown('N')" class="button">
 								Выключить на всех<br>планетах
-							</NuxtLinkLocale>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -49,7 +49,7 @@
 			</div>
 			<div class="content border-0">
 				<div class="table-responsive">
-					<RouterForm action="/resources/">
+					<form ref="resourceForm" method="post" @submit.prevent="updateState">
 						<table class="table">
 							<tbody>
 								<tr>
@@ -95,7 +95,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</RouterForm>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -193,8 +193,8 @@
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute } from '#imports';
-	import { useApiGet } from '~/composables/useApi';
+	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, useApiPostWithState, refreshNuxtData } from '#imports';
+	import { ref } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -206,7 +206,7 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: page, error } = await useAsyncData('page-resources', async () => {
 		return await store.loadPage();
 	}, { watch: [() => useRoute().query] });
 
@@ -215,6 +215,7 @@
 	}
 
 	const { planet } = storeToRefs(store);
+	const resourceForm = ref(null);
 
 	function buyResources() {
 		openConfirmModal(
@@ -225,13 +226,25 @@
 			}, {
 				title: 'Да',
 				handler: async () => {
-					const result = await useApiGet('/resources/', {
-						buy: 'Y'
-					});
+					await useApiPostWithState('/resources/buy');
 
-					store.PAGE_LOAD(result);
+					await refreshNuxtData('page-resources');
 				}
 			}]
 		);
+	}
+
+	async function shutdown(active) {
+		await useApiPostWithState('/resources/shutdown', {
+			active,
+		});
+
+		await refreshNuxtData('page-resources');
+	}
+
+	async function updateState() {
+		await useApiPostWithState('/resources/state', new FormData(resourceForm.value));
+
+		await refreshNuxtData('page-resources');
 	}
 </script>

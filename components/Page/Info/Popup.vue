@@ -1,29 +1,25 @@
 <template>
-	<a :href="'/info/'+this.id+'/'" @click.prevent="openPopup">
+	<a :href="'/info/' + id" @click.prevent="openPopup">
 		<slot></slot>
 	</a>
 </template>
 
-<script>
+<script setup>
 	import InfoContent from '~/components/Page/Info/Content.vue'
-	import { openAjaxPopupModal } from '~/composables/useModals';
+	import { openAjaxPopupModal } from '#imports';
 
-	export default {
-		name: "info-popup",
-		props: {
-			id: {
-				type: Number,
-				default: 0,
-			}
-		},
-		methods: {
-			openPopup ()
-			{
-				if (this.id <= 0)
-					return
-
-				openAjaxPopupModal(InfoContent, '/info/'+this.id+'/')
-			},
+	const props = defineProps({
+		id: {
+			type: Number,
+			default: 0,
 		}
+	})
+
+	function openPopup () {
+		if (props.id <= 0) {
+			return;
+		}
+
+		openAjaxPopupModal(InfoContent, '/info/' + props.id);
 	}
 </script>

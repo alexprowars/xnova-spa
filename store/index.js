@@ -7,7 +7,6 @@ export const useStore = defineStore('app', {
 		initialized: false,
 		version: null,
 		redirect: null,
-		error: null,
 		messages: null,
 		page: null,
 		stats: null,
@@ -45,6 +44,7 @@ export const useStore = defineStore('app', {
 
 			startLoading();
 
+			try {
 			const responce = await useApiGet(url);
 
 			if (typeof responce['redirect'] !== 'undefined') {
@@ -80,6 +80,7 @@ export const useStore = defineStore('app', {
 			this.PAGE_LOAD(responce);
 
 			return page;
+			} catch {}
 		},
 		PAGE_LOAD (data) {
 			for (let key in data) {

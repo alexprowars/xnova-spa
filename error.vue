@@ -1,67 +1,24 @@
 <template>
-	<div class="error">
-		<div class="row">
-			<div v-if="error.statusCode === 404" class="e404">Вы попали на несуществующую страницу!</div>
-			<div v-else>{{ error['message'] }}</div>
-		</div>
-		<div class="row">
-			<div id="gamecontainer" style="margin: 0 auto">
-				<canvas id="gameCanvas"></canvas>
+	<DefaultLayout v-if="error.data && error.data.error">
+		<ErrorMessage :data="error.data.error"/>
+	</DefaultLayout>
+	<div v-else class="application">
+		<div class="error">
+			<div class="row">
+				<div v-if="error.statusCode === 404" class="e404">Вы попали на несуществующую страницу!</div>
+				<div v-else>{{ error['message'] }}</div>
 			</div>
-			<br>
-			<div><a href="#" @click.prevent="toggleMute">{{ sound }}</a></div>
+			<div class="row">
+				<LayoutGame/>
+			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-	import Game from '~/utils/spaceinvaders'
+<script setup>
+	import DefaultLayout from '~/layouts/default.vue'
 
-	export default {
-		props: {
-			error: Object
-		},
-		data () {
-			return {
-				game: null
-			}
-		},
-		computed: {
-			sound () {
-				return this.game && this.game.sounds.mute ? "Со звуком" : "Без звука"
-			}
-		},
-		mounted ()
-		{
-			let canvas = document.getElementById("gameCanvas");
-			canvas.width = 600;
-			canvas.height = 500;
-
-			let game = new Game();
-
-			game.initialise(canvas);
-			game.start();
-
-			this.game = game
-
-			window.addEventListener("keydown", (e) =>
-			{
-				let keycode = e.keyCode;
-
-				if (keycode === 37 || keycode === 39 || keycode === 32)
-					e.preventDefault();
-
-				this.game.keyDown(keycode);
-			});
-
-			window.addEventListener("keyup", (e) => {
-				this.game.keyUp(e.keyCode);
-			});
-		},
-		methods: {
-			toggleMute () {
-				this.game.mute();
-			}
-		}
-	}
+	defineProps({
+		error: Object,
+	});
 </script>

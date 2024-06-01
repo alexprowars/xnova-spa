@@ -1,8 +1,8 @@
 <template>
 	<tr>
 		<th class="text-start" nowrap>
-			<InfoPopup :id="item['id']" :title="$t('tech.'+item['id'])">
-				{{ $t('tech.'+item['id']) }}
+			<InfoPopup :id="item['id']" :title="$t('tech.' + item['id'])">
+				{{ $t('tech.' + item['id']) }}
 			</InfoPopup>
 		</th>
 		<th>
@@ -18,28 +18,22 @@
 			<Colored :value="item['resources']['energy']"></Colored>
 		</th>
 		<th>
-			<select :name="item['name']" v-model="item['factor']">
+			<select :name="'state[' + item['id'] + ']'" v-model="item['factor']">
 				<option v-for="j in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="j">{{ j * 10 }}%</option>
 			</select>
 		</th>
 	</tr>
 </template>
 
-<script>
-	import InfoPopup from '~/components/Page/Info/Popup.vue'
+<script setup>
+	import InfoPopup from '~/components/Page/Info/Popup.vue';
 
-	export default {
-		name: 'resource-row',
-		components: {
-			InfoPopup,
+	defineProps({
+		item: {
+			type: Object
 		},
-		props: {
-			item: {
-				type: Object
-			},
-			resources: {
-				type: Array
-			}
+		resources: {
+			type: Array
 		}
-	}
+	});
 </script>
