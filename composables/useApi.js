@@ -56,6 +56,11 @@ function handleError (e) {
 		});
 	}
 
+	if (typeof e.response._data !== 'undefined' && typeof e.response._data.messages !== 'undefined' && e.response._data.messages.length) {
+		useStore().PAGE_LOAD(e.response._data);
+		throw new ReferenceError(e);
+	}
+
 	if (e.response?.status !== 200) {
 		return showError({
 			statusCode: e.response.status,

@@ -66,12 +66,10 @@
 			});
 
 			await refreshNuxtData('page-defense');
-
-			stopLoading();
 		} catch {
 			alert('Что-то пошло не так!? Попробуйте еще раз')
+		} finally {
+			stopLoading();
 		}
-
-		stopLoading();
 	}
 </script>

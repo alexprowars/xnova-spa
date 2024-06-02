@@ -45,42 +45,42 @@ export const useStore = defineStore('app', {
 			startLoading();
 
 			try {
-			const responce = await useApiGet(url);
+				const responce = await useApiGet(url);
 
-			if (typeof responce['redirect'] !== 'undefined') {
-				return navigateTo({ path: responce['redirect'], force: true });
-			}
+				if (typeof responce['redirect'] !== 'undefined') {
+					return navigateTo({ path: responce['redirect'], force: true });
+				}
 
-			if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['popup'] !== '') {
-				$.confirm({
-					title: 'Обучение',
-					content: responce['tutorial']['popup'],
-					confirmButton: 'Продолжить',
-					cancelButton: false,
-					backgroundDismiss: false,
-					confirm() {
-						if (responce['tutorial']['url'] !== '') {
-							navigateTo(responce['tutorial']['url']);
+				if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['popup'] !== '') {
+					$.confirm({
+						title: 'Обучение',
+						content: responce['tutorial']['popup'],
+						confirmButton: 'Продолжить',
+						cancelButton: false,
+						backgroundDismiss: false,
+						confirm() {
+							if (responce['tutorial']['url'] !== '') {
+								navigateTo(responce['tutorial']['url']);
+							}
 						}
-					}
-				})
+					})
+				}
+
+				if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['toast'] !== '') {
+					toast(responce['tutorial']['toast'], {
+						type: 'info'
+					})
+				}
+
+				const page = JSON.parse(JSON.stringify(responce['data'] || {}));
+				delete responce['data'];
+
+				this.PAGE_LOAD(responce);
+
+				return page;
+			} catch {} finally {
+				stopLoading();
 			}
-
-			if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['toast'] !== '') {
-				toast(responce['tutorial']['toast'], {
-					type: 'info'
-				})
-			}
-
-			const page = JSON.parse(JSON.stringify(responce['data'] || {}));
-			delete responce['data'];
-
-			stopLoading();
-
-			this.PAGE_LOAD(responce);
-
-			return page;
-			} catch {}
 		},
 		PAGE_LOAD (data) {
 			for (let key in data) {

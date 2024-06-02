@@ -2,15 +2,13 @@
 	<div class="block start">
 		<div class="title">Обмен сырья</div>
 		<div class="content border-0">
-			<RouterForm action="/merchant/" class="container-fluid table">
-				<input type="hidden" name="exchange" value="Y">
-				<input type="hidden" name="type" v-model="type">
+			<RouterForm action="/merchant/exchange" class="container-fluid table">
 				<div class="row">
 					<div class="col th">
 						Вы можете вызвать межгалактического торговца для обмена ресурсов.<br>
 						<div class="negative">Каждая операция обмена будет стоить вам 1 кредит.</div><br><br>
 
-						<select v-model="type">
+						<select name="type" v-model="type">
 							<option value="">Выберите ресурс для обмена</option>
 							<option value="metal">Металл</option>
 							<option value="crystal">Кристалл</option>

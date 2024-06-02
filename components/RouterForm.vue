@@ -45,11 +45,14 @@
 			}
 
 			store.PAGE_LOAD(result);
-			stopLoading();
 
 			emit('submit');
 		} catch(e) {
-			alert(e.message);
+			if (e.name === 'Error') {
+				alert(e.message);
+			}
+		} finally {
+			stopLoading();
 		}
 	}
 </script>
