@@ -22,7 +22,7 @@ dayjs.extend(relativeTime)
 dayjs.locale('ru')
 
 export default defineNuxtPlugin(() => {
-	let tz = useStore().user.options.timezone;
+	let tz = useStore().user?.options.timezone;
 
 	if (tz !== null) {
 		dayjs.tz.setDefault((tz >= 0 ? '+' : '-') + (Math.abs(tz) < 10 ? '0' : '') + Math.abs(tz) + ':00');
