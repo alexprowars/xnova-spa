@@ -90,6 +90,7 @@ let config = {
 	nitro: {
 		devProxy: {}
 	},
+	compatibilityDate: '2024-07-12'
 }
 
 if (process.env.NODE_ENV !== 'production' || (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length)) {
