@@ -4,7 +4,7 @@
 			<div class="title">
 				<div class="row">
 					<div class="col text-start">
-						Флоты <span :class="[page['curFleets'] < page['maxFleets'] ? 'positive' : 'negative']">{{ page['curFleets'] }}</span> из <span class="negative">{{ page['maxFleets'] }}</span>
+						Флоты <span :class="[page['curFleets'] < user['fleets_max'] ? 'positive' : 'negative']">{{ page['curFleets'] }}</span> из <span class="negative">{{ user['fleets_max'] }}</span>
 					</div>
 					<div v-if="page['maxExpeditions'] > 0" class="col text-end">
 						Экспедиции {{ page['curExpeditions'] }}/{{ page['maxExpeditions'] }}
@@ -23,13 +23,13 @@
 						<div class="col-2 th d-none d-sm-block">Приказы</div>
 					</div>
 
-					<FlyRow class="row page-fleet-fly-item" v-for="(item, index) in page.fleets" :key="index" :i="index" :item="item"></FlyRow>
+					<FlyRow class="row page-fleet-fly-item" v-for="(item, index) in page.fleets" :key="index" :i="index" :item="item"/>
 
 					<div class="row" v-if="page.fleets.length === 0">
 						<div class="th col text-center">нет активности флота</div>
 					</div>
 
-					<div class="row" v-if="page['curFleets'] >= page['maxFleets']">
+					<div class="row" v-if="page['curFleets'] >= user['fleets_max']">
 						<div class="th col negative text-center">Все слоты заняты!</div>
 					</div>
 				</div>
@@ -83,7 +83,7 @@
 							<div class="th col-4 col-sm-2">Скорость</div>
 							<div class="th col-4 col-sm-3">{{ allSpeed ? $number(allSpeed) : '-'}}</div>
 						</div>
-						<div v-if="count && page['curFleets'] < page['maxFleets']" class="row">
+						<div v-if="count && page['curFleets'] < user['fleets_max']" class="row">
 							<div class="th col-12"><input type="submit" value="Далее"></div>
 						</div>
 					</div>
@@ -116,6 +116,7 @@
 	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -126,10 +127,13 @@
 	});
 
 	const store = useStore();
+	const route = useRoute();
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error } = await useAsyncData(
+		'page-fleet',
+		async () => await store.loadPage('/fleet', Object.assign({}, route.params, route.query)),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -138,6 +142,7 @@
 	const fleets = ref({});
 	const allCapacity = ref(0);
 	const allSpeed = ref(0);
+	const { user } = storeToRefs(store);
 
 	const count = computed(() => {
 		return page.value['ships'].reduce((total, ship) => {

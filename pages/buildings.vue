@@ -9,18 +9,18 @@
 					</div>
 					<div class="text-sm-end col-12 col-sm-6">
 						Осталось
-						<span class="positive">{{ fields_empty }}</span>
-						{{ $morph(fields_empty, 'свободное', 'свободных', 'свободных') }}
-						{{ $morph(fields_empty, 'поле', 'поля', 'полей') }}
+						<span class="positive">{{ fieldsEmpty }}</span>
+						{{ $morph(fieldsEmpty, 'свободное', 'свободных', 'свободных') }}
+						{{ $morph(fieldsEmpty, 'поле', 'поля', 'полей') }}
 					</div>
 				</div>
 			</div>
 
-			<BuildQueue v-if="page.queue && page.queue.length" :queue="page.queue"/>
+			<BuildQueue :queue="queueByType('build')"/>
 
 			<div class="content page-building-items">
 				<div class="row">
-					<BuildRow v-for="(item, i) in page.items" :key="i" :item="item"/>
+					<BuildRow v-for="(item, i) in items" :key="i" :item="item"/>
 				</div>
 			</div>
 		</div>
@@ -33,7 +33,6 @@
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import { computed } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -46,7 +45,7 @@
 		}
 	});
 
-	const { data: page, error } = await useAsyncData('page-buildings', async () => {
+	const { data: items, error } = await useAsyncData('page-buildings', async () => {
 		return await useStore().loadPage('/buildings');
 	}, { watch: [() => useRoute().query] });
 
@@ -54,14 +53,5 @@
 		throw showError(error.value);
 	}
 
-	const { planet } = storeToRefs(useStore());
-
-	const fields_empty = computed(() => {
-		return planet.value['field_max'] - planet.value['field_used'] - page.value.queue.length
-	});
-
-	defineExpose({
-		page,
-		fields_empty
-	})
+	const { planet, queueByType, fieldsEmpty } = storeToRefs(useStore());
 </script>

@@ -8,8 +8,8 @@
 			</div>
 			<div class="row">
 				<div class="col th">
-					Количество ракет ({{ page['user']['interplanetary_misil'] }}):
-					<input type="number" style="width:25%" min="1" :max="page['user']['interplanetary_misil']" v-model.number="count">
+					Количество ракет ({{ planet['units']['interplanetary_misil'] }}):
+					<input type="number" style="width:25%" min="1" :max="planet['units']['interplanetary_misil']" v-model.number="count">
 				</div>
 				<div class="col th">
 					Цель:
@@ -37,40 +37,35 @@
 	</form>
 </template>
 
-<script>
+<script setup>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
+	import { ref } from 'vue';
+	import { storeToRefs } from 'pinia';
 
-	export default {
-		name: "galaxy-missile-attack",
-		props: {
-			page: {
-				type: Object
-			},
-			planet: {
-				type: Number
-			}
+	const props = defineProps({
+		page: {
+			type: Object
 		},
-		data () {
-			return {
-				target: 'all',
-				count: this.page['user']['interplanetary_misil']
-			}
-		},
-		methods: {
-			send ()
-			{
-				useApiPost('/rocket/', {
-					galaxy: this.page['galaxy'],
-					system: this.page['system'],
-					planet: this.planet,
-					count: this.count,
-					target: this.target
-				})
-				.then((result) => {
-					useStore().PAGE_LOAD(result)
-				})
-			}
+		planet: {
+			type: Number
 		}
+	});
+
+	const { planet } = storeToRefs(useStore());
+	const target = ref('all');
+	const count = ref(planet.value['units']['interplanetary_misil'] || 0);
+
+	function send () {
+		useApiPost('/rocket/', {
+			galaxy: props.page['galaxy'],
+			system: props.page['system'],
+			planet: props.planet,
+			count: count.value,
+			target: target.value,
+		})
+		.then((result) => {
+			useStore().PAGE_LOAD(result)
+		})
 	}
 </script>

@@ -219,9 +219,10 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error } = await useAsyncData(
+		async () => await store.loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -244,10 +245,6 @@
 	const hold_hours = ref(1);
 
 	const { planet } = storeToRefs(store);
-
-	const resources = computed(() => {
-		return planet.value.resources;
-	});
 
 	const hold = computed(() => {
 		let hold = 0;
@@ -335,23 +332,24 @@
 
 		let free = storage.value - current
 
-		if (type === 'deuterium')
-			resource.value[type] = Math.max(Math.min(Math.floor(resources.value[type]['current'] - consumption.value), free), 0)
-		else
-			resource.value[type] = Math.max(Math.min(Math.floor(resources.value[type]['current']), free), 0)
+		if (type === 'deuterium') {
+			resource.value[type] = Math.max(Math.min(Math.floor(planet.value['resources'][type]['value'] - consumption.value), free), 0)
+		} else {
+			resource.value[type] = Math.max(Math.min(Math.floor(planet.value['resources'][type]['value']), free), 0)
+		}
 	}
 
 	function maxResAll () {
-		let free = storage.value - Math.floor(resources.value['metal']['current']) - Math.floor(resources.value['crystal']['current']) - Math.floor(resources.value['deuterium']['current'] - consumption.value)
+		let free = storage.value - Math.floor(planet.value['resources']['metal']['value']) - Math.floor(planet.value['resources']['crystal']['value']) - Math.floor(planet.value['resources']['deuterium']['value'] - consumption.value)
 
 		if (free < 0) {
-			resource.value.metal = Math.max(Math.min(Math.floor(resources.value['metal']['current']), storage.value), 0)
-			resource.value.crystal = Math.max(Math.min(Math.floor(resources.value['crystal']['current']), storage.value - resource.value.metal), 0)
-			resource.value.deuterium = Math.max(Math.min(Math.floor(resources.value['deuterium']['current'] - consumption.value), storage.value - resource.value.metal - resource.value.crystal), 0)
+			resource.value.metal = Math.max(Math.min(Math.floor(planet.value['resources']['metal']['value']), storage.value), 0)
+			resource.value.crystal = Math.max(Math.min(Math.floor(planet.value['resources']['crystal']['value']), storage.value - resource.value.metal), 0)
+			resource.value.deuterium = Math.max(Math.min(Math.floor(planet.value['resources']['deuterium']['value'] - consumption.value), storage.value - resource.value.metal - resource.value.crystal), 0)
 		} else {
-			resource.value.metal = Math.max(Math.floor(resources.value['metal']['current']), 0)
-			resource.value.crystal = Math.max(Math.floor(resources.value['crystal']['current']), 0)
-			resource.value.deuterium = Math.max(Math.floor(resources.value['deuterium']['current'] - consumption.value), 0)
+			resource.value.metal = Math.max(Math.floor(planet.value['resources']['metal']['value']), 0)
+			resource.value.crystal = Math.max(Math.floor(planet.value['resources']['crystal']['value']), 0)
+			resource.value.deuterium = Math.max(Math.floor(planet.value['resources']['deuterium']['value'] - consumption.value), 0)
 		}
 	}
 
@@ -359,7 +357,8 @@
 		resource.value.metal = resource.value.crystal = resource.value.deuterium = 0
 	}
 
-	function setNextState() {
+	function setNextState(val) {
+		store.page = val;
 		navigateTo('/fleet/send');
 	}
 </script>

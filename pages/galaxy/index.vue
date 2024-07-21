@@ -31,7 +31,7 @@
 						@sendMissile="sendMissile(item['planet'])"
 					/>
 
-					<tr v-if="page['user']['expedition']">
+					<tr v-if="user['technology']['expedition_tech']">
 						<th width="30">16</th>
 						<th colspan="8" class="c big">
 							<NuxtLinkLocale :to="'/fleet/?galaxy='+page['galaxy']+'&system='+page['system']+'&planet=16&mission=15'">неизведанные дали</NuxtLinkLocale>
@@ -52,11 +52,11 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="c" colspan="3">{{ page['user']['interplanetary_misil'] }} {{ $morph(page['user']['interplanetary_misil'], 'ракета', 'ракеты', 'ракет') }}</td>
-						<td class="c" colspan="3">{{ page['user']['fleets'] }} / {{ page['user']['max_fleets'] }} {{ $morph(page['user']['fleets'], 'флот', 'флота', 'флотов') }}</td>
+						<td class="c" colspan="3">{{ planet['units']['interplanetary_misil'] }} {{ $morph(planet['units']['interplanetary_misil'], 'ракета', 'ракеты', 'ракет') }}</td>
+						<td class="c" colspan="3">{{ page['user']['fleets'] }} / {{ user['fleets_max'] }} {{ $morph(page['user']['fleets'], 'флот', 'флота', 'флотов') }}</td>
 						<td class="c" colspan="3">
-							<div>{{ $number(page['user']['recycler']) }} {{ $morph(page['user']['recycler'], 'переработчик', 'переработчика', 'переработчиков') }}</div>
-							<div>{{ $number(page['user']['spy_sonde']) }} {{ $morph(page['user']['spy_sonde'], 'шпионский зонд', 'шпионских зонда', 'шпионских зондов') }}</div>
+							<div>{{ $number(planet['units']['recycler']) }} {{ $morph(planet['units']['recycler'], 'переработчик', 'переработчика', 'переработчиков') }}</div>
+							<div>{{ $number(planet['units']['spy_sonde']) }} {{ $morph(planet['units']['spy_sonde'], 'шпионский зонд', 'шпионских зонда', 'шпионских зондов') }}</div>
 						</td>
 					</tr>
 				</tbody>
@@ -73,6 +73,7 @@
 	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute, useNuxtData } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref } from 'vue';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -85,9 +86,12 @@
 		title: 'Галактика',
 	});
 
-	const { data: page, error } = await useAsyncData('page-galaxy', async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const store = useStore();
+
+	const { data: page, error } = await useAsyncData('page-galaxy',
+		async () => await store.loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -95,6 +99,7 @@
 
 	const missile = ref(false);
 	const missilePlanet = ref(0);
+	const { user, planet } = storeToRefs(store);
 
 	const rows = computed(() => {
 		let result = [];
@@ -119,6 +124,6 @@
 
 		delete result['data'];
 
-		useStore().PAGE_LOAD(result);
+		store.PAGE_LOAD(result);
 	}
 </script>

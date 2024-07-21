@@ -83,7 +83,7 @@
 													<br>
 													<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=3&mission=5'">Удерживать</NuxtLinkLocale>
 
-													<div v-if="user['destroy'] > 0">
+													<div v-if="planet['units']['dearth_star'] > 0">
 														<NuxtLinkLocale :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&type=3&mission=9'">Уничтожить</NuxtLinkLocale>
 													</div>
 												</div>
@@ -131,7 +131,7 @@
 											<th>Кристалл</th>
 											<th>{{ item['p_crystal'] }}</th>
 										</tr>
-										<tr v-if="user['recycler'] > 0">
+										<tr v-if="currentPlanet['units']['recycler'] > 0">
 											<th colspan="2" align="left">
 												<a @click.prevent="debris">Собрать</a>
 											</th>
@@ -248,7 +248,7 @@
 					<span class="sprite skin_r"></span>
 				</a>
 
-				<Popper v-if="user['spy_sonde'] && !item['u_vacation']">
+				<Popper v-if="currentPlanet['units']['spy_sonde'] && !item['u_vacation']">
 					<template #content>
 						<div class="text-center">
 							<input type="text" v-model.number="spyCount">
@@ -269,7 +269,7 @@
 				</NuxtLinkLocale>
 			</template>
 
-			<NuxtLinkLocale v-if="!item && user['colonizer']" :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&mission=7'" title="Колонизация">
+			<NuxtLinkLocale v-if="!item && currentPlanet['units']['colonizer']" :to="'/fleet/?galaxy='+item['galaxy']+'&system='+item['system']+'&planet='+planet+'&mission=7'" title="Колонизация">
 				<span class="sprite skin_e"></span>
 			</NuxtLinkLocale>
 		</th>
@@ -298,7 +298,7 @@
 	});
 
 	const store = useStore();
-	const { user: currentUser } = storeToRefs(store);
+	const { user: currentUser, planet: currentPlanet } = storeToRefs(store);
 	const spyCount = ref(parseInt(currentUser.value['options']['spy']) || 1);
 
 	const user_status = computed(() => {

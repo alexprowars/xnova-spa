@@ -2,7 +2,7 @@
 	<div class="row overview-fleets-row">
 		<div class="col-3 col-sm-2 th">
 			<div class="z">
-				<Timer :value="item['time']"></Timer>
+				<Timer :value="item['time']"/>
 			</div>
 			<div class="positive">{{ dayjs(item['date']).tz().format('DD MMM') }}</div>
 		</div>

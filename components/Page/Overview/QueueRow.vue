@@ -2,7 +2,7 @@
 	<div class="row flight">
 		<div class="th col-4 col-sm-2">
 			<div class="z">
-				<Timer :value="item['time']"></Timer>
+				<Timer :value="item['time']"/>
 			</div>
 			<span class="positive d-sm-none">{{ dayjs(item['time']).tz().format('DD MMM HH:mm:ss') }}</span>
 		</div>

@@ -31,7 +31,7 @@
 						</th>
 						<th>
 							{{ dayjs(item['start']['time']).tz().format('DD MMM HH:mm:ss') }}
-							<Timer :value="item['start']['time'] + 1" class="positive"></Timer>
+							<Timer :value="item['start']['time'] + 1" class="positive"/>
 						</th>
 						<th>
 							<PlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"/>
@@ -47,7 +47,7 @@
 		<div v-if="page['group'] === 0" class="block">
 			<div class="title">Создание ассоциации флота</div>
 			<div class="content border-0">
-				<RouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
+				<RouterForm :action="'/fleet/verband/' + page['fleetid']">
 					<input type="hidden" name="action" value="add">
 					<div class="block-table">
 						<div class="row">
@@ -91,7 +91,7 @@
 										</select>
 									</th>
 									<th>
-										<RouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
+										<RouterForm :action="'/fleet/verband/' + page['fleetid']">
 											<input type="hidden" name="action" value="adduser">
 											<div v-if="page['friends'].length > 0 || page['alliance'].length > 0">
 												<select name="user_id" size="10" style="width:75%;">

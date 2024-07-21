@@ -131,10 +131,10 @@
 								<div class="col-12 th doubleth middle">
 									<div>
 										<img src="/images/skin/s_metal.png" alt="" align="absmiddle" v-tooltip="'Металл'">
-										{{ $number(page['debris']['metal']) }}
+										{{ $number(planet['debris']['metal']) }}
 										/
 										<img src="/images/skin/s_crystal.png" alt="" align="absmiddle" v-tooltip="'Кристалл'">
-										{{ $number(page['debris']['crystal']) }}
+										{{ $number(planet['debris']['crystal']) }}
 									</div>
 								</div>
 							</div>
@@ -249,7 +249,7 @@
 				<div v-if="page['build_list'].length > 0">
 					<div class="separator"></div>
 					<div class="block-table">
-						<queue-row v-for="(list, i) in page['build_list']" :key="i" :item="list"></queue-row>
+						<queue-row v-for="(list, i) in page['build_list']" :key="i" :item="list"/>
 					</div>
 				</div>
 			</div>

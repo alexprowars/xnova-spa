@@ -27,7 +27,7 @@
 				</NuxtLinkLocale>
 			</div>
 			{{ dayjs(item['start']['time']).tz().format('DD MMM HH:mm:ss') }}
-			<Timer :value="item['start']['time']" delimiter="" class="positive"></Timer>
+			<Timer :value="item['start']['time']" delimiter="" class="positive"/>
 		</div>
 		<div v-if="item['target']['time']" class="col-4 col-sm-3 th">
 			<div>
@@ -36,15 +36,15 @@
 				</NuxtLinkLocale>
 			</div>
 			{{ dayjs(item['target']['time']).tz().format('DD MMM HH:mm:ss') }}
-			<Timer :value="item['target']['time']" delimiter="" class="positive"></Timer>
+			<Timer :value="item['target']['time']" delimiter="" class="positive"/>
 		</div>
 		<div v-else class="col-4 col-sm-3 th">
 			-
 		</div>
 		<div class="col-4 col-sm-2 th">
 			<RouterForm v-if="item['stage'] === 0 && item['mission'] !== 20 && item.target.id !== 1" action="/fleet/back/">
-				<input name="fleetid" :value="item.id" type="hidden">
-				<input value="Возврат" type="submit" name="send">
+				<input type="hidden" name="id" :value="item.id">
+				<input value="Возврат" type="submit">
 			</RouterForm>
 
 			<NuxtLinkLocale v-if="item['stage'] === 0 && item['mission'] === 1 && item.target.id !== 1" :to="'/fleet/verband/'+item.id+'/'" class="button">

@@ -1,6 +1,6 @@
 <template>
 	<div class="col-md-6 col-12">
-		<div class="page-building-items-item building" :class="{blocked: !item['available']}">
+		<div class="page-building-items-item building" :class="{ blocked: !item['available'] }">
 			<div class="building-info">
 				<a :href="'/info/' + item['id']" @click.prevent="openInfoPopup" class="building-info-img" v-tooltip="$t('tech.' + item['id'])">
 					<img :src="'/images/gebaeude/' + item['id'] + '.gif'" :alt="$t('tech.' + item['id'])" class="img-fluid">

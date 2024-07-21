@@ -1,11 +1,11 @@
 <template>
-	<div class="block page-building-unit-queue">
+	<div v-if="queue.length" class="block page-building-unit-queue">
 		<div class="title">Текущее производство</div>
 		<div class="content border-0">
 			<div class="block-table">
 				<div v-for="item in queue" class="row">
 					<div class="col-6 text-start k">
-						<span class="positive">{{ item.count }}</span> {{ $t('tech.' + item.id) }}
+						<span class="positive">{{ item.count }}</span> {{ $t('tech.' + item.item) }}
 					</div>
 					<div class="col-6 text-end k border-left-0">
 						{{ $time(dayjs(item['time']).diff(now) / 1000) }}
@@ -29,9 +29,7 @@
 	const props = defineProps({
 		queue: {
 			type: Array,
-			default: () => {
-				return []
-			}
+			default: () => []
 		}
 	});
 

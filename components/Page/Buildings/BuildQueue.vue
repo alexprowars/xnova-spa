@@ -1,5 +1,5 @@
 <template>
-	<div class="page-building-build-queue">
+	<div v-if="queue.length" class="page-building-build-queue">
 		<div class="block-table">
 			<BuildQueueRow v-for="(item, index) in queue" :key="index" :index="index" :item="item"></BuildQueueRow>
 		</div>
@@ -14,7 +14,10 @@
 	import dayjs from 'dayjs';
 
 	const props = defineProps({
-		queue: Array
+		queue: {
+			type: Array,
+			default: () => []
+		},
 	});
 
 	const now = useNow({ interval: 1000 });

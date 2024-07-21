@@ -27,12 +27,7 @@
 						<div v-html="item['effects']"></div>
 
 						<div class="building-info-upgrade">
-							<div v-if="typeof item['build'] === 'object'" class="building-info-upgrade-timer">
-								<span v-if="time > 0">
-									{{ $time(time, ':', true) }}&nbsp;<a @click.prevent="cancelAction">Отменить<span v-if="item['build'].name">на {{ item['build'].name }}</span></a>
-								</span>
-								<a v-else href="" @click.prevent="refresh">завершено. продолжить...</a>
-							</div>
+							<TechQueue v-if="typeof item['build'] === 'object'" :build="item['build']"/>
 							<div v-else-if="item['max'] > 0 && item['max'] <= item['level']" class="negative">
 								максимальный уровень
 							</div>
@@ -62,10 +57,9 @@
 	import BuildRowPrice from './BuildRowPrice.vue';
 	import InfoContent from '~/components/Page/Info/Content.vue';
 	import useStore from '~/store';
-	import { useApiPost, openAjaxPopupModal, openConfirmModal, useI18n, refreshNuxtData } from '#imports';
+	import { useApiPost, openAjaxPopupModal, useI18n, refreshNuxtData } from '#imports';
 	import { computed } from 'vue';
-	import { useNow } from '@vueuse/core';
-	import dayjs from 'dayjs';
+	import TechQueue from '~/components/Page/Buildings/TechQueue.vue';
 
 	const props = defineProps({
 		item: {
@@ -73,10 +67,8 @@
 		}
 	});
 
-	const { t, tm } = useI18n();
+	const { tm } = useI18n();
 	const store = useStore();
-	const now = useNow({ interval: 1000 });
-	const time = computed(() => dayjs(props.item['build']['time']).diff(now.value) / 1000);
 
 	const resources = computed(() => {
 		return store.planet['resources'];
@@ -89,35 +81,12 @@
 		})
 	});
 
-	async function refresh() {
-		await refreshNuxtData('page-research');
-	}
-
 	async function addAction () {
 		await useApiPost('/research/search', {
 			element: props.item['id'],
 		});
 
 		await refreshNuxtData('page-research');
-	}
-
-	function cancelAction () {
-		openConfirmModal(
-			null,
-			'Отменить изучение <b>' + t('tech.' + props.item['id']) + ' ' + props.item['level'] + ' ур.</b>?',
-			[{
-				title: 'Закрыть',
-			}, {
-				title: 'Отменить',
-				handler: async () => {
-					await useApiPost('/research/cancel', {
-						element: props.item['id'],
-					});
-
-					await refreshNuxtData('page-research');
-				}
-			}]
-		);
 	}
 
 	function openInfoPopup () {

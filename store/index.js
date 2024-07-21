@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useRouter, useApiGet, navigateTo, startLoading, stopLoading } from '#imports';
 import { toast } from 'vue3-toastify';
+import { computed } from 'vue';
 
 export const useStore = defineStore('app', {
 	state: () => ({
@@ -13,10 +14,17 @@ export const useStore = defineStore('app', {
 		speed: null,
 		user: null,
 		planet: null,
+		queue: [],
 	}),
 	getters: {
 		isAuthorized: state => {
 			return state.user && state.user.id > 0
+		},
+		queueByType: state => type => {
+			return state.queue.filter((item) => item.type === type);
+		},
+		fieldsEmpty: state => {
+			return state.planet['field_max'] - state.planet['field_used'] - state.queueByType('build').length;
 		},
 	},
 	actions: {
@@ -25,7 +33,7 @@ export const useStore = defineStore('app', {
 
 			this.PAGE_LOAD(data);
 		},
-		async loadPage (url = undefined) {
+		async loadPage (url = undefined, params = {}) {
 			if (typeof url === 'undefined') {
 				url = useRouter().currentRoute.value.path;
 			}
@@ -45,7 +53,7 @@ export const useStore = defineStore('app', {
 			startLoading();
 
 			try {
-				const responce = await useApiGet(url);
+				const responce = await useApiGet(url, params);
 
 				if (typeof responce['redirect'] !== 'undefined') {
 					return navigateTo({ path: responce['redirect'], force: true });

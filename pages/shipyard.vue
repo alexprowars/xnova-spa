@@ -1,6 +1,6 @@
 <template>
 	<div class="page-building page-building-unit">
-		<UnitQueue v-if="page.queue.length > 0" :queue="page.queue"/>
+		<UnitQueue :queue="queueByType('unit')"/>
 		<div class="block">
 			<div class="content page-building-items">
 				<form ref="formRef" action="" method="post" @submit.prevent="constructAction">
@@ -11,7 +11,7 @@
 							</div>
 						</div>
 
-						<UnitRow v-for="(item, i) in page.items" ref="itemsRef" :key="i" :item="item"/>
+						<UnitRow v-for="(item, i) in items" ref="itemsRef" :key="i" :item="item"/>
 
 						<div class="col-12">
 							<div class="c">
@@ -31,6 +31,7 @@
 	import { definePageMeta, showError, useAsyncData, startLoading, stopLoading, useHead, useApiPost, useRoute, refreshNuxtData } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -42,9 +43,10 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData('page-shipyard', async () => {
-		return await store.loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: items, error } = await useAsyncData('page-shipyard',
+		async () => await store.loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -52,6 +54,7 @@
 
 	const formRef = ref(null);
 	const itemsRef = ref([]);
+	const { queueByType } = storeToRefs(store);
 
 	async function constructAction () {
 		startLoading()
