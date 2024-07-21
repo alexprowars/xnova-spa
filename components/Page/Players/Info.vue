@@ -8,9 +8,7 @@
 						<div class="col-4 text-center">
 							<img :src="page['avatar']" :alt="page['username']" width="100%">
 							<div v-if="user">
-								<PopupLink :to="'/messages/write/'+page['id']+'/'" :width="680" :title="page['username']+': отправить сообщение'">
-									<span class="sprite skin_m"></span>
-								</PopupLink>&nbsp;
+								<SendMessagePopup :title="page['username']+': отправить сообщение'" :id="page['id']"/>
 								<NuxtLinkLocale :to="'/buddy/new/'+page['id']+'/'" title="Добавить в друзья">
 									<span class='sprite skin_b'></span>
 								</NuxtLinkLocale>
@@ -137,6 +135,7 @@
 <script setup>
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
+	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 
 	defineProps({
 		page: {

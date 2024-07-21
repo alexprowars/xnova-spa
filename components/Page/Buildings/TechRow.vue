@@ -11,8 +11,8 @@
 						<NuxtLinkLocale :to="'/info/' + item['id']">
 							{{ $t('tech.' + item['id']) }}
 						</NuxtLinkLocale>
-						<span v-if="item.level" class="positive" title="Текущий уровень постройки">
-							{{ $number(item.level) }} <template v-if="item.max > 0">из <span class="neutral">{{ $number(item.max) }}</span></template>
+						<span v-if="level" class="positive" title="Текущий уровень постройки">
+							{{ $number(level) }} <template v-if="item.max > 0">из <span class="neutral">{{ $number(item.max) }}</span></template>
 						</span>
 					</div>
 
@@ -28,13 +28,13 @@
 
 						<div class="building-info-upgrade">
 							<TechQueue v-if="typeof item['build'] === 'object'" :build="item['build']"/>
-							<div v-else-if="item['max'] > 0 && item['max'] <= item['level']" class="negative">
+							<div v-else-if="item['max'] > 0 && item['max'] <= level" class="negative">
 								максимальный уровень
 							</div>
 							<div v-else-if="!hasResources" class="negative text-center">
 								нет ресурсов
 							</div>
-							<a v-else-if="item['build'] !== true" @click.prevent="addAction" :class="{ positive: item['level'], negative: item['level'] === 0 }" class="button">
+							<a v-else-if="item['build'] !== true" @click.prevent="addAction" :class="{ positive: level, negative: level === 0 }" class="button">
 								Изучить
 							</a>
 						</div>
@@ -60,6 +60,7 @@
 	import { useApiPost, openAjaxPopupModal, useI18n, refreshNuxtData } from '#imports';
 	import { computed } from 'vue';
 	import TechQueue from '~/components/Page/Buildings/TechQueue.vue';
+	import { storeToRefs } from 'pinia';
 
 	const props = defineProps({
 		item: {
@@ -69,15 +70,14 @@
 
 	const { tm } = useI18n();
 	const store = useStore();
+	const { user, planet } = storeToRefs(store);
 
-	const resources = computed(() => {
-		return store.planet['resources'];
-	});
+	const level = computed(() => user.value['technology'][props['item']['code']] || 0);
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
 			return !(typeof props.item.price[res] !== 'undefined' && props.item.price[res] > 0
-				&& resources.value[res] && resources.value[res].value < props.item.price[res]);
+				&& planet.value['resources'][res] && planet.value['resources'][res].value < props.item.price[res]);
 		})
 	});
 

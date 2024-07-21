@@ -2,7 +2,7 @@
 	<div class="page-tutorial tutorial-detail">
 		<div class="block">
 			<div class="title text-center">
-				{{ page['info']['TITLE'] }}
+				{{ page['title'] }}
 			</div>
 			<div class="content border-0">
 				<div class="block-table tutorial">
@@ -10,10 +10,10 @@
 						<div class="col k text-start">
 							<div class="row">
 								<div class="col-3 text-center">
-									<img :src="'/images/tutorial/'+page['stage']+'.jpg'" class="img-fluid" alt="">
+									<img :src="'/images/tutorial/'+page['id']+'.jpg'" class="img-fluid" alt="">
 								</div>
 								<div class="col-9">
-									<div class="description" v-html="page['info']['DESCRIPTION']"></div>
+									<div class="description" v-html="page['description']"></div>
 									<h3>Задачи:</h3>
 									<ul>
 										<li v-for="task in page['task']">
@@ -32,8 +32,8 @@
 					</div>
 					<div class="row">
 						<div class="col k">
-							<input v-if="!page['errors']" type="button" class="end" @click.prevent="$router.push('/tutorial/'+page['stage']+'/?continue=Y')" value="Закончить">
-							<div class="solution" v-html="page['info']['SOLUTION']"></div>
+							<input v-if="!page['errors']" type="button" class="end" @click.prevent="finish" value="Закончить">
+							<div v-if="page['solution']" class="solution" v-html="page['solution']"></div>
 						</div>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiPostWithState } from '#imports';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -53,8 +53,10 @@
 		}
 	});
 
+	const store = useStore();
+
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await store.loadPage();
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -62,6 +64,10 @@
 	}
 
 	useHead({
-		title: 'Задание. ' + page.value['info']['TITLE'],
+		title: 'Задание. ' + page.value['title'],
 	});
+
+	async function finish() {
+		await useApiPostWithState('tutorial/' + page.value['id']);
+	}
 </script>

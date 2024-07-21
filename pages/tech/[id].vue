@@ -45,7 +45,7 @@
 		}
 
 		if (element !== -1) {
-			window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+data.name+'</span></div><img id="tch_img_'+tid+'" name="'+element+'" src="'+'/images/gebaeude/' + data.img+'" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+			window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+t('tech.' + data.id)+'</span></div><img id="tch_img_'+tid+'" name="'+element+'" src="'+'/images/gebaeude/' + data.id+'.gif" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
 		} else {
 			window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+fwrd+'</span></div><img id="tch_img_'+tid+'" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
 		}
@@ -59,24 +59,25 @@
 
 		if (element !== -1 && data['req'].length) {
 			for (let req of data['req']) {
-				let actclr = "lime";
+				let actclr = 'lime';
 
-				if (req[2] < req[4])
-					actclr = "red";
+				if (req[1] < req[3])
+					actclr = 'red';
 
 				let lvtmp = '';
 
-				if (req[3] !== -1)
-					lvtmp = '<font color='+actclr+'>' + req[2] + '</font><font color=gold>+'+req[3]+'</font>/<font color=lime>' + req[4] + '</font>';
+				if (req[2] !== -1)
+					lvtmp = '<font color='+actclr+'>' + req[1] + '</font><font color=gold>+'+req[2]+'</font>/<font color=lime>' + req[3] + '</font>';
 				else
-					lvtmp = '<font color='+actclr+'>' + req[2] + '</font>/<font color=lime>' + req[4] + '</font>';
+					lvtmp = '<font color='+actclr+'>' + req[1] + '</font>/<font color=lime>' + req[3] + '</font>';
 
 				let fwrld = '';
 
-				if (req[0] === -1)
-					fwrld = req[1];
+				if (req[0] === -1) {
+					fwrld = t('tech.' + req[0]);
+				}
 
-				createTree(counter + 1, tid, req[0], lvtmp, req[2] < req[4], fwrld);
+				createTree(counter + 1, tid, req[0], lvtmp, req[1] < req[3], fwrld);
 			}
 		}
 

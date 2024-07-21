@@ -39,7 +39,7 @@
 				<th>Кредиты</th>
 				<th :colspan="rows - 2">&nbsp;</th>
 				<th>
-					<span class="neutral">{{ $number(page['credits']) }}</span>
+					<span class="neutral">{{ $number(user['credits']) }}</span>
 				</th>
 			</tr>
 			<tr>
@@ -48,14 +48,14 @@
 			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
 				<th>{{ $t('resources.' + res) }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources'][res]['current'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ $number(planet['resources'][res]['current']) }}</span>
+					<span :class="[planet['resources'][res]['value'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ $number(planet['resources'][res]['value']) }}</span>
 				</th>
 				<th>{{ $number(total['resources'][res]) }}</th>
 			</tr>
 			<tr>
 				<th>{{ $t('resources.energy') }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources']['energy']['current'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['current']) }}</span>
+					<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['value']) }}</span>
 				</th>
 				<th>{{ $number(total['resources']['energy']) }}</th>
 			</tr>
@@ -92,15 +92,15 @@
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r < 100)">
 				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
-					<span v-if="planet['elements'][id]?.['current'] > 0 || planet['elements'][id]?.['build'] > 0">
-						{{ $number(planet['elements'][id]['current']) }}
+					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0">
+						{{ $number(planet['elements'][id]['value']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">-> {{ $number(planet['elements'][id]['build']) }}</span>
 				</th>
 				<th>
 					<span>
-						{{ $number(total['elements'][id]['current']) }}
+						{{ $number(total['elements'][id]['value']) }}
 					</span>
 					<span v-if="total['elements'][id]['build'] > 0" class="positive">
 						-> {{ $number(total['elements'][id]['build']) }}
@@ -113,8 +113,8 @@
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 200 && r < 300)">
 				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
-					<span v-if="planet['elements'][id]?.['current'] > 0 || planet['elements'][id]?.['build'] > 0 || planet['elements'][id]?.['fly'] > 0">
-						{{ $number(planet['elements'][id]?.['current']) }}
+					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0 || planet['elements'][id]?.['fly'] > 0">
+						{{ $number(planet['elements'][id]?.['value']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">
@@ -126,7 +126,7 @@
 				</th>
 				<th>
 					<span>
-						{{ $number(total['elements'][id]?.['current']) }}
+						{{ $number(total['elements'][id]?.['value']) }}
 					</span>
 					<span v-if="total['elements'][id]?.['build'] > 0" class="positive">
 						+ {{ $number(total['elements'][id]['build']) }}
@@ -142,8 +142,8 @@
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 400 && r < 600)">
 				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
-					<span v-if="planet['elements'][id]?.['current'] > 0 || planet['elements'][id]?.['build'] > 0">
-						{{ $number(planet['elements'][id]['current']) }}
+					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0">
+						{{ $number(planet['elements'][id]['value']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">
@@ -152,7 +152,7 @@
 				</th>
 				<th>
 					<span>
-						{{ $number(total['elements'][id]?.['current']) }}
+						{{ $number(total['elements'][id]?.['value']) }}
 					</span>
 					<span v-if="total['elements'][id]?.['build'] > 0" class="positive">
 						+ {{ $number(total['elements'][id]['build']) }}
@@ -162,10 +162,10 @@
 			<tr>
 				<td class="c" :colspan="rows" align="left">Технологии</td>
 			</tr>
-			<tr v-for="(item, id) in page['tech']">
-				<th :colspan="rows - 1">{{ $t('tech.'+id) }}</th>
+			<tr v-for="item in page['tech']">
+				<th :colspan="rows - 1">{{ $t('tech.' + item['id']) }}</th>
 				<th>
-					<span class="neutral">{{ item['current'] }}</span>
+					<span class="neutral">{{ item['value'] }}</span>
 					<span v-if="item['build'] > 0" class="positive">
 						-> {{ item['build'] }}
 					</span>
@@ -180,6 +180,7 @@
 	import { definePageMeta, showError, useAsyncData, useHead, useI18n, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -203,6 +204,7 @@
 	}
 
 	const { tm } = useI18n();
+	const { user } = storeToRefs(store);
 
 	const rows = computed(() => {
 		if (!page.value) {
@@ -231,7 +233,7 @@
 
 		for (let id of elements) {
 			result.elements[id] = {
-				current: 0,
+				value: 0,
 				build: 0,
 				fly: 0
 			};
@@ -246,7 +248,7 @@
 			result.fields_max += planet['fields_max']
 
 			for (let res of resources) {
-				result.resources[res] += planet['resources'][res]['current']
+				result.resources[res] += planet['resources'][res]['value']
 				result.production[res] += planet['resources'][res]['production']
 			}
 
@@ -256,17 +258,17 @@
 				}
 
 				if (id < 100) {
-					if (result.elements[id].current < planet['elements'][id]['current'])
-						result.elements[id].current = planet['elements'][id]['current']
+					if (result.elements[id].value < planet['elements'][id]['value'])
+						result.elements[id].value = planet['elements'][id]['value']
 
 					if (result.elements[id].build < planet['elements'][id]['build'])
 						result.elements[id].build = planet['elements'][id]['build']
 				} else if (id > 200 && id < 300) {
-					result.elements[id].current += planet['elements'][id]['current']
+					result.elements[id].value += planet['elements'][id]['value']
 					result.elements[id].build += planet['elements'][id]['build']
 					result.elements[id].fly += planet['elements'][id]['fly']
 				} else if (id > 400 && id < 600) {
-					result.elements[id].current += planet['elements'][id]['current']
+					result.elements[id].value += planet['elements'][id]['value']
 					result.elements[id].build += planet['elements'][id]['build']
 				}
 			}
@@ -274,7 +276,7 @@
 
 		for (let id of elements) {
 			if (id < 100) {
-				if (result.elements[id].current > result.elements[id].build - 1)
+				if (result.elements[id].value > result.elements[id].build - 1)
 					result.elements[id].build = 0
 			}
 		}

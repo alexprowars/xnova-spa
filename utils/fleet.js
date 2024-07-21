@@ -1,15 +1,17 @@
-import { useApiGet } from '~/composables/useApi';
-import useStore from '~/store';
+import { toast } from 'vue3-toastify';
+import dayjs from 'dayjs';
+import { useApiPost, useNuxtApp } from '#imports';
 
 export function getDistance (from, to) {
-	if ((to['galaxy'] - from['galaxy']) !== 0)
-		return Math.abs(to['galaxy'] - from['galaxy']) * 20000
-	else if ((to['system'] - from['system']) !== 0)
-		return Math.abs(to['system'] - from['system']) * 5 * 19 + 2700
-	else if ((to['planet'] - from['planet']) !== 0)
-		return Math.abs(to['planet'] - from['planet']) * 5 + 1000
+	if ((to['galaxy'] - from['galaxy']) !== 0) {
+		return Math.abs(to['galaxy'] - from['galaxy']) * 20000;
+	} else if ((to['system'] - from['system']) !== 0) {
+		return Math.abs(to['system'] - from['system']) * 5 * 19 + 2700;
+	} else if ((to['planet'] - from['planet']) !== 0) {
+		return Math.abs(to['planet'] - from['planet']) * 5 + 1000;
+	}
 
-	return 5
+	return 5;
 }
 
 export function getSpeed (ships) {
@@ -45,18 +47,21 @@ export function getDuration (params) {
 }
 
 export function getStorage (ships) {
-	return ships.reduce((sum, item) => {
-		return sum + item['count'] * item['capacity']
-	}, 0)
+	return ships.reduce((sum, item) => sum + item['count'] * item['capacity'], 0)
 }
 
-export function sendMission (mission, galaxy, system, planet, type, count) {
-	return useApiGet('/fleet/quick/', {
-		mission, galaxy, system, planet, type, count
-	})
-	.then(result => {
-		useStore().PAGE_LOAD({
-			messages: result.messages
-		})
-	})
+export async function sendMission(mission, galaxy, system, planet, type, count) {
+	try {
+		const result = await useApiPost('/fleet/quick', {
+			mission, galaxy, system, planet, type, count
+		});
+
+		const { t } = useNuxtApp().$i18n;
+
+		toast('Флот отправлен на координаты [' + result['target']['galaxy'] + ':' + result['target']['system'] + ':' + result['target']['planet'] + '] с миссией ' + t('fleet_mission.' + result['mission']) + ' и прибудет к цели ' + dayjs(result['time']).tz().format('DD MMM HH:mm:ss'), {
+			type: 'success',
+		});
+	} catch (e) {
+		toast(e, { type: 'error' });
+	}
 }

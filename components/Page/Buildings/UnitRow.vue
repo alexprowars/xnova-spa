@@ -10,7 +10,7 @@
 						<NuxtLinkLocale :to="'/info/' + item['id']">
 							{{ $t('tech.' + item['id']) }}
 						</NuxtLinkLocale>
-						<span :class="{positive: item['count'] > 0, negative: item['count'] === 0}">{{ $number(item['count']) }}</span>
+						<span :class="{positive: level > 0, negative: level === 0}">{{ $number(level) }}</span>
 					</div>
 
 					<div class="building-info-info" v-if="item['available']">
@@ -60,6 +60,7 @@
 	import useStore from '~/store';
 	import { useI18n, openAjaxPopupModal } from '#imports';
 	import { computed, ref } from 'vue';
+	import { storeToRefs } from 'pinia';
 
 	const props = defineProps({
 		item: {
@@ -69,40 +70,33 @@
 
 	const count = ref('');
 	const store = useStore();
+	const { planet } = storeToRefs(store);
 	const { tm } = useI18n();
 
 	defineExpose({
 		count
 	});
 
-	const resources = computed(() => {
-		return store.planet.resources;
-	});
+	const level = computed(() => planet.value['units'][props['item']['code']] || 0);
 
 	const max = computed(() => {
-		let max = -1
+		let max = -1;
 
-		if (resources.value === false) {
-			return max
-		}
-
-		let resourceKeys = Object.keys(tm('resources'))
-
-		resourceKeys.forEach((item) => {
-			let count = Math.floor(resources.value[item]['value'] / props.item['price'][item])
+		Object.keys(tm('resources')).forEach((item) => {
+			let count = Math.floor(planet.value['resources'][item]['value'] / props.item['price'][item])
 
 			if (max < 0) {
-				max = count
+				max = count;
 			} else if (max > count) {
-				max = count
+				max = count;
 			}
 		})
 
 		if (props.item['max'] > 0 && props.item['max'] < max) {
-			max = props.item['max']
+			max = props.item['max'];
 		}
 
-		return max
+		return max;
 	});
 
 	function setMax () {

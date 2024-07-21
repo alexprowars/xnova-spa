@@ -14,7 +14,7 @@
 					<NuxtLinkLocale :to="'/messages/write/' + item['from']" title="Ответить">
 						<span class="sprite skin_m"></span>
 					</NuxtLinkLocale>
-					<NuxtLinkLocale :to="'/messages/write/' + item['from'] + '/quote/' + item['id']" title="Цитировать сообщение">
+					<NuxtLinkLocale :to="'/messages/write/' + item['from'] + '?quote=' + item['id']" title="Цитировать сообщение">
 						<span class="sprite skin_z"></span>
 					</NuxtLinkLocale>
 					<a @click.prevent="abuseAction" title="Отправить жалобу">
@@ -40,6 +40,7 @@
 	import { openAjaxPopupModal, openConfirmModal, useApiPost } from '#imports';
 	import { storeToRefs } from 'pinia';
 	import dayjs from 'dayjs';
+	import { toast } from 'vue3-toastify';
 
 	const props = defineProps({
 		item: Object
@@ -55,17 +56,21 @@
 				title: 'Нет',
 			}, {
 				title: 'Да',
-				handler: () => {
-					useApiPost('/messages/abuse/'+props.item['id']+'/')
-					.then((result) => {
-						useStore().PAGE_LOAD(result)
-					})
+				handler: async () => {
+					try {
+						await useApiPost('/messages/' + props.item['id'] + '/abuse');
+
+						toast('Жалоба отправлена администрации игры', {
+							type: 'success',
+						});
+					} catch {
+					}
 				}
 			}]
 		);
 	}
 
 	function openPlayerPopup (id) {
-		openAjaxPopupModal(PlayerInfo, '/players/'+ id +'/')
+		openAjaxPopupModal(PlayerInfo, '/players/' + id)
 	}
 </script>

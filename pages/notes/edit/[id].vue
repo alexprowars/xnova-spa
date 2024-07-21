@@ -30,7 +30,7 @@
 				</tr>
 				<tr>
 					<th colspan="2" class="p-a-0">
-						<TextEditor :text="page['text']"/>
+						<TextEditor v-model="page['text']"/>
 					</th>
 				</tr>
 				<tr>

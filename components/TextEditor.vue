@@ -70,7 +70,7 @@
 				<span class="sprite bb_palette"></span>
 			</button>
 
-			<span v-if="message.length > 0" class="buttons" title="Предварительный просмотр" @click="showPreview = !showPreview">
+			<span v-if="value.length > 0" class="buttons" title="Предварительный просмотр" @click="showPreview = !showPreview">
 				<span class="sprite bb_tick"></span>
 			</span>
 		</div>
@@ -87,99 +87,57 @@
 			<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
 		</div>
 		
-		<textarea name="text" ref="text" rows="10" v-model="message" @input="update"></textarea>
+		<textarea name="text" rows="10" v-model="value"></textarea>
 
 		<div v-if="showPreview" class="editor-component-preview table">
 			<div class="row">
 				<div class="col-12 c">Предварительный просмотр</div>
 			</div>
 			<div class="row">
-				<div class="col-12 b" v-html="parser.parse(message)"></div>
+				<div class="col-12 b" v-html="parser.parse(value)"></div>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-	import parser from '../utils/parser.js'
+<script setup>
+	import parser from '../utils/parser.js';
+	import { computed, ref } from 'vue';
 
-	export default {
-		name: "text-editor",
-		props: {
-			text: {
-				default: '',
-				type: String
-			},
-			value: {
-				default: '',
-				type: String
-			}
-		},
-		data () {
-			return {
-				message: '',
-				showColors: false,
-				showBgColors: false,
-				showSmiles: false,
-				showPreview: false,
-				smilesList: parser.patterns.smiles
-			}
-		},
-		computed: {
-			colors ()
-			{
-				let c = ['00', '33', '66', '99', 'cc', 'ff'];
-				let colors = [];
+	const value = defineModel();
 
-				for (let r = 0; r < 6; r++)
-				{
-					for (let g = 0; g < 6; g++)
-					{
-						for (let b = 0; b < 6; b++)
-							colors.push(c[r] + c[g] + c[b]);
-					}
+	const showColors = ref(false);
+	const showBgColors = ref(false);
+	const showSmiles = ref(false);
+	const showPreview = ref(false);
+	const smilesList = ref(parser.patterns.smiles);
+
+	const colors = computed(() => {
+		let c = ['00', '33', '66', '99', 'cc', 'ff'];
+		let colors = [];
+
+		for (let r = 0; r < 6; r++) {
+			for (let g = 0; g < 6; g++) {
+				for (let b = 0; b < 6; b++) {
+					colors.push(c[r] + c[g] + c[b]);
 				}
-
-				return colors;
 			}
-		},
-		watch: {
-			message (val) {
-				this.$emit('update:text', val)
-			},
-			text (val) {
-				this.message = val
-			},
-			value (val) {
-				this.message = val
-			}
-		},
-		methods:
-		{
-			addSmile (smile) {
-				this.message = this.message+' :'+smile+':';
-			},
-
-			addTag (tag, type)
-			{
-				let len 	= this.message.length;
-				let start 	= this.$refs.text.selectionStart;
-				let end 	= this.$refs.text.selectionEnd;
-
-				let rep = parser.addTag(tag, this.message.substring(start, end), type)
-
-				this.message = this.message.substring(0, start) + rep + this.message.substring(end, len);
-			},
-			update () {
-				this.$emit('input', this.message);
-			}
-		},
-		created ()
-		{
-			if (this.value.length > 0)
-				this.text = this.value
-			else
-				this.message = this.text
 		}
+
+		return colors;
+	});
+
+	function addSmile (smile) {
+		value.value = value.value + ' :' + smile + ':';
+	}
+
+	function addTag (tag, type) {
+		let len 	= value.value.length;
+		let start 	= this.$refs.text.selectionStart;
+		let end 	= this.$refs.text.selectionEnd;
+
+		let rep = parser.addTag(tag, value.value.substring(start, end), type)
+
+		value.value = value.value.substring(0, start) + rep + value.value.substring(end, len);
 	}
 </script>

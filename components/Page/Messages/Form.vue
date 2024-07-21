@@ -1,6 +1,5 @@
 <template>
 	<form action="" method="post" @submit.prevent="send">
-		<div v-if="error" v-html="error.message" :class="[error.type]" class="message"></div>
 		<div class="block">
 			<div class="title">
 				Отправка сообщения
@@ -17,12 +16,12 @@
 					</div>
 					<div class="row">
 						<div class="col th p-a-0">
-							<TextEditor :class="{error: v$.text.$error}" v-model="text"/>
+							<TextEditor :class="{error: v$.message.$error}" v-model="message"/>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col c">
-							<input type="submit" value="Отправить">
+							<button type="submit">Отправить</button>
 						</div>
 					</div>
 				</div>
@@ -35,6 +34,8 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required } from '@vuelidate/validators'
 	import { ref } from 'vue';
+	import { useApiPost } from '#imports';
+	import { toast } from 'vue3-toastify';
 
 	const props = defineProps({
 		id: {
@@ -51,18 +52,18 @@
 		}
 	});
 
-	const text = ref(props.message);
+	const message = ref(props.message);
 	const error = ref(false);
 
 	const validations = {
-		text: {
+		message: {
 			required
 		},
 	}
 
 	const v$ = useVuelidate(
 		validations,
-		{ text },
+		{ message },
 		{ $autoDirty: true }
 	);
 
@@ -75,20 +76,24 @@
 			return
 		}
 
-		post('/messages/write/' + props.id + '/', {
-			text: text.value
-		})
-		.then((result) => {
-			if (result.redirect && result.redirect.length) {
-				window.location.href = result.redirect
-			} else {
-				error.value = result.error
+		try {
+			const result = await useApiPost('/messages/write/' + props.id, {
+				message: message.value,
+			});
 
-				if (error.value['type'] === 'success') {
-					text.value = '';
-					v$.value.$reset();
-				}
+			if (result.redirect && result.redirect.length) {
+				window.location.href = result.redirect;
+			} else {
+				toast('Сообщение отправлено!', {
+					type: 'success',
+				});
+
+				message.value = '';
+				v$.value.$reset();
+
+				error.value = result.error;
 			}
-		})
+		} catch {
+		}
 	}
 </script>

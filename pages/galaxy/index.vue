@@ -87,9 +87,10 @@
 	});
 
 	const store = useStore();
+	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData('page-galaxy',
-		async () => await store.loadPage(),
+		async () => await store.loadPage('/galaxy', Object.assign({}, route.params, route.query)),
 		{ watch: [() => useRoute().query] }
 	);
 

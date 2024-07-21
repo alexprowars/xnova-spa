@@ -6,16 +6,16 @@
 			</InfoPopup>
 		</th>
 		<th>
-			<Colored :value="item['level']"></Colored>
+			<Colored :value="item['level']"/>
 		</th>
 		<th>
 			{{ item['bonus'] }}%
 		</th>
 		<th v-for="res in resources">
-			<Colored :value="item['resources'][res]"></Colored>
+			<Colored :value="item['resources'][res]"/>
 		</th>
 		<th>
-			<Colored :value="item['resources']['energy']"></Colored>
+			<Colored :value="item['resources']['energy']"/>
 		</th>
 		<th>
 			<select :name="'state[' + item['id'] + ']'" v-model="item['factor']">

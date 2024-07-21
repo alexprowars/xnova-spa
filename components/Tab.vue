@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-	import { computed, ref, inject } from 'vue';
+	import { computed, inject } from 'vue';
 
 	const props = defineProps({
 		id: {
@@ -23,10 +23,6 @@
 		return activeTab.value === hash.value;
 	});
 
-	const header = computed(() => {
-		return props.name;
-	});
-
 	const hash = computed(() => {
 		return props.id ?
 			'#' + props.id :
@@ -34,13 +30,7 @@
 	});
 
 	addTab({
-		header: header.value,
+		header: props.name,
 		hash: hash.value,
 	});
-</script>
-
-<script>
-	export default {
-		name: 'Tab'
-	}
 </script>

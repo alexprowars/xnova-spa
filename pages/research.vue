@@ -4,7 +4,7 @@
 			<div class="title">Исследования</div>
 			<div class="content page-building-items">
 				<div class="row">
-					<TechRow v-for="item in page.items" :key="item['id']" :item="item"/>
+					<TechRow v-for="item in items" :key="item['id']" :item="item"/>
 				</div>
 			</div>
 		</div>
@@ -24,9 +24,10 @@
 		title: 'Исследования',
 	});
 
-	const { data: page, error } = await useAsyncData('page-research', async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: items, error } = await useAsyncData('page-research',
+		async () => await useStore().loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);

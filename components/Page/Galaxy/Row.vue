@@ -237,9 +237,7 @@
 		</th>
 		<th class="actions" style="white-space: nowrap;">
 			<template v-if="item && item['u_id'] !== currentUser['id'] && !item['p_delete']">
-				<PopupLink :title="item['u_name']+': отправить сообщение'" :to="'/messages/write/'+item['u_id']+'/'" :width="680">
-					<span class="sprite skin_m"></span>
-				</PopupLink>
+				<SendMessagePopup :title="item['u_name']+': отправить сообщение'" :id="item['u_id']"/>
 				<NuxtLinkLocale :to="'/buddy/new/'+item['u_id']+'/'" title="Добавить в друзья">
 					<span class="sprite skin_b"></span>
 				</NuxtLinkLocale>
@@ -277,11 +275,12 @@
 </template>
 
 <script setup>
-	import { sendMission } from "~/utils/fleet";
+	import { sendMission } from '~/utils/fleet';
 	import { computed, ref } from 'vue';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 	import dayjs from 'dayjs';
+	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 
 	const props = defineProps({
 		planet: {

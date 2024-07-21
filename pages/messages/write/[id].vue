@@ -1,6 +1,6 @@
 <template>
 	<div class="page-messages-write">
-		<MessageForm :id="page['id']" :to="page['to']" :message="page['text']"/>
+		<MessageForm :id="page['id']" :to="page['to']" :message="page['message']"/>
 	</div>
 </template>
 
@@ -20,9 +20,12 @@
 		title: 'Отправка сообщения',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const route = useRoute();
+
+	const { data: page, error } = await useAsyncData(
+		async () =>  await useStore().loadPage('/messages/write/' + route.params['id'], Object.assign({}, route.query)),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);

@@ -13,7 +13,7 @@
 					<NuxtLinkLocale to="/info/113">{{ $t('tech.113') }}</NuxtLinkLocale>
 				</div>
 				<div class="col-2 th">
-					{{ page['energy_tech'] }} ур.
+					{{ user['technology']['energy_tech'] }} ур.
 				</div>
 				<div class="col-5 th"></div>
 			</div>
@@ -66,8 +66,8 @@
 									<th class="text-start" nowrap>Базовое производство</th>
 									<td class="k">-</td>
 									<td class="k">-</td>
-									<td v-for="res in page['resources']" class="k">{{ page['production'][res]['basic'] }}</td>
-									<td class="k">{{ page['production']['energy']['basic'] }}</td>
+									<td v-for="res in page['resources']" class="k">{{ planet['resources'][res]['basic'] }}</td>
+									<td class="k">{{ planet['resources']['energy']['basic'] }}</td>
 									<td class="k">100%</td>
 								</tr>
 								<ResourcesRow v-for="(item, index) in page['items']" :key="index" :item="item" :resources="page['resources']"/>
@@ -75,12 +75,12 @@
 									<th colspan="2">Вместимость:</th>
 									<th>{{ page['bonus_h'] }}%</th>
 									<td v-for="res in page['resources']" class="k" v-once>
-										<span :class="[(page['production'][res]['capacity'] > planet['resources'][res]['value']) ? 'positive' : 'negative']">
-											{{ $number(page['production'][res]['capacity'] / 1000) }} k
+										<span :class="[(planet['resources'][res]['capacity'] > planet['resources'][res]['value']) ? 'positive' : 'negative']">
+											{{ $number(planet['resources'][res]['capacity'] / 1000) }} k
 										</span>
 									</td>
 									<td class="k">
-										<font color="#00ff00">{{ $number(page['production']['energy']['capacity']) }}</font>
+										<font color="#00ff00">{{ $number(planet['resources']['energy']['capacity']) }}</font>
 									</td>
 									<td class="k">
 										<input name="action" value="Пересчитать" type="submit">
@@ -89,9 +89,9 @@
 								<tr>
 									<th colspan="3">Сумма:</th>
 									<td v-for="res in page['resources']" class="k">
-										<Colored :value="page['production'][res]['total']"></Colored>
+										<Colored :value="planet['resources'][res]['production']"/>
 									</td>
-									<td class="k">{{ $number(page['production']['energy']['total']) }}</td>
+									<td class="k"><Colored :value="planet['resources']['energy']['value']"/></td>
 								</tr>
 							</tbody>
 						</table>
@@ -115,19 +115,19 @@
 					</div>
 					<div class="row" v-for="res in page['resources']">
 						<div class="col-2 th">
-							{{ $t('resources.'+res) }}
+							{{ $t('resources.' + res) }}
 						</div>
 						<div class="col-2 th">
-							<Colored :value="page['production'][res]['production']"></Colored>
+							<Colored :value="planet['resources'][res]['production']"></Colored>
 						</div>
 						<div class="col-2 th">
-							<Colored :value="page['production'][res]['production'] * 24"></Colored>
+							<Colored :value="planet['resources'][res]['production'] * 24"></Colored>
 						</div>
 						<div class="col-3 th">
-							<Colored :value="page['production'][res]['production'] * 24 * 7"></Colored>
+							<Colored :value="planet['resources'][res]['production'] * 24 * 7"></Colored>
 						</div>
 						<div class="col-3 th">
-							<Colored :value="page['production'][res]['production'] * 24 * 7 * 30"></Colored>
+							<Colored :value="planet['resources'][res]['production'] * 24 * 7 * 30"></Colored>
 						</div>
 					</div>
 				</div>
@@ -140,17 +140,7 @@
 			</div>
 			<div class="content border-0">
 				<div class="block-table">
-					<div class="row" v-for="res in page['resources']">
-						<div class="col-2 th">
-							{{ $t('resources.'+res) }}
-						</div>
-						<div class="col-1 th">
-							{{ page['production'][res]['storage'] }}%
-						</div>
-						<div class="col-9 th">
-							<ResourcesBar :value="Math.min(100, Math.max(0, page['production'][res]['storage']))"></ResourcesBar>
-						</div>
-					</div>
+					<StorageRow v-for="res in page['resources']" :key="res" :resource="res"/>
 				</div>
 			</div>
 		</div>
@@ -195,6 +185,7 @@
 	import useStore from '~/store';
 	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, useApiPostWithState, refreshNuxtData } from '#imports';
 	import { ref } from 'vue';
+	import StorageRow from '~/components/Page/Resources/StorageRow.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -214,7 +205,7 @@
 		throw showError(error.value);
 	}
 
-	const { planet } = storeToRefs(store);
+	const { user, planet } = storeToRefs(store);
 	const resourceForm = ref(null);
 
 	function buyResources() {

@@ -34,7 +34,7 @@
 					{{ m['username'] }}
 				</th>
 				<th>
-					<PopupLink :to="'/messages/write/'+m['id']+'/'" :title="m['username']+': отправить сообщение'" :width="680"><span class='sprite skin_m'></span></PopupLink>
+					<SendMessagePopup :title="m['username']+': отправить сообщение'" :id="m['id']"/>
 				</th>
 				<th>
 					<img :src="'/images/skin/race'+m['race']+'.gif'" width="16" height="16" alt="">
@@ -87,6 +87,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 
 	definePageMeta({
 		middleware: ['auth'],

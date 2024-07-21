@@ -34,7 +34,7 @@
 			</tr>
 			<tr>
 				<th colspan="3" class="p-a-0">
-					<TextEditor :text="page['text']"/>
+					<TextEditor v-model="page['text']"/>
 				</th>
 			</tr>
 			<tr>

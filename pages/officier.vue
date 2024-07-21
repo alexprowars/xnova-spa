@@ -1,7 +1,7 @@
 <template>
 	<div class="page-officiers block">
 		<div class="title">
-			Доступно кредитов: {{ $number(page['credits']) }}
+			Доступно кредитов: {{ $number(user['credits']) }}
 		</div>
 		<div class="content container-fluid">
 			<div class="row">
@@ -40,6 +40,7 @@
 	import OfficierRow from '~/components/Page/Officier/Row.vue';
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -52,11 +53,15 @@
 		title: 'Офицеры',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const store = useStore();
+
+	const { data: page, error } = await useAsyncData('page-officiers',
+		async () => await store.loadPage(),
+		{ watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);
 	}
+
+	const { user } = storeToRefs(store);
 </script>

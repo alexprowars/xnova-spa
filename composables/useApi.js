@@ -1,4 +1,4 @@
-import { showError, navigateTo } from '#imports';
+import { showError, navigateTo, openAlertModal } from '#imports';
 import useStore from '~/store';
 
 export const useApiGet = (url, params = {}) => {
@@ -34,11 +34,17 @@ export const useApiPost = (url, data = {}) => {
 }
 
 export const useApiPostWithState = async (url, data = {}) => {
-	const result = await useApiPost(url, data);
+	try {
+		const result = await useApiPost(url, data);
 
-	useStore().PAGE_LOAD(result);
+		useStore().PAGE_LOAD(result);
 
-	return result['data'] || null;
+		return result['data'] || null;
+	} catch (e) {
+		await openAlertModal(null, e.message);
+	}
+
+	return null;
 }
 
 function handleError (e) {

@@ -2,7 +2,7 @@
 	<div class="row officiers-item">
 		<div class="col-12 officiers-item-title">
 			{{ $t('tech.' + item['id']) }}
-			(<span v-if="item['time']" class="positive">Нанят до: {{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
+			(<span v-if="time" class="positive">Нанят до: {{ dayjs(time).tz().format('DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
 		</div>
 		<div class="d-none d-sm-block col-sm-2 text-center officiers-item-image">
 			<img :src="'/images/officiers/'+item['id']+'.jpg'" align="top" alt="">
@@ -26,10 +26,10 @@
 			<div class="separator"></div>
 		</div>
 		<div class="col-6 d-sm-none text-center officiers-item-image">
-			<img :src="'/images/officiers/'+item['id']+'.jpg'" align="top" alt="">
+			<img :src="'/images/officiers/' + item['id'] + '.jpg'" align="top" alt="">
 		</div>
 		<div class="col-6 col-sm-3 text-center officiers-item-action">
-			<div class="negative">{{ item['time'] > 0 ? 'Продлить' : 'Нанять' }}</div>
+			<div class="negative">{{ time > 0 ? 'Продлить' : 'Нанять' }}</div>
 
 			<button @click.prevent="submit(7, 20)">на неделю</button>
 			<br>Стоимость:&nbsp;<font color="lime">20</font>&nbsp;кр.
@@ -49,42 +49,42 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { openConfirmModal } from '~/composables/useModals';
 	import dayjs from 'dayjs';
+	import { useI18n } from '#imports';
+	import { storeToRefs } from 'pinia';
 
-	export default {
-		name: "officier-row", computed: {
-			dayjs() {
-				return dayjs
-			}
-		},
-		props: {
-			item: Object
-		},
-		methods: {
-			submit (value, price) {
-				openConfirmModal(
-					'Вербовка офицера',
-				'Вы действительно хотите нанять офицера "<b>'+this.$t('tech.'+this.item['id'])+'</b>" на <b>'+value+'</b> дней за <b>'+price+'</b> кредитов?',
-					[{
-						title: 'Отменить',
-					}, {
-						title: 'Нанять',
-						handler: () => {
-							useApiPost('/officier/buy/', {
-								id: this.item['id'],
-								duration: value
-							})
-							.then((result) => {
-								useStore().PAGE_LOAD(result)
-							})
-						}
-					}]
-				);
-			}
-		}
+	const props = defineProps({
+		item: Object,
+	});
+
+	const { t } = useI18n();
+	const store = useStore();
+	const { user } = storeToRefs(store);
+
+	const time = computed(() => user.value['officiers'].find((v) => v['id'] === props.item['id'])?.['time']);
+
+	function submit (value, price) {
+		openConfirmModal(
+			'Вербовка офицера',
+		'Вы действительно хотите нанять офицера "<b>' + t('tech.' + props.item['id']) + '</b>" на <b>' + value + '</b> дней за <b>' + price + '</b> кредитов?',
+			[{
+				title: 'Отменить',
+			}, {
+				title: 'Нанять',
+				handler: () => {
+					useApiPost('/officier/buy/', {
+						id: props.item['id'],
+						duration: value
+					})
+					.then((result) => {
+						store.PAGE_LOAD(result)
+					})
+				}
+			}]
+		);
 	}
 </script>

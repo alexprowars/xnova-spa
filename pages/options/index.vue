@@ -4,27 +4,29 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<td class="c" colspan="2">Режим отпуска</td>
+						<td class="c" colspan="2">{{ $t('options.vacation_mode') }}</td>
 					</tr>
 					<tr>
 					</tr>
 					<tr>
-						<th colspan="2">Режим отпуска включён до: <br/>{{ dayjs(page['um_end_date']).tz().format('DD MMM YYYY HH:mm:ss') }}</th>
+						<th colspan="2">{{ $t('options.vacation_mode_until') }}: <br/>{{ dayjs(page['um_end_date']).tz().format('DD MMM YYYY HH:mm:ss') }}</th>
 					</tr>
 					<tr>
-						<th>Имя</th>
+						<th>{{ $t('options.nickname') }}</th>
 						<th><input name="username" size="20" :value="page['opt_usern_data']" type="hidden">{{ page['opt_usern_data'] }}</th>
 					</tr>
 					<tr>
-						<th><a title="Режим отпуска нужен для защиты планет во время вашего отсутствия.">Включить режим отпуска</a></th>
+						<th><a :title="$t('options.vacation_tip')">{{ $t('options.vacation_on') }}</a></th>
 						<th><input name="vacation" v-model="page['opt_modev_data']" type="checkbox" title=""></th>
 					</tr>
 					<tr>
-						<th><a title="Профиль будет удалён через 7 дней.">Удалить профиль</a></th>
+						<th><a :title="$t('options.delete_tip')">{{ $t('options.delete_on') }}</a></th>
 						<th><input name="delete" v-model="page['opt_delac_data']" type="checkbox" title=""></th>
 					</tr>
 					<tr>
-						<th colspan="2"><input type="submit" value="Сохранить изменения"/></th>
+						<th colspan="2">
+							<button type="submit">{{ $t('options.save') }}</button>
+						</th>
 					</tr>
 				</tbody>
 			</table>
@@ -37,7 +39,7 @@
 						<tbody>
 							<tr>
 								<th width="50%">
-									Ник
+									{{ $t('options.nickname') }}
 									<br>
 									<span class="negative">Можно менять не чаще раза в сутки</span>
 								</th>
@@ -77,7 +79,9 @@
 								</select></th>
 							</tr>
 							<tr>
-								<th colspan="2"><input value="Сохранить изменения" type="submit"></th>
+								<th colspan="2">
+									<button type="submit">{{ $t('options.save') }}</button>
+								</th>
 							</tr>
 						</tbody>
 					</table>
@@ -158,7 +162,9 @@
 								</th>
 							</tr>
 							<tr>
-								<th colspan="2"><input value="Сохранить изменения" type="submit"></th>
+								<th colspan="2">
+									<button type="submit">{{ $t('options.save') }}</button>
+								</th>
 							</tr>
 						</tbody>
 					</table>
@@ -168,11 +174,13 @@
 						<tbody>
 							<tr>
 								<th colspan="2" class="p-a-0">
-									<TextEditor :text="page['about']"/>
+									<TextEditor v-model="page['about']"/>
 								</th>
 							</tr>
 							<tr>
-								<th colspan="2"><input value="Сохранить изменения" type="submit"></th>
+								<th colspan="2">
+									<button type="submit">{{ $t('options.save') }}</button>
+								</th>
 							</tr>
 						</tbody>
 					</table>
@@ -199,7 +207,9 @@
 								</th>
 							</tr>
 							<tr>
-								<th colspan="2"><input value="Сохранить изменения" type="submit"></th>
+								<th colspan="2">
+									<button type="submit">{{ $t('options.save') }}</button>
+								</th>
 							</tr>
 						</tbody>
 					</table>

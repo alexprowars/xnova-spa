@@ -29,9 +29,7 @@
 		<div class="th col-sm-1 col-2">
 			<img v-if="item['race']" :src="'/images/skin/race' + item['race'] + '.gif'" width="16" height="16" style="margin-right:7px;">
 
-			<PopupLink v-if="user" :to="'/messages/write/' + item['id']" :width="680" :title="item['name']+': отправить сообщение'">
-				<span class="sprite skin_m"></span>
-			</PopupLink>
+			<SendMessagePopup v-if="user" :title="item['name'] + ': отправить сообщение'" :id="item['id']"/>
 		</div>
 		<div class="th col-sm-3 d-none d-sm-block row-alliance">
 			<NuxtLinkLocale v-if="item['alliance']" :class="{ neutral: item['alliance']['marked'] }" :to="'/alliance/info/' + item['alliance']['id']">
@@ -50,11 +48,12 @@
 </template>
 
 <script setup>
-	import PlayerInfo from '~/components/Page/Players/Info.vue'
+	import PlayerInfo from '~/components/Page/Players/Info.vue';
 	import { openAjaxPopupModal, useRoute } from '#imports';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import { computed } from 'vue';
+	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 
 	const props = defineProps({
 		item: Object,

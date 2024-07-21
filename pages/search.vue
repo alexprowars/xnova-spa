@@ -39,9 +39,7 @@
 					<tr v-for="result in page['result']">
 						<th>{{ result['username'] }}</th>
 						<th nowrap>
-							<PopupLink :to="'/messages/write/'+result['id']+'/'" :title="result['username']+': отправить сообщение'" :width="680">
-								<span class='sprite skin_m'></span>
-							</PopupLink>
+							<SendMessagePopup :title="result['username']+': отправить сообщение'" :id="result['id']"/>
 							<NuxtLinkLocale :to="'/buddy/new/'+result['id']+'/'" title="Предложение подружиться">
 								<span class='sprite skin_b'></span>
 							</NuxtLinkLocale>
@@ -89,6 +87,7 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 
 	definePageMeta({
 		middleware: ['auth'],

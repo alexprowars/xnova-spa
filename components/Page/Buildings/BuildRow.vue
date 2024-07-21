@@ -20,8 +20,8 @@
 						<NuxtLinkLocale :to="'/info/' + item['id']">
 							{{ $t('tech.'+item['id']) }}
 						</NuxtLinkLocale>
-						<span v-if="item['level']" class="positive" title="Текущий уровень постройки">
-							{{ $number(item['level']) }}
+						<span v-if="level" class="positive" title="Текущий уровень постройки">
+							{{ $number(level) }}
 						</span>
 					</div>
 					<div class="building-info-info" v-if="item['available']">
@@ -51,7 +51,7 @@
 								очередь заполнена
 							</div>
 							<a v-else-if="queueByType('build').length === 0" @click.prevent="addAction" class="button">
-								{{ item['level'] === 0 ? 'Построить' : 'Улучшить' }}
+								{{ level === 0 ? 'Построить' : 'Улучшить' }}
 							</a>
 						</div>
 					</div>
@@ -85,6 +85,8 @@
 
 	const { tm } = useI18n();
 	const { planet, user, queueByType, fieldsEmpty } = storeToRefs(useStore());
+
+	const level = computed(() => planet.value['buildings'][props['item']['code']] || 0);
 
 	const image = computed(() => {
 		let cover = 'normaltemp';

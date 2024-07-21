@@ -42,16 +42,11 @@
 			-
 		</div>
 		<div class="col-4 col-sm-2 th">
-			<RouterForm v-if="item['stage'] === 0 && item['mission'] !== 20 && item.target.id !== 1" action="/fleet/back/">
-				<input type="hidden" name="id" :value="item.id">
-				<input value="Возврат" type="submit">
-			</RouterForm>
-
-			<NuxtLinkLocale v-if="item['stage'] === 0 && item['mission'] === 1 && item.target.id !== 1" :to="'/fleet/verband/'+item.id+'/'" class="button">
+			<NuxtLinkLocale v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/'+item.id+'/'" class="button">
 				Объединить
 			</NuxtLinkLocale>
 
-			<button v-if="item['stage'] === 3 && item['mission'] !== 15" @click.prevent="backAction">Отозвать</button>
+			<button v-if="(item['stage'] === 3 && item['mission'] !== 15) || (item['stage'] === 0 && item['mission'] !== 20)" @click.prevent="backAction">Отозвать</button>
 		</div>
 	</div>
 </template>
@@ -61,6 +56,8 @@
 	import useStore from '~/store';
 	import { openConfirmModal } from '~/composables/useModals';
 	import dayjs from 'dayjs';
+	import { toast } from 'vue3-toastify';
+	import { refreshNuxtData } from '#imports';
 
 	const props = defineProps({
 		i: {
@@ -79,13 +76,20 @@
 				title: 'Нет',
 			}, {
 				title: 'Да',
-				handler: () => {
-					useApiPost('/fleet/back/', {
-						id: props.item['id'],
-					})
-					.then((result) => {
-						useStore().PAGE_LOAD(result)
-					})
+				handler: async () => {
+					try {
+						await useApiPost('/fleet/back', {
+							id: props.item['id'],
+						});
+
+						toast('Флот возвращается назад!', {
+							type: 'success',
+						});
+
+						await refreshNuxtData('page-fleet');
+					} catch (e) {
+						toast(e, { type: 'error' });
+					}
 				}
 			}]
 		);
