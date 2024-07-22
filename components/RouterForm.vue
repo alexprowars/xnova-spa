@@ -5,10 +5,9 @@
 </template>
 
 <script setup>
-	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import { startLoading, stopLoading, useRoute } from '#imports';
+	import { startLoading, stopLoading, useRoute, useApiPost } from '#imports';
 
 	const props = defineProps({
 		method: {

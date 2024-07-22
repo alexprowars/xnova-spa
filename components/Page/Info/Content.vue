@@ -1,7 +1,7 @@
 <template>
 	<div class="page-info">
 		<div class="page-info-description block">
-			<div class="title">{{ $t('tech.'+page['i']) }}</div>
+			<div class="title">{{ $t('tech.' + page['i']) }}</div>
 			<div class="content block-table border-bottom-0">
 				<div class="row">
 					<div class="col d-flex">
@@ -19,32 +19,24 @@
 		<InfoProduction v-if="page['production']" :item="page['i']" :production="page['production']"/>
 		<InfoFleet v-if="page['fleet']" :item="page['i']" :fleet="page['fleet']"/>
 		<InfoDefence v-if="page['defence']" :item="page['i']" :defence="page['defence']"/>
-		<InfoMissile v-if="page['missile']" :item="page['i']" :missile="page['missile']"/>
+		<InfoMissile v-if="page['missile']" :item="page['i']"/>
+		<InfoAlliance v-if="page['alliance']" :item="page['i']" :data="page['alliance']"/>
 
 		<InfoDestroy v-if="page['destroy']" :item="page['i']" :data="page['destroy']"/>
 	</div>
 </template>
 
-<script>
-	import InfoProduction from '~/components/Page/Info/Production.vue'
-	import InfoFleet from '~/components/Page/Info/Fleet.vue'
-	import InfoDefence from '~/components/Page/Info/Defence.vue'
-	import InfoDestroy from '~/components/Page/Info/Destroy.vue'
-	import InfoMissile from '~/components/Page/Info/Missile.vue'
+<script setup>
+	import InfoProduction from '~/components/Page/Info/Production.vue';
+	import InfoFleet from '~/components/Page/Info/Fleet.vue';
+	import InfoDefence from '~/components/Page/Info/Defence.vue';
+	import InfoDestroy from '~/components/Page/Info/Destroy.vue';
+	import InfoMissile from '~/components/Page/Info/Missile.vue';
+	import InfoAlliance from '~/components/Page/Info/Alliance.vue';
 
-	export default {
-		name: "info-content",
-		components: {
-			InfoDestroy,
-			InfoProduction,
-			InfoFleet,
-			InfoDefence,
-			InfoMissile
-		},
-		props: {
-			page: {
-				type: Object
-			}
-		},
-	}
+	defineProps({
+		page: {
+			type: Object
+		}
+	})
 </script>

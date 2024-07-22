@@ -41,7 +41,7 @@
 				<th><input type="checkbox" :name="'rigths[' + rank['id'] + '][diplomacy]'" :checked="rank['rights']['diplomacy'] || false"></th>
 			</tr>
 			<tr v-if="page['list'].length > 0">
-				<th colspan="13"><input type="submit" value="Сохранить"></th>
+				<th colspan="13"><button type="submit">Сохранить</button></th>
 			</tr>
 			<tr v-if="page['list'].length === 0">
 				<th colspan="13" align="center">нет рангов</th>
@@ -59,7 +59,7 @@
 				<th><input type="text" name="newrangname" size="20" maxlength="30" title=""></th>
 			</tr>
 			<tr>
-				<th colspan="2"><input type="submit" value="Создать"></th>
+				<th colspan="2"><button type="submit">Создать</button></th>
 			</tr>
 		</table>
 	</RouterForm>

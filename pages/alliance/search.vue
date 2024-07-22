@@ -9,7 +9,7 @@
 					<th>Строка поиска</th>
 					<th>
 						<input type="text" name="searchtext" value="" title="">
-						<input type="submit" value="Поиск">
+						<button type="submit">Поиск</button>
 					</th>
 				</tr>
 			</table>

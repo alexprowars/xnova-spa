@@ -18,13 +18,13 @@
 							<div class="col c">Форма ответа:</div>
 						</div>
 						<div class="row">
-							<div class="col th"><input type="submit" name="action" value="Принять"></div>
+							<div class="col th"><button type="submit" name="action">Принять</button></div>
 						</div>
 						<div class="row">
 							<div class="col th"><textarea name="text" cols=40 rows=10 title=""></textarea></div>
 						</div>
 						<div class="row">
-							<div class="col th"><input type="submit" name="action" value="Отклонить"></div>
+							<div class="col th"><button type="submit" name="action">Отклонить</button></div>
 						</div>
 					</div>
 					<div class="separator"></div>

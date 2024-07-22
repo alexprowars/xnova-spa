@@ -7,7 +7,7 @@
 					<div class="row">
 						<div class="col-12">
 							<div class="c">
-								<input type="submit" value="Построить">
+								<button type="submit">Построить</button>
 							</div>
 						</div>
 
@@ -15,7 +15,7 @@
 
 						<div class="col-12">
 							<div class="c">
-								<input type="submit" value="Построить">
+								<button type="submit">Построить</button>
 							</div>
 						</div>
 					</div>

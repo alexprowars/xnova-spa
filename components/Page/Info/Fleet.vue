@@ -76,16 +76,13 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		name: "info-fleet",
-		props: {
-			fleet: {
-				type: Object,
-			},
-			item: {
-				type: Number,
-			}
+<script setup>
+	defineProps({
+		fleet: {
+			type: Object,
+		},
+		item: {
+			type: Number,
 		}
-	}
+	})
 </script>

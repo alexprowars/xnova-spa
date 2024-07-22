@@ -1,6 +1,6 @@
 <template>
 	<div class="page-remind">
-		<div v-if="errors" v-html="errors.message" :class="[errors.type]" class="message"></div>
+		<div v-if="error" v-html="error.message" :class="[error.type]" class="message"></div>
 		<form action="" method="post" class="form" @submit.prevent="send">
 			<div class="block-table">
 				<div class="row">
@@ -16,7 +16,7 @@
 				</div>
 				<div class="row">
 					<div class="col th">
-						<input name="submit" type="submit" value="Выслать пароль">
+						<button type="submit">Выслать пароль</button>
 					</div>
 				</div>
 			</div>
@@ -29,13 +29,14 @@
 	import { required, email as emailValidation } from '@vuelidate/validators'
 	import { ref } from 'vue';
 	import { useHead, useApiPost } from '#imports';
+	import { toast } from 'vue3-toastify';
 
 	useHead({
 		title: 'Восстановление пароля',
 	});
 
 	const email = ref('');
-	const errors = ref(false);
+	const error = ref();
 
 	const validations = {
 		email: {
@@ -55,15 +56,15 @@
 			return
 		}
 
-		useApiPost('/login/reset/', {
-			email: email.value,
-		})
-		.then((result) => {
-			if (result.redirect && result.redirect.length) {
-				window.location.href = result.redirect;
-			} else {
-				errors.value = result.error;
-			}
-		})
+		try {
+			const result = await useApiPost('/login/reset', {
+				email: email.value,
+			});
+
+			email.value = '';
+			error.value = { message: result['message'], type: 'success' }
+		} catch (e) {
+			error.value = { message: e.message, type: 'error' }
+		}
 	}
 </script>

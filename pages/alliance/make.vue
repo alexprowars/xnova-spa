@@ -13,7 +13,7 @@
 				<th><input type="text" name="name" size=20 maxlength=30 value="" title=""></th>
 			</tr>
 			<tr>
-				<th colspan="2"><input type="submit" value="Создать"></th>
+				<th colspan="2"><button type="submit">Создать</button></th>
 			</tr>
 		</table>
 	</RouterForm>

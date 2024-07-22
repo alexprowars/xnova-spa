@@ -8,21 +8,21 @@
 			</div>
 			<div class="row">
 				<div class="col th">
-					Количество ракет ({{ planet['units']['interplanetary_misil'] }}):
-					<input type="number" style="width:25%" min="1" :max="planet['units']['interplanetary_misil']" v-model.number="count">
+					Количество ракет ({{ currentPlanet['units']['interplanetary_misil'] }}):
+					<input type="number" style="width:25%" min="1" :max="currentPlanet['units']['interplanetary_misil']" v-model.number="count">
 				</div>
 				<div class="col th">
 					Цель:
 					<select name="target" v-model="target">
 						<option value="all">Вся оборона</option>
-						<option value="0">{{ $t('tech.401') }}</option>
-						<option value="1">{{ $t('tech.402') }}</option>
-						<option value="2">{{ $t('tech.403') }}</option>
-						<option value="3">{{ $t('tech.404') }}</option>
-						<option value="4">{{ $t('tech.405') }}</option>
-						<option value="5">{{ $t('tech.406') }}</option>
-						<option value="6">{{ $t('tech.407') }}</option>
-						<option value="7">{{ $t('tech.408') }}</option>
+						<option value="401">{{ $t('tech.401') }}</option>
+						<option value="402">{{ $t('tech.402') }}</option>
+						<option value="403">{{ $t('tech.403') }}</option>
+						<option value="404">{{ $t('tech.404') }}</option>
+						<option value="405">{{ $t('tech.405') }}</option>
+						<option value="406">{{ $t('tech.406') }}</option>
+						<option value="407">{{ $t('tech.407') }}</option>
+						<option value="408">{{ $t('tech.408') }}</option>
 					</select>
 				</div>
 			</div>
@@ -42,6 +42,7 @@
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import { toast } from 'vue3-toastify';
 
 	const props = defineProps({
 		page: {
@@ -52,20 +53,25 @@
 		}
 	});
 
-	const { planet } = storeToRefs(useStore());
+	const { planet: currentPlanet } = storeToRefs(useStore());
 	const target = ref('all');
-	const count = ref(planet.value['units']['interplanetary_misil'] || 0);
+	const count = ref(currentPlanet.value['units']['interplanetary_misil'] || 0);
 
-	function send () {
-		useApiPost('/rocket/', {
-			galaxy: props.page['galaxy'],
-			system: props.page['system'],
-			planet: props.planet,
-			count: count.value,
-			target: target.value,
-		})
-		.then((result) => {
-			useStore().PAGE_LOAD(result)
-		})
+	async function send() {
+		try {
+			await useApiPost('/rocket/', {
+				galaxy: props.page['galaxy'],
+				system: props.page['system'],
+				planet: props.planet,
+				count: count.value,
+				target: target.value,
+			});
+
+			toast('<b>' + count.value + '</b> межпланетные ракеты запущены для атаки удалённой планеты!', {
+				type: 'success'
+			});
+		} catch (e) {
+			toast(e, { type: 'error' });
+		}
 	}
 </script>

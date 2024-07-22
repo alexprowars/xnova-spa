@@ -45,9 +45,10 @@
 		}
 	});
 
-	const { data: items, error } = await useAsyncData('page-buildings', async () => {
-		return await useStore().loadPage('/buildings');
-	}, { watch: [() => useRoute().query] });
+	const { data: items, error } = await useAsyncData('page-buildings',
+		async () => await useStore().loadPage('/buildings'),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);

@@ -69,7 +69,7 @@
 							<tr>
 								<th colspan="7">{{ m['Rank_for'] }}</th>
 								<th><select name="newrang" title="">{{ m['options'] }}</select></th>
-								<th colspan="2"><input type="submit" value="Сохранить"></th>
+								<th colspan="2"><button type="submit">Сохранить</button></th>
 							</tr>
 						</table>
 					</RouterForm>

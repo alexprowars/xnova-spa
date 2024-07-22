@@ -18,7 +18,7 @@
 				</th>
 			</tr>
 			<tr>
-				<td colspan="2" class="c"><input type="submit" value="Отправить на модерацию"></td>
+				<td colspan="2" class="c"><button type="submit">Отправить на модерацию</button></td>
 			</tr>
 		</table>
 	</RouterForm>

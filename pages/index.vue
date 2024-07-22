@@ -38,7 +38,7 @@
 		<div class="bottom">
 			<div class="desk">Звездная Империя - онлайн-игра</div>
 			<div class="nav">
-				<a href="http://forum.xnova.su" title="Официальный форум" target="_blank">Форум</a>  |
+				<a href="https://forum.xnova.su" title="Официальный форум" target="_blank">Форум</a>  |
 				<NuxtLinkLocale to="/xnsim/">Симулятор</NuxtLinkLocale>  |
 				<NuxtLinkLocale to="/stat/">Статистика</NuxtLinkLocale>  |
 				<a href="//vkontakte.ru/xnova_game" title="Официальная группа ВКонтакте" target="_blank">ВКонтакте</a>  |
@@ -58,12 +58,9 @@
 	import AuthForm from '~/components/Page/Index/AuthForm.vue'
 	import RegistrationForm from './registration.vue'
 	import RemindForm from './remind.vue'
-	import { addScript, isMobile } from '~/utils/helpers'
-	import { navigateTo, useHead } from '#imports';
-	import { useApiGet } from '~/composables/useApi';
+	import { isMobile } from '~/utils/helpers'
+	import { navigateTo, useHead, openPopupModal } from '#imports';
 	import useStore from '~/store';
-	import { onMounted } from 'vue';
-	import { openPopupModal } from '~/composables/useModals';
 
 	useHead({
 		title: 'Вход в игру',
@@ -74,11 +71,9 @@
 
 	const store = useStore();
 
-
-
 	function showRegistration () {
 		if (isMobile()) {
-			return navigateTo('/registration/');
+			return navigateTo('/registration');
 		}
 
 		openPopupModal(RegistrationForm)
@@ -86,7 +81,7 @@
 
 	function showRemindPassword () {
 		if (isMobile()) {
-			return navigateTo('/login/reset/');
+			return navigateTo('/login/reset');
 		}
 
 		openPopupModal(RemindForm);

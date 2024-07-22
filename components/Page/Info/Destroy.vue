@@ -5,7 +5,7 @@
 			<div class="block-table">
 				<div class="row">
 					<div class="col th">
-						<build-row-price :price="data['resources']"></build-row-price>
+						<build-row-price :price="data['resources']"/>
 					</div>
 				</div>
 				<div class="row">

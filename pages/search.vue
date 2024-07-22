@@ -16,7 +16,7 @@
 								&nbsp;&nbsp;
 								<input type="text" name="searchtext" :value="page['searchtext']" title="">
 								&nbsp;&nbsp;
-								<input type="submit" value="Поиск">
+								<button type="submit">Поиск</button>
 							</div>
 						</div>
 					</div>

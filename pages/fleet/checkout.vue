@@ -1,6 +1,5 @@
 <template>
-	<RouterForm v-if="page" action="/fleet/send/" @page="setNextState">
-		<input v-for="ship in page.ships" type="hidden" :name="'ship['+ship.id+']'" :value="ship['count']">
+	<form v-if="page" ref="formRef" method="post" @submit.prevent="send">
 		<div class="block-table">
 			<div class="row">
 				<div class="c col-12">Отправка флота</div>
@@ -8,9 +7,9 @@
 			<div class="row">
 				<div class="th col-6">Цель</div>
 				<div class="th col-6 fleet-coordinates-input">
-					<input type="number" name="galaxy" min="1" :max="page['galaxy_max']" v-model="page['target']['galaxy']">
-					<input type="number" name="system" min="1" :max="page['system_max']" v-model="page['target']['system']">
-					<input type="number" name="planet" min="1" :max="page['planet_max']" v-model="page['target']['planet']">
+					<input type="number" min="1" :max="page['galaxy_max']" v-model="page['target']['galaxy']">
+					<input type="number" min="1" :max="page['system_max']" v-model="page['target']['system']">
+					<input type="number" min="1" :max="page['planet_max']" v-model="page['target']['planet']">
 					<select name="planet_type" v-model="page['target']['planet_type']">
 						<option v-for="index in Object.keys($tm('planet_type'))" :value="index">{{ $t('planet_type.' + index) }}</option>
 					</select>
@@ -84,11 +83,11 @@
 				</div>
 			</div>
 			<div v-if="page['moons'].length > 0" class="row">
-				<div v-for="(moon, i) in page['moons']" class="th" :class="['col-'+(page['moons'].length % 2 > 0 && i === page['moons'].length - 1 ? 12 : 6)]">
-					<input type="radio" name="moon" :value="moon['id']" :id="'moon'+moon['id']">
-					<label :for="'moon'+moon['id']">
-						{{ moon['name'] }} [{{ moon['galaxy'] }}:{{ moon['system'] }}:{{ moon['planet'] }}]
-						<span v-if="moon['jumpgate']">{{ $time((dayjs(page['jumpgate']).diff(now) / 1000), ':', true) }}</span>
+				<div v-for="(item, i) in page['moons']" class="th" :class="['col-'+(page['moons'].length % 2 > 0 && i === page['moons'].length - 1 ? 12 : 6)]">
+					<input type="radio" v-model="moon" :value="item['id']" :id="'moon'+item['id']">
+					<label :for="'moon'+item['id']">
+						{{ item['name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ item['planet'] }}]
+						<span v-if="item['jumpgate']">{{ $time((dayjs(page['jumpgate']).diff(now) / 1000), ':', true) }}</span>
 					</label>
 				</div>
 			</div>
@@ -110,7 +109,7 @@
 						</tr>
 						<tr v-for="mission in page['missions']">
 							<th style="text-align: left !important">
-								<input :id="'m_'+mission" type="radio" name="mission" v-model="page['mission']" :value="mission">
+								<input :id="'m_'+mission" type="radio" v-model="page['mission']" :value="mission">
 								<label :for="'m_'+mission">{{ $t('fleet_mission.'+mission) }}</label>
 
 								<span v-if="mission === 15" class="text-center negative">
@@ -134,17 +133,17 @@
 						<tr>
 							<th>Металл</th>
 							<th><a @click.prevent="maxRes('metal')">макс.</a></th>
-							<th><input name="resource[metal]" v-model="resource.metal" alt="Металл" size="10" type="text"></th>
+							<th><input v-model="resource.metal" alt="Металл" size="10" type="text"></th>
 						</tr>
 						<tr>
 							<th>Кристалл</th>
 							<th><a @click.prevent="maxRes('crystal')">макс.</a></th>
-							<th><input name="resource[crystal]" v-model="resource.crystal" alt="Кристалл" size="10" type="text"></th>
+							<th><input v-model="resource.crystal" alt="Кристалл" size="10" type="text"></th>
 						</tr>
 						<tr>
 							<th>Дейтерий</th>
 							<th><a @click.prevent="maxRes('deuterium')">макс.</a></th>
-							<th><input name="resource[deuterium]" v-model="resource.deuterium" alt="Дейтерий" size="10" type="text"></th>
+							<th><input v-model="resource.deuterium" alt="Дейтерий" size="10" type="text"></th>
 						</tr>
 						<tr>
 							<th>Остаток</th>
@@ -194,24 +193,21 @@
 			</div>
 			<div v-if="page['missions'].length > 0" class="row">
 				<div class="th col-12">
-					<input value="Далее" type="submit">
+					<button type="submit">Далее</button>
 				</div>
 			</div>
 		</div>
-
-		<input type="hidden" name="alliance" v-model="alliance">
-		<input type="hidden" name="fleet" :value="page['fleet']">
-		<input type="hidden" name="mission" :value="page['mission']">
-	</RouterForm>
+	</form>
 </template>
 
 <script setup>
-	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, startLoading, stopLoading, useApiPost, useAsyncData } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 	import dayjs from 'dayjs';
 	import { useNow } from '@vueuse/core';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -221,13 +217,13 @@
 
 	const { data: page, error } = await useAsyncData(
 		async () => await store.loadPage(),
-		{ watch: [() => useRoute().query] }
 	);
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
+	const formRef = ref();
 	const resource = ref({
 		metal: 0, crystal: 0, deuterium: 0,
 	});
@@ -237,6 +233,7 @@
 	const storage = ref(0);
 	const maxspeed = ref(0);
 	const consumption = ref(0);
+	const moon = ref();
 
 	const now = useNow({ interval: 1000 });
 	const target_time = computed(() => now.value.getTime() + (duration.value * 1000));
@@ -266,18 +263,10 @@
 
 	watch(() => page.value.target, async () => {
 		let ships = {}
-
-		page.value['ships'].forEach((item) => {
-			ships[item['id']] = item['count']
-		})
+		page.value['ships'].forEach((item) => ships[item['id']] = item['count']);
 
 		let result = await useApiPost('/fleet/checkout', {
-			galaxy: page.value['target']['galaxy'],
-			system: page.value['target']['system'],
-			planet: page.value['target']['planet'],
-			planet_type: page.value['target']['planet_type'],
-			mission: 0,
-			ship: ships,
+			...page.value['target'], ships,
 		});
 
 		delete result['data']['target'];
@@ -357,8 +346,31 @@
 		resource.value.metal = resource.value.crystal = resource.value.deuterium = 0
 	}
 
-	function setNextState(val) {
-		store.page = val;
-		navigateTo('/fleet/send');
+	async function send() {
+		startLoading();
+
+		let ships = {};
+		page.value.ships.forEach((ship) => ships[ship.id] = ship.count);
+
+		try {
+			const result = await useApiPost('/fleet/send', {
+				ships,
+				...page['target'],
+				alliance: alliance.value,
+				fleet: page.value['fleet'],
+				mission: page.value['mission'],
+				moon: moon.value,
+				...resource.value,
+			});
+
+			store.PAGE_LOAD(result);
+			store.page = result.data;
+
+			navigateTo('/fleet/send');
+		} catch (e) {
+			toast(e, { type: 'error' });
+		} finally {
+			stopLoading();
+		}
 	}
 </script>

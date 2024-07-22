@@ -23,7 +23,7 @@
 					<th colspan="2">
 						<RouterForm action="/alliance">
 							<input type="hidden" name="r_id" :value="item[0]">
-							<input type="submit" name="bcancel" value="Убрать заявку">
+							<button type="submit" name="bcancel" value="Y">Убрать заявку</button>
 						</RouterForm>
 					</th>
 				</tr>

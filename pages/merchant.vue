@@ -41,7 +41,9 @@
 								<div class="col th negative">Внимание! Стоимость обмена 1 кредит</div>
 							</div>
 							<div class="row">
-								<div class="col c"><input type="submit" value="Обменять ресурсы"></div>
+								<div class="col c">
+									<button type="submit">Обменять ресурсы</button>
+								</div>
 							</div>
 						</div>
 					</div>

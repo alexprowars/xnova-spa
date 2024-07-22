@@ -14,13 +14,13 @@
 				<div class="row">
 					<div class="col-3 th">Текст сообщения:</div>
 					<div class="col-9 th">
-						<TextEditor v-model="text"/>
+						<TextEditor v-model="message"/>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col c">
-						<input type="button" value="Отправить" @click="request">
-						<input type="button" value="Закрыть" @click="$emit('close')">
+						<button @click.prevent="request">Отправить</button>
+						<button @click.prevent="emit('close')">Закрыть</button>
 					</div>
 				</div>
 			</div>
@@ -28,36 +28,32 @@
 	</div>
 </template>
 
-<script>
-	import { useApiPost } from '~/composables/useApi';
-	import useStore from '~/store';
-	import { openAlertModal } from '~/composables/useModals';
+<script setup>
+	import { ref, defineEmits } from 'vue';
+	import { toast } from 'vue3-toastify';
+	import { refreshNuxtData, openAlertModal, useApiPost } from '#imports';
 
-	export default {
-		name: "support-new",
-		data () {
-			return {
-				text: '',
-				subject: ''
-			}
-		},
-		methods: {
-			request () {
-				useApiPost('/support/add/', {
-					subject: this.subject,
-					text: this.text
-				})
-				.then((result) => {
-					if (result.error) {
-						openAlertModal(
-							result.error.title, result.error.message
-						);
-					} else {
-						useStore().PAGE_LOAD(result)
-						this.$emit('close');
-					}
-				})
-			}
+	const emit = defineEmits(['close']);
+
+	const message = ref('');
+	const subject = ref('');
+
+	async function request() {
+		try {
+			await useApiPost('/support/add', {
+				subject: subject.value,
+				message: message.value,
+			});
+
+			toast('Запрос добавлен', {
+				type: 'success',
+			});
+
+			emit('close');
+
+			await refreshNuxtData('page-support');
+		} catch (e) {
+			await openAlertModal(null, e);
 		}
 	}
 </script>

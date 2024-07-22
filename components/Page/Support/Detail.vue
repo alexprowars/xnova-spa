@@ -6,7 +6,7 @@
 		<div class="content border-0">
 			<div class="block-table">
 				<div class="row">
-					<div class="col th text-start" v-html="item['text']"></div>
+					<div class="col th text-start" v-html="item['message']"></div>
 				</div>
 				<div v-if="item['status'] === 0" class="row">
 					<div class="col c">Закрыт</div>
@@ -17,13 +17,13 @@
 					</div>
 					<div class="row">
 						<div class="col th">
-							<TextEditor v-model="text"/>
+							<TextEditor v-model="message"/>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col c">
-							<input type="button" value="Ответить" @click="answer">
-							<input type="button" value="Закрыть" @click="$emit('close')">
+							<button @click.prevent="answer">Ответить</button>
+							<button @click.prevent="emit('close')">Закрыть</button>
 						</div>
 					</div>
 				</div>
@@ -32,39 +32,32 @@
 	</div>
 </template>
 
-<script>
-	import { useApiPost } from '~/composables/useApi';
-	import useStore from '~/store';
-	import { navigateTo, openAlertModal } from '#imports';
+<script setup>
+	import { openAlertModal, useApiPost } from '#imports';
+	import { defineEmits, ref } from 'vue';
+	import { toast } from 'vue3-toastify';
 
-	export default {
-		name: "support-detail",
-		props: ['item'],
-		data () {
-			return {
-				text: ''
-			}
-		},
-		methods: {
-			answer () {
-				useApiPost('/support/answer/' + this.item['id'], {
-					text: this.text
-				})
-				.then((result) => {
-					if (result.error && (result.error.type === 'error' || result.error.type === 'success')) {
-						openAlertModal(
-							result.error.title, result.error.message,
-						);
+	const props = defineProps({
+		item: Object,
+	});
 
-						if (result.error.type === 'success') {
-							navigateTo('/support/', { replace: true });
-							this.$emit('close');
-						}
-					} else {
-						useStore().PAGE_LOAD(result)
-					}
-				})
-			}
+	const emit = defineEmits(['close']);
+
+	const message = ref('');
+
+	async function answer () {
+		try {
+			await useApiPost('/support/answer/' + props.item['id'], {
+				message: message.value,
+			});
+
+			toast('Запрос добавлен', {
+				type: 'success',
+			});
+
+			emit('close');
+		} catch (e) {
+			await openAlertModal(null, e);
 		}
 	}
 </script>

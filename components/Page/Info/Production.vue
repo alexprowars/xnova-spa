@@ -54,20 +54,15 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		name: "info-production",
-		props: {
-			production: {
-				type: Array,
-				default: () => {
-					return []
-				}
-			},
-			item: {
-				type: Number,
-				default: 0,
-			}
+<script setup>
+	defineProps({
+		production: {
+			type: Array,
+			default: () => []
+		},
+		item: {
+			type: Number,
+			default: 0,
 		}
-	}
+	})
 </script>

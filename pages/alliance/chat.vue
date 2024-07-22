@@ -59,8 +59,8 @@
 				</tr>
 				<tr>
 					<td class="c">
-						<input type="reset" value="Очистить">
-						<input type="submit" value="Отправить" @click="text = ''">
+						<button type="reset">Очистить</button>
+						<button type="submit" @click="text = ''">Отправить</button>
 					</td>
 				</tr>
 			</table>

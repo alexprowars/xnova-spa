@@ -39,7 +39,7 @@
 			</tr>
 			<tr>
 				<th colspan="3">
-					<input type="reset" value="Очистить"><input type="submit" value="Сохранить">
+					<input type="reset" value="Очистить"><button type="submit">Сохранить</button>
 				</th>
 			</tr>
 		</table>
@@ -81,7 +81,7 @@
 			</tr>
 			<tr>
 				<th colspan="2">
-					<input type="submit" name="options" value="Сохранить">
+					<button type="submit" name="options" value="Y">Сохранить</button>
 				</th>
 			</tr>
 		</table>

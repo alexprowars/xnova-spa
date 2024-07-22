@@ -7,7 +7,7 @@
 			<tr>
 				<th colspan="3">Передать альянс игроку:</th>
 				<th><select name="newleader" title="">{{ page['righthand'] }}</select></th>
-				<th colspan="3"><input type="submit" value="Передача"></th>
+				<th colspan="3"><button type="submit">Передача</button></th>
 			</tr>
 			<tr>
 				<td class="c" colspan="8"><NuxtLinkLocale to="/alliance/admin">назад</NuxtLinkLocale></td>

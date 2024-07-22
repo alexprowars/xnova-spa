@@ -127,7 +127,7 @@
 								<option value="4">Древние</option>
 							</select>
 							<br><br>
-							<input type="submit" value="Сменить фракцию">
+							<button type="submit">Сменить фракцию</button>
 						</RouterForm>
 					</div>
 				</div>

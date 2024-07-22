@@ -54,7 +54,7 @@
 							<div class="col th">
 								<input type="text" name="name" :value="'AKS'+rand(100000, 999999999)" size="50">
 								<br>
-								<input type="submit" value="Создать">
+								<button type="submit">Создать</button>
 							</div>
 						</div>
 					</div>
@@ -72,7 +72,7 @@
 								<input type="hidden" name="action" value="changename">
 								<input type="text" name="name" :value="page['aks']['name']" size="50">
 								<br>
-								<input type="submit" value="Изменить">
+								<button type="submit">Изменить</button>
 							</RouterForm>
 						</div>
 					</div>
@@ -107,7 +107,7 @@
 											</div>
 											<input type="text" name="user_name" size="40" placeholder="Введите игровой ник">
 											<br>
-											<input type="submit" value="OK">
+											<button type="submit">OK</button>
 										</RouterForm>
 									</th>
 								</tr>

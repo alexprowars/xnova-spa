@@ -2,7 +2,7 @@
 	<div class="block">
 		<div class="title">Отправка топлива</div>
 		<div class="content border-0">
-			<RouterForm action="/info/34/">
+			<form method="post" action="" @submit.prevent="send">
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">Флоты на удержании возле планеты</div>
@@ -15,27 +15,45 @@
 							</select>
 						</div>
 					</div>
-					<div v-if="fleet > 0" class="row">
+					<div v-if="fleet" class="row">
 						<div class="col th">
-							<button name="send" type="submit" value="Y">Отправить {{ data['cost'] }} дейтерия</button>
+							<button type="submit">Отправить {{ data['cost'] }} дейтерия</button>
 						</div>
 					</div>
 				</div>
-			</RouterForm>
+			</form>
 		</div>
 	</div>
 </template>
 
-<script>
-	export default {
-		name: "info-alliance",
-		props: {
-			data: Object
-		},
-		data () {
-			return {
-				fleet: 0
-			}
+<script setup>
+	import { ref } from 'vue';
+	import { startLoading, stopLoading, useApiPost } from '#imports';
+	import { toast } from 'vue3-toastify';
+
+	const props = defineProps({
+		data: Object
+	});
+
+	const fleet = ref(0);
+
+	async function send() {
+		startLoading();
+
+		try {
+			await useApiPost('/info/' + props.item + '/alliance', {
+				fleetId: fleet.value,
+			});
+
+			toast('Ракета с дейтерием отправлена на орбиту вашей планете', {
+				type: 'success',
+			});
+		} catch (e) {
+			toast(e, {
+				type: 'error',
+			});
+		} finally {
+			stopLoading();
 		}
 	}
 </script>

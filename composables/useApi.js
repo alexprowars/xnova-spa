@@ -1,50 +1,36 @@
-import { showError, navigateTo, openAlertModal } from '#imports';
+import { showError, navigateTo } from '#imports';
 import useStore from '~/store';
 
-export const useApiGet = (url, params = {}) => {
-	return $fetch('/api' + url, {
-		method: 'get', params, headers: { 'X-Requested-With': 'XMLHttpRequest' }
-	})
-	.then((data) => {
-		return handleResult(data);
-	})
-	.catch((e) => {
+export const useApiGet = async (url, params = {}) => {
+	try {
+		const result = await $fetch('/api' + url, {
+			method: 'get', params, headers: { 'X-Requested-With': 'XMLHttpRequest' }, retry: false
+		});
+
+		return handleResult(result);
+	} catch (e) {
 		return handleError(e);
-	})
+	}
 }
 
-export const useApiPost = (url, data = {}) => {
+export const useApiPost = async (url, data = {}) => {
 	if (data.toString().indexOf('FormData') < 0) {
 		data = objectToFormData(data);
 	}
 
-	return $fetch('/api' + url, {
-		method: 'post', body: data, headers: { 'X-Requested-With': 'XMLHttpRequest' }
-	})
-	.then((data) => {
-		return handleResult(data);
-	})
-	.catch(e => {
+	try {
+		const result = await $fetch('/api' + url, {
+			method: 'post', body: data, headers: { 'X-Requested-With': 'XMLHttpRequest' }, retry: false
+		});
+
+		return handleResult(result);
+	} catch (e) {
 		if (e.response?.status === 422) {
 			throw e;
 		}
 
 		return handleError(e);
-	})
-}
-
-export const useApiPostWithState = async (url, data = {}) => {
-	try {
-		const result = await useApiPost(url, data);
-
-		useStore().PAGE_LOAD(result);
-
-		return result['data'] || null;
-	} catch (e) {
-		await openAlertModal(null, e.message);
 	}
-
-	return null;
 }
 
 function handleError (e) {

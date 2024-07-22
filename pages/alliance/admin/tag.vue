@@ -6,7 +6,7 @@
 				<div class="row">
 					<div class="col th">
 						<input type="text" name="tag" :value="page['tag']">
-						<input type="submit" value="Изменить">
+						<button type="submit">Изменить</button>
 					</div>
 				</div>
 				<div class="row c">

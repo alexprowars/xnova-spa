@@ -1,20 +1,6 @@
 <template>
 	<div v-if="user" class="page-overview">
-		<div v-if="page['bonus']" class="block page-overview-bonus">
-			<div class="title text-center">
-				Ежедневный бонус
-			</div>
-			<div class="block-table">
-				<div class="row">
-					<div class="col th">
-						Сейчас вы можете получить по <b class="positive">{{ $number(page['bonus_count']) }}</b> Металла, Кристаллов и Дейтерия.<br>
-						Каждый день размер бонуса будет увеличиваться.<br>
-						<br>
-						<button @click.prevent="getDailyBonus" class="button">Получить ресурсы</button><br>
-					</div>
-				</div>
-			</div>
-		</div>
+		<DailyBonus v-if="page['bonus']" :amount="page['bonus_count']"/>
 
 		<div class="block">
 			<div class="title">
@@ -40,7 +26,7 @@
 					<div class="separator"></div>
 				</div>
 
-				<div v-if="page['fleets']['length']">
+				<div v-if="page['fleets'].length">
 					<fleets :items="page['fleets']"></fleets>
 					<div class="separator"></div>
 				</div>
@@ -284,9 +270,10 @@
 	import { sendMission } from '~/utils/fleet';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useApiPost, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute } from '#imports';
 	import { computed } from 'vue';
 	import dayjs from 'dayjs';
+	import DailyBonus from '~/components/Page/Overview/DailyBonus.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -298,9 +285,10 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage('/overview');
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error } = await useAsyncData('page-overview',
+		async () => await store.loadPage('/overview'),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -321,12 +309,6 @@
 			planet.value['coordinates']['planet'],
 			2
 		)
-	}
-
-	async function getDailyBonus () {
-		const result = await useApiPost('/overview/daily')
-
-		useStore().PAGE_LOAD(result)
 	}
 
 	function openPlayerPopup () {

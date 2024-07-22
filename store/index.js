@@ -92,8 +92,9 @@ export const useStore = defineStore('app', {
 		},
 		PAGE_LOAD (data) {
 			for (let key in data) {
-				if (data.hasOwnProperty(key))
+				if (data.hasOwnProperty(key)) {
 					this[key] = data[key];
+				}
 			}
 		},
 	}

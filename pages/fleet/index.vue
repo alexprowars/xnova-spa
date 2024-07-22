@@ -4,35 +4,15 @@
 			<div class="title">
 				<div class="row">
 					<div class="col text-start">
-						Флоты <span :class="[page['curFleets'] < user['fleets_max'] ? 'positive' : 'negative']">{{ page['curFleets'] }}</span> из <span class="negative">{{ user['fleets_max'] }}</span>
+						Флоты <span :class="[page.fleets.length < user['fleets_max'] ? 'positive' : 'negative']">{{ page.fleets.length }}</span> из <span class="negative">{{ user['fleets_max'] }}</span>
 					</div>
 					<div v-if="page['maxExpeditions'] > 0" class="col text-end">
 						Экспедиции {{ page['curExpeditions'] }}/{{ page['maxExpeditions'] }}
 					</div>
 				</div>
 			</div>
-
 			<div class="content">
-				<div class="block-table">
-					<div v-if="page.fleets.length > 0" class="row">
-						<div class="col-3 col-sm-1 th">№</div>
-						<div class="col-6 col-sm-2 th">Миссия</div>
-						<div class="col-3 col-sm-1 th">Кол-во</div>
-						<div class="col-4 col-sm-3 th d-none d-sm-block">Цель</div>
-						<div class="col-2 col-sm-3 th d-none d-sm-block">Возврат</div>
-						<div class="col-2 th d-none d-sm-block">Приказы</div>
-					</div>
-
-					<FlyRow class="row page-fleet-fly-item" v-for="(item, index) in page.fleets" :key="index" :i="index" :item="item"/>
-
-					<div class="row" v-if="page.fleets.length === 0">
-						<div class="th col text-center">нет активности флота</div>
-					</div>
-
-					<div class="row" v-if="page['curFleets'] >= user['fleets_max']">
-						<div class="th col negative text-center">Все слоты заняты!</div>
-					</div>
-				</div>
+				<FleetList :fleets="page.fleets"/>
 			</div>
 		</div>
 		<div v-if="page.ships.length" class="block page-fleet-select">
@@ -44,14 +24,13 @@
 				</div>
 			</div>
 			<div class="content">
-				<RouterForm action="/fleet/checkout/" @page="setNextState">
+				<form method="post" @submit.prevent="checkout">
 					<div class="block-table fleet_ships container">
 						<div class="row">
 							<div class="th col-sm-7 col-6">Тип корабля</div>
 							<div class="th col-sm-2 col-2">Кол-во</div>
 							<div class="th col-sm-3 col-4">&nbsp;</div>
 						</div>
-
 						<div v-for="ship in page.ships" class="row">
 							<div class="th col-sm-7 col-6 middle">
 								<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
@@ -62,7 +41,7 @@
 							<div v-if="ship.id === 212" class="th col-sm-3 col-4"></div>
 							<div v-else class="th col-sm-3 col-4">
 								<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
-								<input type="number" min="0" :max="ship['count']" :name="'ship['+ship['id']+']'" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
+								<input type="number" min="0" :max="ship['count']" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
 								<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
 							</div>
 						</div>
@@ -83,8 +62,8 @@
 							<div class="th col-4 col-sm-2">Скорость</div>
 							<div class="th col-4 col-sm-3">{{ allSpeed ? $number(allSpeed) : '-'}}</div>
 						</div>
-						<div v-if="count && page['curFleets'] < user['fleets_max']" class="row">
-							<div class="th col-12"><input type="submit" value="Далее"></div>
+						<div v-if="count && page.fleets.length < user['fleets_max']" class="row">
+							<div class="th col-12"><button type="submit">Далее</button></div>
 						</div>
 					</div>
 					<input type="hidden" name="galaxy" :value="page['selected']['galaxy']">
@@ -92,7 +71,7 @@
 					<input type="hidden" name="planet" :value="page['selected']['planet']">
 					<input type="hidden" name="planet_type" :value="page['selected']['planet_type']">
 					<input type="hidden" name="mission" :value="page['selected']['mission']">
-				</RouterForm>
+				</form>
 			</div>
 		</div>
 		<div v-else class="block page-fleet-select">
@@ -102,7 +81,7 @@
 						Нет кораблей на планете
 						<div>
 							<div class="separator"></div>
-							<NuxtLinkLocale to="/shipyard/" class="button">Перейти в верфь</NuxtLinkLocale>
+							<NuxtLinkLocale to="/shipyard" class="button">Перейти в верфь</NuxtLinkLocale>
 						</div>
 					</div>
 				</div>
@@ -112,11 +91,12 @@
 </template>
 
 <script setup>
-	import FlyRow from '~/components/Page/Fleet/FlyRow.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute } from '#imports';
+	import FleetList from '~/components/Page/Fleet/FleetList.vue';
+	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, startLoading, useApiPost, stopLoading } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -238,8 +218,23 @@
 		allCapacity.value = capacity;
 	}
 
-	function setNextState(val) {
-		store.page = val;
-		navigateTo('/fleet/checkout');
+	async function checkout() {
+		startLoading();
+
+		try {
+			const result = await useApiPost('/fleet/checkout', {
+				ships: fleets.value,
+				...page.value['selected']
+			});
+
+			store.PAGE_LOAD(result);
+			store.page = result.data;
+
+			navigateTo('/fleet/checkout');
+		} catch (e) {
+			toast(e, { type: 'error' });
+		} finally {
+			stopLoading();
+		}
 	}
 </script>

@@ -13,7 +13,7 @@
 			</tr>
 			<tr>
 				<td class="c"><NuxtLinkLocale to="/buddy/">назад</NuxtLinkLocale></td>
-				<td class="c"><input type="submit" value="Отправить заявку"></td>
+				<td class="c"><button type="submit">Отправить заявку</button></td>
 			</tr>
 		</table>
 	</RouterForm>

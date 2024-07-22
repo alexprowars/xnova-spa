@@ -43,8 +43,9 @@
 </template>
 
 <script setup>
-import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiPostWithState } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiPost, navigateTo } from '#imports';
 	import useStore from '~/store';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -68,6 +69,16 @@ import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiPostW
 	});
 
 	async function finish() {
-		await useApiPostWithState('tutorial/' + page.value['id']);
+		try {
+			await useApiPost('tutorial/' + page.value['id']);
+
+			toast('Квест завершен', {
+				type: 'success'
+			});
+
+			await navigateTo('/tutorial');
+		} catch (e) {
+			toast(e, { type: 'error' });
+		}
 	}
 </script>

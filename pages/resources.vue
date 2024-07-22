@@ -64,10 +64,10 @@
 								</tr>
 								<tr>
 									<th class="text-start" nowrap>Базовое производство</th>
-									<td class="k">-</td>
-									<td class="k">-</td>
-									<td v-for="res in page['resources']" class="k">{{ planet['resources'][res]['basic'] }}</td>
-									<td class="k">{{ planet['resources']['energy']['basic'] }}</td>
+									<td class="k"></td>
+									<td class="k"></td>
+									<td v-for="res in page['resources']" class="k">{{ $number(planet['resources'][res]['basic']) }}</td>
+									<td class="k">{{ $number(planet['resources']['energy']['basic']) }}</td>
 									<td class="k">100%</td>
 								</tr>
 								<ResourcesRow v-for="(item, index) in page['items']" :key="index" :item="item" :resources="page['resources']"/>
@@ -183,9 +183,10 @@
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, useApiPostWithState, refreshNuxtData } from '#imports';
+	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, useApiPost, refreshNuxtData } from '#imports';
 	import { ref } from 'vue';
 	import StorageRow from '~/components/Page/Resources/StorageRow.vue';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -217,25 +218,37 @@
 			}, {
 				title: 'Да',
 				handler: async () => {
-					await useApiPostWithState('/resources/buy');
+					try {
+						const result = await useApiPost('/resources/buy');
 
-					await refreshNuxtData('page-resources');
+						toast('Вы успешно купили ' + result['metal'] + ' металла, ' + result['crystal'] + ' кристалла, ' + result['deuterium'] + ' дейтерия', {
+							type: 'success'
+						});
+
+						await refreshNuxtData('page-resources');
+					} catch (e) {
+						toast(e, { type: 'error' });
+					}
 				}
 			}]
 		);
 	}
 
 	async function shutdown(active) {
-		await useApiPostWithState('/resources/shutdown', {
-			active,
-		});
-
-		await refreshNuxtData('page-resources');
+		try {
+			await useApiPost('/resources/shutdown', { active });
+			await refreshNuxtData('page-resources');
+		} catch (e) {
+			toast(e, { type: 'error' });
+		}
 	}
 
 	async function updateState() {
-		await useApiPostWithState('/resources/state', new FormData(resourceForm.value));
-
-		await refreshNuxtData('page-resources');
+		try {
+			await useApiPost('/resources/state', new FormData(resourceForm.value));
+			await refreshNuxtData('page-resources');
+		} catch (e) {
+			toast(e, { type: 'error' });
+		}
 	}
 </script>

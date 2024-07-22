@@ -72,16 +72,13 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		name: "info-defence",
-		props: {
-			defence: {
-				type: Object,
-			},
-			item: {
-				type: Number,
-			}
+<script setup>
+	defineProps({
+		defence: {
+			type: Object,
+		},
+		item: {
+			type: Number,
 		}
-	}
+	})
 </script>

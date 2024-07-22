@@ -36,7 +36,7 @@
 							<br>
 							<input type="text" name="summ" value="10">
 							<br>
-							<input type="submit" value="Купить">
+							<button type="submit">Купить</button>
 						</RouterForm>
 
 						<br><br>
@@ -56,7 +56,7 @@
 							<input type="hidden" name="Culture" value="RU">
 							<input type="hidden" name="OutSum" :value="page['payment']['summ']">
 							<br>
-							<input type="submit" value="Перейти к оплате">
+							<button type="submit">Перейти к оплате</button>
 						</form>
 
 						<br><br>

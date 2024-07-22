@@ -6,7 +6,7 @@
 			</div>
 			<div class="content border-0">
 				<div class="block-table">
-					<div v-if="!page['items'].length" class="row">
+					<div v-if="!items.length" class="row">
 						<div class="col th">Нет запросов в техподдержку</div>
 					</div>
 					<div v-else class="row">
@@ -15,7 +15,7 @@
 						<div class="col-2 th">Статус</div>
 						<div class="col-3 th">Дата</div>
 					</div>
-					<div v-for="item in page['items']" class="row">
+					<div v-for="item in items" class="row">
 						<div class="col-1 c">
 							<a @click="getInfo(item['id'])">{{ item['id'] }}</a>
 						</div>
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 
-		<support-detail v-if="detail" :item="detail" @close="detail = false"></support-detail>
+		<SupportDetail v-if="detail" :item="detail" @close="detail = false"/>
 
 		<div v-if="!request">
 			<div class="separator"></div>
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 		</div>
-		<support-new v-else @close="request = false"></support-new>
+		<SupportNew v-else @close="request = false"/>
 	</div>
 </template>
 
@@ -67,9 +67,10 @@
 		title: 'Техподдержка',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: items, error } = await useAsyncData('page-support',
+		async () => await useStore().loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -83,6 +84,6 @@
 	}
 
 	async function getInfo (id) {
-		detail.value = await useApiGet('/support/info/' + id + '/')
+		detail.value = await useApiGet('/support/info/' + id).then(({ data }) => data);
 	}
 </script>

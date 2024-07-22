@@ -35,8 +35,8 @@
 				</tr>
 				<tr>
 					<td class="c" colspan="2">
-						<input type="reset" value="Сброс">
-						<input type="submit" value="Сохранить">
+						<button type="reset">Сброс</button>
+						<button type="submit">Сохранить</button>
 					</td>
 				</tr>
 			</table>

@@ -17,8 +17,8 @@
 					</div>
 					<div class="row">
 						<div class="col th">
-							<input type="reset" value="Очистить">
-							<input type="submit" value="Добавить">
+							<button type="reset">Очистить</button>
+							<button type="submit">Добавить</button>
 						</div>
 					</div>
 					<div class="row">

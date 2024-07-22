@@ -73,7 +73,7 @@
 				<tr>
 					<td class="c"><NuxtLinkLocale to="/alliance">назад</NuxtLinkLocale></td>
 					<td class="c">
-						<input type="submit" value="Добавить">
+						<button type="submit">Добавить</button>
 					</td>
 				</tr>
 			</table>
