@@ -1,16 +1,16 @@
 <template>
-	<RouterForm action="/options/email/">
+	<form method="post" @submit.prevent="update">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Смена адреса электронной почты</td>
 			</tr>
 			<tr>
 				<th>Текущий пароль</th>
-				<th><input name="password" size="20" value="" type="password" title=""></th>
+				<th><input name="password" size="20" type="password" v-model="password"></th>
 			</tr>
 			<tr>
-				<th>Новый EMAIL адрес</th>
-				<th><input name="email" size="20" value="" type="text" title=""></th>
+				<th>Новый Email адрес</th>
+				<th><input name="email" size="20" type="text" v-model="email"></th>
 			</tr>
 			<tr>
 				<th colspan="2">
@@ -21,12 +21,14 @@
 				<td colspan="2" class="c"><button type="submit">Отправить на модерацию</button></td>
 			</tr>
 		</table>
-	</RouterForm>
+	</form>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { ref } from 'vue';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -41,11 +43,27 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+	const { error } = await useAsyncData(async () => {
+		await store.loadState(); return {}
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	const password = ref('');
+	const email = ref('');
+
+	function update() {
+		useApiSubmit('/options/email', {
+			password: password.value,
+			email: email.value,
+		}, () => {
+			toast('Заявка отправлена на рассмотрение', {
+				type: 'success'
+			});
+
+			navigateTo('/options');
+		});
 	}
 </script>

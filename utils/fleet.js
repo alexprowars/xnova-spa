@@ -62,6 +62,6 @@ export async function sendMission(mission, galaxy, system, planet, type, count) 
 			type: 'success',
 		});
 	} catch (e) {
-		toast(e, { type: 'error' });
+		toast(e.message, { type: 'error' });
 	}
 }

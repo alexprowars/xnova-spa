@@ -9,13 +9,13 @@
 					<th>XNova SIM</th>
 					<th :colspan="cols - 1" class="spezial">
 
-						<select size="1" v-model.number="attackers" title="">
+						<select size="1" v-model.number="attackers">
 							<option v-for="i in page['slots']['max']" :value="i">{{ i }}</option>
 						</select>
 
 						Исходная ситуация
 
-						<select size="1" v-model.number="defenders" title="">
+						<select size="1" v-model.number="defenders">
 							<option v-for="i in page['slots']['max']" :value="i">{{ i }}</option>
 						</select>
 
@@ -39,11 +39,11 @@
 					<th>{{ $t('tech.'+techId) }}</th>
 
 					<th v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
-						<input class="number" :value="page['slots']['attackers'][i] !== undefined && page['slots']['attackers'][i][techId] !== undefined ? page['slots']['attackers'][i][techId]['c'] : 0" type="text" :name="'gr'+i+'-'+techId" maxlength="2" title="">
+						<input class="number" :value="page['slots']['attackers'][i] !== undefined && page['slots']['attackers'][i][techId] !== undefined ? page['slots']['attackers'][i][techId]['c'] : 0" type="text" :name="'gr'+i+'-'+techId" maxlength="2">
 					</th>
 
 					<th v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
-						<input class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][techId] !== undefined ? page['slots']['defenders'][i]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+techId" maxlength="2" title="">
+						<input class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][techId] !== undefined ? page['slots']['defenders'][i]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+techId" maxlength="2">
 					</th>
 				</tr>
 				<tr>
@@ -54,11 +54,11 @@
 
 					<th v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
 						<template v-if="parseInt(fleetId) === 212">-</template>
-						<input v-else class="number" :value="page['slots']['attackers'][i] !== undefined && page['slots']['attackers'][i][fleetId] !== undefined ? page['slots']['attackers'][i][fleetId]['c'] : 0" type="text" :name="'gr'+i+'-'+fleetId" maxlength="7" title="">
+						<input v-else class="number" :value="page['slots']['attackers'][i] !== undefined && page['slots']['attackers'][i][fleetId] !== undefined ? page['slots']['attackers'][i][fleetId]['c'] : 0" type="text" :name="'gr'+i+'-'+fleetId" maxlength="7">
 					</th>
 
 					<th v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
-						<input class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][fleetId] !== undefined ? page['slots']['defenders'][i][fleetId]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+fleetId" maxlength="7" title="">
+						<input class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][fleetId] !== undefined ? page['slots']['defenders'][i][fleetId]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+fleetId" maxlength="7">
 					</th>
 				</tr>
 				<tr>
@@ -73,7 +73,7 @@
 
 					<th v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
 						<template v-if="(parseInt(fleetId) === 407 || parseInt(fleetId) === 408) && i > 0">-</template>
-						<input v-else class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][fleetId] !== undefined ? page['slots']['defenders'][i][fleetId]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+fleetId" maxlength="7" title="">
+						<input v-else class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][fleetId] !== undefined ? page['slots']['defenders'][i][fleetId]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+fleetId" maxlength="7">
 					</th>
 				</tr>
 				<tr align="center">

@@ -68,7 +68,7 @@
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">
-							<RouterForm :action="'/fleet/verband/'+page['fleetid']+'/'">
+							<RouterForm :action="'/fleet/verband/'+page['fleetid']">
 								<input type="hidden" name="action" value="changename">
 								<input type="text" name="name" :value="page['aks']['name']" size="50">
 								<br>

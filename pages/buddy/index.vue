@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -92,10 +92,10 @@
 				title: 'Нет',
 			}, {
 				title: 'Да',
-				handler: async () => {
-					const result = await useApiPost('/buddy/delete/' + id + '/');
-
-					store.PAGE_LOAD(result);
+				handler: () => {
+					useApiSubmit('/buddy/delete/' + id, {}, (result) => {
+						store.PAGE_LOAD(result);
+					});
 				}
 			}]
 		);

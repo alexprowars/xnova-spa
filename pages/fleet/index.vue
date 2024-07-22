@@ -92,11 +92,10 @@
 
 <script setup>
 	import FleetList from '~/components/Page/Fleet/FleetList.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, startLoading, useApiPost, stopLoading } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, useApiSubmit } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -218,23 +217,15 @@
 		allCapacity.value = capacity;
 	}
 
-	async function checkout() {
-		startLoading();
-
-		try {
-			const result = await useApiPost('/fleet/checkout', {
-				ships: fleets.value,
-				...page.value['selected']
-			});
-
+	function checkout() {
+		useApiSubmit('/fleet/checkout', {
+			ships: fleets.value,
+			...page.value['selected']
+		}, (result) => {
 			store.PAGE_LOAD(result);
 			store.page = result.data;
 
 			navigateTo('/fleet/checkout');
-		} catch (e) {
-			toast(e, { type: 'error' });
-		} finally {
-			stopLoading();
-		}
+		});
 	}
 </script>

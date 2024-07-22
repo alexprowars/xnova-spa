@@ -70,7 +70,7 @@
 	import GalaxySelector from '~/components/Page/Galaxy/Selector.vue';
 	import GalaxyLegend from '~/components/Page/Galaxy/Legend.vue';
 	import MissileAttack from '~/components/Page/Galaxy/MissileAttack.vue';
-	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute, useNuxtData } from '#imports';
+	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute, useNuxtData, useApiSubmit } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -117,14 +117,12 @@
 		missilePlanet.value = planet
 	}
 
-	async function changeCoordinates(value) {
-		const result = await useApiPost('/galaxy', value);
+	function changeCoordinates(value) {
+		useApiSubmit('/galaxy', value, (result) => {
+			const { data } = useNuxtData('page-galaxy');
+			data.value = result['data'];
 
-		const { data } = useNuxtData('page-galaxy');
-		data.value = result['data'];
-
-		delete result['data'];
-
-		store.PAGE_LOAD(result);
+			store.PAGE_LOAD(result);
+		});
 	}
 </script>

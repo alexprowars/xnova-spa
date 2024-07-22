@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiPost, navigateTo } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit } from '#imports';
 	import useStore from '~/store';
 	import { toast } from 'vue3-toastify';
 
@@ -68,17 +68,13 @@
 		title: 'Задание. ' + page.value['title'],
 	});
 
-	async function finish() {
-		try {
-			await useApiPost('tutorial/' + page.value['id']);
-
+	function finish() {
+		useApiSubmit('tutorial/' + page.value['id'], {}, () => {
 			toast('Квест завершен', {
 				type: 'success'
 			});
 
-			await navigateTo('/tutorial');
-		} catch (e) {
-			toast(e, { type: 'error' });
-		}
+			navigateTo('/tutorial');
+		});
 	}
 </script>

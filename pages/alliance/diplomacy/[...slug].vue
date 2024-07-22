@@ -56,13 +56,13 @@
 				</tr>
 				<tr>
 					<th>
-						<select name="ally" title="">
+						<select name="ally">
 							<option value="0">список альянсов</option>
 							<option v-for="item in page['a_list']" :value="item['id']">{{ item['name'] }} [{{ item['tag'] }}]</option>
 						</select>
 					</th>
 					<th>
-						<select name="status" title="">
+						<select name="status">
 							<option value="1">Перемирие</option>
 							<option value="2">Мир</option>
 							<option value="3">Война</option>

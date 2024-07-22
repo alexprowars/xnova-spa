@@ -11,28 +11,28 @@
 								<span class="negative">Можно менять не чаще раза в сутки</span>
 							</th>
 							<th>
-								<input v-if="data['opt_usern_datatime']" name="username" size="20" :value="data['opt_usern_data']" type="text" title="" autocomplete="username">
+								<input v-if="data['opt_usern_datatime']" name="username" size="20" :value="data['opt_usern_data']" type="text" autocomplete="username">
 								<template v-else>{{ data['opt_usern_data'] }}</template>
 							</th>
 						</tr>
 						<template v-if="data['opt_isemail']">
 							<tr>
 								<th>Старый пароль</th>
-								<th><input name="password" size="20" value="" type="password" title="" autocomplete="current-password"></th>
+								<th><input name="password" size="20" value="" type="password" autocomplete="current-password"></th>
 							</tr>
 							<tr>
 								<th>Новый пароль (мин. 8 Знаков)</th>
-								<th><input name="new_password" size="20" maxlength="40" type="password" title="" autocomplete="new-password"></th>
+								<th><input name="new_password" size="20" maxlength="40" type="password" autocomplete="new-password"></th>
 							</tr>
 							<tr>
 								<th>Новый пароль (повтор)</th>
-								<th><input name="new_password_confirm" size="20" maxlength="40" type="password" title="" autocomplete="new-password"></th>
+								<th><input name="new_password_confirm" size="20" maxlength="40" type="password" autocomplete="new-password"></th>
 							</tr>
 						</template>
 						<tr>
 							<th>Адрес e-mail (логин)</th>
 							<th>
-								<input v-if="!data['opt_isemail']" type="text" name="email" value="" title="">
+								<input v-if="!data['opt_isemail']" type="text" name="email" value="">
 								<template v-else>
 									{{ data['opt_mail_data'] }} <NuxtLinkLocale to="/options/email/" class="button">сменить</NuxtLinkLocale>
 								</template>
@@ -40,7 +40,7 @@
 						</tr>
 						<tr>
 							<th>Пол</th>
-							<th><select name="sex" title="">
+							<th><select name="sex">
 								<option value="M">мужской</option>
 								<option value="F" :selected="data['sex'] === 2" >женский</option>
 							</select></th>
@@ -59,7 +59,7 @@
 						<tr>
 							<th rowspan="2" width="50%">Упорядочить планеты по:</th>
 							<th>
-								<select name="settings_sort" style='width:170px' title="" v-model="data['options']['planet_sort']">
+								<select name="settings_sort" style='width:170px' v-model="data['options']['planet_sort']">
 									<option value="0">Времени колонизации</option>
 									<option value="1">Координатам</option>
 									<option value="2">Алфавитному порядку</option>
@@ -69,7 +69,7 @@
 						</tr>
 						<tr>
 							<th>
-								<select name="settings_order" style='width:170px' title="" v-model="data['options']['planet_sort_order']">
+								<select name="settings_order" style='width:170px' v-model="data['options']['planet_sort_order']">
 									<option value="0">Возрастанию</option>
 									<option value="1">Убыванию</option>
 								</select>
@@ -77,28 +77,28 @@
 						</tr>
 						<tr>
 							<th>Кол-во отправляемых шпионских зондов в меню "Космос"</th>
-							<th><input name="spy" :value="data['options']['spy']" type="text" title=""></th>
+							<th><input name="spy" :value="data['options']['spy']" type="text"></th>
 						</tr>
 						<tr>
 							<th>Участвовать в рекордах</th>
-							<th><input name="records" v-model="data['options']['records']" type="checkbox" title=""></th>
+							<th><input name="records" v-model="data['options']['records']" type="checkbox"></th>
 						</tr>
 						<tr>
 							<th>Использовать BB коды в сообщениях</th>
-							<th><input name="bbcode" v-model="data['options']['bb_parser']" type="checkbox" title=""></th>
+							<th><input name="bbcode" v-model="data['options']['bb_parser']" type="checkbox"></th>
 						</tr>
 						<tr>
 							<th>Показывать только доступные постройки</th>
-							<th><input name="available" v-model="data['options']['only_available']" type="checkbox" title=""></th>
+							<th><input name="available" v-model="data['options']['only_available']" type="checkbox"></th>
 						</tr>
 						<tr>
 							<th>Показывать панель чата</th>
-							<th><input name="chatbox" v-model="data['options']['chatbox']" type="checkbox" title=""></th>
+							<th><input name="chatbox" v-model="data['options']['chatbox']" type="checkbox"></th>
 						</tr>
 						<tr>
 							<th>Цвет ваших сообщений в чате</th>
 							<th>
-								<select name="color" style='width:170px' title="" v-model="data['options']['color']">
+								<select name="color" style='width:170px' v-model="data['options']['color']">
 									<option v-for="id in Object.keys($tm('colors')).filter((c) => $t('colors.' + c + '.1') !== '')" :value="id" :style="'color:'+$t('colors.' + id + '.0')">{{ $t('colors.' + id + '.1') }}</option>
 								</select>
 							</th>
@@ -157,7 +157,7 @@
 					<tbody>
 						<tr>
 							<th width="50%"><a title="Режим отпуска нужен для защиты планет во время вашего отсутствия">Включить режим отпуска</a></th>
-							<th><input name="vacation" v-model="data['opt_modev_data']" type="checkbox" title=""></th>
+							<th><input name="vacation" v-model="data['opt_modev_data']" type="checkbox"></th>
 						</tr>
 						<tr>
 							<th colspan="2">
@@ -166,7 +166,7 @@
 						</tr>
 						<tr>
 							<th><a title="Профиль будет удалён через 7 дней">Удалить профиль</a></th>
-							<th><input name="delete" v-model="data['opt_delac_data']" type="checkbox" title=""></th>
+							<th><input name="delete" v-model="data['opt_delac_data']" type="checkbox"></th>
 						</tr>
 						<tr>
 							<th colspan="2">
@@ -188,7 +188,7 @@
 							<td class="c">Добавить запись в личное дело</td>
 						</tr>
 						<tr>
-							<th><textarea name="ld" cols="" rows="5" title=""></textarea></th>
+							<th><textarea name="ld" cols="" rows="5"></textarea></th>
 						</tr>
 						<tr>
 							<th><input value="Записать" type="submit"></th>
@@ -237,7 +237,7 @@
 <script setup>
 	import dayjs from 'dayjs';
 	import { ref } from 'vue';
-	import { startLoading, useApiPost, stopLoading, refreshNuxtData } from '#imports';
+	import { refreshNuxtData, useApiSubmit } from '#imports';
 	import { toast } from 'vue3-toastify';
 
 	defineProps({
@@ -251,21 +251,13 @@
 		timezones.value.push(i);
 	}
 
-	async function send() {
-		startLoading();
-
-		try {
-			await useApiPost('/options', new FormData(formRef.value));
-
+	function send() {
+		useApiSubmit('/options', new FormData(formRef.value), () => {
 			toast('Настройки успешно изменены', {
 				type: 'success'
 			});
 
-			await refreshNuxtData('page-options');
-		} catch (e) {
-			toast(e, { type: 'error' });
-		} finally {
-			stopLoading();
-		}
+			refreshNuxtData('page-options');
+		});
 	}
 </script>

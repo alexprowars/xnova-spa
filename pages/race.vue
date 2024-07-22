@@ -118,7 +118,7 @@
 				<div class="row">
 					<div class="th col-sx-12">
 						На планетах не должно идти строительство, исследования, летать флот и весь флот фракции подлежит демонтировке (без возврата ресурсов).<br><br>
-						<RouterForm v-if="page['change_available']" action="/race/change/">
+						<RouterForm v-if="page['change_available']" action="/race/change">
 							<select name="race">
 								<option value="0">выбрать...</option>
 								<option value="1">Конфедерация</option>

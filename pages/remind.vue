@@ -29,7 +29,6 @@
 	import { required, email as emailValidation } from '@vuelidate/validators'
 	import { ref } from 'vue';
 	import { useHead, useApiPost } from '#imports';
-	import { toast } from 'vue3-toastify';
 
 	useHead({
 		title: 'Восстановление пароля',

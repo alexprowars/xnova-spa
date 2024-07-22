@@ -5,11 +5,11 @@
 		</tr>
 		<tr>
 			<th>
-				<RouterForm action="/log/new/">
+				<RouterForm action="/log/new">
 					Название:<br>
-					<input type="text" name="title" size="50" maxlength="100" title=""><br>
+					<input type="text" name="title" size="50" maxlength="100"><br>
 					ID боевого доклада:<br>
-					<input type="text" name="code" size="50" maxlength="40" :value="$route.query.code || ''" title="">
+					<input type="text" name="code" size="50" maxlength="40" :value="$route.query.code || ''">
 					<br><br>
 					<button type="submit">Сохранить</button>
 				</RouterForm>

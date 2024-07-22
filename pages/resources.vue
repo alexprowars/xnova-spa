@@ -183,7 +183,7 @@
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, useApiPost, refreshNuxtData } from '#imports';
+	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, refreshNuxtData, useApiSubmit } from '#imports';
 	import { ref } from 'vue';
 	import StorageRow from '~/components/Page/Resources/StorageRow.vue';
 	import { toast } from 'vue3-toastify';
@@ -217,38 +217,28 @@
 				title: 'Нет',
 			}, {
 				title: 'Да',
-				handler: async () => {
-					try {
-						const result = await useApiPost('/resources/buy');
-
+				handler: () => {
+					useApiSubmit('/resources/buy', {}, (result) => {
 						toast('Вы успешно купили ' + result['metal'] + ' металла, ' + result['crystal'] + ' кристалла, ' + result['deuterium'] + ' дейтерия', {
 							type: 'success'
 						});
 
-						await refreshNuxtData('page-resources');
-					} catch (e) {
-						toast(e, { type: 'error' });
-					}
+						refreshNuxtData('page-resources');
+					});
 				}
 			}]
 		);
 	}
 
-	async function shutdown(active) {
-		try {
-			await useApiPost('/resources/shutdown', { active });
-			await refreshNuxtData('page-resources');
-		} catch (e) {
-			toast(e, { type: 'error' });
-		}
+	function shutdown(active) {
+		useApiSubmit('/resources/shutdown', { active }, () => {
+			refreshNuxtData('page-resources');
+		});
 	}
 
-	async function updateState() {
-		try {
-			await useApiPost('/resources/state', new FormData(resourceForm.value));
-			await refreshNuxtData('page-resources');
-		} catch (e) {
-			toast(e, { type: 'error' });
-		}
+	function updateState() {
+		useApiSubmit('/resources/state', new FormData(resourceForm.value), () => {
+			refreshNuxtData('page-resources');
+		});
 	}
 </script>

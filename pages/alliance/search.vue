@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<RouterForm action="/alliance/search/">
+		<RouterForm action="/alliance/search">
 			<table class="table">
 				<tr>
 					<td class="c" colspan="2">Поиск альянса</td>
@@ -8,7 +8,7 @@
 				<tr>
 					<th>Строка поиска</th>
 					<th>
-						<input type="text" name="searchtext" value="" title="">
+						<input type="text" name="searchtext" value="">
 						<button type="submit">Поиск</button>
 					</th>
 				</tr>

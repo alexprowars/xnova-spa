@@ -14,11 +14,11 @@
 				</tr>
 				<tr>
 					<th><a :title="$t('options.vacation_tip')">{{ $t('options.vacation_on') }}</a></th>
-					<th><input name="vacation" v-model="data['opt_modev_data']" type="checkbox" title=""></th>
+					<th><input name="vacation" v-model="data['opt_modev_data']" type="checkbox"></th>
 				</tr>
 				<tr>
 					<th><a :title="$t('options.delete_tip')">{{ $t('options.delete_on') }}</a></th>
-					<th><input name="delete" v-model="data['opt_delac_data']" type="checkbox" title=""></th>
+					<th><input name="delete" v-model="data['opt_delac_data']" type="checkbox"></th>
 				</tr>
 				<tr>
 					<th colspan="2">
@@ -33,7 +33,7 @@
 <script setup>
 	import dayjs from 'dayjs';
 	import { toast } from 'vue3-toastify';
-	import { refreshNuxtData, startLoading, stopLoading, useApiPost } from '#imports';
+	import { refreshNuxtData, useApiSubmit } from '#imports';
 	import { ref } from 'vue';
 
 	defineProps({
@@ -42,21 +42,13 @@
 
 	const formRef = ref(null);
 
-	async function send() {
-		startLoading();
-
-		try {
-			await useApiPost('/options', new FormData(formRef.value));
-
+	function send() {
+		useApiSubmit('/options', new FormData(formRef.value), () => {
 			toast('Настройки успешно изменены', {
 				type: 'success'
 			});
 
-			await refreshNuxtData('page-options');
-		} catch (e) {
-			toast(e, { type: 'error' });
-		} finally {
-			stopLoading();
-		}
+			refreshNuxtData('page-options');
+		});
 	}
 </script>

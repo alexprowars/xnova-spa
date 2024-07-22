@@ -2,11 +2,11 @@
 	<div class="block">
 		<div class="title">Имя [Галактика:Система:Планета]</div>
 		<div class="content border-0">
-			<RouterForm action="/fleet/shortcut/add/">
+			<form method="post" @submit.prevent="send">
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">
-							<input type="text" name="title" value="" size="32" maxlength="32" title="Название">
+							<input type="text" name="title" v-model.trim="name" size="32" maxlength="32" title="Название">
 							<input type="text" name="galaxy" v-model.number="page['galaxy']" size="3" maxlength="2" title="Галактика">
 							<input type="text" name="system" v-model.number="page['system']" size="3" maxlength="3" title="Система">
 							<input type="text" name="planet" v-model.number="page['planet']" size="3" maxlength="2" title="Планета">
@@ -27,14 +27,16 @@
 						</div>
 					</div>
 				</div>
-			</RouterForm>
+			</form>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo } from '#imports';
 	import useStore from '~/store';
+	import { ref } from 'vue';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -50,5 +52,23 @@
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	const name = ref('');
+
+	function send() {
+		useApiSubmit('/fleet/shortcut', {
+			name: name.value,
+			galaxy: page.value['galaxy'],
+			system: page.value['system'],
+			planet: page.value['planet'],
+			planet_type: page.value['planet_type'],
+		}, () => {
+			toast('Ссылка на планету добавлена!', {
+				type: 'success'
+			});
+
+			navigateTo('/fleet/shortcut');
+		});
 	}
 </script>

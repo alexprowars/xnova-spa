@@ -56,7 +56,7 @@
 			</tr>
 			<tr>
 				<th>Имя ранга</th>
-				<th><input type="text" name="newrangname" size="20" maxlength="30" title=""></th>
+				<th><input type="text" name="newrangname" size="20" maxlength="30"></th>
 			</tr>
 			<tr>
 				<th colspan="2"><button type="submit">Создать</button></th>

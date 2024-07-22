@@ -88,7 +88,7 @@
 
 						await refreshNuxtData('page-fleet');
 					} catch (e) {
-						toast(e, { type: 'error' });
+						toast(e.message, { type: 'error' });
 					}
 				}
 			}]

@@ -201,13 +201,12 @@
 </template>
 
 <script setup>
-	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, startLoading, stopLoading, useApiPost, useAsyncData } from '#imports';
+	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useApiSubmit, useAsyncData } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 	import dayjs from 'dayjs';
 	import { useNow } from '@vueuse/core';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -346,31 +345,23 @@
 		resource.value.metal = resource.value.crystal = resource.value.deuterium = 0
 	}
 
-	async function send() {
-		startLoading();
-
+	function send() {
 		let ships = {};
 		page.value.ships.forEach((ship) => ships[ship.id] = ship.count);
 
-		try {
-			const result = await useApiPost('/fleet/send', {
-				ships,
-				...page['target'],
-				alliance: alliance.value,
-				fleet: page.value['fleet'],
-				mission: page.value['mission'],
-				moon: moon.value,
-				...resource.value,
-			});
-
+		useApiSubmit('/fleet/send', {
+			ships,
+			...page['target'],
+			alliance: alliance.value,
+			fleet: page.value['fleet'],
+			mission: page.value['mission'],
+			moon: moon.value,
+			...resource.value,
+		}, (result) => {
 			store.PAGE_LOAD(result);
 			store.page = result.data;
 
 			navigateTo('/fleet/send');
-		} catch (e) {
-			toast(e, { type: 'error' });
-		} finally {
-			stopLoading();
-		}
+		});
 	}
 </script>

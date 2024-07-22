@@ -4,45 +4,44 @@
 			Заметки
 		</div>
 		<div class="content">
-			<RouterForm action="/notes">
-				<div class="block-table">
-					<div class="row">
-						<div class="col-1 c"></div>
-						<div class="col-3 c">Дата</div>
-						<div class="col-8 c">Тема</div>
+			<div class="block-table">
+				<div class="row">
+					<div class="col-1 c"></div>
+					<div class="col-3 c">Дата</div>
+					<div class="col-8 c">Тема</div>
+				</div>
+				<div class="row" v-for="item in items">
+					<div class="col-1 th">
+						<input :value="item['id']" v-model="deleteItems" type="checkbox">
 					</div>
-					<div class="row" v-for="item in page['items']">
-						<div class="col-1 th">
-							<input name="delete[]" :value="item['id']" v-model="deleteItems" type="checkbox">
-						</div>
-						<div class="col-3 th">
-							{{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm') }}
-						</div>
-						<div class="col-8 th">
-							<NuxtLinkLocale :to="'/notes/edit/'+item['id']+'/'">
-								<span :style="'color:'+item['color']">{{ item['title'] }}</span>
-							</NuxtLinkLocale>
-						</div>
+					<div class="col-3 th">
+						{{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm') }}
 					</div>
-					<div class="row" v-if="page['items'].length === 0">
-						<div class="th col-12">Заметки отсутствуют</div>
+					<div class="col-8 th">
+						<NuxtLinkLocale :to="'/notes/' + item['id']">
+							<span :style="'color:'+item['color']">{{ item['title'] }}</span>
+						</NuxtLinkLocale>
 					</div>
 				</div>
-				<div class="separator"></div>
-				<div class="text-end">
-					<input v-if="deleteItems.length > 0" class="negative" value="Удалить выбранное" type="submit">
-					<NuxtLinkLocale class="button" to="/notes/new/">Создать новую заметку</NuxtLinkLocale>
+				<div class="row" v-if="items.length === 0">
+					<div class="th col-12">Заметки отсутствуют</div>
 				</div>
-			</RouterForm>
+			</div>
+			<div class="separator"></div>
+			<div class="text-end">
+				<button v-if="deleteItems.length > 0" class="negative" @click="deleteNotes">Удалить выбранное</button>
+				<NuxtLinkLocale class="button" to="/notes/create">Создать новую заметку</NuxtLinkLocale>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import dayjs from 'dayjs';
+import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -55,13 +54,29 @@
 		title: 'Заметки',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: items, error } = await useAsyncData('page-notes',
+		async () => await useStore().loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
 	const deleteItems = ref([]);
+
+	function deleteNotes() {
+		useApiSubmit('/notes', {
+			_method: 'DELETE',
+			id: deleteItems.value,
+		}, () => {
+			toast('Заметки удалены', {
+				type: 'success'
+			});
+
+			deleteItems.value = [];
+
+			refreshNuxtData('page-notes');
+		});
+	}
 </script>

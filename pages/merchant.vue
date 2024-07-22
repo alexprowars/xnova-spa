@@ -2,13 +2,13 @@
 	<div class="block start">
 		<div class="title">Обмен сырья</div>
 		<div class="content border-0">
-			<RouterForm action="/merchant/exchange" class="container-fluid table">
+			<form method="post" class="container-fluid table" @submit.prevent="exchange">
 				<div class="row">
 					<div class="col th">
 						Вы можете вызвать межгалактического торговца для обмена ресурсов.<br>
 						<div class="negative">Каждая операция обмена будет стоить вам 1 кредит.</div><br><br>
 
-						<select name="type" v-model="type">
+						<select v-model="type">
 							<option value="">Выберите ресурс для обмена</option>
 							<option value="metal">Металл</option>
 							<option value="crystal">Кристалл</option>
@@ -22,7 +22,7 @@
 					<div v-if="type !== ''" class="col th">
 						<div class="block-table">
 							<div class="row">
-								<div class="c col">Обменять {{ $t('resources.'+type).toLowerCase() }} на</div>
+								<div class="c col">Обменять {{ $t('resources.' + type).toLowerCase() }} на</div>
 							</div>
 							<div class="row">
 								<div class="col-3 th"></div>
@@ -30,11 +30,11 @@
 								<div class="col-6 th"></div>
 							</div>
 							<div v-for="res in ['metal', 'crystal', 'deuterium']" class="row">
-								<div class="col-3 th middle">{{ $t('resources.'+res) }}</div>
+								<div class="col-3 th middle">{{ $t('resources.' + res) }}</div>
 								<div class="col-3 th middle">{{ page['modifiers'][res] / page['modifiers'][type] }}</div>
 								<div class="col-6 th middle">
-									<Number v-if="type !== res" :name="res" min="0" v-model="exchange[res]" placeholder="введите кол-во" @input="calculate"/>
-									<span v-else>{{ exchange[res] }}</span>
+									<Number v-if="type !== res" min="0" v-model="resources[res]" placeholder="введите кол-во" @input="calculate"/>
+									<span v-else>{{ resources[res] }}</span>
 								</div>
 							</div>
 							<div class="row">
@@ -48,15 +48,17 @@
 						</div>
 					</div>
 				</div>
-			</RouterForm>
+			</form>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useI18n, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
+	import Form from '~/components/Page/Messages/Form.vue';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -66,16 +68,19 @@
 		title: 'Торговец',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error } = await useAsyncData('page-merchant',
+		async () => await useStore().loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
+	const { t } = useI18n();
+
 	const type = ref('');
-	const exchange = ref({
+	const resources = ref({
 		metal: 0, crystal: 0, deuterium: 0
 	});
 
@@ -84,10 +89,24 @@
 
 		['metal', 'crystal', 'deuterium'].forEach((item) => {
 			if (type.value !== item) {
-				res += exchange.value[item] * (page.value['modifiers'][item] / page.value['modifiers'][type.value]);
+				res += resources.value[item] * (page.value['modifiers'][item] / page.value['modifiers'][type.value]);
 			}
 		});
 
-		exchange.value[type.value] = res;
+		resources.value[type.value] = res;
+	}
+
+	function exchange() {
+		useApiSubmit('/merchant/exchange', {
+			type: type.value, ...resources.value
+		}, (result) => {
+			toast('Вы обменяли ' + result['exchange'] + ' ' + t('resources.' + result['type']), {
+				type: 'success',
+			});
+
+			type.value = '';
+
+			refreshNuxtData('page-merchant');
+		});
 	}
 </script>

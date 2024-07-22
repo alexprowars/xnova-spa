@@ -1,18 +1,18 @@
 <template>
-	<RouterForm action="/messages/" @page="setState">
+	<form method="post" @submit.prevent>
 		<div ref="formRef" class="block">
 			<div class="title">
 				Сообщения
-				<select name="category" @change.prevent="submitForm" v-model="page['category']">
+				<select name="category" v-model="category">
 					<option v-for="type in Object.keys($tm('message_types'))" :value="type">{{ $t('message_types.' + type) }}</option>
 				</select>
 				по
-				<select name="limit" @change.prevent="submitForm" v-model="page['limit']">
-					<option v-for="i in limit" :value="i">{{ i }}</option>
+				<select name="limit" v-model="limit">
+					<option v-for="i in limitItems" :value="i">{{ i }}</option>
 				</select>
 				на странице
 				<div v-if="deleteItems.length > 0" class="d-inline-block">
-					<input name="deletemessages" value="Удалить отмеченные" type="button" @click.prevent="submitForm">
+					<button type="button" @click.prevent="deleteMessages">Удалить отмеченные</button>
 				</div>
 			</div>
 			<div class="content noborder">
@@ -37,16 +37,17 @@
 					<Pagination :options="page['pagination']"/>
 				</div>
 				<div v-if="deleteItems.length > 0" class="float-end" style="padding: 5px">
-					<input name="deletemessages" value="Удалить отмеченные" type="button" @click.prevent="submitForm">
+					<button type="button" @click.prevent="deleteMessages">Удалить отмеченные</button>
 				</div>
 			</div>
 		</div>
-	</RouterForm>
+	</form>
 </template>
 
 <script setup>
-	import MessagesRow from '~/components/Page/Messages/Row.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import MessagesRow from '~/components/Page/Messages/Row.vue';
+	import Form from '~/components/Page/Messages/Form.vue';
+	import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
 
@@ -61,17 +62,24 @@
 		title: 'Сообщения',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const category = ref();
+	const limit = ref();
+
+	const { data: page, error } = await useAsyncData('page-messages',
+		async () => await useStore().loadPage(undefined, { category: category.value, limit: limit.value }),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
+	category.value = page.value['category'];
+	limit.value = page.value['limit'];
+
 	const formRef = ref(null);
 	const checkAll = ref(false);
-	const limit = ref([5, 10, 25, 50, 100, 200]);
+	const limitItems = ref([5, 10, 25, 50, 100, 200]);
 
 	watch(checkAll, (value) => {
 		messages.value.forEach((item) => {
@@ -91,14 +99,17 @@
 	});
 
 	const deleteItems = computed(() => {
-		return messages.value.filter((item) => item.deleted === true);
+		return messages.value.filter((item) => item.deleted === true)
+			.map((item) => item['id']);
 	});
 
-	function submitForm () {
-		formRef.value.parentElement.requestSubmit();
-	}
+	watch([category, limit], () => refreshNuxtData('page-messages'));
 
-	function setState(val) {
-		page.value = val;
+	function deleteMessages() {
+		useApiSubmit('/messages/delete', {
+			id: deleteItems.value,
+		}, () => {
+			refreshNuxtData('page-messages');
+		});
 	}
 </script>

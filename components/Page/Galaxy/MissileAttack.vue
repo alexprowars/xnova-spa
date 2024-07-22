@@ -71,7 +71,7 @@
 				type: 'success'
 			});
 		} catch (e) {
-			toast(e, { type: 'error' });
+			toast(e.message, { type: 'error' });
 		}
 	}
 </script>

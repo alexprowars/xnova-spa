@@ -28,7 +28,7 @@
 <script setup>
 	import UnitRow from '~/components/Page/Buildings/UnitRow.vue'
 	import UnitQueue from '~/components/Page/Buildings/UnitQueue.vue'
-	import { definePageMeta, showError, useAsyncData, startLoading, stopLoading, useHead, useApiPost, useRoute, refreshNuxtData } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, refreshNuxtData, useApiSubmit } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -56,23 +56,15 @@
 	const itemsRef = ref([]);
 	const { queueByType } = storeToRefs(store);
 
-	async function constructAction () {
-		startLoading()
-
-		try {
-			await useApiPost('/shipyard/queue', new FormData(formRef.value));
-
+	function constructAction () {
+		useApiSubmit('/shipyard/queue', new FormData(formRef.value), () => {
 			itemsRef.value.forEach((item) => {
 				if (typeof item['count'] !== 'undefined') {
 					item['count'] = '';
 				}
 			});
 
-			await refreshNuxtData('page-shipyard');
-		} catch {
-			alert('Что-то пошло не так!? Попробуйте еще раз')
-		} finally {
-			stopLoading();
-		}
+			refreshNuxtData('page-shipyard');
+		});
 	}
 </script>

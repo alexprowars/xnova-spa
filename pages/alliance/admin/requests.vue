@@ -5,7 +5,7 @@
 		</tr>
 		<tr v-if="page['request'] !== null">
 			<td colspan="2" class="padding-0">
-				<RouterForm :action="'/alliance/admin/requests?show='+page['request']['id']+''">
+				<RouterForm :action="'/alliance/admin/requests?show='+page['request']['id']">
 					<div class="separator"></div>
 					<div class="block-table">
 						<div class="row">
@@ -21,7 +21,7 @@
 							<div class="col th"><button type="submit" name="action">Принять</button></div>
 						</div>
 						<div class="row">
-							<div class="col th"><textarea name="text" cols=40 rows=10 title=""></textarea></div>
+							<div class="col th"><textarea name="text" cols=40 rows=10></textarea></div>
 						</div>
 						<div class="row">
 							<div class="col th"><button type="submit" name="action">Отклонить</button></div>

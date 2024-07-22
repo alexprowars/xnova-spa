@@ -52,12 +52,12 @@
 			</tr>
 			<tr>
 				<th width="200">Домашняя страница</th>
-				<th><input type="text" name="web" :value="page['web']" style="width:98%;" title=""></th>
+				<th><input type="text" name="web" :value="page['web']" style="width:98%;"></th>
 			</tr>
 			<tr>
 				<th>Логотип</th>
 				<th>
-					<input type="file" name="image" value="" style="width:98%;" title="">
+					<input type="file" name="image" value="" style="width:98%;">
 					<template v-if="page['image'] !== ''">
 						<img :src="page['image']" style="max-width: 98%;max-height: 400px;" alt="">
 						<label>
@@ -68,12 +68,12 @@
 			</tr>
 			<tr>
 				<th>Ранг основателя</th>
-				<th><input type="text" name="owner_range" :value="page['owner_range']" style="width:98%;" title=""></th>
+				<th><input type="text" name="owner_range" :value="page['owner_range']" style="width:98%;"></th>
 			</tr>
 			<tr>
 				<th>Заявки</th>
 				<th>
-					<select style="width:98%;" name="request_notallow" title="" v-model="page['request_allow']">
+					<select style="width:98%;" name="request_notallow" v-model="page['request_allow']">
 						<option value="1">Закрытый альянс</option>
 						<option value="0">Открытый альянс</option>
 					</select>
@@ -89,15 +89,37 @@
 	
 	<div class="separator"></div>
 	<div class="row">
-		<div class="col-6" v-html="page['Disolve_alliance']"></div>
-		<div class="col-6" v-html="page['Transfer_alliance']"></div>
+		<div class="col-6" v-if="page['access']['delete'] || false">
+			<table width="100%">
+				<tr>
+					<td class="c">Расформировать альянс</td>
+				</tr>
+				<tr>
+					<th><button @click.prevent="remove">Продолжить</button></th>
+				</tr>
+			</table>
+		</div>
+		<div class="col-6" v-if="page['owner'] === user['id']">
+			<form action="https://xnova.su/alliance/admin/give" method="post">
+				<table width="100%">
+					<tr>
+						<td class="c">Покинуть / Передать альянс</td>
+					</tr>
+					<tr>
+						<th><NuxtLinkLocale to="/alliance/admin/give" class="button">Продолжить</NuxtLinkLocale></th>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo } from '#imports';
 	import useStore from '~/store';
+	import { storeToRefs } from 'pinia';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -116,5 +138,28 @@
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	const { user } = storeToRefs(useStore());
+
+	function remove() {
+		openConfirmModal(
+			null,
+			'Расформировать альянс?',
+			[{
+				title: 'Нет',
+			}, {
+				title: 'Да',
+				handler: () => {
+					useApiSubmit('alliance/admin/remove', {}, () => {
+						toast('Альянс удален', {
+							type: 'success'
+						});
+
+						navigateTo('/alliance');
+					});
+				}
+			}]
+		);
 	}
 </script>

@@ -87,7 +87,7 @@
 			<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
 		</div>
 		
-		<textarea name="text" rows="10" v-model="value"></textarea>
+		<textarea ref="textRef" rows="10" v-model="value"></textarea>
 
 		<div v-if="showPreview" class="editor-component-preview table">
 			<div class="row">
@@ -106,6 +106,7 @@
 
 	const value = defineModel();
 
+	const textRef = ref();
 	const showColors = ref(false);
 	const showBgColors = ref(false);
 	const showSmiles = ref(false);
@@ -133,8 +134,8 @@
 
 	function addTag (tag, type) {
 		let len 	= value.value.length;
-		let start 	= this.$refs.text.selectionStart;
-		let end 	= this.$refs.text.selectionEnd;
+		let start 	= textRef.value.selectionStart;
+		let end 	= textRef.value.selectionEnd;
 
 		let rep = parser.addTag(tag, value.value.substring(start, end), type)
 

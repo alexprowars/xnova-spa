@@ -7,7 +7,7 @@
 <script setup>
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import { startLoading, stopLoading, useRoute, useApiPost } from '#imports';
+	import { useRoute, useApiSubmit } from '#imports';
 
 	const props = defineProps({
 		method: {
@@ -22,36 +22,16 @@
 
 	const store = useStore();
 	const formRef = ref(null);
-	const emit = defineEmits(['submit', 'page']);
 
-	async function send () {
-		startLoading();
-
-		let formData = new FormData(formRef.value);
-
+	function send () {
 		let action = props.action;
 
 		if (action.length === 0) {
 			action = useRoute().fullPath;
 		}
 
-		try {
-			const result = await useApiPost(action, formData);
-
-			if (result['data'] !== null) {
-				emit('page', result['data']);
-				delete result['data'];
-			}
-
+		useApiSubmit(action, new FormData(formRef.value), (result) => {
 			store.PAGE_LOAD(result);
-
-			emit('submit');
-		} catch(e) {
-			if (e.name === 'Error') {
-				alert(e.message);
-			}
-		} finally {
-			stopLoading();
-		}
+		});
 	}
 </script>

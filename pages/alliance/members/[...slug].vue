@@ -64,11 +64,11 @@
 			</tr>
 			<tr v-else>
 				<td colspan="10">
-					<RouterForm :action="'/alliance/admin/members?id='+m['id']+''">
+					<RouterForm :action="'/alliance/admin/members?id='+m['id']">
 						<table class="table">
 							<tr>
 								<th colspan="7">{{ m['Rank_for'] }}</th>
-								<th><select name="newrang" title="">{{ m['options'] }}</select></th>
+								<th><select name="newrang">{{ m['options'] }}</select></th>
 								<th colspan="2"><button type="submit">Сохранить</button></th>
 							</tr>
 						</table>

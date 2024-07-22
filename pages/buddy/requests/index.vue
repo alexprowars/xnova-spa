@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useApiPost, useAsyncData, useRoute } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useApiPost, useApiSubmit, useAsyncData, useRoute, navigateTo } from '#imports';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -72,10 +72,10 @@
 		throw showError(error.value);
 	}
 
-	async function approveRequest (id) {
-		const result = await useApiPost('/buddy/approve/'+id+'/')
-
-		store.PAGE_LOAD(result);
+	function approveRequest (id) {
+		useApiSubmit('/buddy/approve/' + id, {}, () => {
+			navigateTo('/buddy');
+		});
 	}
 
 	function deleteRequest (id) {
@@ -86,10 +86,10 @@
 				title: 'Нет',
 			}, {
 				title: 'Да',
-				handler: async () => {
-					const result = await useApiPost('/buddy/delete/' + id + '/');
-
-					store.PAGE_LOAD(result);
+				handler: () => {
+					useApiSubmit('/buddy/delete/' + id, {}, (result) => {
+						store.PAGE_LOAD(result);
+					});
 				}
 			}]
 		);

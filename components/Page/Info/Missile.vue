@@ -25,7 +25,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { useApiPost, startLoading, stopLoading} from '#imports';
+	import { useApiSubmit } from '#imports';
 	import { toast } from 'vue3-toastify';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store/index.js';
@@ -40,27 +40,17 @@
 	const interceptor = ref(0);
 	const interplanetary = ref(0);
 
-	async function send() {
-		startLoading();
-
-		try {
-			await useApiPost('/info/' + props.item + '/missiles', {
-				interceptor: interceptor.value,
-				interplanetary: interplanetary.value,
-			});
-
+	function send() {
+		useApiSubmit('/info/' + props.item + '/missiles', {
+			interceptor: interceptor.value,
+			interplanetary: interplanetary.value,
+		}, () => {
 			toast('Ракеты уничтожены', {
 				type: 'success',
 			});
 
 			interceptor.value = 0;
 			interplanetary.value = 0;
-		} catch (e) {
-			toast(e, {
-				type: 'error',
-			});
-		} finally {
-			stopLoading();
-		}
+		});
 	}
 </script>

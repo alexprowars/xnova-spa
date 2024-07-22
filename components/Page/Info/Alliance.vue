@@ -28,7 +28,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { startLoading, stopLoading, useApiPost } from '#imports';
+	import { useApiSubmit } from '#imports';
 	import { toast } from 'vue3-toastify';
 
 	const props = defineProps({
@@ -37,23 +37,13 @@
 
 	const fleet = ref(0);
 
-	async function send() {
-		startLoading();
-
-		try {
-			await useApiPost('/info/' + props.item + '/alliance', {
-				fleetId: fleet.value,
-			});
-
+	function send() {
+		useApiSubmit('/info/' + props.item + '/alliance', {
+			fleetId: fleet.value,
+		}, () => {
 			toast('Ракета с дейтерием отправлена на орбиту вашей планете', {
 				type: 'success',
 			});
-		} catch (e) {
-			toast(e, {
-				type: 'error',
-			});
-		} finally {
-			stopLoading();
-		}
+		});
 	}
 </script>

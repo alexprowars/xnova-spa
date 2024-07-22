@@ -62,10 +62,10 @@
 							<br><br>
 							HTML код:
 							<br>
-							<input style="width:100%" type="text" :value="html" title="">
+							<input style="width:100%" type="text" :value="html">
 							<div class="separator"></div>
 							BB код:
-							<input style="width:100%" type="text" :value="'[url=' + protocol + '//' + host + '/?' + user.id + '][img]' + protocol + '//' + host + '/userbar' + user.id + '.jpg[/img][/url]'" title="">
+							<input style="width:100%" type="text" :value="'[url=' + protocol + '//' + host + '/?' + user.id + '][img]' + protocol + '//' + host + '/userbar' + user.id + '.jpg[/img][/url]'">
 						</div>
 					</div>
 				</div>

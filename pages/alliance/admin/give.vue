@@ -1,12 +1,12 @@
 <template>
-	<RouterForm :action="'/alliance/admin/give?id='+page['id']+''">
+	<RouterForm :action="'/alliance/admin/give?id='+page['id']">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="8">Передача альянса</td>
 			</tr>
 			<tr>
 				<th colspan="3">Передать альянс игроку:</th>
-				<th><select name="newleader" title="">{{ page['righthand'] }}</select></th>
+				<th><select name="newleader">{{ page['righthand'] }}</select></th>
 				<th colspan="3"><button type="submit">Передача</button></th>
 			</tr>
 			<tr>

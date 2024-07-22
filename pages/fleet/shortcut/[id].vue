@@ -2,7 +2,7 @@
 	<div class="block">
 		<div class="title">{{ page['name'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]</div>
 		<div class="content border-0">
-			<RouterForm :action="'/fleet/shortcut/'+page['id']+'/'">
+			<form method="post" @submit.prevent="update">
 				<div class="block-table">
 					<div class="row">
 						<div class="col th">
@@ -19,7 +19,7 @@
 						<div class="col th">
 							<button type="reset">Очистить</button>
 							<button type="submit">Обновить</button>
-							<button type="submit" name="delete">Удалить</button>
+							<button type="button" @click.prevent="del">Удалить</button>
 						</div>
 					</div>
 					<div class="row">
@@ -28,14 +28,17 @@
 						</div>
 					</div>
 				</div>
-			</RouterForm>
+			</form>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import { toast } from 'vue3-toastify';
+	import { ref } from 'vue';
+	import Form from '~/components/Page/Messages/Form.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -51,5 +54,33 @@
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	function update() {
+		useApiSubmit('/fleet/shortcut/' + page.value['id'], {
+			name: page.value['name'],
+			galaxy: page.value['galaxy'],
+			system: page.value['system'],
+			planet: page.value['planet'],
+			planet_type: page.value['planet_type'],
+		}, () => {
+			toast('Ссылка была обновлена!', {
+				type: 'success'
+			});
+
+			navigateTo('/fleet/shortcut');
+		});
+	}
+
+	function del() {
+		useApiSubmit('/fleet/shortcut/' + page.value['id'], {
+			'_method': 'DELETE',
+		}, () => {
+			toast('Ссылка была успешно удалена!', {
+				type: 'success'
+			});
+
+			navigateTo('/fleet/shortcut');
+		});
 	}
 </script>

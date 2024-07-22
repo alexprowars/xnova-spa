@@ -1,5 +1,5 @@
 <template>
-	<RouterForm :action="'/buddy/new/'+page['id']+'/'">
+	<RouterForm :action="'/buddy/new/'+page['id']">
 		<table class="table">
 			<tr>
 				<td class="c" colspan="2">Предложение подружиться</td>
@@ -9,10 +9,10 @@
 				<th>{{ page["username"] }}</th>
 			</tr>
 			<tr>
-				<th colspan="2"><textarea name="text" cols="60" rows="10" title=""></textarea></th>
+				<th colspan="2"><textarea name="text" cols="60" rows="10"></textarea></th>
 			</tr>
 			<tr>
-				<td class="c"><NuxtLinkLocale to="/buddy/">назад</NuxtLinkLocale></td>
+				<td class="c"><NuxtLinkLocale to="/buddy">назад</NuxtLinkLocale></td>
 				<td class="c"><button type="submit">Отправить заявку</button></td>
 			</tr>
 		</table>
