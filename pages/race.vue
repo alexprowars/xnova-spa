@@ -108,27 +108,17 @@
 				<div class="row">
 					<div class="col-12 k big">
 						<span v-if="page['change']">
-							Бесплатная смена фракции ({{ page['change'] }} попытка осталось):
+							Бесплатная смена фракции ({{ page['change'] }} попытка осталось)
 						</span>
 						<span v-else>
-							Сменить фракцию за 100 кредитов:
+							Сменить фракцию за 100 кредитов
 						</span>
 					</div>
 				</div>
-				<div class="row">
+				<div v-if="page['change_available']" class="row">
 					<div class="th col-sx-12">
 						На планетах не должно идти строительство, исследования, летать флот и весь флот фракции подлежит демонтировке (без возврата ресурсов).<br><br>
-						<RouterForm v-if="page['change_available']" action="/race/change">
-							<select name="race">
-								<option value="0">выбрать...</option>
-								<option value="1">Конфедерация</option>
-								<option value="2">Бионики</option>
-								<option value="3">Сайлоны</option>
-								<option value="4">Древние</option>
-							</select>
-							<br><br>
-							<button type="submit">Сменить фракцию</button>
-						</RouterForm>
+						<RaceChange/>
 					</div>
 				</div>
 			</div>
@@ -137,10 +127,12 @@
 </template>
 
 <script setup>
-	import InfoPopup from '~/components/Page/Info/Popup.vue'
+	import InfoPopup from '~/components/Page/Info/Popup.vue';
+	import RaceChange from '~/components/Page/Race/RaceChange.vue';
 	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -168,30 +160,31 @@
 		return store.user ? store.user.race : 0;
 	});
 
-	if (race.value === 0) {
+	if (!race.value) {
 		route.meta['view'].menu = false;
 		route.meta['view'].header = false;
 		route.meta['view'].footer = false;
 		route.meta['view'].planets = false;
 	}
 
-	onMounted(() => {
-		if (race.value !== 0) {
+	onMounted(async () => {
+		if (race.value) {
 			return;
 		}
 
-		useApiGet('/content/welcome/', {
-			popup: 'Y'
-		})
-		.then(result => {
+		try {
+			const result = await useApiGet('/content/welcome/');
+
 			let component = useRouter().resolve('/content/welcome/')
 				.matched.flatMap(record => Object.values(record.components));
 
 			if (component.length) {
-				openPopupModal(component[0], {
+				await openPopupModal(component[0], {
 					popup: result['data'],
 				});
 			}
-		})
-	})
+		} catch (e) {
+			toast(e.message, { type: 'error' });
+		}
+	});
 </script>

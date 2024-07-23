@@ -12,7 +12,6 @@
 <script setup>
 	import { navigateTo, useRoute } from '#imports';
 	import { computed } from 'vue';
-	import useStore from '~/store';
 
 	const props = defineProps({
 		options: {
@@ -46,7 +45,8 @@
 
 	function load (page) {
 		const route = useRoute();
+		route.query['p'] = page;
 
-		navigateTo(route.fullPath + (route.fullPath.indexOf('?') >= 0 ? '&' : '?') + 'p=' + page);
+		navigateTo({ path: route.path, query: route.query, force: true });
 	}
 </script>

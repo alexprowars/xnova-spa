@@ -47,7 +47,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 		stopLoading();
 
 		if (isNavigationFailure(failure)) {
-			console.log('failed navigation', failure);
+			console.log('failed navigation', failure, to.fullPath, from.fullPath);
 		}
 	});
 })

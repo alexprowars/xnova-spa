@@ -5,16 +5,16 @@
 				<td class="c" colspan="2">Альянсы</td>
 			</tr>
 			<tr>
-				<th><NuxtLinkLocale to="/alliance/make">Создать альянс</NuxtLinkLocale></th>
+				<th><NuxtLinkLocale to="/alliance/create">Создать альянс</NuxtLinkLocale></th>
 				<th><NuxtLinkLocale to="/alliance/search">Поиск альянса</NuxtLinkLocale></th>
 			</tr>
 		</table>
 
-		<table v-if="page['list'].length" class="table">
+		<table v-if="page['requests'].length" class="table">
 			<tr>
 				<td class="c" colspan="2">Ваши заявки</td>
 			</tr>
-			<template v-for="item in page['list']">
+			<template v-for="item in page['requests']">
 				<tr>
 					<th width="70%">{{ item[2] }} [{{ item[1] }}]</th>
 					<th>{{ dayjs(item[3]).tz().format('DD MMM YYYY HH:mm') }}</th>
@@ -29,14 +29,14 @@
 				</tr>
 			</template>
 		</table>
-		<table v-if="page['allys'].length" class="table">
+		<table v-if="page['alliances'].length" class="table">
 			<tr>
 				<td class="c" width="30">Место</td>
 				<td class="c">Альянс</td>
 				<td class="c">Игроки</td>
 				<td class="c">Очки</td>
 			</tr>
-			<tr v-for="(item, i) in page['allys']">
+			<tr v-for="(item, i) in page['alliances']">
 				<th>{{ i + 1 }}</th>
 				<th><NuxtLinkLocale :to="'/alliance/info/'+item['id']+''">{{ item['name'] }} [{{ item['tag'] }}]</NuxtLinkLocale></th>
 				<th>{{ item['members'] }}</th>

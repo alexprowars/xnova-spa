@@ -8,12 +8,12 @@
 				<div class="block-table">
 					<div class="row">
 						<div class="col text-center j">
-							<NuxtLinkLocale to="/buddy/requests/">Запросы</NuxtLinkLocale>
+							<NuxtLinkLocale to="/buddy/requests">Запросы</NuxtLinkLocale>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col text-center j">
-							<NuxtLinkLocale to="/buddy/requests/my/">Мои запросы</NuxtLinkLocale>
+							<NuxtLinkLocale to="/buddy/requests/my">Мои запросы</NuxtLinkLocale>
 						</div>
 					</div>
 					<div class="row">
@@ -50,7 +50,7 @@
 							</span>
 						</div>
 						<div class="col th middle">
-							<button :to="'/buddy/delete/'+item['id']+'/'" @click.prevent="deleteItem(item['id'])" class="button text-danger">Удалить</button>
+							<button @click.prevent="deleteItem(item['id'])" class="button text-danger">Удалить</button>
 						</div>
 					</div>
 					<div v-if="page['items'].length === 0" class="row">
@@ -93,7 +93,9 @@
 			}, {
 				title: 'Да',
 				handler: () => {
-					useApiSubmit('/buddy/delete/' + id, {}, (result) => {
+					useApiSubmit('/buddy/' + id, {
+						_method: 'DELETE'
+					}, (result) => {
 						store.PAGE_LOAD(result);
 					});
 				}

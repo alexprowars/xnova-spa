@@ -44,7 +44,9 @@ export const useApiSubmit = async (url, data = {}, callback) => {
 			callback?.(result);
 		}
 	} catch (e) {
-		toast(e.message, { type: 'error' });
+		if (e.message) {
+			toast(e.message, { type: 'error' });
+		}
 	} finally {
 		stopLoading();
 	}
@@ -60,7 +62,7 @@ function handleError (e) {
 	}
 
 	if (typeof e.response._data !== 'undefined' && typeof e.response._data.error !== 'undefined') {
-		return showError({
+		throw showError({
 			data: e.response._data,
 		});
 	}
@@ -71,7 +73,7 @@ function handleError (e) {
 	}
 
 	if (e.response?.status !== 200) {
-		return showError({
+		throw showError({
 			statusCode: e.response.status,
 			statusMessage: e.response?.statusText,
 		});

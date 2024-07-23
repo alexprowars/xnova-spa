@@ -4,7 +4,7 @@
 
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import useStore from '~/store/index.js';
 
 	definePageMeta({
 		layout: 'empty',
@@ -17,8 +17,10 @@
 		title: 'Боевой доклад',
 	});
 
+	const route = useRoute();
+
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useStore().loadPage(route.path, Object.assign({}, route.query));
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

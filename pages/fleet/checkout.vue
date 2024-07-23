@@ -351,7 +351,7 @@
 
 		useApiSubmit('/fleet/send', {
 			ships,
-			...page['target'],
+			...page.value['target'],
 			alliance: alliance.value,
 			fleet: page.value['fleet'],
 			mission: page.value['mission'],

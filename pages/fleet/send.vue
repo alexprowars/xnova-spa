@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="page">
 		<div class="block-table">
 			<div class="row">
 				<div class="c col-12"><span class="success">Флот отправлен</span></div>

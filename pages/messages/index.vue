@@ -1,6 +1,6 @@
 <template>
 	<form method="post" @submit.prevent>
-		<div ref="formRef" class="block">
+		<div class="block">
 			<div class="title">
 				Сообщения
 				<select name="category" v-model="category">
@@ -50,6 +50,8 @@
 	import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
+	import { queue } from 'vue3-toastify';
+	import * as querystring from 'node:querystring';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -64,9 +66,10 @@
 
 	const category = ref();
 	const limit = ref();
+	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData('page-messages',
-		async () => await useStore().loadPage(undefined, { category: category.value, limit: limit.value }),
+		async () => await useStore().loadPage(undefined, Object.assign({}, route.query, { category: category.value, limit: limit.value })),
 		{ watch: [() => useRoute().query] }
 	);
 
@@ -77,7 +80,6 @@
 	category.value = page.value['category'];
 	limit.value = page.value['limit'];
 
-	const formRef = ref(null);
 	const checkAll = ref(false);
 	const limitItems = ref([5, 10, 25, 50, 100, 200]);
 

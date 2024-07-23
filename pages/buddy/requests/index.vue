@@ -19,10 +19,10 @@
 							{{ i + 1 }}
 						</div>
 						<div class="col th middle">
-							<NuxtLinkLocale :to="'/messages/write/'+item['user']['id']+'/'">{{ item['user']['name'] }}</NuxtLinkLocale>
+							<NuxtLinkLocale :to="'/messages/write/'+item['user']['id']">{{ item['user']['name'] }}</NuxtLinkLocale>
 						</div>
 						<div class="col th middle">
-							<NuxtLinkLocale v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']+'/'">{{ item['user']['alliance']['name'] }}</NuxtLinkLocale>
+							<NuxtLinkLocale v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']">{{ item['user']['alliance']['name'] }}</NuxtLinkLocale>
 							<template v-else>-</template>
 						</div>
 						<div class="col-2 th middle">
@@ -47,7 +47,7 @@
 		<div class="text-end">
 			<div class="row">
 				<div class="col">
-					<NuxtLinkLocale to="/buddy/" class="button">Вернуться назад</NuxtLinkLocale>
+					<NuxtLinkLocale to="/buddy" class="button">Вернуться назад</NuxtLinkLocale>
 				</div>
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useApiPost, useApiSubmit, useAsyncData, useRoute, navigateTo } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useRoute, navigateTo } from '#imports';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -73,7 +73,7 @@
 	}
 
 	function approveRequest (id) {
-		useApiSubmit('/buddy/approve/' + id, {}, () => {
+		useApiSubmit('/buddy/' + id + '/approve', {}, () => {
 			navigateTo('/buddy');
 		});
 	}
@@ -87,7 +87,9 @@
 			}, {
 				title: 'Да',
 				handler: () => {
-					useApiSubmit('/buddy/delete/' + id, {}, (result) => {
+					useApiSubmit('/buddy/' + id, {
+						_method: 'DELETE'
+					}, (result) => {
 						store.PAGE_LOAD(result);
 					});
 				}
