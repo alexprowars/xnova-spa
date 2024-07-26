@@ -1,106 +1,40 @@
 <template>
 	<div>
-	<table class="table">
-		<tr>
-			<td class="c">Управление альянсом</td>
-		</tr>
-		<tr>
-			<th><NuxtLinkLocale to="/alliance/admin/rights">Установить ранги</NuxtLinkLocale></th>
-		</tr>
-		<tr v-if="page['can_view_members']">
-			<th><NuxtLinkLocale to="/alliance/admin/members">Члены альянса</NuxtLinkLocale></th>
-		</tr>
-		<tr>
-			<th><NuxtLinkLocale to="/alliance/admin/tag">Изменить аббревиатуру альянса</NuxtLinkLocale></th>
-		</tr>
-		<tr>
-			<th><NuxtLinkLocale to="/alliance/admin/name">Изменить название альянса</NuxtLinkLocale></th>
-		</tr>
-	</table>
-	
-	<RouterForm action="/alliance/admin">
-		<input type="hidden" name="t" :value="page['t']">
 		<table class="table">
 			<tr>
-				<td class="c" colspan="3">Редактировать текст</td>
+				<td class="c">Управление альянсом</td>
 			</tr>
 			<tr>
-				<th><NuxtLinkLocale to="/alliance/admin?t=1">Внешний текст</NuxtLinkLocale></th>
-				<th><NuxtLinkLocale to="/alliance/admin?t=2">Внутренний текст</NuxtLinkLocale></th>
-				<th><NuxtLinkLocale to="/alliance/admin?t=3">Текст заявки</NuxtLinkLocale></th>
+				<th><NuxtLinkLocale to="/alliance/admin/rights">Установить ранги</NuxtLinkLocale></th>
+			</tr>
+			<tr v-if="page['access']['kick']">
+				<th><NuxtLinkLocale to="/alliance/admin/members">Члены альянса</NuxtLinkLocale></th>
 			</tr>
 			<tr>
-				<td class="c" colspan="3">Текст альянса</td>
+				<th><NuxtLinkLocale to="/alliance/admin/tag">Изменить аббревиатуру альянса</NuxtLinkLocale></th>
 			</tr>
 			<tr>
-				<th colspan="3" class="p-a-0">
-					<TextEditor v-model="page['text']"/>
-				</th>
-			</tr>
-			<tr>
-				<th colspan="3">
-					<input type="reset" value="Очистить"><button type="submit">Сохранить</button>
-				</th>
+				<th><NuxtLinkLocale to="/alliance/admin/name">Изменить название альянса</NuxtLinkLocale></th>
 			</tr>
 		</table>
-	</RouterForm>
-	<div class="separator"></div>
-	<RouterForm action="/alliance/admin">
-		<table class="table">
-			<tr>
-				<td class="c" colspan="2">Дополнительные настройки</td>
-			</tr>
-			<tr>
-				<th width="200">Домашняя страница</th>
-				<th><input type="text" name="web" :value="page['web']" style="width:98%;"></th>
-			</tr>
-			<tr>
-				<th>Логотип</th>
-				<th>
-					<input type="file" name="image" value="" style="width:98%;">
-					<template v-if="page['image'] !== ''">
-						<img :src="page['image']" style="max-width: 98%;max-height: 400px;" alt="">
-						<label>
-							<input type="checkbox" name="delete_image" value="Y"> Удалить
-						</label>
-					</template>
-				</th>
-			</tr>
-			<tr>
-				<th>Ранг основателя</th>
-				<th><input type="text" name="owner_range" :value="page['owner_range']" style="width:98%;"></th>
-			</tr>
-			<tr>
-				<th>Заявки</th>
-				<th>
-					<select style="width:98%;" name="request_notallow" v-model="page['request_allow']">
-						<option value="1">Закрытый альянс</option>
-						<option value="0">Открытый альянс</option>
-					</select>
-				</th>
-			</tr>
-			<tr>
-				<th colspan="2">
-					<button type="submit" name="options" value="Y">Сохранить</button>
-				</th>
-			</tr>
-		</table>
-	</RouterForm>
-	
-	<div class="separator"></div>
-	<div class="row">
-		<div class="col-6" v-if="page['access']['delete'] || false">
-			<table width="100%">
-				<tr>
-					<td class="c">Расформировать альянс</td>
-				</tr>
-				<tr>
-					<th><button @click.prevent="remove">Продолжить</button></th>
-				</tr>
-			</table>
-		</div>
-		<div class="col-6" v-if="page['owner'] === user['id']">
-			<form action="https://xnova.su/alliance/admin/give" method="post">
+
+		<AllianceTextForm :data="page"/>
+		<div class="separator"></div>
+		<AllianceUpdateForm :data="page"/>
+
+		<div class="separator"></div>
+		<div class="row">
+			<div class="col-6" v-if="page['access']['delete'] || false">
+				<table width="100%">
+					<tr>
+						<td class="c">Расформировать альянс</td>
+					</tr>
+					<tr>
+						<th><button @click.prevent="remove">Продолжить</button></th>
+					</tr>
+				</table>
+			</div>
+			<div class="col-6" v-if="page['owner'] === user['id']">
 				<table width="100%">
 					<tr>
 						<td class="c">Покинуть / Передать альянс</td>
@@ -109,9 +43,8 @@
 						<th><NuxtLinkLocale to="/alliance/admin/give" class="button">Продолжить</NuxtLinkLocale></th>
 					</tr>
 				</table>
-			</form>
+			</div>
 		</div>
-	</div>
 	</div>
 </template>
 
@@ -120,6 +53,8 @@
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 	import { toast } from 'vue3-toastify';
+	import AllianceUpdateForm from '~/components/Page/Alliance/AllianceUpdateForm.vue';
+	import AllianceTextForm from '~/components/Page/Alliance/AllianceTextForm.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -132,9 +67,13 @@
 		title: 'Управление альянсом',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const route = useRoute();
+
+	const { data: page, error } = await useAsyncData(
+		'page-alliance.admin',
+		async () => await useStore().loadPage(undefined, Object.assign({}, route.query)),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);

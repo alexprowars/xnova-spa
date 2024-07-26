@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-	import { ref, defineEmits } from 'vue';
+	import { ref } from 'vue';
 	import { toast } from 'vue3-toastify';
 	import { refreshNuxtData, openAlertModal, useApiPost } from '#imports';
 

@@ -202,7 +202,7 @@
 
 <script setup>
 	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useApiSubmit, useAsyncData } from '#imports';
-	import useStore from '~/store';
+	import useStore from '~/store/index.js';
 	import { computed, onMounted, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 	import dayjs from 'dayjs';

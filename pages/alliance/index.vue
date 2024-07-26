@@ -1,56 +1,12 @@
 <template>
-	<div v-if="hasAlliance">
-		<table class="table">
-			<tr>
-				<td class="c" colspan="2">Альянсы</td>
-			</tr>
-			<tr>
-				<th><NuxtLinkLocale to="/alliance/create">Создать альянс</NuxtLinkLocale></th>
-				<th><NuxtLinkLocale to="/alliance/search">Поиск альянса</NuxtLinkLocale></th>
-			</tr>
-		</table>
-
-		<table v-if="page['requests'].length" class="table">
-			<tr>
-				<td class="c" colspan="2">Ваши заявки</td>
-			</tr>
-			<template v-for="item in page['requests']">
-				<tr>
-					<th width="70%">{{ item[2] }} [{{ item[1] }}]</th>
-					<th>{{ dayjs(item[3]).tz().format('DD MMM YYYY HH:mm') }}</th>
-				</tr>
-				<tr>
-					<th colspan="2">
-						<RouterForm action="/alliance">
-							<input type="hidden" name="r_id" :value="item[0]">
-							<button type="submit" name="bcancel" value="Y">Убрать заявку</button>
-						</RouterForm>
-					</th>
-				</tr>
-			</template>
-		</table>
-		<table v-if="page['alliances'].length" class="table">
-			<tr>
-				<td class="c" width="30">Место</td>
-				<td class="c">Альянс</td>
-				<td class="c">Игроки</td>
-				<td class="c">Очки</td>
-			</tr>
-			<tr v-for="(item, i) in page['alliances']">
-				<th>{{ i + 1 }}</th>
-				<th><NuxtLinkLocale :to="'/alliance/info/'+item['id']+''">{{ item['name'] }} [{{ item['tag'] }}]</NuxtLinkLocale></th>
-				<th>{{ item['members'] }}</th>
-				<th>{{ item['total_points'] }}</th>
-			</tr>
-		</table>
-	</div>
+	<NoAlliance v-if="hasAlliance" :requests="page['requests']" :alliances="page['alliances']"/>
 	<div v-else>
 		<table class="table" style="table-layout: fixed;">
 			<tbody>
 				<tr>
 					<td class="c" colspan="2">Информация об альянсе</td>
 				</tr>
-				<tr v-if="page['image'] !== ''">
+				<tr v-if="page['image']">
 					<th colspan="2" class="p-a-0">
 						<img :src="page['image']" style="max-width:100%" alt="">
 					</th>
@@ -67,7 +23,7 @@
 					<th>Члены альянса</th>
 					<th>
 						{{ page['members'] }}
-						<template v-if="page['members_list']">
+						<template v-if="page['access']['memberlist']">
 							(<NuxtLinkLocale to="/alliance/members">список</NuxtLinkLocale>)
 						</template>
 					</th>
@@ -76,7 +32,7 @@
 					<th>Ваш ранг</th>
 					<th>
 						{{ page['range'] }}
-						<template v-if="page['alliance_admin']">
+						<template v-if="page['access']['admin']">
 							(<NuxtLinkLocale to="/alliance/admin">управление альянсом</NuxtLinkLocale>)
 						</template>
 					</th>
@@ -96,7 +52,7 @@
 						<NuxtLinkLocale to="/alliance/admin/equests">{{ page['requests'] }} заявок</NuxtLinkLocale>
 					</th>
 				</tr>
-				<tr v-if="page['chat_access']">
+				<tr v-if="page['access']['chat']">
 					<th>
 						Альянс чат
 						<template v-if="user.alliance.messages > 0">
@@ -105,37 +61,47 @@
 					</th>
 					<th><NuxtLinkLocale to="/alliance/chat">Войти в чат</NuxtLinkLocale></th>
 				</tr>
-				<tr>
+				<tr v-if="page['web']">
+					<th>Домашняя страница</th>
+					<th><a :href="page['web']" target="_blank">{{ page['web'] }}</a></th>
+				</tr>
+				<tr v-if="page['description']">
 					<td class="b" colspan="2" height="100" style="padding:3px;">
 						<TextViewer :text="page['description']"/>
 					</td>
 				</tr>
-				<tr v-if="page['web'] !== ''">
-					<th>Домашняя страница</th>
-					<th><a :href="page['web']" target="_blank">{{ page['web'] }}</a></th>
-				</tr>
-				<tr>
-					<td class="c" colspan="2">Внутренняя компетенция</td>
-				</tr>
-				<tr>
-					<td class="b" colspan="2" height="100" style="padding:3px;">
-						<TextViewer :text="page['text']"/>
-					</td>
-				</tr>
-				<tr v-if="page['owner'] !== ''">
-					<td colspan="2" v-html="page['owner']"></td>
-				</tr>
 			</tbody>
+		</table>
+
+		<table v-if="page['text']" width="100%">
+			<tr>
+				<td class="c">Внутренняя компетенция</td>
+			</tr>
+			<tr>
+				<td class="b" height="100" style="padding:3px;">
+					<TextViewer :text="page['text']"/>
+				</td>
+			</tr>
+		</table>
+
+		<table v-if="!page['owner']" width="100%">
+			<tr>
+				<td class="c">Покинуть альянс</td>
+			</tr>
+			<tr>
+				<th><button @click.prevent="exit">Продолжить</button></th>
+			</tr>
 		</table>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import dayjs from 'dayjs';
+	import NoAlliance from '~/components/Page/Alliance/NoAlliance.vue';
+	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -150,9 +116,10 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error } = await useAsyncData('page-alliance',
+		async () => await store.loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -168,5 +135,26 @@
 		useHead({
 			title: 'Альянсы',
 		});
+	}
+
+	function exit () {
+		openConfirmModal(
+			null,
+			'Покинуть альянс?',
+			[{
+				title: 'Нет',
+			}, {
+				title: 'Да',
+				handler: () => {
+					useApiSubmit('alliance/exit', {}, () => {
+						toast('Вы покинули альянс', {
+							type: 'success'
+						});
+
+						refreshNuxtData('page-alliance');
+					});
+				}
+			}]
+		);
 	}
 </script>

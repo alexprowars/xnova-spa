@@ -34,7 +34,7 @@
 
 <script setup>
 	import { openAlertModal, useApiPost } from '#imports';
-	import { defineEmits, ref } from 'vue';
+	import { ref } from 'vue';
 	import { toast } from 'vue3-toastify';
 
 	const props = defineProps({

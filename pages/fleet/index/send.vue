@@ -58,7 +58,7 @@
 <script setup>
 	import dayjs from 'dayjs';
 	import { definePageMeta, showError, useAsyncData } from '#imports';
-	import useStore from '~/store';
+	import useStore from '~/store/index.js';
 
 	definePageMeta({
 		middleware: ['auth'],

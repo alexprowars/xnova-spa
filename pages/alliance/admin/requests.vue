@@ -1,57 +1,34 @@
 <template>
 	<table class="table">
 		<tr>
-			<td class="c" colspan="2">Обзор заявок [{{ page['tag'] }}]</td>
+			<td class="c" colspan="2">Обзор заявок</td>
 		</tr>
-		<tr v-if="page['request'] !== null">
+		<tr v-if="request">
 			<td colspan="2" class="padding-0">
-				<RouterForm :action="'/alliance/admin/requests?show='+page['request']['id']">
-					<div class="separator"></div>
-					<div class="block-table">
-						<div class="row">
-							<div class="col th">Заявка от {{ page['request']['username'] }}</div>
-						</div>
-						<div class="row">
-							<div class="col th">{{ page['request']['request_text'] }}</div>
-						</div>
-						<div class="row">
-							<div class="col c">Форма ответа:</div>
-						</div>
-						<div class="row">
-							<div class="col th"><button type="submit" name="action">Принять</button></div>
-						</div>
-						<div class="row">
-							<div class="col th"><textarea name="text" cols=40 rows=10></textarea></div>
-						</div>
-						<div class="row">
-							<div class="col th"><button type="submit" name="action">Отклонить</button></div>
-						</div>
-					</div>
-					<div class="separator"></div>
-				</RouterForm>
+				<RequestAcceptForm :request="request" @close="request = null"/>
 			</td>
 		</tr>
-		<tr v-if="page['list'].length > 0">
+		<tr v-if="page['items'].length > 0">
 			<td class="c text-center">
-				<NuxtLinkLocale to="/alliance/admin/requests?sort=1">Логин</NuxtLinkLocale>
+				Логин
 			</td>
 			<td class="c text-center">
-				<NuxtLinkLocale to="/alliance/admin/requests?sort=0">Дата подачи заявки</NuxtLinkLocale>
+				Дата подачи заявки
 			</td>
 		</tr>
-		<tr v-for="list in page['list']">
+		<tr v-for="item in page['items']">
 			<th class="text-center">
-				<NuxtLinkLocale :to="'/alliance/admin/requests?show='+list['id']+''">{{ list['username'] }}</NuxtLinkLocale>
+				<a href="" @click.prevent="show(item)">{{ item['name'] }}</a>
 			</th>
 			<th class="text-center">
-				{{ list['time'] }}
+				{{ dayjs(item['date']).tz().format('DD MMM YYYY HH:mm') }}
 			</th>
 		</tr>
-		<tr v-if="page['list'].length === 0">
+		<tr v-if="page['items'].length === 0">
 			<th colspan="2">Список заявок пуст</th>
 		</tr>
 		<tr>
-			<td class="c" colspan="2"><NuxtLinkLocale to="/alliance/">Назад</NuxtLinkLocale></td>
+			<td class="c" colspan="2"><NuxtLinkLocale to="/alliance">Назад</NuxtLinkLocale></td>
 		</tr>
 	</table>
 </template>
@@ -59,6 +36,9 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
+	import dayjs from 'dayjs';
+	import { ref } from 'vue';
+	import RequestAcceptForm from '~/components/Page/Alliance/RequestAcceptForm.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -71,11 +51,19 @@
 		title: 'Проверить запросы',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error } = await useAsyncData(
+		'page-alliance.requests',
+		async () => await useStore().loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
+	}
+
+	const request = ref();
+
+	function show(req) {
+		request.value = req;
 	}
 </script>
