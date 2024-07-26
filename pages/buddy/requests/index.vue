@@ -28,7 +28,7 @@
 						<div class="col-2 th middle">
 							<NuxtLinkLocale :to="'/galaxy/?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLinkLocale>
 						</div>
-						<div class="col th middle" v-html="item['text']">	</div>
+						<div class="col th middle" v-html="item['message']"></div>
 						<div class="col th text-center">
 							<button v-if="page['isMy']" @click.prevent="deleteRequest(item['id'])" class="button text-danger">Удалить запрос</button>
 							<template v-else>
@@ -63,9 +63,10 @@
 	});
 
 	const store = useStore();
+	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+		return await store.loadPage('/buddy/?requests' + (route.path.indexOf('/my') !== -1 ? '&my' : ''));
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

@@ -36,7 +36,7 @@
 			</tr>
 			<tr v-for="(item, i) in alliances">
 				<th>{{ i + 1 }}</th>
-				<th><NuxtLinkLocale :to="'/alliance/info/'+item['id']+''">{{ item['name'] }} [{{ item['tag'] }}]</NuxtLinkLocale></th>
+				<th><NuxtLinkLocale :to="'/alliance/info/' + item['id']">{{ item['name'] }} [{{ item['tag'] }}]</NuxtLinkLocale></th>
 				<th>{{ item['members'] }}</th>
 				<th>{{ item['total_points'] }}</th>
 			</tr>
