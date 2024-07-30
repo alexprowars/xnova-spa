@@ -27,6 +27,8 @@
 						:key="rows['p_id']"
 						:item="item"
 						:user="page['user']"
+						:galaxy="page['galaxy']"
+						:system="page['system']"
 						:planet="index + 1"
 						@sendMissile="sendMissile(item['planet'])"
 					/>
@@ -70,7 +72,7 @@
 	import GalaxySelector from '~/components/Page/Galaxy/Selector.vue';
 	import GalaxyLegend from '~/components/Page/Galaxy/Legend.vue';
 	import MissileAttack from '~/components/Page/Galaxy/MissileAttack.vue';
-	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute, useNuxtData, useApiSubmit } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -89,9 +91,12 @@
 	const store = useStore();
 	const route = useRoute();
 
+	const galaxy = ref(route.params['galaxy'] || route.query['galaxy'] || null);
+	const system = ref(route.params['system'] || route.query['system'] || null);
+
 	const { data: page, error } = await useAsyncData('page-galaxy',
-		async () => await store.loadPage('/galaxy', Object.assign({}, route.params, route.query)),
-		{ watch: [() => useRoute().query] }
+		async () => await store.loadPage('/galaxy', { galaxy: galaxy.value, system: system.value }),
+		{ watch: [() => useRoute().query, galaxy, system] }
 	);
 
 	if (error.value) {
@@ -118,11 +123,7 @@
 	}
 
 	function changeCoordinates(value) {
-		useApiSubmit('/galaxy', value, (result) => {
-			const { data } = useNuxtData('page-galaxy');
-			data.value = result['data'];
-
-			store.PAGE_LOAD(result);
-		});
+		galaxy.value = value.galaxy || 1;
+		system.value = value.system || 1;
 	}
 </script>

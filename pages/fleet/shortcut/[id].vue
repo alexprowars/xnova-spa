@@ -34,11 +34,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
-	import { toast } from 'vue3-toastify';
-	import { ref } from 'vue';
 	import Form from '~/components/Page/Messages/Form.vue';
+	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import useStore from '~/store';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -64,9 +62,7 @@
 			planet: page.value['planet'],
 			planet_type: page.value['planet_type'],
 		}, () => {
-			toast('Ссылка была обновлена!', {
-				type: 'success'
-			});
+			useSuccessNotification('Ссылка была обновлена!');
 
 			navigateTo('/fleet/shortcut');
 		});
@@ -76,9 +72,7 @@
 		useApiSubmit('/fleet/shortcut/' + page.value['id'], {
 			'_method': 'DELETE',
 		}, () => {
-			toast('Ссылка была успешно удалена!', {
-				type: 'success'
-			});
+			useSuccessNotification('Ссылка была успешно удалена!');
 
 			navigateTo('/fleet/shortcut');
 		});

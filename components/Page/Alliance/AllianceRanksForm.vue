@@ -51,8 +51,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { useApiSubmit } from '~/composables/useApi.js';
-	import { refreshNuxtData } from '#imports';
+	import { useApiSubmit, refreshNuxtData } from '#imports';
 
 	defineProps({
 		owner: Boolean,

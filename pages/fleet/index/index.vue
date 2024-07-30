@@ -15,78 +15,75 @@
 				<FleetList :fleets="page.fleets"/>
 			</div>
 		</div>
-		<div v-if="page.ships.length" class="block page-fleet-select">
-			<div class="title">
-				<div class="row">
-					<div class="col-12 text-center">
-						Выбрать корабли<template v-if="page['selected']['mission'] > 0"> для миссии "{{ $t('fleet_mission.'+page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>:
+		<template v-if="!isVacation">
+			<div v-if="page.ships.length" class="block page-fleet-select">
+				<div class="title">
+					<div class="row">
+						<div class="col-12 text-center">
+							Выбрать корабли<template v-if="page['selected']['mission'] > 0"> для миссии "{{ $t('fleet_mission.'+page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>:
+						</div>
 					</div>
 				</div>
+				<div class="content">
+					<form method="post" @submit.prevent="checkout">
+						<div class="block-table fleet_ships container">
+							<div class="row">
+								<div class="th col-sm-7 col-6">Тип корабля</div>
+								<div class="th col-sm-2 col-2">Кол-во</div>
+								<div class="th col-sm-3 col-4">&nbsp;</div>
+							</div>
+							<div v-for="ship in page.ships" class="row">
+								<div class="th col-sm-7 col-6 middle">
+									<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
+								</div>
+								<div class="th col-sm-2 col-2 middle">
+									<a @click.prevent="maxShips(ship['id'])">{{ $number(ship['count']) }}</a>
+								</div>
+								<div v-if="ship.id === 212" class="th col-sm-3 col-4"></div>
+								<div v-else class="th col-sm-3 col-4">
+									<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
+									<input type="number" min="0" :max="ship['count']" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
+									<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 col-sm-7 th"></div>
+								<div class="col-12 col-sm-5 th">
+									<a class="button" @click.prevent="allShips">Выбрать все</a>
+									<a v-if="count" class="button" @click.prevent="clearShips">Очистить</a>
+								</div>
+							</div>
+							<div v-if="count" class="row">
+								<div class="th col-4 col-sm-7">&nbsp;</div>
+								<div class="th col-4 col-sm-2">Вместимость</div>
+								<div class="th col-4 col-sm-3">{{ allCapacity ? $number(allCapacity) : '-' }}</div>
+							</div>
+							<div v-if="count" class="row">
+								<div class="th col-4 col-sm-7">&nbsp;</div>
+								<div class="th col-4 col-sm-2">Скорость</div>
+								<div class="th col-4 col-sm-3">{{ allSpeed ? $number(allSpeed) : '-'}}</div>
+							</div>
+							<div v-if="count && page.fleets.length < user['fleets_max']" class="row">
+								<div class="th col-12"><button type="submit">Далее</button></div>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
-			<div class="content">
-				<form method="post" @submit.prevent="checkout">
-					<div class="block-table fleet_ships container">
-						<div class="row">
-							<div class="th col-sm-7 col-6">Тип корабля</div>
-							<div class="th col-sm-2 col-2">Кол-во</div>
-							<div class="th col-sm-3 col-4">&nbsp;</div>
-						</div>
-						<div v-for="ship in page.ships" class="row">
-							<div class="th col-sm-7 col-6 middle">
-								<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
+			<div v-else class="block page-fleet-select">
+				<div class="block-table fleet_ships container">
+					<div class="row">
+						<div class="th col-12">
+							Нет кораблей на планете
+							<div>
+								<div class="separator"></div>
+								<NuxtLinkLocale to="/shipyard" class="button">Перейти в верфь</NuxtLinkLocale>
 							</div>
-							<div class="th col-sm-2 col-2 middle">
-								<a @click.prevent="maxShips(ship['id'])">{{ $number(ship['count']) }}</a>
-							</div>
-							<div v-if="ship.id === 212" class="th col-sm-3 col-4"></div>
-							<div v-else class="th col-sm-3 col-4">
-								<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
-								<input type="number" min="0" :max="ship['count']" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
-								<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12 col-sm-7 th"></div>
-							<div class="col-12 col-sm-5 th">
-								<a class="button" @click.prevent="allShips">Выбрать все</a>
-								<a v-if="count" class="button" @click.prevent="clearShips">Очистить</a>
-							</div>
-						</div>
-						<div v-if="count" class="row">
-							<div class="th col-4 col-sm-7">&nbsp;</div>
-							<div class="th col-4 col-sm-2">Вместимость</div>
-							<div class="th col-4 col-sm-3">{{ allCapacity ? $number(allCapacity) : '-' }}</div>
-						</div>
-						<div v-if="count" class="row">
-							<div class="th col-4 col-sm-7">&nbsp;</div>
-							<div class="th col-4 col-sm-2">Скорость</div>
-							<div class="th col-4 col-sm-3">{{ allSpeed ? $number(allSpeed) : '-'}}</div>
-						</div>
-						<div v-if="count && page.fleets.length < user['fleets_max']" class="row">
-							<div class="th col-12"><button type="submit">Далее</button></div>
-						</div>
-					</div>
-					<input type="hidden" name="galaxy" :value="page['selected']['galaxy']">
-					<input type="hidden" name="system" :value="page['selected']['system']">
-					<input type="hidden" name="planet" :value="page['selected']['planet']">
-					<input type="hidden" name="planet_type" :value="page['selected']['planet_type']">
-					<input type="hidden" name="mission" :value="page['selected']['mission']">
-				</form>
-			</div>
-		</div>
-		<div v-else class="block page-fleet-select">
-			<div class="block-table fleet_ships container">
-				<div class="row">
-					<div class="th col-12">
-						Нет кораблей на планете
-						<div>
-							<div class="separator"></div>
-							<NuxtLinkLocale to="/shipyard" class="button">Перейти в верфь</NuxtLinkLocale>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</template>
 	</div>
 </template>
 
@@ -121,7 +118,7 @@
 	const fleets = ref({});
 	const allCapacity = ref(0);
 	const allSpeed = ref(0);
-	const { user } = storeToRefs(store);
+	const { user, isVacation } = storeToRefs(store);
 
 	const count = computed(() => {
 		return page.value['ships'].reduce((total, ship) => {

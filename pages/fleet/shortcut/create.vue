@@ -33,10 +33,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -64,9 +63,7 @@
 			planet: page.value['planet'],
 			planet_type: page.value['planet_type'],
 		}, () => {
-			toast('Ссылка на планету добавлена!', {
-				type: 'success'
-			});
+			useSuccessNotification('Ссылка на планету добавлена!');
 
 			navigateTo('/fleet/shortcut');
 		});

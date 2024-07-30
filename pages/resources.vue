@@ -21,7 +21,7 @@
 
 		<div class="separator"></div>
 
-		<div class="block">
+		<div v-if="!isVacation" class="block">
 			<div class="title text-center">
 				Управление шахтами и энергетикой
 			</div>
@@ -49,7 +49,7 @@
 			</div>
 			<div class="content border-0">
 				<div class="table-responsive">
-					<form ref="resourceForm" method="post" @submit.prevent="updateState">
+					<form method="post" @submit.prevent="updateState">
 						<table class="table">
 							<tbody>
 								<tr>
@@ -82,7 +82,7 @@
 									<td class="k">
 										<font color="#00ff00">{{ $number(planet['resources']['energy']['capacity']) }}</font>
 									</td>
-									<td class="k">
+									<td v-if="!isVacation" class="k">
 										<input name="action" value="Пересчитать" type="submit">
 									</td>
 								</tr>
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 
-		<div class="block">
+		<div v-if="!isVacation" class="block">
 			<div class="title text-center">
 				Информация о производстве
 			</div>
@@ -181,12 +181,10 @@
 	import ResourcesBar from '~/components/Page/Resources/Bar.vue';
 	import ResourcesRow from '~/components/Page/Resources/Row.vue';
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
+	import StorageRow from '~/components/Page/Resources/StorageRow.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, refreshNuxtData, useApiSubmit } from '#imports';
-	import { ref } from 'vue';
-	import StorageRow from '~/components/Page/Resources/StorageRow.vue';
-	import { toast } from 'vue3-toastify';
+	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, useApiSubmit, useSuccessNotification } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -198,7 +196,7 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData('page-resources', async () => {
+	const { data: page, error, refresh } = await useAsyncData('page-resources', async () => {
 		return await store.loadPage();
 	}, { watch: [() => useRoute().query] });
 
@@ -206,8 +204,7 @@
 		throw showError(error.value);
 	}
 
-	const { user, planet } = storeToRefs(store);
-	const resourceForm = ref(null);
+	const { user, planet, isVacation } = storeToRefs(store);
 
 	function buyResources() {
 		openConfirmModal(
@@ -219,11 +216,9 @@
 				title: 'Да',
 				handler: () => {
 					useApiSubmit('/resources/buy', {}, (result) => {
-						toast('Вы успешно купили ' + result['metal'] + ' металла, ' + result['crystal'] + ' кристалла, ' + result['deuterium'] + ' дейтерия', {
-							type: 'success'
-						});
+						useSuccessNotification('Вы успешно купили ' + result['metal'] + ' металла, ' + result['crystal'] + ' кристалла, ' + result['deuterium'] + ' дейтерия');
 
-						refreshNuxtData('page-resources');
+						refresh();
 					});
 				}
 			}]
@@ -232,13 +227,17 @@
 
 	function shutdown(active) {
 		useApiSubmit('/resources/shutdown', { active }, () => {
-			refreshNuxtData('page-resources');
+			refresh();
 		});
 	}
 
 	function updateState() {
-		useApiSubmit('/resources/state', new FormData(resourceForm.value), () => {
-			refreshNuxtData('page-resources');
+		let state = {};
+
+		page.value['items'].forEach((item) => state[item['id']] = item['factor']);
+
+		useApiSubmit('/resources/state', { state }, () => {
+			refresh();
 		});
 	}
 </script>

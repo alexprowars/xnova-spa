@@ -46,10 +46,7 @@
 
 <script setup>
 	import dayjs from 'dayjs';
-	import { openConfirmModal } from '~/composables/useModals.js';
-	import { useApiSubmit } from '~/composables/useApi.js';
-	import { toast } from 'vue3-toastify';
-	import { refreshNuxtData } from '#imports';
+	import { openConfirmModal, useApiSubmit, refreshNuxtData, useSuccessNotification } from '#imports';
 
 	defineProps({
 		requests: {
@@ -74,9 +71,7 @@
 					useApiSubmit('alliance/request/' + id, {
 						_method: 'DELETE',
 					}, () => {
-						toast('Вы отозвали свою заявку на вступление в альянс', {
-							type: 'success'
-						});
+						useSuccessNotification('Вы отозвали свою заявку на вступление в альянс');
 
 						refreshNuxtData('page-alliance');
 					});

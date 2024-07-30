@@ -1,6 +1,5 @@
-import { showError, navigateTo, startLoading, stopLoading } from '#imports';
+import { showError, navigateTo, startLoading, stopLoading, useErrorNotification } from '#imports';
 import useStore from '~/store';
-import { toast } from 'vue3-toastify';
 
 export const useApiGet = async (url, params = {}) => {
 	try {
@@ -45,7 +44,7 @@ export const useApiSubmit = async (url, data = {}, callback) => {
 		}
 	} catch (e) {
 		if (e.message) {
-			toast(e.message, { type: 'error' });
+			useErrorNotification(e.message);
 		}
 	} finally {
 		stopLoading();

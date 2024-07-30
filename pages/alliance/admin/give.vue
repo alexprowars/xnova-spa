@@ -24,10 +24,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -54,9 +53,7 @@
 		useApiSubmit('alliance/admin/give', {
 			user: userId.value
 		}, () => {
-			toast('Правление передано', {
-				type: 'success'
-			})
+			useSuccessNotification('Правление передано')
 
 			navigateTo('/alliance');
 		});

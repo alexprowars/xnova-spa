@@ -50,14 +50,9 @@
 
 		.actions {
 			font-size: 0;
-
-			a {
-				display: inline-block;
-			}
-
-			a + a, a + span, span + a {
-				margin-left: 4px;
-			}
+			display: flex;
+			justify-content: center;
+			gap: 4px;
 		}
 	}
 }

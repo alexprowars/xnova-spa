@@ -96,12 +96,11 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import NoAlliance from '~/components/Page/Alliance/NoAlliance.vue';
+	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import NoAlliance from '~/components/Page/Alliance/NoAlliance.vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -147,9 +146,7 @@
 				title: 'Да',
 				handler: () => {
 					useApiSubmit('alliance/exit', {}, () => {
-						toast('Вы покинули альянс', {
-							type: 'success'
-						});
+						useSuccessNotification('Вы покинули альянс');
 
 						refreshNuxtData('page-alliance');
 					});

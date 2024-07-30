@@ -34,8 +34,7 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required } from '@vuelidate/validators'
 	import { ref } from 'vue';
-	import { useApiPost } from '#imports';
-	import { toast } from 'vue3-toastify';
+	import { useApiPost, useSuccessNotification } from '#imports';
 
 	const props = defineProps({
 		id: {
@@ -84,9 +83,7 @@
 			if (result.redirect && result.redirect.length) {
 				window.location.href = result.redirect;
 			} else {
-				toast('Сообщение отправлено!', {
-					type: 'success',
-				});
+				useSuccessNotification('Сообщение отправлено!');
 
 				message.value = '';
 				v$.value.$reset();

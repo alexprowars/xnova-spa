@@ -20,10 +20,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -53,9 +52,7 @@
 		useApiSubmit('buddy/new/' + route.params['id'], {
 			message: message.value,
 		}, () => {
-			toast('Запрос отправлен', {
-				type: 'success'
-			});
+			useSuccessNotification('Запрос отправлен');
 
 			navigateTo('/buddy');
 		});

@@ -21,8 +21,10 @@
 			</div>
 			<div class="content">
 
-				<div v-if="page['error']" class="row">
-					<div class="col text-center" v-html="page['error']"></div>
+				<div v-if="page['resource_notify']" class="row">
+					<div class="col text-center">
+						<span class="negative">Одна из шахт находится в выключенном состоянии. Зайдите в меню "<NuxtLinkLocale to="/resources">Сырьё</NuxtLinkLocale>" и восстановите производство.</span>
+					</div>
 					<div class="separator"></div>
 				</div>
 

@@ -38,11 +38,10 @@
 </template>
 
 <script setup>
-	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import { toast } from 'vue3-toastify';
+	import { useApiPost, useErrorNotification, useSuccessNotification } from '#imports';
 
 	const props = defineProps({
 		page: {
@@ -59,7 +58,7 @@
 
 	async function send() {
 		try {
-			await useApiPost('/rocket/', {
+			await useApiPost('/rocket', {
 				galaxy: props.page['galaxy'],
 				system: props.page['system'],
 				planet: props.planet,
@@ -67,11 +66,9 @@
 				target: target.value,
 			});
 
-			toast('<b>' + count.value + '</b> межпланетные ракеты запущены для атаки удалённой планеты!', {
-				type: 'success'
-			});
+			useSuccessNotification('<b>' + count.value + '</b> межпланетные ракеты запущены для атаки удалённой планеты!');
 		} catch (e) {
-			toast(e.message, { type: 'error' });
+			useErrorNotification(e.message);
 		}
 	}
 </script>

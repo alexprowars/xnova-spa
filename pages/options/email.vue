@@ -25,10 +25,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -59,9 +58,7 @@
 			password: password.value,
 			email: email.value,
 		}, () => {
-			toast('Заявка отправлена на рассмотрение', {
-				type: 'success'
-			});
+			useSuccessNotification('Заявка отправлена на рассмотрение');
 
 			navigateTo('/options');
 		});

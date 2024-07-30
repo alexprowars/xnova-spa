@@ -48,9 +48,9 @@
 
 <script setup>
 	import { storeToRefs } from 'pinia';
-	import useStore from '~/store/index.js';
+	import useStore from '~/store';
 	import { ref } from 'vue';
-	import { useApiPost } from '~/composables/useApi.js';
+	import { useApiPost } from '#imports';
 
 	const { user } = storeToRefs(useStore());
 	const name = ref(user.value['name']);

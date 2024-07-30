@@ -1,8 +1,6 @@
-import { defineNuxtPlugin, useAsyncData } from '#imports';
+import { defineNuxtPlugin } from '#imports';
 import useStore from '~/store/index.js';
 
-export default defineNuxtPlugin(async (nuxtApp) => {
-	await useAsyncData(() => {
-		return useStore().loadState()
-	});
+export default defineNuxtPlugin(async () => {
+	await useStore().loadState()
 });

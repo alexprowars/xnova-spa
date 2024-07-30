@@ -35,9 +35,8 @@
 </template>
 
 <script setup>
-import { definePageMeta, navigateTo, useApiSubmit, useHead } from '#imports';
+	import { definePageMeta, navigateTo, useApiSubmit, useHead, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
-import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -66,9 +65,7 @@ import { toast } from 'vue3-toastify';
 			title: title.value,
 			message: message.value,
 		}, (result) => {
-			toast('Заметка добавлена', {
-				type: 'success'
-			});
+			useSuccessNotification('Заметка добавлена');
 
 			navigateTo('/notes/' + result['id']);
 		});

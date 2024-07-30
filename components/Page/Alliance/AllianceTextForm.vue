@@ -30,8 +30,7 @@
 </template>
 
 <script setup>
-	import { useApiSubmit } from '~/composables/useApi.js';
-	import { refreshNuxtData } from '#imports';
+	import { useApiSubmit, refreshNuxtData } from '#imports';
 
 	const props = defineProps({
 		data: Object,

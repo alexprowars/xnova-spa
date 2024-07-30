@@ -25,8 +25,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { useApiSubmit } from '#imports';
-	import { toast } from 'vue3-toastify';
+	import { useApiSubmit, useSuccessNotification } from '#imports';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store/index.js';
 
@@ -45,9 +44,7 @@
 			interceptor: interceptor.value,
 			interplanetary: interplanetary.value,
 		}, () => {
-			toast('Ракеты уничтожены', {
-				type: 'success',
-			});
+			useSuccessNotification('Ракеты уничтожены');
 
 			interceptor.value = 0;
 			interplanetary.value = 0;

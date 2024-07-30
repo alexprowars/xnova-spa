@@ -18,15 +18,18 @@
 			<Colored :value="item['resources']['energy']"/>
 		</th>
 		<th>
-			<select :name="'state[' + item['id'] + ']'" v-model="item['factor']">
+			<select v-if="!isVacation" v-model="item['factor']">
 				<option v-for="j in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="j">{{ j * 10 }}%</option>
 			</select>
+			<span v-else>{{ item['factor'] * 10 }}%</span>
 		</th>
 	</tr>
 </template>
 
 <script setup>
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store/index.js';
 
 	defineProps({
 		item: {
@@ -36,4 +39,6 @@
 			type: Array
 		}
 	});
+
+	const { isVacation } = storeToRefs(useStore());
 </script>

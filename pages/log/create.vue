@@ -19,9 +19,8 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, useApiSubmit, useHead, useRoute } from '#imports';
+	import { definePageMeta, navigateTo, useApiSubmit, useHead, useRoute, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -44,9 +43,7 @@
 			title: title.value,
 			code: code.value,
 		}, () => {
-			toast('Боевой отчёт успешно сохранён', {
-				type: 'success'
-			});
+			useSuccessNotification('Боевой отчёт успешно сохранён');
 
 			navigateTo('/log');
 		});

@@ -32,8 +32,7 @@
 
 <script setup>
 	import dayjs from 'dayjs';
-	import { toast } from 'vue3-toastify';
-	import { refreshNuxtData, useApiSubmit } from '#imports';
+	import { refreshNuxtData, useApiSubmit, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
 
 	defineProps({
@@ -44,9 +43,7 @@
 
 	function send() {
 		useApiSubmit('/options', new FormData(formRef.value), () => {
-			toast('Настройки успешно изменены', {
-				type: 'success'
-			});
+			useSuccessNotification('Настройки успешно изменены');
 
 			refreshNuxtData('page-options');
 		});

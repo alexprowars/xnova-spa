@@ -43,11 +43,10 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -60,8 +59,7 @@
 		title: 'Переименовать планету',
 	});
 
-	const { data: page, error } = await useAsyncData(
-		'page-overview.rename',
+	const { data: page, error, refresh } = await useAsyncData(
 		async () => await useStore().loadPage(),
 		{ watch: [() => useRoute().query] }
 	);
@@ -78,9 +76,7 @@
 		useApiSubmit('/overview/rename', {
 			name: name.value
 		}, () => {
-			toast('Название планеты изменено', {
-				type: 'success'
-			});
+			useSuccessNotification('Название планеты изменено');
 
 			navigateTo('/overview');
 		});
@@ -90,9 +86,7 @@
 		useApiSubmit('/overview/image', {
 			image: image.value
 		}, () => {
-			toast('Картинка планеты изменена', {
-				type: 'success'
-			});
+			useSuccessNotification('Картинка планеты изменена');
 
 			navigateTo('/overview');
 		});
@@ -110,11 +104,9 @@
 					useApiSubmit('/overview/delete/' + planet.value['id'], {
 						_method: 'DELETE',
 					}, async () => {
-						toast('Колония успешно удалена', {
-							type: 'success'
-						});
+						useSuccessNotification('Колония успешно удалена');
 
-						await refreshNuxtData('page-overview.rename');
+						await refresh();
 					});
 				}
 			}]

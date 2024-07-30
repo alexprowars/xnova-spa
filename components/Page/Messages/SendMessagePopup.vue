@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-	import { openPopupModal, useApiGet, useLoadingIndicator } from '#imports';
 	import MessageForm from '~/components/Page/Messages/Form.vue';
+	import { openPopupModal, useApiGet, useLoadingIndicator } from '#imports';
 
 	const props = defineProps({
 		id: Number,

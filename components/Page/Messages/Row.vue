@@ -37,10 +37,9 @@
 <script setup>
 	import PlayerInfo from '~/components/Page/Players/Info.vue';
 	import useStore from '~/store';
-	import { openAjaxPopupModal, openConfirmModal, useApiPost } from '#imports';
+	import { openAjaxPopupModal, openConfirmModal, useApiPost, useSuccessNotification } from '#imports';
 	import { storeToRefs } from 'pinia';
 	import dayjs from 'dayjs';
-	import { toast } from 'vue3-toastify';
 
 	const props = defineProps({
 		item: Object
@@ -60,9 +59,7 @@
 					try {
 						await useApiPost('/messages/' + props.item['id'] + '/abuse');
 
-						toast('Жалоба отправлена администрации игры', {
-							type: 'success',
-						});
+						useSuccessNotification('Жалоба отправлена администрации игры');
 					} catch {
 					}
 				}

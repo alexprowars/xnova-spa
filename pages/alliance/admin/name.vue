@@ -18,10 +18,9 @@
 </template>
 
 <script setup>
-import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
-import { ref } from 'vue';
-import { toast } from 'vue3-toastify';
+	import { ref } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -48,9 +47,7 @@ import { toast } from 'vue3-toastify';
 		useApiSubmit('/alliance/admin/name', {
 			name: name.value,
 		}, () => {
-			toast('Название альянса изменено', {
-				type: 'success'
-			});
+			useSuccessNotification('Название альянса изменено');
 
 			navigateTo('/alliance/admin');
 		});

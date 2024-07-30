@@ -49,12 +49,11 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo } from '#imports';
-	import useStore from '~/store';
-	import { storeToRefs } from 'pinia';
-	import { toast } from 'vue3-toastify';
 	import AllianceUpdateForm from '~/components/Page/Alliance/AllianceUpdateForm.vue';
 	import AllianceTextForm from '~/components/Page/Alliance/AllianceTextForm.vue';
+	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo, useSuccessNotification } from '#imports';
+	import useStore from '~/store';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -91,9 +90,7 @@
 				title: 'Да',
 				handler: () => {
 					useApiSubmit('alliance/admin/remove', {}, () => {
-						toast('Альянс удален', {
-							type: 'success'
-						});
+						useSuccessNotification('Альянс удален');
 
 						navigateTo('/alliance');
 					});

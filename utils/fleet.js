@@ -1,6 +1,5 @@
-import { toast } from 'vue3-toastify';
 import dayjs from 'dayjs';
-import { useApiPost, useNuxtApp } from '#imports';
+import { useApiPost, useErrorNotification, useNuxtApp, useSuccessNotification } from '#imports';
 
 export function getDistance (from, to) {
 	if ((to['galaxy'] - from['galaxy']) !== 0) {
@@ -58,10 +57,8 @@ export async function sendMission(mission, galaxy, system, planet, type, count) 
 
 		const { t } = useNuxtApp().$i18n;
 
-		toast('Флот отправлен на координаты [' + result['target']['galaxy'] + ':' + result['target']['system'] + ':' + result['target']['planet'] + '] с миссией ' + t('fleet_mission.' + result['mission']) + ' и прибудет к цели ' + dayjs(result['time']).tz().format('DD MMM HH:mm:ss'), {
-			type: 'success',
-		});
+		useSuccessNotification('Флот отправлен на координаты [' + result['target']['galaxy'] + ':' + result['target']['system'] + ':' + result['target']['planet'] + '] с миссией ' + t('fleet_mission.' + result['mission']) + ' и прибудет к цели ' + dayjs(result['time']).tz().format('DD MMM HH:mm:ss'));
 	} catch (e) {
-		toast(e.message, { type: 'error' });
+		useErrorNotification(e.message);
 	}
 }

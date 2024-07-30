@@ -129,10 +129,9 @@
 <script setup>
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import RaceChange from '~/components/Page/Race/RaceChange.vue';
-	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useErrorNotification, useHead, useRoute, useToast } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -184,7 +183,7 @@
 				});
 			}
 		} catch (e) {
-			toast(e.message, { type: 'error' });
+			useErrorNotification(e.message);
 		}
 	});
 </script>

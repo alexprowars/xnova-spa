@@ -28,7 +28,7 @@
 		<div class="col-6 d-sm-none text-center officiers-item-image">
 			<img :src="'/images/officiers/' + item['id'] + '.jpg'" align="top" alt="">
 		</div>
-		<div class="col-6 col-sm-3 text-center officiers-item-action">
+		<div v-if="!isVacation" class="col-6 col-sm-3 text-center officiers-item-action">
 			<div class="negative">{{ time > 0 ? 'Продлить' : 'Нанять' }}</div>
 
 			<button @click.prevent="submit(7, 20)">на неделю</button>
@@ -50,11 +50,9 @@
 </template>
 
 <script setup>
-	import { useApiPost } from '~/composables/useApi';
 	import useStore from '~/store';
-	import { openConfirmModal } from '~/composables/useModals';
 	import dayjs from 'dayjs';
-	import { useI18n } from '#imports';
+	import { useApiPost, openConfirmModal, useI18n, useErrorNotification, useSuccessNotification } from '#imports';
 	import { storeToRefs } from 'pinia';
 
 	const props = defineProps({
@@ -63,26 +61,29 @@
 
 	const { t } = useI18n();
 	const store = useStore();
-	const { user } = storeToRefs(store);
+	const { user, isVacation } = storeToRefs(store);
 
 	const time = computed(() => user.value['officiers'].find((v) => v['id'] === props.item['id'])?.['time']);
 
 	function submit (value, price) {
 		openConfirmModal(
 			'Вербовка офицера',
-		'Вы действительно хотите нанять офицера "<b>' + t('tech.' + props.item['id']) + '</b>" на <b>' + value + '</b> дней за <b>' + price + '</b> кредитов?',
+			'Вы действительно хотите нанять офицера "<b>' + t('tech.' + props.item['id']) + '</b>" на <b>' + value + '</b> дней за <b>' + price + '</b> кредитов?',
 			[{
 				title: 'Отменить',
 			}, {
 				title: 'Нанять',
-				handler: () => {
-					useApiPost('/officier/buy/', {
-						id: props.item['id'],
-						duration: value
-					})
-					.then((result) => {
-						store.PAGE_LOAD(result)
-					})
+				handler: async () => {
+					try {
+						await useApiPost('/officier/buy', {
+							id: props.item['id'],
+							duration: value
+						});
+
+						useSuccessNotification('Офицер был завербован!');
+					} catch (e) {
+						useErrorNotification(e.message);
+					}
 				}
 			}]
 		);

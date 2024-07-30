@@ -17,9 +17,8 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation } from '@vuelidate/validators'
 	import { ref } from 'vue';
-	import { useApiPost } from '~/composables/useApi';
-	import { navigateTo } from '#app';
-	import useStore from '~/store/index.js';
+	import { useApiPost, navigateTo } from '#imports';
+	import useStore from '~/store';
 
 	const email = ref('');
 	const password = ref('');

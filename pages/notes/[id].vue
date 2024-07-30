@@ -46,10 +46,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store/index.js';
-	import { toast } from 'vue3-toastify';
-	import { ref, toRaw } from 'vue';
+	import { ref } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -62,11 +61,10 @@
 		title: 'Редактирование заметки',
 	});
 
-	const route = useRoute();
-
-	const { data: page, error } = await useAsyncData('page-notes.' + route.params['id'], async () => {
-		return await useStore().loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error, refresh } = await useAsyncData(
+		async () => await useStore().loadPage(),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -86,11 +84,9 @@
 			title: page.value['title'],
 			message: page.value['text'],
 		}, () => {
-			toast('Заметка обновлена', {
-				type: 'success'
-			});
+			useSuccessNotification('Заметка обновлена');
 
-			refreshNuxtData('page-notes.' + route.params['id']);
+			refresh();
 		});
 	}
 </script>

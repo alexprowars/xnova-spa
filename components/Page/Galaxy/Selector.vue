@@ -1,7 +1,5 @@
 <template>
-	<form ref="form" action="" class="page-galaxy-select" @submit.prevent="change">
-		<input type="hidden" name="direction" v-model="direction">
-
+	<form ref="form" class="page-galaxy-select" @submit.prevent="change">
 		<div class="row">
 			<div class="col-12 d-sm-none">
 				<GalaxySelectorShortcut :items="shortcuts" v-model="shortcut"/>
@@ -82,7 +80,6 @@
 
 	const emit = defineEmits(['change']);
 
-	const direction = ref('');
 	const inputGalaxy = computed(() => props.galaxy);
 	const inputSystem = computed(() => props.system);
 	const shortcut = ref(null);
@@ -128,9 +125,6 @@
 		emit('change', {
 			galaxy: inputGalaxy.value,
 			system: inputSystem.value,
-			direction: direction.value,
 		});
-
-		direction.value = '';
 	}
 </script>

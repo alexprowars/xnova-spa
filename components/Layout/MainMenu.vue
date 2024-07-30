@@ -10,7 +10,7 @@
 
 		<div :class="{ active: active }" class="menu-sidebar">
 			<ul>
-				<MainMenuItem v-for="(item, i) in items" :item="item" :key="i"></MainMenuItem>
+				<MainMenuItem v-for="(item, i) in filteredItems" :item="item" :key="i"></MainMenuItem>
 			</ul>
 		</div>
 	</nav>
@@ -18,7 +18,9 @@
 
 <script setup>
 	import MainMenuItem from './MainMenuItem.vue';
-	import { reactive } from 'vue';
+	import { computed, reactive } from 'vue';
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store/index.js';
 
 	const props = defineProps({
 		active: {
@@ -28,24 +30,29 @@
 	});
 
 	const emit = defineEmits(['toggle']);
+	const { isVacation } = storeToRefs(useStore());
 
 	const items = reactive([
-		{ id: 'overview', title: 'Обзор', url: '/overview/' },
-		{ id: 'imperium', title: 'Империя', url: '/imperium/' },
-		{ id: 'galaxy', title: 'Космос', url: '/galaxy/' },
-		{ id: 'fleet', title: 'Флот', url: '/fleet/' },
-		{ id: 'buildings', title: 'Постройки', url: '/buildings/' },
-		{ id: 'research', title: 'Наука', url: '/research/' },
-		{ id: 'shipyard', title: 'Верфь', url: '/shipyard/' },
-		{ id: 'defense', title: 'Оборона', url: '/defense/' },
-		{ id: 'resources', title: 'Сырьё', url: '/resources/' },
-		{ id: 'merchant', title: 'Рынок', url: '/merchant/' },
-		{ id: 'officier', title: 'Офицеры', url: '/officier/' },
-		{ id: 'alliance', title: 'Альянс', url: '/alliance/' },
-		{ id: 'buddy', title: 'Друзья', url: '/buddy/' },
-		{ id: 'notes', title: 'Заметки', url: '/notes/' },
-		{ id: 'records', title: 'Рекорды', url: '/records/' },
-		{ id: 'hall', title: 'Зал славы', url: '/hall/' },
-		{ id: 'log', title: 'Логи', url: '/log/' },
+		{ id: 'overview', title: 'Обзор', url: '/overview' },
+		{ id: 'imperium', title: 'Империя', url: '/imperium' },
+		{ id: 'galaxy', title: 'Космос', url: '/galaxy' },
+		{ id: 'fleet', title: 'Флот', url: '/fleet' },
+		{ id: 'buildings', title: 'Постройки', url: '/buildings', vacation: true },
+		{ id: 'research', title: 'Наука', url: '/research', vacation: true },
+		{ id: 'shipyard', title: 'Верфь', url: '/shipyard', vacation: true },
+		{ id: 'defense', title: 'Оборона', url: '/defense', vacation: true },
+		{ id: 'resources', title: 'Сырьё', url: '/resources' },
+		{ id: 'merchant', title: 'Рынок', url: '/merchant' },
+		{ id: 'officier', title: 'Офицеры', url: '/officier' },
+		{ id: 'alliance', title: 'Альянс', url: '/alliance' },
+		{ id: 'buddy', title: 'Друзья', url: '/buddy' },
+		{ id: 'notes', title: 'Заметки', url: '/notes' },
+		{ id: 'records', title: 'Рекорды', url: '/records' },
+		{ id: 'hall', title: 'Зал славы', url: '/hall' },
+		{ id: 'log', title: 'Логи', url: '/log' },
 	]);
+
+	const filteredItems = computed(() => {
+		return items.filter((item) => typeof item['vacation'] === undefined || item['vacation'] !== isVacation.value);
+	})
 </script>

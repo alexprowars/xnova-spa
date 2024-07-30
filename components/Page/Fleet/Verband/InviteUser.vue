@@ -19,8 +19,7 @@
 </template>
 
 <script setup>
-	import { useApiSubmit } from '~/composables/useApi.js';
-	import { refreshNuxtData } from '#imports';
+	import { useApiSubmit, refreshNuxtData } from '#imports';
 	import { ref } from 'vue';
 
 	const props = defineProps({

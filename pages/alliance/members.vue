@@ -68,11 +68,10 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store/index.js';
 	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
+	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import useStore from '~/store';
 	import { computed, ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -87,8 +86,7 @@
 
 	const route = useRoute();
 
-	const { data: page, error } = await useAsyncData(
-		'page-alliance.members',
+	const { data: page, error, refresh } = await useAsyncData(
 		async () => await useStore().loadPage(undefined, Object.assign({}, route.params, route.query)),
 		{ watch: [() => useRoute().query] }
 	);
@@ -115,7 +113,7 @@
 		useApiSubmit('alliance/admin/members/rank', { id, rank }, () => {
 			changeRank.value = 0;
 
-			refreshNuxtData('page-alliance.members');
+			refresh();
 		});
 	}
 
@@ -129,11 +127,9 @@
 				title: 'Да',
 				handler: () => {
 					useApiSubmit('alliance/admin/members/kick', { id }, () => {
-						toast('Вы исключили игрока из альянса', {
-							type: 'success'
-						});
+						useSuccessNotification('Вы исключили игрока из альянса');
 
-						refreshNuxtData('page-alliance.members');
+						refresh();
 					});
 				}
 			}]

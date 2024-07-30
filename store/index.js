@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
-import { useRouter, useApiGet, navigateTo, startLoading, stopLoading } from '#imports';
-import { toast } from 'vue3-toastify';
-import { computed } from 'vue';
+import { useRouter, useApiGet, navigateTo, startLoading, stopLoading, useToast } from '#imports';
 
 export const useStore = defineStore('app', {
 	state: () => ({
@@ -19,6 +17,9 @@ export const useStore = defineStore('app', {
 	getters: {
 		isAuthorized: state => {
 			return state.user && state.user.id > 0
+		},
+		isVacation: state => {
+			return state.user && state.user['vacation'] !== null;
 		},
 		queueByType: state => type => {
 			return state.queue.filter((item) => item.type === type);
@@ -75,9 +76,7 @@ export const useStore = defineStore('app', {
 				}
 
 				if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['toast'] !== '') {
-					toast(responce['tutorial']['toast'], {
-						type: 'info'
-					})
+					useToast(responce['tutorial']['toast'], 'info')
 				}
 
 				const page = JSON.parse(JSON.stringify(responce['data'] || {}));

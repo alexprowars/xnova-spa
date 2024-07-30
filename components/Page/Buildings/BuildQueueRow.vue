@@ -24,8 +24,7 @@
 </template>
 
 <script setup>
-	import { useApiPost } from '~/composables/useApi';
-	import { openConfirmModal, refreshNuxtData } from '#imports';
+	import { useApiPost, openConfirmModal, refreshNuxtData } from '#imports';
 	import dayjs from 'dayjs';
 	import { useNow } from '@vueuse/core';
 	import { computed } from 'vue';

@@ -43,9 +43,8 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -70,9 +69,7 @@
 
 	function finish() {
 		useApiSubmit('tutorial/' + page.value['id'], {}, () => {
-			toast('Квест завершен', {
-				type: 'success'
-			});
+			useSuccessNotification('Квест завершен');
 
 			navigateTo('/tutorial');
 		});

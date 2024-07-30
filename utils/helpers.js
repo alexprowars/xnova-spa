@@ -24,9 +24,9 @@ export function getLocation (href)
 
 export function raport_to_bb (raport)
 {
-	raport = $('#'+raport);
+	raport = document.querySelector('#' + raport);
 
-	var txt = raport.html();
+	var txt = raport.innerHTML;
 
 	txt = txt.replace(/<tbody>/gi, "");
 	txt = txt.replace(/<\/tbody>/gi, "");
@@ -50,9 +50,9 @@ export function raport_to_bb (raport)
 	txt = txt.replace(/<th width="25%">/gi, "[th(w=25)]");
 	txt = txt.replace(/<br>/gi, " ");
 	txt = txt.replace(/<\/a>/gi, "[\/url]");
-	txt = txt.replace(/<a href="(.*?)">/gi, "[url=https://x.xnova.su$1]");
+	txt = txt.replace(/<a href="(.*?)">/gi, "[url=https://xnova.su$1]");
 
-	raport.html(txt);
+	raport.innerHTML = txt;
 }
 
 export const isMobile = () => {

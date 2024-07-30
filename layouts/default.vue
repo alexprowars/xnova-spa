@@ -7,6 +7,7 @@
 			<div class="main-content" v-touch:tap="tap">
 				<LayoutPlanetPanel v-if="isAuthorized && view['resources']"/>
 				<div class="main-content-row">
+					<MessagesRow v-for="message in messages" :item="message"/>
 					<slot/>
 				</div>
 			</div>
@@ -25,6 +26,7 @@
 	import { isMobile, useRoute } from '#imports';
 	import { ref, computed, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import MessagesRow from '~/components/Layout/MessagesRow.vue';
 
 	const store = useStore();
 	const route = useRoute();
@@ -37,6 +39,12 @@
 
 	watch(() => route.fullPath, () => {
 		sidebar.value = '';
+	});
+
+	const messages = computed(() => {
+		return (store.messages || []).filter((item) => {
+			return item['type'].indexOf('-static') >= 0;
+		})
 	});
 
 	const view = computed(() => {

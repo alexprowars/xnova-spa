@@ -15,15 +15,21 @@
 	import Loader from '~/components/Layout/Loader.vue'
 	import { ModalsContainer } from 'vue-final-modal';
 	import { useLocaleHead } from '#i18n';
-	import { navigateTo, useHead, useNuxtApp } from '#imports';
+	import { navigateTo, useHead, useNuxtApp, useToast } from '#imports';
 	import { computed, watch } from 'vue';
-	import { toast } from 'vue3-toastify';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 	import useChatStore from '~/store/chat';
+	import dayjs from 'dayjs';
 
 	const store = useStore();
-	const { redirect } = storeToRefs(store);
+	const { user, redirect } = storeToRefs(store);
+
+	const tz = user.value?.options.timezone;
+
+	if (tz !== null) {
+		dayjs.tz.setDefault((tz >= 0 ? '+' : '-') + (Math.abs(tz) < 10 ? '0' : '') + Math.abs(tz) + ':00');
+	}
 
 	watch(redirect, (url) => {
 		if (url && url.length > 0) {
@@ -40,9 +46,7 @@
 
 	watch(notifications, (val) => {
 		val.forEach((item) => {
-			toast(item.text, {
-				type: item.type
-			})
+			useToast(item.text, item.type)
 		})
 	});
 

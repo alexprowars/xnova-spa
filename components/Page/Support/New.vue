@@ -30,8 +30,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
-	import { refreshNuxtData, openAlertModal, useApiPost } from '#imports';
+	import { refreshNuxtData, openAlertModal, useApiPost, useSuccessNotification } from '#imports';
 
 	const emit = defineEmits(['close']);
 
@@ -45,9 +44,7 @@
 				message: message.value,
 			});
 
-			toast('Запрос добавлен', {
-				type: 'success',
-			});
+			useSuccessNotification('Запрос добавлен');
 
 			emit('close');
 

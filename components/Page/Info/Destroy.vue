@@ -22,9 +22,7 @@
 
 <script setup>
 	import BuildRowPrice from '~/components/Page/Buildings/BuildRowPrice.vue'
-	import { useApiPost } from '~/composables/useApi';
-	import { closeModals, openConfirmModal } from '~/composables/useModals';
-	import { refreshNuxtData, useRoute, useI18n } from '#imports';
+	import { useApiPost, closeModals, openConfirmModal, refreshNuxtData, useRoute, useI18n } from '#imports';
 
 	const props = defineProps({
 		data: Object,

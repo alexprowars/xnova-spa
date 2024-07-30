@@ -24,10 +24,9 @@
 </template>
 
 <script setup>
-	import { useApiPost } from '~/composables/useApi.js';
 	import useStore from '~/store/index.js';
 	import { ref } from 'vue';
-	import { navigateTo } from '#imports';
+	import { useApiPost, navigateTo } from '#imports';
 
 	const race = ref(null);
 

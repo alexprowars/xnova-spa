@@ -47,11 +47,9 @@
 <script setup>
 	import MessagesRow from '~/components/Page/Messages/Row.vue';
 	import Form from '~/components/Page/Messages/Form.vue';
-	import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref, watch } from 'vue';
-	import { queue } from 'vue3-toastify';
-	import * as querystring from 'node:querystring';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -68,7 +66,7 @@
 	const limit = ref();
 	const route = useRoute();
 
-	const { data: page, error } = await useAsyncData('page-messages',
+	const { data: page, error, refresh } = await useAsyncData('page-messages',
 		async () => await useStore().loadPage(undefined, Object.assign({}, route.query, { category: category.value, limit: limit.value })),
 		{ watch: [() => useRoute().query] }
 	);
@@ -105,13 +103,13 @@
 			.map((item) => item['id']);
 	});
 
-	watch([category, limit], () => refreshNuxtData('page-messages'));
+	watch([category, limit], () => refresh());
 
 	function deleteMessages() {
 		useApiSubmit('/messages/delete', {
 			id: deleteItems.value,
 		}, () => {
-			refreshNuxtData('page-messages');
+			refresh();
 		});
 	}
 </script>

@@ -37,11 +37,10 @@
 </template>
 
 <script setup>
-import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import dayjs from 'dayjs';
-import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -54,7 +53,7 @@ import { toast } from 'vue3-toastify';
 		title: 'Заметки',
 	});
 
-	const { data: items, error } = await useAsyncData('page-notes',
+	const { data: items, error, refresh } = await useAsyncData(
 		async () => await useStore().loadPage(),
 		{ watch: [() => useRoute().query] }
 	);
@@ -70,13 +69,11 @@ import { toast } from 'vue3-toastify';
 			_method: 'DELETE',
 			id: deleteItems.value,
 		}, () => {
-			toast('Заметки удалены', {
-				type: 'success'
-			});
+			useSuccessNotification('Заметки удалены');
 
 			deleteItems.value = [];
 
-			refreshNuxtData('page-notes');
+			refresh();
 		});
 	}
 </script>

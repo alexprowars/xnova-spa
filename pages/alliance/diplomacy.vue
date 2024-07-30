@@ -54,10 +54,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store/index.js';
 	import DiplomacyCreate from '~/components/Page/Alliance/DiplomacyCreate.vue';
-	import { toast } from 'vue3-toastify';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import useStore from '~/store/index.js';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -70,7 +69,7 @@
 		title: 'Дипломатия',
 	});
 
-	const { data: page, error } = await useAsyncData(
+	const { data: page, error, refresh } = await useAsyncData(
 		'page-alliance.diplomacy',
 		async () => await useStore().loadPage(),
 		{ watch: [() => useRoute().query] }
@@ -82,21 +81,17 @@
 
 	function accept(id) {
 		useApiSubmit('alliance/diplomacy/accept', { id }, () => {
-			toast('Отношение между вашими альянсами подтверждено', {
-				type: 'success'
-			});
+			useSuccessNotification('Отношение между вашими альянсами подтверждено');
 
-			refreshNuxtData('page-alliance.diplomacy');
+			refresh();
 		});
 	}
 
 	function reject(id) {
 		useApiSubmit('alliance/diplomacy/reject', { id }, () => {
-			toast('Отношение между вашими альянсами расторжено', {
-				type: 'success'
-			});
+			useSuccessNotification('Отношение между вашими альянсами расторжено');
 
-			refreshNuxtData('page-alliance.diplomacy');
+			refresh();
 		});
 	}
 </script>

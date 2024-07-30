@@ -22,7 +22,9 @@
 				</tr>
 				<tr v-for="r in items">
 					<th class="text-center">
-						{{ r['tag'] }}
+						<NuxtLinkLocale :to="'/alliance/join/' + r['id']">
+							[{{ r['tag'] }}]
+						</NuxtLinkLocale>
 					</th>
 					<th class="text-center">
 						{{ r['name'] }}
@@ -52,7 +54,7 @@
 		title: 'Поиск альянса',
 	});
 
-	const { data, error } = await useAsyncData(async () => {
+	const { error } = await useAsyncData(async () => {
 		await useStore().loadState(); return {}
 	}, { watch: [() => useRoute().query] });
 

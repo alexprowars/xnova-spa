@@ -28,8 +28,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { useApiSubmit } from '#imports';
-	import { toast } from 'vue3-toastify';
+	import { useApiSubmit, useSuccessNotification } from '#imports';
 
 	const props = defineProps({
 		data: Object
@@ -41,9 +40,7 @@
 		useApiSubmit('/info/' + props.item + '/alliance', {
 			fleetId: fleet.value,
 		}, () => {
-			toast('Ракета с дейтерием отправлена на орбиту вашей планете', {
-				type: 'success',
-			});
+			useSuccessNotification('Ракета с дейтерием отправлена на орбиту вашей планете');
 		});
 	}
 </script>

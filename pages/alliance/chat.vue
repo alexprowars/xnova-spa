@@ -45,7 +45,7 @@
 			</div>
 		</div>
 		<div class="separator"></div>
-		<ChatMessageForm v-model="message"/>
+		<ChatMessageForm v-model="message" @send="refresh"/>
 		<span style="float:left;margin-top:7px;">
 			<NuxtLinkLocale to="/alliance">[назад к альянсу]</NuxtLinkLocale>
 		</span>
@@ -53,12 +53,13 @@
 </template>
 
 <script setup>
-import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import ChatMessageForm from '~/components/Page/Alliance/ChatMessageForm.vue';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import dayjs from 'dayjs';
-	import ChatMessageForm from '~/components/Page/Alliance/ChatMessageForm.vue';
-import { storeToRefs } from 'pinia';
+
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -71,7 +72,7 @@ import { storeToRefs } from 'pinia';
 		title: 'Альянс-чат',
 	});
 
-	const { data: page, error } = await useAsyncData('page-alliance.chat',
+	const { data: page, error, refresh } = await useAsyncData('page-alliance.chat',
 		async () => await useStore().loadPage(),
 		{ watch: [() => useRoute().query] }
 	);
@@ -91,10 +92,6 @@ import { storeToRefs } from 'pinia';
 	    text = text.replace(/<br \/>/gi, "\n");
 
 		message.value = message.value + '[quote author=' + messageItem['user'] + ']' + text + '[/quote]';
-	}
-
-	function refresh() {
-		refreshNuxtData('page-alliance.chat');
 	}
 
 	function deleteMessages() {

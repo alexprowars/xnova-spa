@@ -20,9 +20,8 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, useApiSubmit, useHead } from '#imports';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
+	import { definePageMeta, navigateTo, useApiSubmit, useHead, useSuccessNotification } from '#imports';
 
 	definePageMeta({
 		view: {
@@ -42,9 +41,7 @@
 			name: name.value,
 			tag: tag.value,
 		}, () => {
-			toast('Альянс был создан', {
-				type: 'success'
-			});
+			useSuccessNotification('Альянс был создан');
 
 			navigateTo('/alliance');
 		});

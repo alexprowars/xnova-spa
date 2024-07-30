@@ -13,9 +13,8 @@
 </template>
 
 <script setup>
-	import { useApiSubmit, navigateTo } from '#imports';
+	import { useApiSubmit, navigateTo, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	const race = ref('');
 
@@ -23,9 +22,7 @@
 		useApiSubmit('/race/change', {
 			race: race.value,
 		}, () => {
-			toast('Фракция изменена', {
-				type: 'success'
-			})
+			useSuccessNotification('Фракция изменена')
 
 			navigateTo('/overview');
 		});

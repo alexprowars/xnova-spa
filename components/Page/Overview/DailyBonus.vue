@@ -17,10 +17,7 @@
 </template>
 
 <script setup>
-	import { useApiPost } from '~/composables/useApi.js';
-	import { toast } from 'vue3-toastify';
-	import { number } from '~/utils/format.js';
-	import { refreshNuxtData } from '#imports';
+	import { useApiPost, refreshNuxtData, number, useErrorNotification, useSuccessNotification } from '#imports';
 
 	defineProps({
 		amount: Number,
@@ -30,13 +27,11 @@
 		try {
 			const result = await useApiPost('/overview/daily');
 
-			toast('Спасибо за поддержку!<br>Вы получили в качестве бонуса по <b>' + number(result['resources']) + '</b> Металла, Кристаллов и Дейтерия' + (result['credits'] ? ', а также 1 кредит.' : ''), {
-				type: 'success'
-			});
+			useSuccessNotification('Спасибо за поддержку!<br>Вы получили в качестве бонуса по <b>' + number(result['resources']) + '</b> Металла, Кристаллов и Дейтерия' + (result['credits'] ? ', а также 1 кредит.' : ''));
 
 			await refreshNuxtData('page-overview');
 		} catch (e) {
-			toast(e.message, { type: 'error' });
+			useErrorNotification(e.message);
 		}
 	}
 </script>

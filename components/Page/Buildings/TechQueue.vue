@@ -11,9 +11,7 @@
 	import { computed } from 'vue';
 	import dayjs from 'dayjs';
 	import { useNow } from '@vueuse/core';
-	import { openConfirmModal } from '~/composables/useModals';
-	import { useApiPost } from '~/composables/useApi';
-	import { refreshNuxtData, useI18n } from '#imports';
+	import { useApiPost, openConfirmModal, refreshNuxtData, useI18n } from '#imports';
 
 	const props = defineProps({
 		build: Object,

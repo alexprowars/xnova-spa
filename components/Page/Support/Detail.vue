@@ -33,9 +33,8 @@
 </template>
 
 <script setup>
-	import { openAlertModal, useApiPost } from '#imports';
+	import { openAlertModal, useApiPost, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	const props = defineProps({
 		item: Object,
@@ -51,9 +50,7 @@
 				message: message.value,
 			});
 
-			toast('Запрос добавлен', {
-				type: 'success',
-			});
+			useSuccessNotification('Запрос добавлен');
 
 			emit('close');
 		} catch (e) {

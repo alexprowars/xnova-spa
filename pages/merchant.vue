@@ -54,11 +54,10 @@
 </template>
 
 <script setup>
-	import { definePageMeta, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useI18n, useRoute } from '#imports';
+	import Form from '~/components/Page/Messages/Form.vue';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useI18n, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import Form from '~/components/Page/Messages/Form.vue';
-	import { toast } from 'vue3-toastify';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -68,7 +67,7 @@
 		title: 'Торговец',
 	});
 
-	const { data: page, error } = await useAsyncData('page-merchant',
+	const { data: page, error, refresh } = await useAsyncData(
 		async () => await useStore().loadPage(),
 		{ watch: [() => useRoute().query] }
 	);
@@ -100,13 +99,11 @@
 		useApiSubmit('/merchant/exchange', {
 			type: type.value, ...resources.value
 		}, (result) => {
-			toast('Вы обменяли ' + result['exchange'] + ' ' + t('resources.' + result['type']), {
-				type: 'success',
-			});
+			useSuccessNotification('Вы обменяли ' + result['exchange'] + ' ' + t('resources.' + result['type']));
 
 			type.value = '';
 
-			refreshNuxtData('page-merchant');
+			refresh();
 		});
 	}
 </script>

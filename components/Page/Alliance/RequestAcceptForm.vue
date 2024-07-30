@@ -27,9 +27,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { useApiSubmit } from '~/composables/useApi.js';
-	import { toast } from 'vue3-toastify';
-	import { refreshNuxtData, navigateTo } from '#imports';
+	import { useApiSubmit, refreshNuxtData, navigateTo, useSuccessNotification } from '#imports';
 
 	const props = defineProps({
 		request: Object,
@@ -43,9 +41,7 @@
 			id: props.request['id'],
 			message: message.value,
 		}, () => {
-			toast('Игрок принят в альянс', {
-				type: 'success'
-			});
+			useSuccessNotification('Игрок принят в альянс');
 
 			navigateTo('/alliance/members');
 		});
@@ -56,9 +52,7 @@
 			id: props.request['id'],
 			message: message.value,
 		}, () => {
-			toast('Вы отклонили заявку', {
-				type: 'success'
-			});
+			useSuccessNotification('Вы отклонили заявку');
 
 			emit('close');
 

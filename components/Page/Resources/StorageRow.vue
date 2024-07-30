@@ -24,5 +24,5 @@
 
 	const { planet } = storeToRefs(useStore());
 
-	const storage = computed(() => Math.min(100, Math.max(0, Math.floor((planet['resources'][props.resource]['value'] / planet['resources'][props.resource]['capacity']) * 100))));
+	const storage = computed(() => Math.min(100, Math.max(0, Math.floor((planet.value['resources'][props.resource]['value'] / planet.value['resources'][props.resource]['capacity']) * 100))));
 </script>

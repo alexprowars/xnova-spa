@@ -31,8 +31,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { refreshNuxtData, useApiSubmit } from '#imports';
-	import { toast } from 'vue3-toastify';
+	import { refreshNuxtData, useApiSubmit, useSuccessNotification } from '#imports';
 
 	defineProps({
 		items: Array,
@@ -48,9 +47,7 @@
 		}, () => {
 			alliance.value = 0;
 
-			toast('Отношение между вашими альянсами успешно добавлено', {
-				type: 'success'
-			})
+			useSuccessNotification('Отношение между вашими альянсами успешно добавлено')
 
 			refreshNuxtData('page-alliance.diplomacy');
 		});

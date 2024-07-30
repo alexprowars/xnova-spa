@@ -52,12 +52,8 @@
 </template>
 
 <script setup>
-	import { useApiPost } from '~/composables/useApi';
-	import useStore from '~/store';
-	import { openConfirmModal } from '~/composables/useModals';
 	import dayjs from 'dayjs';
-	import { toast } from 'vue3-toastify';
-	import { refreshNuxtData } from '#imports';
+	import { refreshNuxtData, useApiPost, openConfirmModal, useErrorNotification, useSuccessNotification } from '#imports';
 
 	const props = defineProps({
 		i: {
@@ -82,13 +78,11 @@
 							id: props.item['id'],
 						});
 
-						toast('Флот возвращается назад!', {
-							type: 'success',
-						});
+						useSuccessNotification('Флот возвращается назад!');
 
 						await refreshNuxtData('page-fleet');
 					} catch (e) {
-						toast(e.message, { type: 'error' });
+						useErrorNotification(e.message);
 					}
 				}
 			}]

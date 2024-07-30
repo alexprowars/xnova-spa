@@ -25,10 +25,9 @@
 </template>
 
 <script setup>
-	import { navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store/index.js';
 	import { ref } from 'vue';
-	import { toast } from 'vue3-toastify';
 
 	useHead({
 		title: 'Запрос на вступление',
@@ -51,9 +50,7 @@
 		useApiSubmit('alliance/join/' + route.params['id'], {
 			message: message.value,
 		}, () => {
-			toast('Запрос на вступление в альянс. После получения вашего сообщения вы получите разрешение/отказ.', {
-				type: 'success'
-			});
+			useSuccessNotification('Запрос на вступление в альянс. После получения вашего сообщения вы получите разрешение/отказ');
 
 			navigateTo('/alliance');
 		});

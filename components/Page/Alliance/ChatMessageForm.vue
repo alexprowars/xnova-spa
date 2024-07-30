@@ -21,10 +21,10 @@
 
 <script setup>
 	import Form from '~/components/Page/Messages/Form.vue';
-	import { useApiSubmit, refreshNuxtData } from '#imports';
-	import { toast } from 'vue3-toastify';
+	import { useApiSubmit, refreshNuxtData, useSuccessNotification } from '#imports';
 
 	const value = defineModel();
+	const emit = defineEmits(['send']);
 
 	function reset() {
 		value.value = '';
@@ -34,13 +34,11 @@
 		useApiSubmit('/alliance/chat', {
 			message: value.value,
 		}, () => {
-			toast('Сообщение отправлено', {
-				type: 'success'
-			});
+			useSuccessNotification('Сообщение отправлено');
 
 			value.value = '';
 
-			refreshNuxtData('page-alliance.chat');
+			emit('send');
 		});
 	}
 </script>
