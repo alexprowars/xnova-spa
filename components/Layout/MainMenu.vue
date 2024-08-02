@@ -10,7 +10,7 @@
 
 		<div :class="{ active: active }" class="menu-sidebar">
 			<ul>
-				<MainMenuItem v-for="(item, i) in filteredItems" :item="item" :key="i"></MainMenuItem>
+				<MainMenuItem v-for="(item, i) in filteredItems" :item="item" :key="i"/>
 			</ul>
 		</div>
 	</nav>

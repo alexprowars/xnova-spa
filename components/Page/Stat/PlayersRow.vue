@@ -49,11 +49,11 @@
 
 <script setup>
 	import PlayerInfo from '~/components/Page/Players/Info.vue';
+	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 	import { openAjaxPopupModal, useRoute } from '#imports';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import { computed } from 'vue';
-	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 
 	const props = defineProps({
 		item: Object,
@@ -65,7 +65,7 @@
 	const marked = computed(() => {
 		let queryId = parseInt(route.query['id'] || 0);
 
-		return (!queryId && user.value['id'] === props.item['id']) || queryId === props.item['id'];
+		return (!queryId && user.value?.['id'] === props.item['id']) || queryId === props.item['id'];
 	});
 
 	function openPlayerPopup () {

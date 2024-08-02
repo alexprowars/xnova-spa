@@ -32,17 +32,17 @@
 			<div class="negative">{{ time > 0 ? 'Продлить' : 'Нанять' }}</div>
 
 			<button @click.prevent="submit(7, 20)">на неделю</button>
-			<br>Стоимость:&nbsp;<font color="lime">20</font>&nbsp;кр.
+			<br>Стоимость:&nbsp;<span class="positive">20</span>&nbsp;кр.
 
 			<div class="separator"></div>
 
 			<button @click.prevent="submit(14, 40)">на 2 недели</button>
-			<br>Стоимость:&nbsp;<font color="lime">40</font>&nbsp;кр.
+			<br>Стоимость:&nbsp;<span class="positive">40</span>&nbsp;кр.
 
 			<div class="separator"></div>
 
 			<button @click.prevent="submit(30, 80)">на месяц</button>
-			<br>Стоимость:&nbsp;<font color="lime">80</font>&nbsp;кр.
+			<br>Стоимость:&nbsp;<span class="positive">80</span>&nbsp;кр.
 
 			<div class="separator"></div>
 		</div>

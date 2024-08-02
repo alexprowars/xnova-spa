@@ -21,7 +21,7 @@
 								<input name="galaxy" v-model.number="inputGalaxy" maxlength="3" tabindex="1" min="1" type="number">
 							</th>
 							<th>
-								<button :disabled="galaxy >= page['galaxy_max']" @click.prevent="changeByDirection('galaxyRight')">-&gt;</button>
+								<button :disabled="galaxy >= galaxyMax" @click.prevent="changeByDirection('galaxyRight')">-&gt;</button>
 							</th>
 						</tr>
 					</tbody>
@@ -46,7 +46,7 @@
 								<input name="system" v-model.number="inputSystem" maxlength="3" tabindex="2" min="1" type="number">
 							</th>
 							<th>
-								<button :disabled="system >= page['system_max']" @click.prevent="changeByDirection('systemRight')">-&gt;</button>
+								<button :disabled="system >= systemMax" @click.prevent="changeByDirection('systemRight')">-&gt;</button>
 							</th>
 						</tr>
 					</tbody>
@@ -59,14 +59,21 @@
 <script setup>
 	import GalaxySelectorShortcut from './SelectorShortcut.vue'
 	import { computed, ref, watch } from 'vue';
-	import { useNuxtData } from '#imports';
 
 	const props = defineProps({
 		galaxy: {
 			type: Number,
 			default: 1
 		},
+		galaxyMax: {
+			type: Number,
+			default: 1
+		},
 		system: {
+			type: Number,
+			default: 1
+		},
+		systemMax: {
 			type: Number,
 			default: 1
 		},
@@ -75,8 +82,6 @@
 			default: () => []
 		}
 	});
-
-	const { data: page } = useNuxtData('page-galaxy');
 
 	const emit = defineEmits(['change']);
 

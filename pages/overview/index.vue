@@ -10,7 +10,7 @@
 						<NuxtLinkLocale :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
 							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}]
 						</NuxtLinkLocale>
-						<NuxtLinkLocale to="/overview/rename/" title="Редактирование планеты">(изменить)</NuxtLinkLocale>
+						<NuxtLinkLocale to="/overview/rename" title="Редактирование планеты">(изменить)</NuxtLinkLocale>
 					</div>
 					<div class="separator d-sm-none"></div>
 					<div class="col-12 col-sm-6">
@@ -24,6 +24,13 @@
 				<div v-if="page['resource_notify']" class="row">
 					<div class="col text-center">
 						<span class="negative">Одна из шахт находится в выключенном состоянии. Зайдите в меню "<NuxtLinkLocale to="/resources">Сырьё</NuxtLinkLocale>" и восстановите производство.</span>
+					</div>
+					<div class="separator"></div>
+				</div>
+
+				<div v-if="page['noob']" class="row">
+					<div class="col text-center">
+						<span style="font-weight:normal;"><span class="positive">Активен режим ускорения новичков.</span><br>Режим будет деактивирован после достижения 1000 очков.</span>
 					</div>
 					<div class="separator"></div>
 				</div>
@@ -53,12 +60,6 @@
 									<div id="CaseBarre" :style="'background-color: #'+(userFiledsPercent > 80 ? 'C00000' : (userFiledsPercent > 60 ? 'C0C000' : '00C000'))+'; width: '+userFiledsPercent+'%;  margin: 0 auto; text-align:center;'">
 										<font color="#000000"><b>{{ userFiledsPercent }}%</b></font>
 									</div>
-								</div>
-
-								<div v-if="page['noob']">
-									<div class="separator"></div>
-									<img src="/images/warning.png" align="absmiddle" alt="">
-									<span style="font-weight:normal;"><span class="positive">Активен режим ускорения новичков.</span><br>Режим будет деактивирован после достижения 1000 очков.</span>
 								</div>
 							</div>
 							<div class="col-12 page-overview-officiers">
@@ -110,7 +111,7 @@
 							<div class="row">
 								<div class="col-12 c">
 									Обломки
-									<a v-if="page['debris_mission']" @click.prevent="sendRecycle">
+									<a v-if="hasDebrisMission" @click.prevent="sendRecycle">
 										(переработать)
 									</a>
 								</div>
@@ -234,10 +235,10 @@
 
 				<div class="clearfix"></div>
 
-				<div v-if="page['build_list'].length > 0">
+				<div v-if="page['queue'].length > 0">
 					<div class="separator"></div>
 					<div class="block-table">
-						<queue-row v-for="(list, i) in page['build_list']" :key="i" :item="list"/>
+						<QueueRow v-for="(list, i) in page['queue']" :key="i" :item="list"/>
 					</div>
 				</div>
 			</div>
@@ -301,6 +302,10 @@
 
 	const userFiledsPercent = computed(() => {
 		return Math.min(Math.floor(planet.value.field_used / planet.value.field_max * 100), 100);
+	})
+
+	const hasDebrisMission = computed(() => {
+		return (planet.value['debris']['metal'] !== 0 || planet.value['debris']['crystal'] !== 0) && planet.value['units']['recycler'] > 0;
 	})
 
 	function sendRecycle () {

@@ -1,6 +1,13 @@
 <template>
 	<div v-if="page" class="page-galaxy">
-		<GalaxySelector :shortcuts="page['shortcuts']" :galaxy="page['galaxy']" :system="page['system']" @change="changeCoordinates"/>
+		<GalaxySelector
+			:shortcuts="page['shortcuts']"
+			:galaxy="page['galaxy']"
+			:galaxy-max="page['galaxy_max']"
+			:system="page['system']"
+			:system-max="page['system_max']"
+			@change="changeCoordinates"
+		/>
 		<div class="separator"></div>
 
 		<MissileAttack v-if="missile" :page="page" :planet="missilePlanet" @close="missile = false"/>
@@ -94,7 +101,7 @@
 	const galaxy = ref(route.params['galaxy'] || route.query['galaxy'] || null);
 	const system = ref(route.params['system'] || route.query['system'] || null);
 
-	const { data: page, error } = await useAsyncData('page-galaxy',
+	const { data: page, error } = await useAsyncData(
 		async () => await store.loadPage('/galaxy', { galaxy: galaxy.value, system: system.value }),
 		{ watch: [() => useRoute().query, galaxy, system] }
 	);

@@ -20,16 +20,11 @@
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 	import useChatStore from '~/store/chat';
-	import dayjs from 'dayjs';
 
 	const store = useStore();
-	const { user, redirect } = storeToRefs(store);
+	const { redirect } = storeToRefs(store);
 
-	const tz = user.value?.options.timezone;
-
-	if (tz !== null) {
-		dayjs.tz.setDefault((tz >= 0 ? '+' : '-') + (Math.abs(tz) < 10 ? '0' : '') + Math.abs(tz) + ':00');
-	}
+	store.setTimezone();
 
 	watch(redirect, (url) => {
 		if (url && url.length > 0) {

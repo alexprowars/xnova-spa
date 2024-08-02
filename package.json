@@ -22,11 +22,12 @@
     "dayjs": "^1.11.12",
     "floating-vue": "^5.2.2",
     "laravel-echo": "^1.16.1",
+    "mitt": "^3.0.1",
     "nuxt": "^3.12.4",
     "pinia": "^2.2.0",
     "pusher-js": "^8.4.0-rc2",
     "sass": "1.77.6",
-    "vue": "^3.4.34",
+    "vue": "^3.4.35",
     "vue-final-modal": "^4.5.4",
     "vue3-toastify": "^0.2.2",
     "vue3-touch-events": "^4.1.8"

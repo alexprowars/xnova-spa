@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useRouter, useApiGet, navigateTo, startLoading, stopLoading, useToast } from '#imports';
+import dayjs from 'dayjs';
 
 export const useStore = defineStore('app', {
 	state: () => ({
@@ -31,6 +32,11 @@ export const useStore = defineStore('app', {
 	actions: {
 		async loadState() {
 			const data = await useApiGet('/state');
+
+			if (typeof data['redirect'] !== 'undefined' && Object.keys(data).length === 1 && !this.initialized) {
+				window.location.href = data['redirect'];
+				return;
+			}
 
 			this.PAGE_LOAD(data);
 		},
@@ -82,6 +88,8 @@ export const useStore = defineStore('app', {
 				const page = JSON.parse(JSON.stringify(responce['data'] || {}));
 				delete responce['data'];
 
+				this.initialized = true;
+
 				this.PAGE_LOAD(responce);
 
 				return page;
@@ -94,6 +102,15 @@ export const useStore = defineStore('app', {
 				if (data.hasOwnProperty(key)) {
 					this[key] = data[key];
 				}
+			}
+		},
+		setTimezone() {
+			const tz = this.user?.options.timezone || null;
+
+			if (tz !== null) {
+				dayjs.tz.setDefault((tz >= 0 ? '+' : '-') + (Math.abs(tz) < 10 ? '0' : '') + Math.abs(tz) + ':00');
+			} else {
+				dayjs.tz.setDefault();
 			}
 		},
 	}

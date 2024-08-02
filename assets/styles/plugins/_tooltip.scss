@@ -1,85 +1,19 @@
-.tooltip {
-	display: block !important;
-	z-index: 10000;
-
-	.tooltip-inner {
-		display: block;
-		background: black;
-		color: white;
-		border-radius: 16px;
-		padding: 5px 10px 4px;
-	}
-
-	.tooltip-arrow {
-		width: 0;
-		height: 0;
-		border-style: solid;
-		position: absolute;
-		margin: 5px;
-		border-color: black;
-		z-index: 1;
-	}
-
-	&.popover {
-		.popover-inner {
-			color: white;
-			line-height: 18px;
-			padding: 6px 8px;
-			background: #252f39;
-			border-radius: 5px;
-			border: 1px solid #415683;
-			text-align: center;
-			box-shadow: 0 5px 30px rgba(black, .1);
-		}
-
-		.popover-arrow {
-			border-color: #415683;
-		}
-	}
-
-	&[aria-hidden='true'] {
-		visibility: hidden;
-		opacity: 0;
-		transition: opacity .15s, visibility .15s;
-	}
-
-	&[aria-hidden='false'] {
-		visibility: visible;
-		opacity: 1;
-		transition: opacity .15s;
-	}
-}
-
-.application .tooltip-inner {
-	display: none;
-}
-
-.v-popover {
-	display: inline-block;
-}
-
-.popover {
-	box-shadow: 0 0 30px 5px rgba(40, 40, 40, 0.75);
-}
-
-.popper {
-	text-align: center;
-}
-
-a.tooltip {
-	display: inline-block !important;
-}
-
 .Toastify__close-button {
 	min-width: auto;
 	margin: 0;
 }
 
-.v-popper--theme-tooltip .v-popper__inner, .v-popper--theme-dropdown .v-popper__inner {
-	transition: background 250ms ease-in-out;
-	background: #252f39;
-	padding: 8px;
-	border-radius: 5px;
-	border: 1px solid #415683;
-	box-shadow: 0 0 30px 5px rgba(40, 40, 40, 0.75);
+.v-popper--theme-tooltip {
+	.v-popper__inner {
+		transition: background 250ms ease-in-out;
+		background: #252f39;
+		padding: 8px;
+		border-radius: 5px;
+		border: 1px solid #415683;
+		box-shadow: 0 0 30px 5px rgba(40, 40, 40, 0.75);
+	}
+
+	.v-popper__arrow-outer {
+		border-color: #415683;
+	}
 }

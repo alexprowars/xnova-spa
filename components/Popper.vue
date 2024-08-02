@@ -1,14 +1,14 @@
 <template>
-	<Menu v-bind="attrs" placement="top" :triggers="['hover', 'focus', 'touch']">
+	<Tooltip v-bind="attrs" placement="top" :triggers="['hover', 'focus', 'touch']" :popper-triggers="['hover']">
 		<slot/>
 		<template #popper="props">
 			<slot name="content" v-bind="props"/>
 		</template>
-	</Menu>
+	</Tooltip>
 </template>
 
 <script setup>
-	import { Menu } from 'floating-vue';
+	import { Tooltip } from 'floating-vue';
 	import { useAttrs } from 'vue';
 
 	const attrs = useAttrs();

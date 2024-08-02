@@ -54,22 +54,24 @@
 		window.object.UpdateTree();
 
 		if (!access) {
-			document.querySelector('#tch_img_'+prntid)?.classList.add('tch_icon_red');
+			document.querySelector('#tch_img_' + prntid)?.classList.add('tch_icon_red');
 		}
 
 		if (element !== -1 && data['req'].length) {
 			for (let req of data['req']) {
-				let actclr = 'lime';
+				let actclr = 'positive';
 
-				if (req[1] < req[3])
-					actclr = 'red';
+				if (req[1] < req[3]) {
+					actclr = 'negative';
+				}
 
 				let lvtmp = '';
 
-				if (req[2] !== -1)
-					lvtmp = '<font color='+actclr+'>' + req[1] + '</font><font color=gold>+'+req[2]+'</font>/<font color=lime>' + req[3] + '</font>';
-				else
-					lvtmp = '<font color='+actclr+'>' + req[1] + '</font>/<font color=lime>' + req[3] + '</font>';
+				if (req[2] !== -1) {
+					lvtmp = '<span class="' + actclr + '">' + req[1] + '</span><span style="color:gold"> + ' + req[2] + '</span>/<span class="positive">' + req[3] + '</span>';
+				} else {
+					lvtmp = '<span class="' + actclr + '">' + req[1] + '</span>/<span class="positive">' + req[3] + '</span>';
+				}
 
 				let fwrld = '';
 
@@ -77,7 +79,7 @@
 					fwrld = t('tech.' + req[0]);
 				}
 
-				createTree(counter + 1, tid, req[0], lvtmp, req[1] < req[3], fwrld);
+				createTree(counter + 1, tid, req[0], lvtmp, req[1] >= req[3], fwrld);
 			}
 		}
 

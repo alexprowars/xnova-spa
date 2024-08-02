@@ -14,7 +14,7 @@
 					<div class="sm">
 						Войти с помощью:<br><br>
 
-						<NuxtLinkLocale :to="'/login/social/vkontakte/'">Vkontakte</NuxtLinkLocale>
+						<a href="" @click.prevent="socialLogin('vkontakte')">Vkontakte</a>
 					</div>
 				</div>
 			</div>
@@ -85,5 +85,19 @@
 		}
 
 		openPopupModal(RemindForm);
+	}
+
+	async function socialLogin(service) {
+		openWindow('/api/login/social/' + service);
+	}
+
+	function openWindow (url) {
+		let w = screen.width
+		let h = screen.height
+
+		let width = 600
+		let height = 400
+
+		window.open(url, '', 'status=no,scrollbars=yes,resizable=yes,width='+width+',height='+height+',top='+Math.floor((h - height)/2-14)+',left='+Math.floor((w - width)/2-5))
 	}
 </script>
