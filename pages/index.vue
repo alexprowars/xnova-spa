@@ -88,16 +88,6 @@
 	}
 
 	async function socialLogin(service) {
-		openWindow('/api/login/social/' + service);
-	}
-
-	function openWindow (url) {
-		let w = screen.width
-		let h = screen.height
-
-		let width = 600
-		let height = 400
-
-		window.open(url, '', 'status=no,scrollbars=yes,resizable=yes,width='+width+',height='+height+',top='+Math.floor((h - height)/2-14)+',left='+Math.floor((w - width)/2-5))
+		window.location.href = '/api/login/social/' + service;
 	}
 </script>

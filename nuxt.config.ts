@@ -7,6 +7,10 @@ let config = {
 			meta: [
 				{ charset: 'utf-8' },
 				{ name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
+				{ name: 'mobile-web-app-capable', content: 'yes' },
+				{ name: 'apple-mobile-web-app-capable', content: 'yes' },
+				{ name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
+				{ name: 'format-detection', content: 'telephone=no' },
 				{ name: 'og:title', content: 'XNova Game' },
 				{ name: 'og:image', content: '/images/logo.jpg' },
 				{ name: 'og:image:width', content: '300' },
@@ -15,8 +19,11 @@ let config = {
 				{ name: 'og:description', content: 'Вы являетесь межгалактическим императором, который распространяет своё влияние посредством различных стратегий на множество галактик.' },
 			],
 			link: [
-				{ rel: 'image_src', href: '/images/logo.jpg' },
-				{ rel: 'apple-touch-icon', href: '/images/apple-touch-icon.png' },
+				{ rel: 'image_src', href: '/images/pwa/icon_512.png' },
+				{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+				{ rel: 'icon', type: 'image/png', sizes: '196x196', href: '/images/pwa/icon_192.png' },
+				{ rel: 'apple-touch-icon', type: 'image/png', sizes: '512x512', href: '/images/pwa/icon_512.png' },
+				{ rel: 'manifest', href: '/manifest.json' },
 			]
 		},
 		pageTransition: false,
