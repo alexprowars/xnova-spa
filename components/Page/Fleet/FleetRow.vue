@@ -22,20 +22,20 @@
 		</div>
 		<div class="col-4 col-sm-3 th">
 			<div>
-				<NuxtLinkLocale :to="'/galaxy/?galaxy='+item['target']['galaxy']+'&system='+item['target']['system']" class="negative">
+				<NuxtLinkLocale :to="'/galaxy?galaxy='+item['target']['galaxy']+'&system='+item['target']['system']" class="negative">
 					[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ dayjs(item['start']['time']).tz().format('DD MMM HH:mm:ss') }}
+			{{ $date(item['start']['time'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['start']['time']" delimiter="" class="positive"/>
 		</div>
 		<div v-if="item['target']['time']" class="col-4 col-sm-3 th">
 			<div>
-				<NuxtLinkLocale :to="'/galaxy/?galaxy='+item['start']['galaxy']+'&system='+item['start']['system']" class="positive">
+				<NuxtLinkLocale :to="'/galaxy?galaxy='+item['start']['galaxy']+'&system='+item['start']['system']" class="positive">
 					[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ dayjs(item['target']['time']).tz().format('DD MMM HH:mm:ss') }}
+			{{ $date(item['target']['time'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['target']['time']" delimiter="" class="positive"/>
 		</div>
 		<div v-else class="col-4 col-sm-3 th">
@@ -52,7 +52,6 @@
 </template>
 
 <script setup>
-	import dayjs from 'dayjs';
 	import { refreshNuxtData, useApiPost, openConfirmModal, useErrorNotification, useSuccessNotification } from '#imports';
 
 	const props = defineProps({

@@ -13,7 +13,7 @@
 					<div class="col c">Должность</div>
 					<div class="col c">E-mail</div>
 				</div>
-				<template v-for="item in page.items">
+				<template v-for="item in items">
 					<div class="row">
 						<div class="col th">{{ item['name'] }}</div>
 						<div class="col th">{{ item['auth'] }}</div>
@@ -46,7 +46,7 @@
 		title: 'Администрация',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: items, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	}, { watch: [() => useRoute().query] });
 

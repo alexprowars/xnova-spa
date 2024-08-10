@@ -1,12 +1,11 @@
 <template>
 	<div class="activity">
-		<div class="date1" style="display: inline-block;padding-right:5px;">{{ dayjs(item['time']).tz().format('HH:mm') }}</div>
+		<div class="date1" style="display: inline-block;padding-right:5px;">{{ $date(item['time'], 'HH:mm') }}</div>
 		<div style="display: inline;white-space:pre-wrap" v-html="message"></div>
 	</div>
 </template>
 
 <script setup>
-	import dayjs from 'dayjs';
 	import { computed } from 'vue';
 
 	const props = defineProps({

@@ -17,20 +17,18 @@
 			<div>{{ item['start']['name'] }}</div>
 		</th>
 		<th>
-			{{ dayjs(item['start']['time']).tz().format('DD MMM HH:mm:ss') }}
+			{{ $date(item['start']['time'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['start']['time']" class="positive"/>
 		</th>
 		<th>
 			<PlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"/>
 			<div>{{ item['target']['name'] }}</div>
 		</th>
-		<th>{{ dayjs(item['target']['time']).tz().format('DD MMM HH:mm:ss') }}</th>
+		<th>{{ $date(item['target']['time'], 'DD MMM HH:mm:ss') }}</th>
 	</tr>
 </template>
 
 <script setup>
-	import dayjs from 'dayjs';
-
 	defineProps({
 		item: Object,
 	})

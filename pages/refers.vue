@@ -13,7 +13,7 @@
 						<div class="col th">
 							<NuxtLinkLocale :to="'/players/' + item['id']">{{ item['username'] }}</NuxtLinkLocale>
 						</div>
-						<div class="col th">{{ dayjs(item['created_at']).tz().format('DD MMM YYYY HH:mm:ss') }}</div>
+						<div class="col th">{{ $date(item['created_at'], 'DD MMM YYYY HH:mm:ss') }}</div>
 						<div class="col th">П:{{ item['lvl_minier'] }}, В:{{ item['lvl_raid'] }}</div>
 					</div>
 				</div>
@@ -79,7 +79,6 @@
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],

@@ -15,7 +15,7 @@
 	import Loader from '~/components/Layout/Loader.vue'
 	import { ModalsContainer } from 'vue-final-modal';
 	import { useLocaleHead } from '#i18n';
-	import { navigateTo, useHead, useNuxtApp, useToast } from '#imports';
+	import { navigateTo, useHead, useNuxtApp, useToast, useEvents } from '#imports';
 	import { computed, watch } from 'vue';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
@@ -73,9 +73,11 @@
 			})
 			.listen('PlanetEntityUpdated', () => {
 				stateUpdate();
+
+				useEvents().emit('stateUpdated');
 			});
 
-		stateUpdate();
+		setTimeout(stateUpdate, 60000);
 	}
 
 	function stateUpdate() {

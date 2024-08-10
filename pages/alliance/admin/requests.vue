@@ -21,7 +21,7 @@
 				<a href="" @click.prevent="show(item)">{{ item['name'] }}</a>
 			</th>
 			<th class="text-center">
-				{{ dayjs(item['date']).tz().format('DD MMM YYYY HH:mm') }}
+				{{ $date(item['date'], 'DD MMM YYYY HH:mm') }}
 			</th>
 		</tr>
 		<tr v-if="page['items'].length === 0">
@@ -36,7 +36,6 @@
 <script setup>
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
-	import dayjs from 'dayjs';
 	import { ref } from 'vue';
 	import RequestAcceptForm from '~/components/Page/Alliance/RequestAcceptForm.vue';
 

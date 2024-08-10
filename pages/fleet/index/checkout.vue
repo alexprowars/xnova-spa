@@ -33,7 +33,7 @@
 			</div>
 			<div class="row">
 				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ dayjs(target_time).tz().format('DD MMM HH:mm:ss') }}</div>
+				<div class="th col-6">{{ $date(target_time, 'DD MMM HH:mm:ss') }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Максимальная скорость</div>
@@ -121,7 +121,7 @@
 							<th class="negative">Миссия невозможна</th>
 						</tr>
 						<tr>
-							<th>Время прилёта: {{ dayjs(target_time).tz().format('DD MMM HH:mm:ss') }}</th>
+							<th>Время прилёта: {{ $date(target_time, 'DD MMM HH:mm:ss') }}</th>
 						</tr>
 					</table>
 				</div>
@@ -201,9 +201,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, showError, useApiPost, useApiSubmit, useAsyncData } from '#imports';
+	import { definePageMeta, getConsumption, getDistance, getDuration, getSpeed, getStorage, navigateTo, useApiPost, useApiSubmit, useNuxtData } from '#imports';
 	import useStore from '~/store/index.js';
-	import { computed, onMounted, ref, watch } from 'vue';
+	import { computed, onMounted, ref, toRef, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 	import dayjs from 'dayjs';
 	import { useNow } from '@vueuse/core';
@@ -212,15 +212,15 @@
 		middleware: ['auth'],
 	});
 
-	const store = useStore();
+	let { data } = useNuxtData('page-fleet.checkout');
 
-	const { data: page, error } = await useAsyncData(
-		async () => await store.loadPage(),
-	);
-
-	if (error.value) {
-		throw showError(error.value);
+	if (data.value === null) {
+		await navigateTo('/fleet');
 	}
+
+	const page = toRef(data.value);
+
+	const store = useStore();
 
 	const formRef = ref();
 	const resource = ref({
@@ -260,7 +260,7 @@
 		info();
 	});
 
-	watch(() => page.value.target, async () => {
+	watch(() => page.value?.target, async () => {
 		let ships = {}
 		page.value['ships'].forEach((item) => ships[item['id']] = item['count']);
 
@@ -268,9 +268,9 @@
 			...page.value['target'], ships,
 		});
 
-		delete result['data']['target'];
+		delete result['target'];
 
-		page.value = Object.assign(page.value, result['data']);
+		page.value = Object.assign(page.value, result);
 
 		info();
 	}, { deep: true });
@@ -358,8 +358,8 @@
 			moon: moon.value,
 			...resource.value,
 		}, (result) => {
-			store.PAGE_LOAD(result);
-			store.page = result.data;
+			const { data } = useNuxtData('page-fleet.send');
+			data.value = result;
 
 			navigateTo('/fleet/send');
 		});

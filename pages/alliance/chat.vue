@@ -9,7 +9,7 @@
 
 			<div v-for="item in page['items']" class="row">
 				<div class="col-2 b text-center">
-					{{ dayjs(item['time']).tz().format('HH:mm:ss') }}
+					{{ $date(item['time'], 'HH:mm:ss') }}
 					<br>
 					<a :href="'/players/' + item['user_id']" target="_blank">{{ item['user'] }}</a>
 					<a @click.prevent="quote(item)"> -> </a>
@@ -57,7 +57,6 @@
 	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import dayjs from 'dayjs';
 
 	import { storeToRefs } from 'pinia';
 

@@ -15,7 +15,7 @@
 						<input :value="item['id']" v-model="deleteItems" type="checkbox">
 					</div>
 					<div class="col-3 th">
-						{{ dayjs(item['time']).tz().format('DD MMM YYYY HH:mm') }}
+						{{ $date(item['time'], 'DD MMM YYYY HH:mm') }}
 					</div>
 					<div class="col-8 th">
 						<NuxtLinkLocale :to="'/notes/' + item['id']">
@@ -40,7 +40,6 @@
 	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
-	import dayjs from 'dayjs';
 
 	definePageMeta({
 		middleware: ['auth'],

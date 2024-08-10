@@ -206,10 +206,10 @@
 						</tr>
 						<tr v-for="auth in data['auth']">
 							<th>{{ auth['external_id'] }}</th>
-							<th>{{ dayjs(auth['create_time']).tz().format('DD MMM YYYY HH:mm:ss') }}</th>
+							<th>{{ $date(auth['create_time'], 'DD MMM YYYY HH:mm:ss') }}</th>
 							<th>
 								<template v-if="auth['enter_time'] > 0">
-									{{ dayjs(auth['enter_time']).tz().format('DD MMM YYYY HH:mm:ss') }}
+									{{ $date(auth['enter_time'], 'DD MMM YYYY HH:mm:ss') }}
 								</template>
 								<template>
 									-
@@ -235,7 +235,6 @@
 </template>
 
 <script setup>
-	import dayjs from 'dayjs';
 	import { ref } from 'vue';
 	import { refreshNuxtData, useApiSubmit, useSuccessNotification } from '#imports';
 

@@ -24,8 +24,10 @@
 		title: 'Исследования',
 	});
 
+	const store = useStore();
+
 	const { data: items, error } = await useAsyncData('page-research',
-		async () => await useStore().loadPage(),
+		async () => await store.loadPage(),
 		{ watch: [() => useRoute().query] }
 	);
 

@@ -17,7 +17,7 @@
 			<template v-for="item in requests">
 				<tr>
 					<th width="70%">{{ item['name'] }} [{{ item['tag'] }}]</th>
-					<th>{{ dayjs(item['date']).tz().format('DD MMM YYYY HH:mm') }}</th>
+					<th>{{ $date(item['date'], 'DD MMM YYYY HH:mm') }}</th>
 				</tr>
 				<tr>
 					<th colspan="2">
@@ -45,7 +45,6 @@
 </template>
 
 <script setup>
-	import dayjs from 'dayjs';
 	import { openConfirmModal, useApiSubmit, refreshNuxtData, useSuccessNotification } from '#imports';
 
 	defineProps({

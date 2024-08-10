@@ -89,9 +89,9 @@
 
 <script setup>
 	import FleetList from '~/components/Page/Fleet/FleetList.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, useApiSubmit } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, useApiSubmit, useNuxtData } from '#imports';
 	import useStore from '~/store/index.js';
-	import { computed, ref, watch } from 'vue';
+	import { computed, onMounted, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
@@ -125,6 +125,10 @@
 			let cnt = fleets.value[ship.id] || 0;
 			return (total + cnt);
 		}, 0);
+	});
+
+	onMounted(() => {
+		store.loadState();
 	});
 
 	watch(() => page.value.ships, () => {
@@ -219,8 +223,8 @@
 			ships: fleets.value,
 			...page.value['selected']
 		}, (result) => {
-			store.PAGE_LOAD(result);
-			store.page = result.data;
+			const { data } = useNuxtData('page-fleet.checkout');
+			data.value = result;
 
 			navigateTo('/fleet/checkout');
 		});

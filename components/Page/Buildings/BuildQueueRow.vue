@@ -14,17 +14,17 @@
 				<br>
 				<NuxtLinkLocale :to="{ path: '/buildings', force: true }">Продолжить</NuxtLinkLocale>
 			</div>
-			<div class="positive">{{ dayjs(item['time']).tz().format('DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ $date(item['time'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 		<div class="col-6 k" v-else>
 			<a @click.prevent="deleteItem">Удалить</a>
-			<div class="positive">{{ dayjs(item['time']).tz().format('DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ $date(item['time'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { useApiPost, openConfirmModal, refreshNuxtData } from '#imports';
+	import { useApiPost, openConfirmModal, refreshNuxtData, useI18n } from '#imports';
 	import dayjs from 'dayjs';
 	import { useNow } from '@vueuse/core';
 	import { computed } from 'vue';
@@ -34,13 +34,14 @@
 		item: Object
 	});
 
+	const { t } = useI18n();
 	const now = useNow({ interval: 1000 });
 	const time = computed(() => dayjs(props.item['time']).diff(now.value) / 1000);
 
 	function deleteItem () {
 		openConfirmModal(
 			'Очередь построек',
-			'Удалить <b>' + props.item['name'] + ' ' + props.item['level'] + ' ур.</b> из очереди?',
+			'Удалить <b>' + t('tech.' + props.item['item']) + ' ' + props.item['level'] + ' ур.</b> из очереди?',
 			[{
 				title: 'Закрыть',
 			}, {
@@ -59,7 +60,7 @@
 	function cancelItem () {
 		openConfirmModal(
 			'Очередь построек',
-			'Отменить постройку <b>'+props.item['name']+' '+props.item['level']+' ур.</b>?',
+			'Отменить постройку <b>' + t('tech.' + props.item['item']) + ' ' + props.item['level'] + ' ур.</b>?',
 			[{
 				title: 'Закрыть',
 			}, {

@@ -1,5 +1,5 @@
 import mitt from 'mitt';
-import { defineNuxtPlugin, navigateTo } from '#imports';
+import { defineNuxtPlugin } from '#imports';
 import useStore from '~/store';
 
 export default defineNuxtPlugin((nuxtApp) => {

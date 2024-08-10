@@ -4,15 +4,13 @@
 			<div class="z">
 				<Timer :value="item['time']"/>
 			</div>
-			<div class="positive">{{ dayjs(item['date']).tz().format('DD MMM') }}</div>
+			<div class="positive">{{ $date(item['date'], 'DD MMM') }}</div>
 		</div>
 		<div class="col-9 col-sm-10 th text-start" :class="[item['status'], item['prefix'], item['mission']]" v-html="item['text']"></div>
 	</div>
 </template>
 
 <script setup>
-	import dayjs from 'dayjs';
-
 	defineProps({
 		item: Object
 	});

@@ -2,7 +2,7 @@
 	<div class="page-stat">
 		<div class="block">
 			<div class="title text-center">
-				Статистика: {{ dayjs(page['update']).tz().format('HH:mm:ss DD MMM YYYY') }}
+				Статистика: {{ $date(page['update'], 'HH:mm:ss DD MMM YYYY') }}
 			</div>
 			<div class="content border-0">
 				<div class="block-table">
@@ -51,7 +51,6 @@
 	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref, toRefs, watch } from 'vue';
-	import dayjs from 'dayjs';
 
 	definePageMeta({
 		view: {

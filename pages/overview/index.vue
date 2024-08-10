@@ -70,7 +70,7 @@
 												{{ $t('tech.' + item['id']) }}
 												<br>
 												<span v-if="item['time'] && dayjs(item['time']).diff() > 0">
-													Нанят до <span class="positive">{{ dayjs(item['time']).tz().format('DD MMM HH:mm') }}</span>
+													Нанят до <span class="positive">{{ $date(item['time'], 'DD MMM HH:mm') }}</span>
 												</span>
 												<span v-else class="positive">Не нанят</span>
 											</div>

@@ -38,6 +38,25 @@ export const useStore = defineStore('app', {
 				return;
 			}
 
+			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '') {
+				$.confirm({
+					title: 'Обучение',
+					content: data['tutorial']['popup'],
+					confirmButton: 'Продолжить',
+					cancelButton: false,
+					backgroundDismiss: false,
+					confirm() {
+						if (data['tutorial']['url'] !== '') {
+							navigateTo(data['tutorial']['url']);
+						}
+					}
+				})
+			}
+
+			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['toast'] !== '') {
+				useToast(data['tutorial']['toast'], 'info')
+			}
+
 			this.PAGE_LOAD(data);
 		},
 		async loadPage (url = undefined, params = {}) {
@@ -47,15 +66,12 @@ export const useStore = defineStore('app', {
 
 			if (this.page !== null) {
 				let page = JSON.parse(JSON.stringify(this.page));
+				this.page = null;
 
-				this.PAGE_LOAD({
-					page: null
-				})
-
-				return new Promise((resolve) => {
-					return resolve(page)
-				})
+				return new Promise((resolve) => resolve(page))
 			}
+
+			this.loadState().then(() => {}, () => {});
 
 			startLoading();
 
@@ -66,33 +82,9 @@ export const useStore = defineStore('app', {
 					return navigateTo({ path: responce['redirect'], force: true });
 				}
 
-				if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['popup'] !== '') {
-					$.confirm({
-						title: 'Обучение',
-						content: responce['tutorial']['popup'],
-						confirmButton: 'Продолжить',
-						cancelButton: false,
-						backgroundDismiss: false,
-						confirm() {
-							if (responce['tutorial']['url'] !== '') {
-								navigateTo(responce['tutorial']['url']);
-							}
-						}
-					})
-				}
-
-				if (typeof responce['tutorial'] !== 'undefined' && responce['tutorial']['toast'] !== '') {
-					useToast(responce['tutorial']['toast'], 'info')
-				}
-
-				const page = JSON.parse(JSON.stringify(responce['data'] || {}));
-				delete responce['data'];
-
 				this.initialized = true;
 
-				this.PAGE_LOAD(responce);
-
-				return page;
+				return responce;
 			} catch {} finally {
 				stopLoading();
 			}

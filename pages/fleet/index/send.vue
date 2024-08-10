@@ -38,11 +38,11 @@
 			</div>
 			<div class="row">
 				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ dayjs(page['start_time']).tz().format('DD MMM HH:mm:ss') }}</div>
+				<div class="th col-6">{{ $date(page['start_time'], 'DD MMM HH:mm:ss') }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Время прибытия (домой)</div>
-				<div class="th col-6">{{ dayjs(page['end_time']).tz().format('DD MMM HH:mm:ss') }}</div>
+				<div class="th col-6">{{ $date(page['end_time'], 'DD MMM HH:mm:ss') }}</div>
 			</div>
 			<div v-if="['units'].length" class="row">
 				<div class="c col-12">Корабли</div>
@@ -56,21 +56,18 @@
 </template>
 
 <script setup>
-	import dayjs from 'dayjs';
-	import { definePageMeta, showError, useAsyncData } from '#imports';
-	import useStore from '~/store/index.js';
+	import { definePageMeta, navigateTo, useNuxtData } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
 	});
 
-	const store = useStore();
+	const { data: page } = useNuxtData('page-fleet.send');
 
-	const { data: page, error } = await useAsyncData(
-		async () => await store.loadPage()
-	);
-
-	if (error.value) {
-		throw showError(error.value);
+	if (page.value === null) {
+		await navigateTo('/fleet');
 	}
+
+	const { data } = useNuxtData('page-fleet.checkout');
+	data.value = null;
 </script>

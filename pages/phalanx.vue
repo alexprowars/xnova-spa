@@ -5,13 +5,13 @@
 				Обнаружена следующая активность на планете:
 			</td>
 		</tr>
-		<tr v-if="page['items'].length === 0">
+		<tr v-if="items.length === 0">
 			<th colspan="2">На этой планете нет движения флотов.</th>
 		</tr>
-		<tr v-for="item in page['items']">
+		<tr v-for="item in items">
 			<th>
 				<div class="z">{{ $time(dayjs(item['time']).diff(now) / 1000, ':', true) }}</div>
-				<font :color="item['direction'] === 1 ? 'lime' : 'green'">{{ dayjs(item['time']).tz().format('HH:mm:ss') }}</font>
+				<font :color="item['direction'] === 1 ? 'lime' : 'green'">{{ $date(item['time'], 'HH:mm:ss') }}</font>
 			</th>
 			<th>
 				<font :color="item['mission'] !== 6 ? 'lime' : 'orange'">
@@ -44,7 +44,7 @@
 		title: 'Сенсорная фаланга',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: items, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	}, { watch: [() => useRoute().query] });
 

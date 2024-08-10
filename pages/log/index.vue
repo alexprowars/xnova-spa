@@ -12,7 +12,7 @@
 			<td class="c">Ссылка</td>
 			<td class="c">Управление логом</td>
 		</tr>
-		<tr v-for="(row, i) in page['items']">
+		<tr v-for="(row, i) in items">
 			<td class="b text-center">{{ i + 1 }}</td>
 			<td class="b text-center">{{ row['title'] }}</td>
 			<td class="b text-center">
@@ -20,7 +20,7 @@
 			</td>
 			<td class="b text-center"><NuxtLinkLocale :to="'/log/' + row['id']">Удалить лог</NuxtLinkLocale></td>
 		</tr>
-		<tr v-if="page['items'].length === 0" align="center">
+		<tr v-if="items.length === 0" align="center">
 			<td class="b text-center" colspan="4">У вас пока нет сохранённых логов.</td>
 		</tr>
 		<tr>
@@ -46,7 +46,7 @@
 		title: 'Логовница',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: items, error } = await useAsyncData(async () => {
 		return await useStore().loadPage();
 	}, { watch: [() => useRoute().query] });
 

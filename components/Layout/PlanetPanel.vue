@@ -65,7 +65,7 @@
 										</tr>
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
-												<span v-if="officier['time'] && dayjs(officier['time']).diff() > 0">Нанят до<br><span class="positive">{{ dayjs(officier['time']).tz().format('DD MMM HH:mm') }}</span></span>
+												<span v-if="officier['time'] && dayjs(officier['time']).diff() > 0">Нанят до<br><span class="positive">{{ $date(officier['time'], 'DD MMM HH:mm') }}</span></span>
 												<span v-else><span class="positive">Не нанят</span></span>
 											</td>
 										</tr>
