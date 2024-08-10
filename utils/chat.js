@@ -45,18 +45,17 @@ export function reformat (message)
 
 	let j = 0;
 
-	parser.patterns.smiles.every((smile) =>
-	{
-		while (message['text'].indexOf(':'+smile+':') >= 0)
-		{
+	parser.patterns.smiles.every((smile) => {
+		while (message['text'].indexOf(':'+smile+':') >= 0) {
 			message['text'] = message['text'].replace(':'+smile+':', '<img src="/images/smile/'+smile+'.gif" alt="'+smile+'">')
 
-			if (++j >= 3)
-				break
+			if (++j >= 3) {
+				break;
+			}
 		}
 
-		return j < 3
+		return j < 3;
 	})
 
-	return message
+	return message;
 }

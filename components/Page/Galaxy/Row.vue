@@ -311,7 +311,7 @@
 	const spyCount = ref(parseInt(currentUser.value['options']['spy']) || 1);
 
 	const user_status = computed(() => {
-		let CurrentPoints 	= props.user['stat_points'];
+		let CurrentPoints 	= currentUser.value['points']['total'] || 0;
 		let RowUserPoints 	= props.item['s_points'];
 
 		if (!RowUserPoints)

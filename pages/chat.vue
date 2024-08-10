@@ -2,14 +2,7 @@
 	<div class="page-chat">
 		<div class="col-12 th">
 			<div ref="chatboxRef" class="page-chat-messages">
-				<div v-for="item in messages" class="page-chat-messages-row text-start">
-					<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ dayjs(item['time']).tz().format('HH:mm') }}</span>
-					<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" @click="toPlayer(item['user'])">{{ item['user'] }}</span>:
-					<span v-if="item['tou'].length" :class="[item['private'] ? 'private' : 'player']">
-						{{ item['private'] ? 'приватно' : 'для' }} [<span v-for="(u, i) in item['tou']">{{ i > 0 ? ',' : '' }}<a v-if="!item['private']" @click.prevent="toPlayer(u)">{{ u }}</a><a v-else @click.prevent="toPrivate(u)">{{ u }}</a></span>]
-					</span>
-					<span class="page-chat-row-message" v-html="item['text']"></span>
-				</div>
+				<ChatMessage v-for="(item, i) in messages" :key="i" :item="item" @player="toPlayer" @private="toPrivate"/>
 			</div>
 		</div>
 		<div class="col-12 th">
@@ -26,13 +19,13 @@
 					</button>
 				</div>
 				<div v-if="smiles" class="smiles">
-					<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
+					<img v-for="smile in smilesList" :src="'/images/smile/' + smile + '.gif'" :alt="smile" @click="addSmile(smile)">
 				</div>
 			</div>
 			<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keypress.13.prevent="sendMessage" maxlength="750">
 
-			<input type="button" value="Очистить" @click.prevent="clear">
-			<input type="button" value="Отправить" @click.prevent="sendMessage">
+			<button @click.prevent="clear">Очистить</button>
+			<button @click.prevent="sendMessage">Отправить</button>
 		</div>
 	</div>
 </template>
@@ -43,7 +36,7 @@
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import parser from '~/utils/parser';
 	import { storeToRefs } from 'pinia';
-	import dayjs from 'dayjs';
+	import ChatMessage from '~/components/Page/Chat/ChatMessage.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -82,9 +75,7 @@
 	watch(messages, () => {
 		setTimeout(scrollToBottom, 250);
 
-		if (this.active) {
-			chatStore.clearUnread();
-		}
+		chatStore.clearUnread();
 	});
 
 	function scrollToBottom () {

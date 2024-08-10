@@ -133,20 +133,20 @@
 							<div class="row">
 								<div class="col-12 th middle">
 									<img src="/images/wins.gif" alt="" align="absmiddle" v-tooltip="'Победы'">&nbsp;
-									{{ page['raids']['win'] }}
+									{{ user['raids']['win'] }}
 									&nbsp;&nbsp;
 									<img src="/images/losses.gif" alt="" align="absmiddle" v-tooltip="'Поражения'">&nbsp;
-									{{ page['raids']['lost'] }}
+									{{ user['raids']['lost'] }}
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									Фракция: <NuxtLinkLocale to="/race/">{{ $t('races.'+user['race']) }}</NuxtLinkLocale>
+									Фракция: <NuxtLinkLocale to="/race">{{ $t('races.' + user['race']) }}</NuxtLinkLocale>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									<NuxtLinkLocale to="/refers/">
+									<NuxtLinkLocale to="/refers">
 										https://{{ host }}/?{{ user['id'] }}
 									</NuxtLinkLocale>
 									[{{ page['links'] }}]
@@ -166,40 +166,40 @@
 							<div class="row">
 								<div class="th col-sm-5 col-6">Постройки:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ $number(page['points']['build']) }}</span>
+									<span class="positive">{{ $number(user['points']['build']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Флот:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ $number(page['points']['fleet']) }}</span>
+									<span class="positive">{{ $number(user['points']['fleet']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Оборона:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ $number(page['points']['defs']) }}</span>
+									<span class="positive">{{ $number(user['points']['defs']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Наука:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ $number(page['points']['tech']) }}</span>
+									<span class="positive">{{ $number(user['points']['tech']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Всего:</div>
 								<div class="th col-sm-7 col-6">
-									<span class="positive">{{ $number(page['points']['total']) }}</span>
+									<span class="positive">{{ $number(user['points']['total']) }}</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-sm-5 col-6">Место:</div>
 								<div class="th col-sm-7 col-6">
-									<NuxtLinkLocale :to="'/stat/?view=players&range='+page['points']['place']">{{ page['points']['place'] }}</NuxtLinkLocale>
+									<NuxtLinkLocale :to="'/stat?view=players&range=' + user['points']['place']">{{ user['points']['place'] }}</NuxtLinkLocale>
 									<span title="Изменение места в рейтинге">
-										<span v-if="page['points']['diff'] >= 1" class="positive">+{{ page['points']['diff'] }}</span>
-										<span v-else-if="page['points']['diff'] < 0" class="negative">{{ page['points']['diff'] }}</span>
+										<span v-if="user['points']['diff'] >= 1" class="positive">+{{ user['points']['diff'] }}</span>
+										<span v-else-if="user['points']['diff'] < 0" class="negative">{{ user['points']['diff'] }}</span>
 									</span>
 								</div>
 							</div>
@@ -235,16 +235,16 @@
 
 				<div class="clearfix"></div>
 
-				<div v-if="page['queue'].length > 0">
+				<div v-if="queue.length > 0">
 					<div class="separator"></div>
 					<div class="block-table">
-						<QueueRow v-for="(list, i) in page['queue']" :key="i" :item="list"/>
+						<QueueRow v-for="(list, i) in queue" :key="i" :item="list"/>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div v-if="page['chat'].length > 0" class="page-overview-chat">
+		<div v-if="chat.length > 0" class="page-overview-chat">
 			<div class="separator"></div>
 
 			<table class="table" style="max-width: 100%">
@@ -252,10 +252,7 @@
 					<tr>
 						<th class="text-start">
 							<div style="overflow-y: auto;overflow-x: hidden;">
-								<div v-for="item in page['chat']" class="activity">
-									<div class="date1" style="display: inline-block;padding-right:5px;">{{ dayjs(item.time).tz().format('HH:mm') }}</div>
-									<div style="display: inline;white-space:pre-wrap" v-html="item.message"></div>
-								</div>
+								<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
 							</div>
 						</th>
 					</tr>
@@ -273,10 +270,12 @@
 	import { sendMission } from '~/utils/fleet';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute } from '#imports';
-	import { computed } from 'vue';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile } from '#imports';
+	import { computed, onMounted } from 'vue';
 	import dayjs from 'dayjs';
 	import DailyBonus from '~/components/Page/Overview/DailyBonus.vue';
+	import useChatStore from '~/store/chat.js';
+	import ChatMessage from '~/components/Page/Overview/ChatMessage.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -297,8 +296,9 @@
 		throw showError(error.value);
 	}
 
-	const { user, planet } = storeToRefs(store);
+	const { user, planet, queue } = storeToRefs(store);
 	const { host } = useRequestURL();
+	const { messages: chat } = storeToRefs(useChatStore());
 
 	const userFiledsPercent = computed(() => {
 		return Math.min(Math.floor(planet.value.field_used / planet.value.field_max * 100), 100);
@@ -319,6 +319,12 @@
 	}
 
 	function openPlayerPopup () {
-		openAjaxPopupModal(PlayerInfo, '/players/'+user.value['id'])
+		openAjaxPopupModal(PlayerInfo, '/players/' + user.value['id'])
 	}
+
+	onMounted(async () => {
+		if (isMobile()) {
+			await useChatStore().loadMessages();
+		}
+	});
 </script>

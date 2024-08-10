@@ -95,12 +95,15 @@ let config = {
 		}
 	},
 	nitro: {
-		devProxy: {}
+		devProxy: {},
+	},
+	routeRules: {
+		//'/api/**': { proxy: 'https://xnova.su/api/**' },
 	},
 	compatibilityDate: '2024-07-12'
 }
 
-if (process.env.NODE_ENV !== 'production' || (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length)) {
+if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length) {
 	const proxyUrl = process.env.PROXY_URL;
 
 	config.nitro.devProxy = {

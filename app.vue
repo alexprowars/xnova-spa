@@ -59,6 +59,8 @@
 		htmlAttrs: () => head.value?.htmlAttrs || {},
 	});
 
+	let updateStateTimer;
+
 	if (store.isAuthorized) {
 		useNuxtApp().$echo?.channel('chat')
 			.listen('ChatMessage', ({ message }) => {
@@ -70,7 +72,15 @@
 				useChatStore().addMessage(message);
 			})
 			.listen('PlanetEntityUpdated', () => {
-				store.loadState();
+				stateUpdate();
 			});
+
+		stateUpdate();
+	}
+
+	function stateUpdate() {
+		clearTimeout(updateStateTimer);
+		store.loadState();
+		setTimeout(stateUpdate, 60000);
 	}
 </script>

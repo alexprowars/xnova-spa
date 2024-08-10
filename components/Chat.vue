@@ -8,20 +8,12 @@
 			<div v-show="active" class="content border-0">
 				<div class="col-12 th">
 					<div ref="chatRef" class="page-chat-messages">
-						<div v-for="item in sortedMessages" class="page-chat-messages-row text-start">
-							<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="toPrivate(item['user'])">{{ dayjs(item['time']).tz().format('HH:mm') }}</span>
-							<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" @click="toPlayer(item['user'])">{{ item['user'] }}</span>:
-							<span v-if="item['tou'].length" :class="[item['private'] ? 'private' : 'player']">
-								{{ item['private'] ? 'приватно' : 'для' }} [<span v-for="(u, i) in item['tou']">{{ i > 0 ? ',' : '' }}<a v-if="!item['private']" @click.prevent="toPlayer(u)">{{ u }}</a><a v-else @click.prevent="toPrivate(u)">{{ u }}</a></span>]
-							</span>
-							<span class="page-chat-row-message" v-html="item['text']"></span>
-						</div>
+						<ChatMessage v-for="(item, i) in sortedMessages" :key="i" :item="item" @player="toPlayer" @private="toPrivate"/>
 					</div>
 				</div>
 				<div class="col-12 th d-flex">
 					<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keydown.enter.prevent="sendMessage" maxlength="750">
-
-					<input type="button" value="Отправить" @click.prevent="sendMessage">
+					<button @click.prevent="sendMessage">Отправить</button>
 				</div>
 			</div>
 		</div>
@@ -31,10 +23,9 @@
 <script setup>
 	import { storeToRefs } from 'pinia'
 	import useChatStore from '~/store/chat';
-	import useStore from '~/store';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import { isMobile } from '~/utils/helpers.js';
-	import dayjs from 'dayjs';
+	import ChatMessage from '~/components/Page/Chat/ChatMessage.vue';
 
 	const props = defineProps({
 		visible: {
@@ -43,7 +34,6 @@
 		}
 	});
 
-	const store = useStore();
 	const chatStore = useChatStore();
 
 	const mobile = ref(isMobile() || !props.visible);

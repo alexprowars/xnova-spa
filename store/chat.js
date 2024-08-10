@@ -17,7 +17,7 @@ export const useChatStore = defineStore('chat', {
 			while (message.indexOf('\'') >= 0)
 				message = message.replace('\'', '`')
 
-			await useApiPost('/chat/send', {
+			await useApiPost('/chat', {
 				message,
 			})
 			.then(({ message }) => {
@@ -26,14 +26,14 @@ export const useChatStore = defineStore('chat', {
 			})
 		},
 		async loadMessages () {
-			await useApiGet('/chat/last')
-				.then(({ messages }) => {
-					messages.forEach((message) => {
-						this.addMessage(message)
-					})
+			if (this.messages.length) {
+				return;
+			}
 
-					this.clearUnread()
-				})
+			this.messages = await useApiGet('/chat')
+				.then((messages) => messages);
+
+			this.clearUnread();
 		},
 		clear () {
 			this.setMessages([]);
