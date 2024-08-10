@@ -80,11 +80,18 @@
 		if (ev.target.closest('.table-responsive') !== null)
 			return
 
-		if (direction === 'left')
-			sidebar.value = 'planet'
+		if (sidebar.value !== '') {
+			sidebar.value = '';
+			return;
+		}
 
-		if (direction === 'right')
-			sidebar.value = 'menu'
+		if (direction === 'left') {
+			sidebarToggle('planet')
+		}
+
+		if (direction === 'right') {
+			sidebarToggle('menu')
+		}
 	}
 
 	function tap () {

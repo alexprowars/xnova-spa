@@ -81,7 +81,7 @@
 
 	function showRemindPassword () {
 		if (isMobile()) {
-			return navigateTo('/login/reset');
+			return navigateTo('/remind');
 		}
 
 		openPopupModal(RemindForm);
