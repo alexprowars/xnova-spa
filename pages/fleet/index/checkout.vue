@@ -361,6 +361,8 @@
 			const { data } = useNuxtData('page-fleet.send');
 			data.value = result;
 
+			store.loadState();
+
 			navigateTo('/fleet/send');
 		});
 	}

@@ -27,7 +27,10 @@
 	const store = useStore();
 
 	const { data: items, error } = await useAsyncData('page-research',
-		async () => await store.loadPage(),
+		async () => await Promise.all([
+			store.loadPage(),
+			store.loadState()
+		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }
 	);
 

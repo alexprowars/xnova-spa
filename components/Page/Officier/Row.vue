@@ -74,7 +74,7 @@
 				title: 'Нанять',
 				handler: async () => {
 					try {
-						await useApiPost('/officier/buy', {
+						await useApiPost('/officiers/buy', {
 							id: props.item['id'],
 							duration: value
 						});

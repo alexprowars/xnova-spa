@@ -91,7 +91,7 @@
 	import FleetList from '~/components/Page/Fleet/FleetList.vue';
 	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, useApiSubmit, useNuxtData } from '#imports';
 	import useStore from '~/store/index.js';
-	import { computed, onMounted, ref, watch } from 'vue';
+	import { computed, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
@@ -107,7 +107,10 @@
 
 	const { data: page, error } = await useAsyncData(
 		'page-fleet',
-		async () => await store.loadPage('/fleet', Object.assign({}, route.params, route.query)),
+		async () => await Promise.all([
+			await store.loadPage('/fleet', Object.assign({}, route.params, route.query)),
+			store.loadState()
+		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }
 	);
 
@@ -125,10 +128,6 @@
 			let cnt = fleets.value[ship.id] || 0;
 			return (total + cnt);
 		}, 0);
-	});
-
-	onMounted(() => {
-		store.loadState();
 	});
 
 	watch(() => page.value.ships, () => {

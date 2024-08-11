@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useRouter, useApiGet, navigateTo, startLoading, stopLoading, useToast } from '#imports';
+import { navigateTo, startLoading, stopLoading, useApiGet, useRouter, useToast } from '#imports';
 import dayjs from 'dayjs';
 
 export const useStore = defineStore('app', {
@@ -8,7 +8,6 @@ export const useStore = defineStore('app', {
 		version: null,
 		redirect: null,
 		messages: null,
-		page: null,
 		stats: null,
 		speed: null,
 		user: null,
@@ -32,11 +31,6 @@ export const useStore = defineStore('app', {
 	actions: {
 		async loadState() {
 			const data = await useApiGet('/state');
-
-			if (typeof data['redirect'] !== 'undefined' && Object.keys(data).length === 1 && !this.initialized) {
-				window.location.href = data['redirect'];
-				return;
-			}
 
 			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '') {
 				$.confirm({
@@ -64,34 +58,17 @@ export const useStore = defineStore('app', {
 				url = useRouter().currentRoute.value.path;
 			}
 
-			if (this.page !== null) {
-				let page = JSON.parse(JSON.stringify(this.page));
-				this.page = null;
-
-				return new Promise((resolve) => resolve(page))
-			}
-
-			this.loadState().then(() => {}, () => {});
-
 			startLoading();
 
 			try {
-				const responce = await useApiGet(url, params);
-
-				if (typeof responce['redirect'] !== 'undefined') {
-					return navigateTo({ path: responce['redirect'], force: true });
-				}
-
-				this.initialized = true;
-
-				return responce;
+				return await useApiGet(url, params);
 			} catch {} finally {
 				stopLoading();
 			}
 		},
 		PAGE_LOAD (data) {
 			for (let key in data) {
-				if (data.hasOwnProperty(key)) {
+				if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) {
 					this[key] = data[key];
 				}
 			}

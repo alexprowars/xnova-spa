@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, useHead } from '#imports';
+	import { definePageMeta, useHead, navigateTo } from '#imports';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 	import SelectRace from '~/components/Page/Start/SelectRace.vue';
@@ -26,4 +26,8 @@
 	});
 
 	const { user } = storeToRefs(useStore());
+
+	if (user.value['sex'] && user.value['avatar']) {
+		navigateTo('/overview');
+	}
 </script>

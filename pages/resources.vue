@@ -118,16 +118,16 @@
 							{{ $t('resources.' + res) }}
 						</div>
 						<div class="col-2 th">
-							<Colored :value="planet['resources'][res]['production']"></Colored>
+							<Colored :value="planet['resources'][res]['production']"/>
 						</div>
 						<div class="col-2 th">
-							<Colored :value="planet['resources'][res]['production'] * 24"></Colored>
+							<Colored :value="planet['resources'][res]['production'] * 24"/>
 						</div>
 						<div class="col-3 th">
-							<Colored :value="planet['resources'][res]['production'] * 24 * 7"></Colored>
+							<Colored :value="planet['resources'][res]['production'] * 24 * 7"/>
 						</div>
 						<div class="col-3 th">
-							<Colored :value="planet['resources'][res]['production'] * 24 * 7 * 30"></Colored>
+							<Colored :value="planet['resources'][res]['production'] * 24 * 7 * 30"/>
 						</div>
 					</div>
 				</div>
@@ -145,35 +145,7 @@
 			</div>
 		</div>
 
-		<div v-if="page['buy_form']['visible']" class="block">
-			<div class="title text-center">
-				Покупка ресурсов (8 ч. выработка ресурсов)
-			</div>
-			<div class="content border-0">
-				<div class="block-table">
-					<div class="row">
-						<div class="col-4 th">
-							<span v-if="!page['buy_form']['time']">
-								<a @click.prevent="buyResources" class="button">Купить за 10 кредитов</a>
-							</span>
-							<span v-else>
-								Следующая покупка через
-								<br>
-								{{ $time(page['buy_form']['time']) }}
-							</span>
-						</div>
-						<div class="col-8 th middle">
-							<div>
-								Вы можете купить:
-								<Colored :value="page['buy_form']['metal']"></Colored> металла,
-								<Colored :value="page['buy_form']['crystal']"></Colored> кристалла,
-								<Colored :value="page['buy_form']['deuterium']"></Colored> дейтерия
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<BuyResources :data="page['buy_form']"/>
 	</div>
 </template>
 
@@ -182,9 +154,10 @@
 	import ResourcesRow from '~/components/Page/Resources/Row.vue';
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import StorageRow from '~/components/Page/Resources/StorageRow.vue';
+	import BuyResources from '~/components/Page/Resources/BuyResources.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, openConfirmModal, useHead, useRoute, useApiSubmit, useSuccessNotification } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiSubmit } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -196,9 +169,13 @@
 
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData('page-resources', async () => {
-		return await store.loadPage();
-	}, { watch: [() => useRoute().query] });
+	const { data: page, error, refresh } = await useAsyncData('page-resources',
+		async () => await Promise.all([
+			store.loadPage(),
+			store.loadState()
+		]).then(([result]) => result),
+		{ watch: [() => useRoute().query] }
+	);
 
 	if (error.value) {
 		throw showError(error.value);
@@ -206,28 +183,10 @@
 
 	const { user, planet, isVacation } = storeToRefs(store);
 
-	function buyResources() {
-		openConfirmModal(
-			null,
-			'Купить ресурсы за 10 кредитов?',
-			[{
-				title: 'Нет',
-			}, {
-				title: 'Да',
-				handler: () => {
-					useApiSubmit('/resources/buy', {}, (result) => {
-						useSuccessNotification('Вы успешно купили ' + result['metal'] + ' металла, ' + result['crystal'] + ' кристалла, ' + result['deuterium'] + ' дейтерия');
-
-						refresh();
-					});
-				}
-			}]
-		);
-	}
-
 	function shutdown(active) {
-		useApiSubmit('/resources/shutdown', { active }, () => {
-			refresh();
+		useApiSubmit('/resources/shutdown', { active }, async () => {
+			await store.loadState();
+			await refresh();
 		});
 	}
 
@@ -236,8 +195,9 @@
 
 		page.value['items'].forEach((item) => state[item['id']] = item['factor']);
 
-		useApiSubmit('/resources/state', { state }, () => {
-			refresh();
+		useApiSubmit('/resources/state', { state }, async () => {
+			await store.loadState();
+			await refresh();
 		});
 	}
 </script>

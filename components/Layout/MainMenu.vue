@@ -43,7 +43,7 @@
 		{ id: 'defense', title: 'Оборона', url: '/defense', vacation: true },
 		{ id: 'resources', title: 'Сырьё', url: '/resources' },
 		{ id: 'merchant', title: 'Рынок', url: '/merchant' },
-		{ id: 'officier', title: 'Офицеры', url: '/officier' },
+		{ id: 'officiers', title: 'Офицеры', url: '/officiers' },
 		{ id: 'alliance', title: 'Альянс', url: '/alliance' },
 		{ id: 'buddy', title: 'Друзья', url: '/buddy' },
 		{ id: 'notes', title: 'Заметки', url: '/notes' },

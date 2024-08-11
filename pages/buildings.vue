@@ -32,8 +32,7 @@
 	import BuildQueue from '~/components/Page/Buildings/BuildQueue.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, refreshNuxtData, showError, useAsyncData, useEvents, useHead, useRoute } from '#imports';
-	import { onBeforeUnmount, onMounted } from 'vue';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -49,7 +48,10 @@
 	const store = useStore();
 
 	const { data: items, error } = await useAsyncData('page-buildings',
-		async () => await store.loadPage('/buildings'),
+		async () => await Promise.all([
+			store.loadPage('/buildings'),
+			store.loadState()
+		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }
 	);
 
@@ -58,14 +60,4 @@
 	}
 
 	const { planet, queueByType, fieldsEmpty } = storeToRefs(store);
-
-	useEvents().on('stateUpdated', refresh);
-
-	onBeforeUnmount(() => {
-		useEvents().off('stateUpdated', refresh);
-	});
-
-	function refresh() {
-		refreshNuxtData('page-buildings');
-	}
 </script>

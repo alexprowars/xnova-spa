@@ -16,7 +16,7 @@
 						</select>
 
 						<br><br>
-						(курс {{ page['modifiers']['deuterium'] }}/{{ page['modifiers']['crystal'] }}/{{ page['modifiers']['metal'] }})
+						(курс {{ modifiers['deuterium'] }}/{{ modifiers['crystal'] }}/{{ modifiers['metal'] }})
 						<br><br>
 					</div>
 					<div v-if="type !== ''" class="col th">
@@ -31,7 +31,7 @@
 							</div>
 							<div v-for="res in ['metal', 'crystal', 'deuterium']" class="row">
 								<div class="col-3 th middle">{{ $t('resources.' + res) }}</div>
-								<div class="col-3 th middle">{{ page['modifiers'][res] / page['modifiers'][type] }}</div>
+								<div class="col-3 th middle">{{ modifiers[res] / modifiers[type] }}</div>
 								<div class="col-6 th middle">
 									<Number v-if="type !== res" min="0" v-model="resources[res]" placeholder="введите кол-во" @input="calculate"/>
 									<span v-else>{{ resources[res] }}</span>
@@ -57,7 +57,7 @@
 	import Form from '~/components/Page/Messages/Form.vue';
 	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useI18n, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
-	import { ref } from 'vue';
+	import { ref, toRefs } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -67,7 +67,7 @@
 		title: 'Торговец',
 	});
 
-	const { data: page, error, refresh } = await useAsyncData(
+	const { data, error, refresh } = await useAsyncData(
 		async () => await useStore().loadPage(),
 		{ watch: [() => useRoute().query] }
 	);
@@ -77,6 +77,7 @@
 	}
 
 	const { t } = useI18n();
+	const { modifiers } = toRefs(data.value);
 
 	const type = ref('');
 	const resources = ref({
@@ -88,7 +89,7 @@
 
 		['metal', 'crystal', 'deuterium'].forEach((item) => {
 			if (type.value !== item) {
-				res += resources.value[item] * (page.value['modifiers'][item] / page.value['modifiers'][type.value]);
+				res += resources.value[item] * (modifiers.value[item] / modifiers.value[type.value]);
 			}
 		});
 

@@ -31,7 +31,7 @@
 					</NuxtLinkLocale>
 				</div>
 			</div>
-			<OfficierRow v-for="item in page['items']" :key="item['id']" :item="item"></OfficierRow>
+			<OfficierRow v-for="item in items" :key="item['id']" :item="item"></OfficierRow>
 		</div>
 	</div>
 </template>
@@ -55,7 +55,7 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData('page-officiers',
+	const { data: items, error } = await useAsyncData('page-officiers',
 		async () => await store.loadPage(),
 		{ watch: [() => useRoute().query] });
 

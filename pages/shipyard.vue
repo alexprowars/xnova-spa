@@ -44,7 +44,10 @@
 	const store = useStore();
 
 	const { data: items, error } = await useAsyncData('page-shipyard',
-		async () => await store.loadPage(),
+		async () => await Promise.all([
+			store.loadPage(),
+			store.loadState()
+		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }
 	);
 
@@ -57,14 +60,14 @@
 	const { queueByType } = storeToRefs(store);
 
 	function constructAction () {
-		useApiSubmit('/shipyard/queue', new FormData(formRef.value), () => {
+		useApiSubmit('/shipyard/queue', new FormData(formRef.value), async () => {
 			itemsRef.value.forEach((item) => {
 				if (typeof item['count'] !== 'undefined') {
 					item['count'] = '';
 				}
 			});
 
-			refreshNuxtData('page-shipyard');
+			await refreshNuxtData('page-shipyard');
 		});
 	}
 </script>

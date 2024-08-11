@@ -63,7 +63,7 @@
 								</div>
 							</div>
 							<div class="col-12 page-overview-officiers">
-								<NuxtLinkLocale v-for="item in user['officiers']" to="/officier/" class="page-overview-officiers-item">
+								<NuxtLinkLocale v-for="item in user['officiers']" to="/officiers" class="page-overview-officiers-item">
 									<Popper>
 										<template #content>
 											<div>
@@ -288,7 +288,10 @@
 	const store = useStore();
 
 	const { data: page, error } = await useAsyncData('page-overview',
-		async () => await store.loadPage('/overview'),
+		async () => await Promise.all([
+			store.loadPage('/overview'),
+			store.loadState()
+		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }
 	);
 

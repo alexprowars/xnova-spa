@@ -71,6 +71,8 @@
 		useApiSubmit('tutorial/' + page.value['id'], {}, () => {
 			useSuccessNotification('Квест завершен');
 
+			store.loadState();
+
 			navigateTo('/tutorial');
 		});
 	}
