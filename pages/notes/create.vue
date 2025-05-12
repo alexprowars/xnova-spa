@@ -2,6 +2,7 @@
 	<div>
 		<form method="post" @submit.prevent="create">
 			<table class="table">
+				<tbody>
 				<tr>
 					<td class="c" colspan="2">Создание заметки</td>
 				</tr>
@@ -28,6 +29,7 @@
 						<button type="submit">Сохранить</button>
 					</td>
 				</tr>
+				</tbody>
 			</table>
 		</form>
 		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLinkLocale to="/notes/">Назад</NuxtLinkLocale></span>

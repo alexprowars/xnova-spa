@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c">Управление альянсом</td>
 			</tr>
@@ -16,6 +17,7 @@
 			<tr>
 				<th><NuxtLinkLocale to="/alliance/admin/name">Изменить название альянса</NuxtLinkLocale></th>
 			</tr>
+			</tbody>
 		</table>
 
 		<AllianceTextForm :data="page"/>
@@ -26,22 +28,26 @@
 		<div class="row">
 			<div class="col-6" v-if="page['access']['delete'] || false">
 				<table width="100%">
+					<tbody>
 					<tr>
 						<td class="c">Расформировать альянс</td>
 					</tr>
 					<tr>
 						<th><button @click.prevent="remove">Продолжить</button></th>
 					</tr>
+					</tbody>
 				</table>
 			</div>
 			<div class="col-6" v-if="page['owner'] === user['id']">
 				<table width="100%">
+					<tbody>
 					<tr>
 						<td class="c">Покинуть / Передать альянс</td>
 					</tr>
 					<tr>
 						<th><NuxtLinkLocale to="/alliance/admin/give" class="button">Продолжить</NuxtLinkLocale></th>
 					</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>

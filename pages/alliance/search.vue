@@ -2,6 +2,7 @@
 	<div>
 		<form method="post" @submit.prevent="search">
 			<table class="table">
+				<tbody>
 				<tr>
 					<td class="c" colspan="2">Поиск альянса</td>
 				</tr>
@@ -12,11 +13,13 @@
 						<button type="submit">Поиск</button>
 					</th>
 				</tr>
+				</tbody>
 			</table>
 		</form>
 		<div v-if="items.length">
 			<div class="separator"></div>
 			<table class="table">
+				<tbody>
 				<tr>
 					<td class="c" colspan="3">Найденые альянсы:</td>
 				</tr>
@@ -33,6 +36,7 @@
 						{{ r['members'] }}
 					</th>
 				</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>

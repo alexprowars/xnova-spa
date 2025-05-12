@@ -29,9 +29,10 @@
 	});
 
 	let counter = 0;
+	let objectTree;
 
 	onMounted(() => {
-		window.object = new ECOTree('object', 'rf_techinfo');
+		objectTree = new ECOTree('object', 'rf_techinfo');
 		createTree(1, -1, page.value['element'], page.value['level'], page.value['access']);
 	})
 
@@ -45,13 +46,13 @@
 		}
 
 		if (element !== -1) {
-			window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+t('tech.' + data.id)+'</span></div><img id="tch_img_'+tid+'" name="'+element+'" src="'+'/images/gebaeude/' + data.id+'.gif" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+t('tech.' + data.id)+'</span></div><img id="tch_img_'+tid+'" name="'+element+'" src="'+'/images/gebaeude/' + data.id+'.gif" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
 		} else {
-			window.object.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+fwrd+'</span></div><img id="tch_img_'+tid+'" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+fwrd+'</span></div><img id="tch_img_'+tid+'" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
 		}
 
 		counter++;
-		window.object.UpdateTree();
+		objectTree.UpdateTree();
 
 		if (!access) {
 			document.querySelector('#tch_img_' + prntid)?.classList.add('tch_icon_red');
@@ -83,6 +84,6 @@
 			}
 		}
 
-		window.object.UpdateTree();
+		objectTree.UpdateTree();
 	}
 </script>

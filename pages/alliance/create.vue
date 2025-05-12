@@ -1,6 +1,7 @@
 <template>
 	<form @submit.prevent="create">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="2">Создать альянс</td>
 			</tr>
@@ -15,6 +16,7 @@
 			<tr>
 				<th colspan="2"><button type="submit">Создать</button></th>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

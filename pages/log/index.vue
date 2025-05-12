@@ -1,5 +1,6 @@
 <template>
 	<table class="table">
+		<tbody>
 		<tr>
 			<th colspan="4">Логовница</th>
 		</tr>
@@ -28,6 +29,7 @@
 				<NuxtLinkLocale to="/log/create">Создать новый лог боя</NuxtLinkLocale>
 			</td>
 		</tr>
+		</tbody>
 	</table>
 </template>
 

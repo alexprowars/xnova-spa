@@ -1,5 +1,6 @@
 <template>
 	<table class="table">
+		<tbody>
 		<tr>
 			<td class="c" colspan="2">Обзор заявок</td>
 		</tr>
@@ -30,6 +31,7 @@
 		<tr>
 			<td class="c" colspan="2"><NuxtLinkLocale to="/alliance">Назад</NuxtLinkLocale></td>
 		</tr>
+		</tbody>
 	</table>
 </template>
 

@@ -1,6 +1,7 @@
 <template>
 	<form @submit.prevent="send">
 		<table class="table">
+			<tbody>
 			<template v-if="page['text']">
 				<tr>
 					<td class="c" colspan="2">Приветствие альянса</td>
@@ -20,6 +21,7 @@
 			<tr>
 				<th colspan="2"><button type="submit">Отправить</button></th>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

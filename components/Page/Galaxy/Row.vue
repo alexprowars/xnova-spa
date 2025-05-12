@@ -120,6 +120,7 @@
 								</th>
 								<th>
 									<table class="table">
+										<tbody>
 										<tr>
 											<td class="c" colspan="2">Ресурсы</td>
 										</tr>
@@ -141,6 +142,7 @@
 												<NuxtLinkLocale :to="'/fleet/?galaxy='+galaxy+'&system='+system+'&planet='+planet+'&type=2&mission=8'">Отправить флот</NuxtLinkLocale>
 											</th>
 										</tr>
+										</tbody>
 									</table>
 								</th>
 							</tr>

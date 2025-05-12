@@ -74,11 +74,9 @@
 
 	async function load() {
 		try {
-			const result = await useApiPost('/hall', {
+			page.value = await useApiPost('/hall', {
 				type: page.value['type']
 			})
-
-			page.value = result['data']
 		} catch(e) {
 			alert(e.message)
 		}

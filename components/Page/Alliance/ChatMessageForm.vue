@@ -1,6 +1,7 @@
 <template>
 	<form method="post" @submit.prevent="send">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c">Отправить сообщение в чат альянса</td>
 			</tr>
@@ -15,6 +16,7 @@
 					<button type="submit">Отправить</button>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

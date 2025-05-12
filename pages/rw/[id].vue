@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, setPageLayout } from '#imports';
 	import useStore from '~/store/index.js';
 
 	definePageMeta({
@@ -28,8 +28,6 @@
 	}
 
 	if (useStore().user !== null && !page.value) {
-		definePageMeta({
-			layout: 'default',
-		});
+		setPageLayout('default');
 	}
 </script>

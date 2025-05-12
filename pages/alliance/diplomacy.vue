@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="3">Ваши запросы</td>
 			</tr>
@@ -14,9 +15,11 @@
 			<tr v-if="page['DMyQuery'].length === 0">
 				<th colspan="3">нет</th>
 			</tr>
+			</tbody>
 		</table>
 		<div class="separator"></div>
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="3">Запросы вашему альянсу</td>
 			</tr>
@@ -31,9 +34,11 @@
 			<tr v-if="page['DQuery'].length === 0">
 				<th colspan="3">нет</th>
 			</tr>
+			</tbody>
 		</table>
 		<div class="separator"></div>
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="4">Отношения между альянсами</td>
 			</tr>
@@ -47,6 +52,7 @@
 			<tr v-if="page['DText'].length === 0">
 				<th colspan="4">нет</th>
 			</tr>
+			</tbody>
 		</table>
 		<div class="separator"></div>
 		<DiplomacyCreate :items="page['items']"/>

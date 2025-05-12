@@ -1,5 +1,6 @@
 <template>
 	<table class="table">
+		<tbody>
 		<tr>
 			<td class="c" colspan="6">Чёрный список</td>
 		</tr>
@@ -37,6 +38,7 @@
 				<td class="b text-center" colspan="5">Всего {{ items.length }} аккаунтов заблокировано</td>
 			</tr>
 		</template>
+		</tbody>
 	</table>
 </template>
 

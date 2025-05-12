@@ -1,6 +1,7 @@
 <template>
 	<form method="post" @submit.prevent="update">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="2">Смена адреса электронной почты</td>
 			</tr>
@@ -20,6 +21,7 @@
 			<tr>
 				<td colspan="2" class="c"><button type="submit">Отправить на модерацию</button></td>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

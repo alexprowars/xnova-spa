@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="2">Альянсы</td>
 			</tr>
@@ -8,9 +9,11 @@
 				<th><NuxtLinkLocale to="/alliance/create">Создать альянс</NuxtLinkLocale></th>
 				<th><NuxtLinkLocale to="/alliance/search">Поиск альянса</NuxtLinkLocale></th>
 			</tr>
+			</tbody>
 		</table>
 
 		<table v-if="requests.length" class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="2">Ваши заявки</td>
 			</tr>
@@ -25,9 +28,11 @@
 					</th>
 				</tr>
 			</template>
+			</tbody>
 		</table>
 
 		<table v-if="alliances.length" class="table">
+			<tbody>
 			<tr>
 				<td class="c" width="30">Место</td>
 				<td class="c">Альянс</td>
@@ -40,6 +45,7 @@
 				<th>{{ item['members'] }}</th>
 				<th>{{ item['total_points'] }}</th>
 			</tr>
+			</tbody>
 		</table>
 	</div>
 </template>

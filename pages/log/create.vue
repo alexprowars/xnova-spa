@@ -1,5 +1,6 @@
 <template>
 	<table class="table">
+		<tbody>
 		<tr>
 			<td class="c">Сохранение боевого доклада</td>
 		</tr>
@@ -15,6 +16,7 @@
 				</form>
 			</th>
 		</tr>
+		</tbody>
 	</table>
 </template>
 

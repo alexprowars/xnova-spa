@@ -4,6 +4,7 @@
 			<div class="title">Флоты в совместной атаке</div>
 			<div class="content border-0">
 				<table class="table">
+					<tbody>
 					<tr>
 						<th>Задание</th>
 						<th>Кол-во</th>
@@ -14,6 +15,7 @@
 					</tr>
 					<FleetRow v-for="item in page['items']" :key="item['id']" :item="item"/>
 					<tr v-if="page['items'].length === 0"><th colspan="6">-</th></tr>
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -35,6 +37,7 @@
 					<div class="row">
 						<div class="col th">
 							<table class="table">
+								<tbody>
 								<tr>
 									<td class="c">Приглашенные участники</td>
 									<td class="c">Пригласить участников</td>
@@ -50,6 +53,7 @@
 										<InviteUser :id="page['fleetid']" :friends="page['friends']" :alliance="page['alliance']"/>
 									</th>
 								</tr>
+								</tbody>
 							</table>
 						</div>
 					</div>

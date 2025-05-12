@@ -51,9 +51,20 @@ let config = {
 		define: {
 			__DEV__: false,
 		},
+		css: {
+			preprocessorOptions: {
+				scss: {
+					quietDeps: true,
+					silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin']
+				},
+			}
+		},
 	},
 	experimental: {
 		appManifest: false,
+	},
+	features: {
+		inlineStyles: false,
 	},
 	vue: {
 		compilerOptions: {
@@ -68,10 +79,9 @@ let config = {
 	i18n: {
 		baseUrl: 'https://xnova.su',
 		locales: [
-			{ code: 'ru', iso: 'ru-RU', file: 'ru.json' },
+			{ code: 'ru', language: 'ru-RU', file: 'ru.json' },
 		],
 		lazy: true,
-		langDir: './locales/',
 		defaultLocale: 'ru',
 		strategy: 'prefix_except_default',
 		customRoutes: 'config',
@@ -79,6 +89,9 @@ let config = {
 		trailingSlash: false,
 		compilation: {
 			strictMessage: false,
+		},
+		bundle: {
+			optimizeTranslationDirective: false,
 		},
 	},
 	buildModules: [
@@ -100,7 +113,7 @@ let config = {
 	routeRules: {
 		//'/api/**': { proxy: 'https://xnova.su/api/**' },
 	},
-	compatibilityDate: '2024-07-12'
+	compatibilityDate: '2025-05-01'
 }
 
 if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length) {

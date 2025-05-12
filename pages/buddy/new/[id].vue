@@ -1,6 +1,7 @@
 <template>
 	<form @submit.prevent="send">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="2">Предложение подружиться</td>
 			</tr>
@@ -15,6 +16,7 @@
 				<td class="c"><NuxtLinkLocale to="/buddy">назад</NuxtLinkLocale></td>
 				<td class="c"><button type="submit">Отправить заявку</button></td>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

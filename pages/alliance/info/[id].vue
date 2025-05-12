@@ -1,5 +1,6 @@
 <template>
 	<table class="table" style="table-layout: fixed;">
+		<tbody>
 		<tr>
 			<td class="c" colspan="2">Информация об альянсе</td>
 		</tr>
@@ -32,6 +33,7 @@
 				<NuxtLinkLocale :to="'/alliance/join/' + page['id']" class="button">Вступить в альянс</NuxtLinkLocale>
 			</th>
 		</tr>
+		</tbody>
 	</table>
 </template>
 

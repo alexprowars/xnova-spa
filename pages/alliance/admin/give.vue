@@ -1,6 +1,7 @@
 <template>
 	<form @submit.prevent="send">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="8">Передача альянса</td>
 			</tr>
@@ -19,6 +20,7 @@
 					<NuxtLinkLocale to="/alliance/admin">назад</NuxtLinkLocale>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

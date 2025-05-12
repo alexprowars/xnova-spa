@@ -74,6 +74,7 @@
 		</table>
 
 		<table v-if="page['text']" width="100%">
+			<tbody>
 			<tr>
 				<td class="c">Внутренняя компетенция</td>
 			</tr>
@@ -82,15 +83,18 @@
 					<TextViewer :text="page['text']"/>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 
 		<table v-if="!page['owner']" width="100%">
+			<tbody>
 			<tr>
 				<td class="c">Покинуть альянс</td>
 			</tr>
 			<tr>
 				<th><button @click.prevent="exit">Продолжить</button></th>
 			</tr>
+			</tbody>
 		</table>
 	</div>
 </template>

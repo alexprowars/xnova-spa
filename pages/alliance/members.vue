@@ -1,5 +1,6 @@
 <template>
 	<table class="table">
+		<tbody>
 		<tr>
 			<td class="c" colspan="10">Список членов альянса (количество: {{ page['members'].length }})</td>
 		</tr>
@@ -45,6 +46,7 @@
 			<tr v-if="m['id'] === changeRank && page['admin']">
 				<th colspan="10" class="padding-0">
 					<table class="table noborder">
+						<tbody>
 						<tr>
 							<th colspan="7">Установить ранг для {{ m['username'] }}</th>
 							<th>
@@ -55,6 +57,7 @@
 							</th>
 							<th colspan="2"><button @click.prevent="saveRank(m['id'], m['rank'])">Сохранить</button></th>
 						</tr>
+						</tbody>
 					</table>
 				</th>
 			</tr>
@@ -64,6 +67,7 @@
 				<NuxtLinkLocale :to="'/alliance' + (page['admin'] ? '/admin' : '')">вернутся к обзору</NuxtLinkLocale>
 			</td>
 		</tr>
+		</tbody>
 	</table>
 </template>
 

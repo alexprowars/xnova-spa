@@ -24,6 +24,7 @@
 										<h1>Энергия</h1>
 										<div class="line"></div>
 										<table>
+											<tbody>
 											<tr>
 												<td>Доступно:</td>
 												<td class="text-end">{{ $number(planet['resources']['energy']['value']) }}</td>
@@ -36,6 +37,7 @@
 												<td>Потребление:</td>
 												<td class="text-end">{{ $number(planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) }}</td>
 											</tr>
+											</tbody>
 										</table>
 									</div>
 								</template>
@@ -57,6 +59,7 @@
 							<Popper>
 								<template #content>
 									<table width="550">
+										<tbody>
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
 												<div class="separator"></div>
@@ -69,6 +72,7 @@
 												<span v-else><span class="positive">Не нанят</span></span>
 											</td>
 										</tr>
+										</tbody>
 									</table>
 								</template>
 								<span class="sprite skin_kredits"></span>

@@ -1,4 +1,4 @@
-import { Emitter } from 'mitt';
+import type { Emitter } from 'mitt';
 
 type Events = {
 	logout: void;

@@ -2,6 +2,7 @@
 	<div>
 		<form method="post" @submit.prevent="update">
 			<table class="table">
+				<tbody>
 				<tr>
 					<td class="c">Просмотр заметки</td>
 				</tr>
@@ -10,9 +11,11 @@
 						<TextViewer :text="page['text']"/>
 					</th>
 				</tr>
+				</tbody>
 			</table>
 			<div class="separator"></div>
 			<table class="table">
+				<tbody>
 				<tr>
 					<td class="c" colspan="2">Редактирование заметки</td>
 				</tr>
@@ -39,6 +42,7 @@
 						<button type="submit">Сохранить</button>
 					</td>
 				</tr>
+				</tbody>
 			</table>
 		</form>
 		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLinkLocale to="/notes">Назад</NuxtLinkLocale></span>

@@ -77,7 +77,7 @@ export const openAjaxPopupModal = async (component, url, attrs = {}, events = {}
 	finish();
 
 	attrs = attrs || {};
-	attrs.page = result['data'];
+	attrs.page = result;
 
 	await openPopupModal(component, attrs, events);
 }

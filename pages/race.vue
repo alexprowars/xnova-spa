@@ -179,7 +179,7 @@
 
 			if (component.length) {
 				await openPopupModal(component[0], {
-					popup: result['data'],
+					popup: result,
 				});
 			}
 		} catch (e) {

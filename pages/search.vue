@@ -25,6 +25,7 @@
 		<template v-if="sended">
 			<template v-if="type === 'playername' || type === 'planetname'">
 				<table class="table">
+					<tbody>
 					<tr>
 						<td class="c" width="120">Имя</td>
 						<td class="c" width="40">&nbsp;</td>
@@ -53,10 +54,12 @@
 					<tr v-if="items.length === 0">
 						<th colspan="7">Поиск не дал результатов</th>
 					</tr>
+					</tbody>
 				</table>
 			</template>
 			<template v-else>
 				<table class="table">
+					<tbody>
 					<tr>
 						<td class="c">Аббревиатура</td>
 						<td class="c">Имя</td>
@@ -76,6 +79,7 @@
 					<tr v-if="items.length === 0">
 						<th colspan="6">Поиск не дал результатов</th>
 					</tr>
+					</tbody>
 				</table>
 			</template>
 		</template>

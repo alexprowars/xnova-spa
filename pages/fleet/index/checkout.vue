@@ -104,6 +104,7 @@
 			<div class="row">
 				<div class="th col-6">
 					<table class="table">
+						<tbody>
 						<tr>
 							<td class="c" colspan="2">Миссия</td>
 						</tr>
@@ -123,10 +124,12 @@
 						<tr>
 							<th>Время прилёта: {{ $date(target_time, 'DD MMM HH:mm:ss') }}</th>
 						</tr>
+						</tbody>
 					</table>
 				</div>
 				<div class="th col-6">
 					<table class="table">
+						<tbody>
 						<tr>
 							<td colspan="3" class="c">Сырьё</td>
 						</tr>
@@ -188,6 +191,7 @@
 								</div>
 							</th>
 						</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>

@@ -1,5 +1,6 @@
 <template>
 	<table class="table">
+		<tbody>
 		<tr>
 			<td class="c" colspan="2">
 				Обнаружена следующая активность на планете:
@@ -23,6 +24,7 @@
 				</font>
 			</th>
 		</tr>
+		</tbody>
 	</table>
 </template>
 
