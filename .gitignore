@@ -7,8 +7,8 @@ Thumbs.db
 *.log
 *.txt
 *.map
-*.lock
-*.json
+/*.lock
+/*.json
 !package*.json
 !composer.json
 *.phar
