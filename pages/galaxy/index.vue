@@ -31,7 +31,7 @@
 					</tr>
 
 					<GalaxyRow v-for="(item, index) in rows"
-						:key="rows['p_id']"
+						:key="page['galaxy'] + ':' + page['system'] + ':' + index"
 						:item="item"
 						:user="page['user']"
 						:galaxy="page['galaxy']"
@@ -43,7 +43,7 @@
 					<tr v-if="user['technology']['expedition_tech']">
 						<th width="30">16</th>
 						<th colspan="8" class="c big">
-							<NuxtLinkLocale :to="'/fleet/?galaxy='+page['galaxy']+'&system='+page['system']+'&planet=16&mission=15'">неизведанные дали</NuxtLinkLocale>
+							<NuxtLinkLocale :to="'/fleet/?galaxy=' + page['galaxy'] + '&system=' + page['system'] + '&planet=16&mission=15'">неизведанные дали</NuxtLinkLocale>
 						</th>
 					</tr>
 					<tr>
@@ -56,7 +56,7 @@
 								<template #content>
 									<GalaxyLegend/>
 								</template>
-								Легенда
+								<span>Легенда</span>
 							</Popper>
 						</td>
 					</tr>
@@ -118,7 +118,7 @@
 		let result = [];
 
 		for (let i = 1; i <= 15; i++) {
-			result.push(page.value.items.find(item => item.planet === i) || null);
+			result.push(page.value.items.find(item => item.position.planet === i) || null);
 		}
 
 		return result;

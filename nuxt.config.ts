@@ -123,7 +123,7 @@ if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length
 		'/admin/': { target: proxyUrl + '/admin/', changeOrigin: true, cookieDomainRewrite: {"*": ""}, secure: false },
 		'/api/': { target: proxyUrl + '/api/', changeOrigin: true, cookieDomainRewrite: {"*": ""}, secure: false },
 		'/broadcasting/': { target: proxyUrl + '/broadcasting/', cookieDomainRewrite: {"*": ""}, changeOrigin: true, secure: false },
-		'/upload/': { target: proxyUrl + '/upload/', changeOrigin: true, secure: false },
+		'/storage/': { target: proxyUrl + '/storage/', changeOrigin: true, secure: false },
 	}
 
 	config.runtimeConfig.public.baseUrl = null
