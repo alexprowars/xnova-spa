@@ -31,13 +31,13 @@
 					</NuxtLinkLocale>
 				</div>
 			</div>
-			<OfficierRow v-for="item in items" :key="item['id']" :item="item"></OfficierRow>
+			<Row v-for="item in items" :key="item['id']" :item="item"/>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import OfficierRow from '~/components/Page/Officier/Row.vue';
+	import Row from '~/components/Page/Officier/Row.vue';
 	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
