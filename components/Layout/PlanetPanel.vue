@@ -63,12 +63,12 @@
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
 												<div class="separator"></div>
-												<span class="officier" :class="['of' + officier['id'] + (officier['time'] && dayjs(officier['time']).diff() > 0 ? '_ikon' : '')]"></span>
+												<span class="officier" :class="['of' + officier['id'] + (officier['date'] && dayjs(officier['date']).diff() > 0 ? '_ikon' : '')]"></span>
 											</td>
 										</tr>
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
-												<span v-if="officier['time'] && dayjs(officier['time']).diff() > 0">Нанят до<br><span class="positive">{{ $date(officier['time'], 'DD MMM HH:mm') }}</span></span>
+												<span v-if="officier['date'] && dayjs(officier['date']).diff() > 0">Нанят до<br><span class="positive">{{ $date(officier['date'], 'DD MMM HH:mm') }}</span></span>
 												<span v-else><span class="positive">Не нанят</span></span>
 											</td>
 										</tr>

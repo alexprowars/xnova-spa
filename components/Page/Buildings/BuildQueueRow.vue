@@ -14,11 +14,11 @@
 				<br>
 				<NuxtLinkLocale :to="{ path: '/buildings', force: true }">Продолжить</NuxtLinkLocale>
 			</div>
-			<div class="positive">{{ $date(item['time'], 'DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ $date(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 		<div class="col-6 k" v-else>
 			<a @click.prevent="deleteItem">Удалить</a>
-			<div class="positive">{{ $date(item['time'], 'DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ $date(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 	</div>
 </template>
@@ -36,7 +36,7 @@
 
 	const { t } = useI18n();
 	const now = useNow({ interval: 1000 });
-	const time = computed(() => dayjs(props.item['time']).diff(now.value) / 1000);
+	const time = computed(() => dayjs(props.item['date']).diff(now.value) / 1000);
 
 	function deleteItem () {
 		openConfirmModal(

@@ -2,7 +2,7 @@
 	<tr>
 		<th>
 			<a>{{ $t('fleet_mission.' + item.mission) }}</a>
-			<a v-if="(item['start']['time'] + 1) === item['target']['time']">(F)</a>
+			<a v-if="(item['start']['date'] + 1) === item['target']['date']">(F)</a>
 		</th>
 		<th>
 			<Popper>
@@ -17,14 +17,14 @@
 			<div>{{ item['start']['name'] }}</div>
 		</th>
 		<th>
-			{{ $date(item['start']['time'], 'DD MMM HH:mm:ss') }}
-			<Timer :value="item['start']['time']" class="positive"/>
+			{{ $date(item['start']['date'], 'DD MMM HH:mm:ss') }}
+			<Timer :value="item['start']['date']" class="positive"/>
 		</th>
 		<th>
 			<PlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"/>
 			<div>{{ item['target']['name'] }}</div>
 		</th>
-		<th>{{ $date(item['target']['time'], 'DD MMM HH:mm:ss') }}</th>
+		<th>{{ $date(item['target']['date'], 'DD MMM HH:mm:ss') }}</th>
 	</tr>
 </template>
 

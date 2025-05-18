@@ -26,17 +26,17 @@
 					[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ $date(item['start']['time'], 'DD MMM HH:mm:ss') }}
-			<Timer :value="item['start']['time']" delimiter="" class="positive"/>
+			{{ $date(item['start']['date'], 'DD MMM HH:mm:ss') }}
+			<Timer :value="item['start']['date']" delimiter="" class="positive"/>
 		</div>
-		<div v-if="item['target']['time']" class="col-4 col-sm-3 th">
+		<div v-if="item['target']['date']" class="col-4 col-sm-3 th">
 			<div>
 				<NuxtLinkLocale :to="'/galaxy?galaxy='+item['start']['galaxy']+'&system='+item['start']['system']" class="positive">
 					[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]
 				</NuxtLinkLocale>
 			</div>
-			{{ $date(item['target']['time'], 'DD MMM HH:mm:ss') }}
-			<Timer :value="item['target']['time']" delimiter="" class="positive"/>
+			{{ $date(item['target']['date'], 'DD MMM HH:mm:ss') }}
+			<Timer :value="item['target']['date']" delimiter="" class="positive"/>
 		</div>
 		<div v-else class="col-4 col-sm-3 th">
 			-

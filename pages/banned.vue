@@ -17,15 +17,15 @@
 			</tr>
 			<tr v-for="item in items">
 				<td class="b text-center">
-					<NuxtLinkLocale :to="'/players/'+item['user']['id']+'/'">
+					<NuxtLinkLocale :to="'/players/' + item['user']['id']">
 						{{ item['user']['name'] }}
 					</NuxtLinkLocale>
 				</td>
 				<td class="b text-center">
-					<small>{{ $date(item['time'], 'DD MMM YYYY HH:mm:ss') }}</small>
+					<small>{{ $date(item['date'], 'DD MMM YYYY HH:mm:ss') }}</small>
 				</td>
 				<td class="b text-center">
-					<small>{{ $date(item['time_end'], 'DD MMM YYYY HH:mm:ss') }}</small>
+					<small>{{ $date(item['date_end'], 'DD MMM YYYY HH:mm:ss') }}</small>
 				</td>
 				<td class="b text-center">{{ item['reason'] }}</td>
 				<td class="b text-center">

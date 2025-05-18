@@ -235,10 +235,10 @@
 
 				<div class="clearfix"></div>
 
-				<div v-if="queue.length > 0">
+				<div v-if="page['queue'].length > 0">
 					<div class="separator"></div>
 					<div class="block-table">
-						<QueueRow v-for="(list, i) in queue" :key="i" :item="list"/>
+						<QueueRow v-for="(list, i) in page['queue']" :key="i" :item="list"/>
 					</div>
 				</div>
 			</div>

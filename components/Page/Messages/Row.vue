@@ -4,10 +4,10 @@
 			<div class="col-1 th text-center">
 				<input name="delete[]" type="checkbox" :value="item['id']" v-model="item['deleted']" title="Удалить">
 			</div>
-			<div class="col-3 th text-center">{{ $date(item['time'], 'DD MMM YYYY HH:mm:ss') }}</div>
+			<div class="col-3 th text-center">{{ $date(item['date'], 'DD MMM YYYY HH:mm:ss') }}</div>
 			<div class="col-6 th text-center">
-				<a v-if="item['from'] > 0" :href="'/players/' + item['from']" @click.prevent="openPlayerPopup(item['from'])" title="От кого" v-html="item['theme']"></a>
-				<span v-else v-html="item['theme']"></span>
+				<a v-if="item['from'] > 0" :href="'/players/' + item['from']" @click.prevent="openPlayerPopup(item['from'])" title="От кого" v-html="item['subject']"></a>
+				<span v-else v-html="item['subject']"></span>
 			</div>
 			<div class="col-2 th text-center">
 				<span v-if="item['type'] === 1">
@@ -24,11 +24,11 @@
 			</div>
 		</div>
 		<div class="row">
-			<div :style="'background-color:'+$t('message_types_backgrounds.'+item['type'])" class="col-12 b">
+			<div :style="'background-color:' + $t('message_types_backgrounds.' + item['type'])" class="col-12 b">
 				<div v-if="user['options']?.['bb_parser']">
-					<TextViewer :text="item['text']"/>
+					<TextViewer :text="item['message']"/>
 				</div>
-				<div v-else v-html="item['text']"></div>
+				<div v-else v-html="item['message']"></div>
 			</div>
 		</div>
 	</div>
