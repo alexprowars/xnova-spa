@@ -9,7 +9,7 @@
 							<img :src="page['avatar']" :alt="page['username']" width="100%">
 							<div v-if="user">
 								<SendMessagePopup :title="page['username']+': отправить сообщение'" :id="page['id']"/>
-								<NuxtLinkLocale :to="'/buddy/new/'+page['id']+'/'" title="Добавить в друзья">
+								<NuxtLinkLocale :to="'/friends/new/'+page['id']+'/'" title="Добавить в друзья">
 									<span class='sprite skin_b'></span>
 								</NuxtLinkLocale>
 							</div>

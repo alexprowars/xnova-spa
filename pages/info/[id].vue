@@ -4,8 +4,7 @@
 
 <script setup>
 	import InfoContent from '~/components/Page/Info/Content.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, useI18n, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n, useRoute } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -17,7 +16,7 @@
 	const { t } = useI18n();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('/info/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

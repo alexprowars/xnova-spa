@@ -27,8 +27,7 @@
 </template>
 
 <script setup>
-	import { navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
-	import useStore from '~/store/index.js';
+	import { navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
 
 	useHead({
@@ -38,7 +37,7 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('/alliance/join/' + route.params['id']),
 		{ watch: [() => useRoute().query] }
 	);
 

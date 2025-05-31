@@ -43,8 +43,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import { Chart, CategoryScale, LinearScale, LineController, PointElement, LineElement, Legend, Tooltip } from 'chart.js';
 	import { number } from '~/utils/format';
@@ -63,7 +62,7 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('players/stat/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

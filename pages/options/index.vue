@@ -17,10 +17,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
-	import dayjs from 'dayjs';
-	import { ref } from 'vue';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import VacationTab from '~/components/Page/Options/VacationTab.vue';
 	import OptionsTab from '~/components/Page/Options/OptionsTab.vue';
 
@@ -36,7 +33,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData('page-options',
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('/options'),
 		{ watch: [() => useRoute().query] }
 	);
 

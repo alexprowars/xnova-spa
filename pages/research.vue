@@ -13,7 +13,7 @@
 
 <script setup>
 	import TechRow from '~/components/Page/Buildings/TechRow.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -28,7 +28,7 @@
 
 	const { data: items, error } = await useAsyncData('page-research',
 		async () => await Promise.all([
-			store.loadPage(),
+			useApiGet('/research'),
 			store.loadState()
 		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }

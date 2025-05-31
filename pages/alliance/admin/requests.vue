@@ -36,8 +36,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import { ref } from 'vue';
 	import RequestAcceptForm from '~/components/Page/Alliance/RequestAcceptForm.vue';
 
@@ -54,7 +53,7 @@
 
 	const { data: page, error } = await useAsyncData(
 		'page-alliance.requests',
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('/alliance/admin/requests'),
 		{ watch: [() => useRoute().query] }
 	);
 

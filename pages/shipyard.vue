@@ -28,7 +28,7 @@
 <script setup>
 	import UnitRow from '~/components/Page/Buildings/UnitRow.vue'
 	import UnitQueue from '~/components/Page/Buildings/UnitQueue.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, refreshNuxtData, useApiSubmit } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, refreshNuxtData, useApiSubmit, useApiGet } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -45,7 +45,7 @@
 
 	const { data: items, error } = await useAsyncData('page-shipyard',
 		async () => await Promise.all([
-			store.loadPage(),
+			useApiGet('/shipyard'),
 			store.loadState()
 		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }

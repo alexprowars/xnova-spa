@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit, useSuccessNotification } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit, useSuccessNotification, useApiGet } from '#imports';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -56,7 +56,7 @@
 	const store = useStore();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+		return await useApiGet('/tutorial/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

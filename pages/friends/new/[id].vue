@@ -13,7 +13,7 @@
 				<th colspan="2"><textarea cols="60" rows="10" v-model="message"></textarea></th>
 			</tr>
 			<tr>
-				<td class="c"><NuxtLinkLocale to="/buddy">назад</NuxtLinkLocale></td>
+				<td class="c"><NuxtLinkLocale to="/friends">назад</NuxtLinkLocale></td>
 				<td class="c"><button type="submit">Отправить заявку</button></td>
 			</tr>
 			</tbody>
@@ -22,8 +22,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -37,11 +36,10 @@
 		title: 'Добавить друга',
 	});
 
-	const store = useStore();
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+		return await useApiGet('/friends/new/' + route.params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -51,12 +49,12 @@
 	const message = ref('');
 
 	function send() {
-		useApiSubmit('buddy/new/' + route.params['id'], {
+		useApiSubmit('friends/new/' + route.params['id'], {
 			message: message.value,
 		}, () => {
 			useSuccessNotification('Запрос отправлен');
 
-			navigateTo('/buddy');
+			navigateTo('/friends');
 		});
 	}
 </script>

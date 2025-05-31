@@ -8,9 +8,10 @@
 		</div>
 		<div class="th col-sm-10 col-8 text-start">
 			<span class="flight owndeploy">
-				<NuxtLinkLocale v-if="item['planet_id'] === planet.id" :to="'/buildings?chpl=' + item['planet_id']" style="color:#33ff33;">{{ item['planet_name'] }}</NuxtLinkLocale><span v-else>{{ item['planet_name'] }}</span>:
+				<a v-if="item['planet_id'] !== planet.id" href="" @click.prevent="changePlanet" style="color:#33ff33;">{{ planetItem?.['name'] }}</a><span v-else>{{ planetItem?.['name'] }}</span>:
 			</span>
-			<span class="holding colony">{{ $t('tech.' + item['item']) }} ({{ item['level_to'] }})</span>
+			<span v-if="item['level']" class="holding colony">{{ $t('tech.' + item['item']) }} ({{ item['level'] }})</span>
+			<span v-if="item['count']" class="holding colony">{{ $t('tech.' + item['item']) }} ({{ item['count'] }})</span>
 			<span class="positive float-sm-end d-none d-sm-inline">{{ $date(item['date'], 'DD MMM HH:mm:ss') }}</span>
 		</div>
 	</div>
@@ -19,11 +20,22 @@
 <script setup>
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
+	import { computed } from 'vue';
+	import { refreshNuxtData, useApiPost } from '#imports';
 
-	defineProps({
+	const { item } = defineProps({
 		item: Object
 	});
 
 	const store = useStore();
-	const { planet } = storeToRefs(store);
+	const { user, planet } = storeToRefs(store);
+
+	const planetItem = computed(() => {
+		return user.value['planets'].find((p) => p['id'] === item['planet_id']);
+	});
+
+	async function changePlanet () {
+		await useApiPost('/user/planet/' + item.planet_id, {});
+		await refreshNuxtData();
+	}
 </script>

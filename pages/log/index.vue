@@ -34,8 +34,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -49,7 +48,7 @@
 	});
 
 	const { data: items, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('/log');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

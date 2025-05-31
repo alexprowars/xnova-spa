@@ -170,7 +170,7 @@
 							</tr>
 							<tr v-if="item.user['id'] !== currentUser['id']">
 								<th>
-									<NuxtLinkLocale :to="'/buddy/new/' + item.user['id'] + '/'">Добавить в друзья</NuxtLinkLocale>
+									<NuxtLinkLocale :to="'/friends/new/' + item.user['id'] + '/'">Добавить в друзья</NuxtLinkLocale>
 								</th>
 							</tr>
 							<tr>
@@ -185,7 +185,7 @@
 					<span :class="[user_status_class]">{{ item.user['name'] }}</span>
 
 					<span v-if="user_status" :class="[user_status_class]">
-						<font color="white">(</font><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLinkLocale to="/banned/" :class="[user_status_class]">{{ user_status }}</NuxtLinkLocale></span><span v-else>{{ user_status }}</span><font color="white">)</font>
+						<font color="white">(</font><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLinkLocale to="/blocked" :class="[user_status_class]">{{ user_status }}</NuxtLinkLocale></span><span v-else>{{ user_status }}</span><font color="white">)</font>
 					</span>
 
 					<span v-if="item.user['admin'] === 3" class="negative">A</span>
@@ -241,7 +241,7 @@
 			<div class="actions">
 				<template v-if="item && item.user['id'] !== currentUser['id'] && !item['planet']['destruyed']">
 					<SendMessagePopup :title="item.user['name']+': отправить сообщение'" :id="item.user['id']"/>
-					<NuxtLinkLocale :to="'/buddy/new/' + item.user['id']" title="Добавить в друзья">
+					<NuxtLinkLocale :to="'/friends/new/' + item.user['id']" title="Добавить в друзья">
 						<span class="sprite skin_b"></span>
 					</NuxtLinkLocale>
 
@@ -358,7 +358,7 @@
 		if (user_status.value === 'UG') {
 			return 'vacation';
 		} else if (user_status.value === 'G') {
-			return 'banned';
+			return 'blocked';
 		} else if (user_status.value === 'U') {
 			return 'vacation';
 		} else if (user_status.value === 'i') {

@@ -30,7 +30,7 @@ export const useChatStore = defineStore('chat', {
 				return;
 			}
 
-			this.messages = await useApiGet('/chat')
+			this.messages = await useApiGet('/chat/last')
 				.then((messages) => messages);
 
 			this.clearUnread();

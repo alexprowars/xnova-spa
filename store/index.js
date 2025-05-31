@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { navigateTo, startLoading, stopLoading, useApiGet, useRouter, useToast } from '#imports';
+import { navigateTo, useApiGet, useToast } from '#imports';
 import dayjs from 'dayjs';
 
 export const useStore = defineStore('app', {
@@ -9,6 +9,7 @@ export const useStore = defineStore('app', {
 		redirect: null,
 		messages: null,
 		stats: null,
+		settings: null,
 		speed: null,
 		user: null,
 		planet: null,
@@ -22,7 +23,7 @@ export const useStore = defineStore('app', {
 			return state.user && state.user['vacation'] !== null;
 		},
 		queueByType: state => type => {
-			return state.queue.filter((item) => item.type === type);
+			return state.queue.filter((item) => item.planet_id === state.planet['id'] && item.type === type);
 		},
 		fieldsEmpty: state => {
 			return state.planet['field_max'] - state.planet['field_used'] - state.queueByType('build').length;
@@ -52,19 +53,6 @@ export const useStore = defineStore('app', {
 			}
 
 			this.PAGE_LOAD(data);
-		},
-		async loadPage (url = undefined, params = {}) {
-			if (typeof url === 'undefined') {
-				url = useRouter().currentRoute.value.path;
-			}
-
-			startLoading();
-
-			try {
-				return await useApiGet(url, params);
-			} catch {} finally {
-				stopLoading();
-			}
 		},
 		PAGE_LOAD (data) {
 			for (let key in data) {

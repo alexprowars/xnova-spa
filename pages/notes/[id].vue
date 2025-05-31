@@ -50,8 +50,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
-	import useStore from '~/store/index.js';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -66,7 +65,7 @@
 	});
 
 	const { data: page, error, refresh } = await useAsyncData(
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('/notes/'+ useRoute().params.id),
 		{ watch: [() => useRoute().query] }
 	);
 

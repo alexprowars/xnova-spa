@@ -31,8 +31,7 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, definePageMeta, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { showError, useAsyncData, definePageMeta, useHead, useRoute, useApiGet } from '#imports';
 	import { toRefs } from 'vue';
 
 	definePageMeta({
@@ -47,7 +46,7 @@
 	});
 
 	const { data, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('/tutorial');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

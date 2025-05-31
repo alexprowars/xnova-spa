@@ -8,16 +8,16 @@
 			<tr>
 				<th>&nbsp;</th>
 				<th v-for="planet in page['planets']" width="75">
-					<NuxtLinkLocale :to="'/overview/?chpl='+planet['id']">
+					<a href="" @click.prevent="toPlanet(planet['id'])">
 						<img :src="'/images/planeten/small/s_'+planet['image']+'.jpg'" height="75" width="75" alt="">
-					</NuxtLinkLocale>
+					</a>
 				</th>
 				<th width="100">Сумма</th>
 			</tr>
 			<tr>
 				<th>Название</th>
 				<th v-for="planet in page['planets']">
-					<NuxtLinkLocale :to="'/overview/?chpl='+planet['id']">{{ planet['name'] }}</NuxtLinkLocale>
+					<a href="" @click.prevent="toPlanet(planet['id'])">{{ planet['name'] }}</a>
 				</th>
 				<th>&nbsp;</th>
 			</tr>
@@ -177,7 +177,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useI18n, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useI18n, useRoute, navigateTo, useLocalePath, useApiGet } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -193,10 +193,8 @@
 		title: 'Империя',
 	});
 
-	const store = useStore();
-
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+		return await useApiGet('/imperium');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -204,7 +202,7 @@
 	}
 
 	const { tm } = useI18n();
-	const { user } = storeToRefs(store);
+	const { user } = storeToRefs(useStore());
 
 	const rows = computed(() => {
 		if (!page.value) {
@@ -283,4 +281,10 @@
 
 		return result;
 	});
+
+	async function toPlanet(id) {
+		await useApiPost('/user/planet/' + id, {});
+
+		navigateTo(useLocalePath()('/overview'));
+	}
 </script>

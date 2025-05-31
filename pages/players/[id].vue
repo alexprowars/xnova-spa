@@ -4,8 +4,7 @@
 
 <script setup>
 	import PlayerInfo from '~/components/Page/Players/Info.vue';
-	import { showError, useAsyncData, useHead, definePageMeta, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { showError, useAsyncData, useHead, definePageMeta, useRoute, useApiGet } from '#imports';
 
 	useHead({
 		title: 'Информация о игроке',
@@ -18,7 +17,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('/players/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

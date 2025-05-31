@@ -1,11 +1,10 @@
 <script setup>
-	import { showError, useAsyncData, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { showError, useApiGet, useAsyncData, useRoute } from '#imports';
 
 	const router = useRoute();
 
 	const { error } = await useAsyncData(async () => {
-		return await useStore().loadPage(undefined, Object.assign({}, router.query));
+		return await useApiGet('/login/callback/' + router.params.service, Object.assign({}, router.query));
 	});
 
 	if (error.value) {

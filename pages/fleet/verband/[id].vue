@@ -68,8 +68,7 @@
 	import ChangeName from '~/components/Page/Fleet/Verband/ChangeName.vue';
 	import InviteUser from '~/components/Page/Fleet/Verband/InviteUser.vue';
 	import FleetRow from '~/components/Page/Fleet/Verband/FleetRow.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -82,7 +81,7 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData('page-verband.' + route.params['id'],
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('/fleet/verband/' + route.params.id),
 		{ watch: [() => useRoute().query] }
 	);
 

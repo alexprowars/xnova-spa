@@ -1,5 +1,5 @@
 <template>
-	<div class="page-buddy page-buddy-request">
+	<div class="friends page-friends-request">
 		<div class="block">
 			<div class="title text-center">
 				{{ page['title'] }}
@@ -47,7 +47,7 @@
 		<div class="text-end">
 			<div class="row">
 				<div class="col">
-					<NuxtLinkLocale to="/buddy" class="button">Вернуться назад</NuxtLinkLocale>
+					<NuxtLinkLocale to="/friends" class="button">Вернуться назад</NuxtLinkLocale>
 				</div>
 			</div>
 		</div>
@@ -55,18 +55,16 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useRoute, navigateTo } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useRoute, navigateTo, useApiGet, refreshNuxtData } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
 	});
 
-	const store = useStore();
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage('/buddy/?requests' + (route.path.indexOf('/my') !== -1 ? '&my' : ''));
+		return await useApiGet('/friends', { requests: true, my: route.path.indexOf('/my') !== -1 });
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -74,8 +72,8 @@
 	}
 
 	function approveRequest (id) {
-		useApiSubmit('/buddy/' + id + '/approve', {}, () => {
-			navigateTo('/buddy');
+		useApiSubmit('/friends/' + id + '/approve', {}, () => {
+			navigateTo('/friends');
 		});
 	}
 
@@ -88,10 +86,10 @@
 			}, {
 				title: 'Да',
 				handler: () => {
-					useApiSubmit('/buddy/' + id, {
+					useApiSubmit('/friends/' + id, {
 						_method: 'DELETE'
-					}, (result) => {
-						store.PAGE_LOAD(result);
+					}, async () => {
+						await refreshNuxtData();
 					});
 				}
 			}]

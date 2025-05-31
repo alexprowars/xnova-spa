@@ -52,7 +52,6 @@
 	import SupportDetail from '~/components/Page/Support/Detail.vue'
 	import SupportNew from '~/components/Page/Support/New.vue'
 	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -67,7 +66,7 @@
 	});
 
 	const { data: items, error } = await useAsyncData('page-support',
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('/support'),
 		{ watch: [() => useRoute().query] }
 	);
 

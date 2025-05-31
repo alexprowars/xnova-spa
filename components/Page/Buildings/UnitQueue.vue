@@ -34,7 +34,7 @@
 	});
 
 	const now = useNow({ interval: 1000 });
-	const left_time = computed(() => dayjs(props.queue[props.queue.length - 1]['time']).diff(now.value) / 1000);
+	const left_time = computed(() => dayjs(props.queue[props.queue.length - 1]['date']).diff(now.value) / 1000);
 
 	watch(now, () => {
 		update();
@@ -47,12 +47,12 @@
 
 		let first = props.queue[0];
 
-		const diff = dayjs(first['time']).diff(now.value) / 1000;
+		const diff = dayjs(first['date']).diff(now.value) / 1000;
 
 		if (diff <= 0) {
 			props.queue.splice(0, 1);
 		} else {
-			props.queue[0]['count'] = Math.ceil(diff / first['time_one']);
+			props.queue[0]['count'] = Math.ceil(diff / first['time']);
 		}
 	}
 </script>

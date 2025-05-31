@@ -8,12 +8,12 @@
 				<div class="block-table">
 					<div class="row">
 						<div class="col text-center j">
-							<NuxtLinkLocale to="/buddy/requests">Запросы</NuxtLinkLocale>
+							<NuxtLinkLocale to="/friends/requests">Запросы</NuxtLinkLocale>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col text-center j">
-							<NuxtLinkLocale to="/buddy/requests/my">Мои запросы</NuxtLinkLocale>
+							<NuxtLinkLocale to="/friends/requests/my">Мои запросы</NuxtLinkLocale>
 						</div>
 					</div>
 					<div class="row">
@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 
 	definePageMeta({
@@ -77,7 +77,7 @@
 	const store = useStore();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+		return await useApiGet('/friends');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -93,7 +93,7 @@
 			}, {
 				title: 'Да',
 				handler: () => {
-					useApiSubmit('/buddy/' + id, {
+					useApiSubmit('/friends/' + id, {
 						_method: 'DELETE'
 					}, (result) => {
 						store.PAGE_LOAD(result);

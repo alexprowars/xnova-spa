@@ -26,8 +26,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -42,7 +41,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('/alliance/admin/give');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

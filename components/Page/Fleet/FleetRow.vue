@@ -42,7 +42,7 @@
 			-
 		</div>
 		<div class="col-4 col-sm-2 th">
-			<NuxtLinkLocale v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/'+item.id+'/'" class="button">
+			<NuxtLinkLocale v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/' + item.id" class="button">
 				Объединить
 			</NuxtLinkLocale>
 

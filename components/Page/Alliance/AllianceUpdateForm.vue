@@ -1,6 +1,7 @@
 <template>
 	<form ref="formRef" @submit.prevent="save">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="2">Дополнительные настройки</td>
 			</tr>
@@ -38,6 +39,7 @@
 					<button type="submit">Сохранить</button>
 				</th>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

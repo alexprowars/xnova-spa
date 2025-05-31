@@ -34,9 +34,7 @@
 </template>
 
 <script setup>
-	import Form from '~/components/Page/Messages/Form.vue';
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -47,7 +45,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('/fleet/shortcut/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

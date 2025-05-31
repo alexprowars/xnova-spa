@@ -44,8 +44,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
 	import { watch } from 'vue';
 	import dayjs from 'dayjs';
 
@@ -61,7 +60,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage('/hall');
+		return useApiGet('/hall');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

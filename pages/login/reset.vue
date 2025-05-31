@@ -1,14 +1,15 @@
 <script setup>
-	import { showError, useAsyncData, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { navigateTo, showError, useApiGet, useAsyncData, useRoute } from '#imports';
 
 	const router = useRoute();
 
 	const { error } = await useAsyncData(
-		async () => await useStore().loadPage(undefined, Object.assign({}, router.query))
+		async () => await useApiGet('login/reset', Object.assign({}, router.query))
 	);
 
 	if (error.value) {
 		throw showError(error.value);
 	}
+
+	navigateTo('/');
 </script>

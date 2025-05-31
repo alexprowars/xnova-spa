@@ -361,7 +361,7 @@
 			mission: page.value['mission'],
 			moon: moon.value,
 			speed: speed.value,
-			...resource.value,
+			resource: resource.value,
 		}, (result) => {
 			const { data } = useNuxtData('page-fleet.send');
 			data.value = result;

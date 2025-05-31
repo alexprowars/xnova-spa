@@ -6,8 +6,7 @@
 
 <script setup>
 	import MessageForm from '~/components/Page/Messages/Form.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -23,7 +22,7 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(
-		async () =>  await useStore().loadPage('/messages/write/' + route.params['id'], Object.assign({}, route.query)),
+		async () =>  await useApiGet('/messages/write/' + route.params['id'], Object.assign({}, route.query)),
 		{ watch: [() => useRoute().query] }
 	);
 

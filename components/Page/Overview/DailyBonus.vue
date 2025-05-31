@@ -17,7 +17,8 @@
 </template>
 
 <script setup>
-	import { useApiPost, refreshNuxtData, number, useErrorNotification, useSuccessNotification } from '#imports';
+	import { useApiPost, number, useErrorNotification, useSuccessNotification } from '#imports';
+	import useStore from '~/store/index.js';
 
 	defineProps({
 		amount: Number,
@@ -25,11 +26,11 @@
 
 	async function getBonus () {
 		try {
-			const result = await useApiPost('/overview/daily');
+			const result = await useApiPost('/user/daily');
 
 			useSuccessNotification('Спасибо за поддержку!<br>Вы получили в качестве бонуса по <b>' + number(result['resources']) + '</b> Металла, Кристаллов и Дейтерия' + (result['credits'] ? ', а также 1 кредит.' : ''));
 
-			await refreshNuxtData('page-overview');
+			await useStore().loadState();
 		} catch (e) {
 			useErrorNotification(e.message);
 		}

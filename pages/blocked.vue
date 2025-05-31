@@ -4,7 +4,7 @@
 		<tr>
 			<td class="c" colspan="6">Чёрный список</td>
 		</tr>
-		<tr v-if="page['items'].length === 0">
+		<tr v-if="items.length === 0">
 			<th class="b text-center" colspan="5">Нет заблокированных игроков</th>
 		</tr>
 		<template v-else>
@@ -43,8 +43,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiGet } from '#imports';
 
 	definePageMeta({
 		view: {
@@ -57,7 +56,7 @@
 	});
 
 	const { data: items, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		return await useApiGet('/blocked');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

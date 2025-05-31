@@ -1,6 +1,7 @@
 <template>
 	<form @click.prevent="save">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="2">Добавить альянс в список</td>
 			</tr>
@@ -25,6 +26,7 @@
 					<button type="submit">Добавить</button>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

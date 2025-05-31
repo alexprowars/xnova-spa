@@ -1,7 +1,7 @@
 <template>
-	<div class="planet" :class="['type_'+item.type, (store.planet === item.id ? 'current' : '')]">
-		<a @click.prevent="changeItem" :title="item.name">
-			<img :src="'/images/planeten/small/s_'+item.image+'.jpg'" height="40" width="40" :alt="item.name">
+	<div class="planet" :class="['type_' + item.type, (planet.id === item.id ? 'current' : '')]">
+		<a @click.prevent="changePlanet" :title="item.name">
+			<img :src="'/images/planeten/small/s_' + item.image + '.jpg'" height="40" width="40" :alt="item.name">
 		</a>
 		<span class="d-none d-sm-block d-md-none">
 			<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.planet"/>
@@ -17,26 +17,24 @@
 </template>
 
 <script setup>
-	import { navigateTo, useRoute } from '#imports';
+	import { useApiPost, refreshNuxtData } from '#imports';
 	import useStore from '~/store';
+	import { storeToRefs } from 'pinia';
 
-	const props = defineProps({
+	const { item } = defineProps({
 		item: {
 			type: Object
 		}
 	});
 
-	const store = useStore();
+	const { planet } = storeToRefs(useStore());
 
-	function changeItem () {
-		let path = useRoute().path.split('/');
-
-		if (path[0] === '') {
-			path.splice(0, 1);
+	async function changePlanet () {
+		if (planet.value.id === item.id) {
+			return;
 		}
 
-		let url = '/'+path[0] + (path[1] !== undefined && path[1] !== '' && path[0] !== 'galaxy' && path[0] !== 'fleet' ? '/'+path[1] : '') + '/?chpl=' + props.item.id;
-
-		navigateTo({ path: url, force: true }, { replace: true });
+		await useApiPost('/user/planet/' + item.id, {});
+		await refreshNuxtData();
 	}
 </script>

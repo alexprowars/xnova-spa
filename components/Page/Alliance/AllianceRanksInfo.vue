@@ -1,5 +1,6 @@
 <template>
 	<table class="table">
+		<tbody>
 		<tr>
 			<td class="c" colspan="2">Описание Законов</td>
 		</tr>
@@ -48,6 +49,7 @@
 				<NuxtLinkLocale to="/alliance/admin">вернутся к обзору</NuxtLinkLocale>
 			</td>
 		</tr>
+		</tbody>
 	</table>
 </template>
 

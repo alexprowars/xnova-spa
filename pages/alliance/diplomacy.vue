@@ -61,8 +61,7 @@
 
 <script setup>
 	import DiplomacyCreate from '~/components/Page/Alliance/DiplomacyCreate.vue';
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
-	import useStore from '~/store/index.js';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -77,7 +76,7 @@
 
 	const { data: page, error, refresh } = await useAsyncData(
 		'page-alliance.diplomacy',
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('/alliance/diplomacy'),
 		{ watch: [() => useRoute().query] }
 	);
 

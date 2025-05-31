@@ -1,6 +1,6 @@
 <template>
 	<div v-if="user" class="page-overview">
-		<DailyBonus v-if="page['bonus']" :amount="page['bonus_count']"/>
+		<DailyBonus v-if="user['daily_bonus']" :amount="user['daily_bonus']"/>
 
 		<div class="block">
 			<div class="title">
@@ -21,22 +21,22 @@
 			</div>
 			<div class="content">
 
-				<div v-if="page['resource_notify']" class="row">
+				<div v-if="productionNotify" class="row">
 					<div class="col text-center">
 						<span class="negative">Одна из шахт находится в выключенном состоянии. Зайдите в меню "<NuxtLinkLocale to="/resources">Сырьё</NuxtLinkLocale>" и восстановите производство.</span>
 					</div>
 					<div class="separator"></div>
 				</div>
 
-				<div v-if="page['noob']" class="row">
+				<div v-if="user['protection']" class="row">
 					<div class="col text-center">
 						<span style="font-weight:normal;"><span class="positive">Активен режим ускорения новичков.</span><br>Режим будет деактивирован после достижения 1000 очков.</span>
 					</div>
 					<div class="separator"></div>
 				</div>
 
-				<div v-if="page['fleets'].length">
-					<fleets :items="page['fleets']"></fleets>
+				<div v-if="fleets.length">
+					<Fleets :items="fleets"/>
 					<div class="separator"></div>
 				</div>
 				<div class="row overview">
@@ -47,10 +47,10 @@
 									<NuxtLinkLocale to="/overview/rename/">
 										<img :src="'/images/planeten/'+planet['image']+'.jpg'" alt="">
 									</NuxtLinkLocale>
-									<div v-if="page['moon']" class="moon-image">
-										<NuxtLinkLocale :to="'/overview/?chpl='+page['moon']['id']" :title="page['moon']['name']">
-											<img :src="'/images/planeten/'+page['moon']['image']+'.jpg'" height="50" width="50" alt="">
-										</NuxtLinkLocale>
+									<div v-if="planet['moon']" class="moon-image">
+										<a href="" @click.prevent="changeToMoon(planet['moon']['id'])" :title="planet['moon']['name']">
+											<img :src="'/images/planeten/'+planet['moon']['image']+'.jpg'" height="50" width="50" alt="">
+										</a>
 									</div>
 								</div>
 
@@ -146,10 +146,10 @@
 							</div>
 							<div class="row">
 								<div class="col-12 th">
-									<NuxtLinkLocale to="/refers">
+									<NuxtLinkLocale to="/referrals">
 										https://{{ host }}/?{{ user['id'] }}
 									</NuxtLinkLocale>
-									[{{ page['links'] }}]
+									[{{ user['links'] }}]
 								</div>
 							</div>
 						</div>
@@ -208,12 +208,12 @@
 							</div>
 							<div class="row">
 								<div class="th col-12">
-									{{ page['lvl']['mine']['l'] }} из 100
+									{{ user['lvl']['mine']['l'] }} из 100
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-12">
-									{{ $number(page['lvl']['mine']['p']) }} / {{ $number(page['lvl']['mine']['u']) }} exp
+									{{ $number(user['lvl']['mine']['p']) }} / {{ $number(user['lvl']['mine']['u']) }} exp
 								</div>
 							</div>
 							<div class="row">
@@ -221,12 +221,12 @@
 							</div>
 							<div class="row">
 								<div class="th col-12">
-									{{ page['lvl']['raid']['l'] }} из 100
+									{{ user['lvl']['raid']['l'] }} из 100
 								</div>
 							</div>
 							<div class="row">
 								<div class="th col-12">
-									{{ $number(page['lvl']['raid']['p']) }} / {{ $number(page['lvl']['raid']['u']) }} exp
+									{{ $number(user['lvl']['raid']['p']) }} / {{ $number(user['lvl']['raid']['u']) }} exp
 								</div>
 							</div>
 						</div>
@@ -235,10 +235,10 @@
 
 				<div class="clearfix"></div>
 
-				<div v-if="page['queue'].length > 0">
+				<div v-if="queue.length > 0">
 					<div class="separator"></div>
 					<div class="block-table">
-						<QueueRow v-for="(list, i) in page['queue']" :key="i" :item="list"/>
+						<QueueRow v-for="(list, i) in queue" :key="i" :item="list"/>
 					</div>
 				</div>
 			</div>
@@ -270,7 +270,7 @@
 	import { sendMission } from '~/utils/fleet';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile, useApiPost, useApiGet, refreshNuxtData } from '#imports';
 	import { computed, onMounted } from 'vue';
 	import dayjs from 'dayjs';
 	import DailyBonus from '~/components/Page/Overview/DailyBonus.vue';
@@ -287,11 +287,11 @@
 
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData('page-overview',
+	const { data, error } = await useAsyncData('page-overview',
 		async () => await Promise.all([
-			store.loadPage('/overview'),
+			useApiGet('/fleet/list'),
 			store.loadState()
-		]).then(([result]) => result),
+		]).then(([fleets]) => ({ fleets })),
 		{ watch: [() => useRoute().query] }
 	);
 
@@ -299,6 +299,7 @@
 		throw showError(error.value);
 	}
 
+	const { fleets } = toRefs(data.value);
 	const { user, planet, queue } = storeToRefs(store);
 	const { host } = useRequestURL();
 	const { messages: chat } = storeToRefs(useChatStore());
@@ -310,6 +311,16 @@
 	const hasDebrisMission = computed(() => {
 		return (planet.value['debris']['metal'] !== 0 || planet.value['debris']['crystal'] !== 0) && planet.value['units']['recycler'] > 0;
 	})
+
+	const productionNotify = computed(() => {
+		for (let res in planet.value['resources']) {
+			if (typeof planet.value['resources'][res]['factor'] !== 'undefined' && planet.value['resources'][res]['factor'] < 1) {
+				return true;
+			}
+		}
+
+		return false;
+	});
 
 	function sendRecycle () {
 		sendMission(
@@ -323,6 +334,11 @@
 
 	function openPlayerPopup () {
 		openAjaxPopupModal(PlayerInfo, '/players/' + user.value['id'])
+	}
+
+	async function changeToMoon(id) {
+		await useApiPost('/user/planet/' + id, {});
+		await refreshNuxtData();
 	}
 
 	onMounted(async () => {

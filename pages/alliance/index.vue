@@ -101,7 +101,7 @@
 
 <script setup>
 	import NoAlliance from '~/components/Page/Alliance/NoAlliance.vue';
-	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -117,10 +117,8 @@
 		title: 'Ваш альянс',
 	});
 
-	const store = useStore();
-
 	const { data: page, error } = await useAsyncData('page-alliance',
-		async () => await store.loadPage(),
+		async () => await useApiGet('/alliance'),
 		{ watch: [() => useRoute().query] }
 	);
 
@@ -128,7 +126,7 @@
 		throw showError(error.value);
 	}
 
-	const { user } = storeToRefs(store);
+	const { user } = storeToRefs(useStore());
 
 	const hasAlliance = computed(() => {
 		return typeof page.value['id'] === 'undefined'

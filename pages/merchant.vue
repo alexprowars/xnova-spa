@@ -54,10 +54,10 @@
 </template>
 
 <script setup>
-	import Form from '~/components/Page/Messages/Form.vue';
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useI18n, useRoute, useSuccessNotification } from '#imports';
+	import { definePageMeta, useApiSubmit, useHead, useI18n, useSuccessNotification } from '#imports';
 	import useStore from '~/store';
-	import { ref, toRefs } from 'vue';
+	import { storeToRefs } from 'pinia';
+	import { computed, ref } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -67,22 +67,12 @@
 		title: 'Торговец',
 	});
 
-	const { data, error, refresh } = await useAsyncData(
-		async () => await useStore().loadPage(),
-		{ watch: [() => useRoute().query] }
-	);
-
-	if (error.value) {
-		throw showError(error.value);
-	}
-
 	const { t } = useI18n();
-	const { modifiers } = toRefs(data.value);
+	const { settings } = storeToRefs(useStore());
 
 	const type = ref('');
-	const resources = ref({
-		metal: 0, crystal: 0, deuterium: 0
-	});
+	const resources = ref({ metal: 0, crystal: 0, deuterium: 0 });
+	const modifiers = computed(() => settings.value['merchant']);
 
 	function calculate () {
 		let res = 0;

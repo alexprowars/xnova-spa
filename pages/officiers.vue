@@ -38,7 +38,7 @@
 
 <script setup>
 	import Row from '~/components/Page/Officier/Row.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 
@@ -53,15 +53,13 @@
 		title: 'Офицеры',
 	});
 
-	const store = useStore();
-
 	const { data: items, error } = await useAsyncData('page-officiers',
-		async () => await store.loadPage(),
+		async () => await useApiGet('/officiers'),
 		{ watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
-	const { user } = storeToRefs(store);
+	const { user } = storeToRefs(useStore());
 </script>

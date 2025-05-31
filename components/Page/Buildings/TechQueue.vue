@@ -19,7 +19,7 @@
 
 	const { t } = useI18n();
 	const now = useNow({ interval: 1000 });
-	const time = computed(() => dayjs(props.build['time']).diff(dayjs(now.value).utc()) / 1000);
+	const time = computed(() => dayjs(props.build['date']).diff(dayjs(now.value).utc()) / 1000);
 
 	async function refresh() {
 		await refreshNuxtData('page-research');

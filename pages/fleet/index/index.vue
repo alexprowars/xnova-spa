@@ -89,7 +89,7 @@
 
 <script setup>
 	import FleetList from '~/components/Page/Fleet/FleetList.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, useApiSubmit, useNuxtData } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, navigateTo, useRoute, useApiSubmit, useNuxtData, useApiGet } from '#imports';
 	import useStore from '~/store/index.js';
 	import { computed, ref, watch } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -108,7 +108,7 @@
 	const { data: page, error } = await useAsyncData(
 		'page-fleet',
 		async () => await Promise.all([
-			await store.loadPage('/fleet', Object.assign({}, route.params, route.query)),
+			useApiGet('/fleet', Object.assign({}, route.params, route.query)),
 			store.loadState()
 		]).then(([result]) => result),
 		{ watch: [() => useRoute().query] }

@@ -1,5 +1,5 @@
 <template>
-	<div class="page-refers">
+	<div class="page-referrals">
 		<div v-if="page['items'].length > 0" class="block">
 			<div class="title">Привлечённые игроки</div>
 			<div class="content border-0">
@@ -75,7 +75,7 @@
 </template>
 
 <script setup>
-	import { addScript, definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute } from '#imports';
+	import { addScript, definePageMeta, showError, useApiGet, useAsyncData, useHead, useRequestURL, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -91,17 +91,15 @@
 		title: 'Рефералы',
 	});
 
-	const store = useStore();
-
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+		return await useApiGet('/referrals');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
-	const { user } = storeToRefs(store);
+	const { user } = storeToRefs(useStore());
 	const { protocol, host } = useRequestURL();
 
 	onMounted(() => {

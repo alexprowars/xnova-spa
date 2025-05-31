@@ -19,15 +19,15 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="page['type'] !== ''" class="block page-overview-planet-image">
+		<div v-if="type" class="block page-overview-planet-image">
 			<div class="title">Сменить фон планеты</div>
 			<div class="content border-0">
 				<div class="block-table">
 					<div class="row">
-						<div v-for="i in page['images'][page['type']]" class="col-6 col-sm-3 col-md-2">
+						<div v-for="i in planetImages[type]" class="col-6 col-sm-3 col-md-2">
 							<input type="radio" v-model="image" :value="i" :id="'image_'+i">
 							<label :for="'image_'+i">
-								<img :src="'/images/planeten/' + page['type'] + 'planet'+(i < 10 ? '0' : '')+i+'.jpg'" align="absmiddle" width="100%" alt="">
+								<img :src="'/images/planeten/' + type + 'planet'+(i < 10 ? '0' : '')+i+'.jpg'" align="absmiddle" width="100%" alt="">
 							</label>
 						</div>
 					</div>
@@ -43,9 +43,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, showError, useAsyncData, useHead, useRoute, navigateTo, useApiSubmit, useSuccessNotification } from '#imports';
+	import { definePageMeta, openConfirmModal, useHead, navigateTo, useApiSubmit, useSuccessNotification, refreshNuxtData } from '#imports';
 	import useStore from '~/store';
-	import { ref } from 'vue';
+	import { computed, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
@@ -59,18 +59,29 @@
 		title: 'Переименовать планету',
 	});
 
-	const { data: page, error, refresh } = await useAsyncData(
-		async () => await useStore().loadPage(),
-		{ watch: [() => useRoute().query] }
-	);
-
-	if (error.value) {
-		throw showError(error.value);
-	}
-
 	const { planet } = storeToRefs(useStore());
 	const name = ref('');
 	const image = ref(0);
+
+	const planetImages = {
+		trocken: 20,
+		wuesten: 4,
+		dschjungel: 19,
+		normaltemp: 15,
+		gas: 16,
+		wasser: 18,
+		eis: 20,
+	};
+
+	const type = computed(() => {
+		for (let type in planetImages) {
+			if (planet.value.image.includes(type)) {
+				return type;
+			}
+		}
+
+		return null;
+	});
 
 	function changeName() {
 		useApiSubmit('/overview/rename', {
@@ -83,7 +94,7 @@
 	}
 
 	function changeImage() {
-		useApiSubmit('/overview/image', {
+		useApiSubmit('/planet/image', {
 			image: image.value
 		}, () => {
 			useSuccessNotification('Картинка планеты изменена');
@@ -101,12 +112,12 @@
 			}, {
 				title: 'Удалить',
 				handler: () => {
-					useApiSubmit('/overview/delete/' + planet.value['id'], {
+					useApiSubmit('/planet/delete', {
 						_method: 'DELETE',
 					}, async () => {
 						useSuccessNotification('Колония успешно удалена');
 
-						await refresh();
+						await refreshNuxtData();
 					});
 				}
 			}]

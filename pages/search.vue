@@ -39,7 +39,7 @@
 						<th>{{ result['username'] }}</th>
 						<th nowrap>
 							<SendMessagePopup :title="result['username']+': отправить сообщение'" :id="result['id']"/>
-							<NuxtLinkLocale :to="'/buddy/new/'+result['id']+'/'" title="Предложение подружиться">
+							<NuxtLinkLocale :to="'/friends/new/'+result['id']+'/'" title="Предложение подружиться">
 								<span class='sprite skin_b'></span>
 							</NuxtLinkLocale>
 						</th>

@@ -1,6 +1,7 @@
 <template>
 	<form ref="ranksRef" @submit.prevent="save">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="13">Установить ранги</td>
 			</tr>
@@ -45,6 +46,7 @@
 			<tr v-if="items.length === 0">
 				<th colspan="13" align="center">нет рангов</th>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

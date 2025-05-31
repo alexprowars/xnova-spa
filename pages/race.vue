@@ -129,7 +129,7 @@
 <script setup>
 	import InfoPopup from '~/components/Page/Info/Popup.vue';
 	import RaceChange from '~/components/Page/Race/RaceChange.vue';
-	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useErrorNotification, useHead, useRoute, useToast } from '#imports';
+	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useErrorNotification, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
 
@@ -148,7 +148,7 @@
 	const store = useStore();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await store.loadPage();
+		return await useApiGet('/race');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

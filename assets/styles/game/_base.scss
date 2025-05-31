@@ -177,6 +177,11 @@ h1 {
 }
 
 .overview-fleets-row {
+	.v-popper {
+		display: inline-block;
+		cursor: pointer;
+	}
+
 	.own {
 		&.deploy {
 			color: #33ff33;
@@ -332,28 +337,30 @@ input[type=checkbox].error {
 	color: lime;
 }
 
-.noob {
-	color: #a0ffa0;
-}
+.galaxy {
+	.noob {
+		color: #a0ffa0;
+	}
 
-.strong {
-	color: #ffa0a0;
-}
+	.strong {
+		color: #ffa0a0;
+	}
 
-.vacation {
-	color: skyblue;
-}
+	.vacation {
+		color: skyblue;
+	}
 
-.inactive {
-	color: #cccccc;
-}
+	.inactive {
+		color: #cccccc;
+	}
 
-.longinactive {
-	color: #999999;
-}
+	.longinactive {
+		color: #999999;
+	}
 
-.banned {
-	text-decoration: line-through;
+	.blocked {
+		text-decoration: line-through;
+	}
 }
 
 .clear {

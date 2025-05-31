@@ -1,6 +1,7 @@
 <template>
 	<form @submit.prevent="save">
 		<table class="table">
+			<tbody>
 			<tr>
 				<td class="c" colspan="3">Редактировать текст</td>
 			</tr>
@@ -25,6 +26,7 @@
 					<button type="submit">Сохранить</button>
 				</th>
 			</tr>
+			</tbody>
 		</table>
 	</form>
 </template>

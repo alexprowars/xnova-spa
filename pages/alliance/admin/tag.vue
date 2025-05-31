@@ -18,8 +18,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo, useSuccessNotification } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo, useSuccessNotification, useApiGet } from '#imports';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -34,7 +33,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage('/alliance');
+		return await useApiGet('/alliance');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

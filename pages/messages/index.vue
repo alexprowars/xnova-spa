@@ -46,9 +46,7 @@
 
 <script setup>
 	import MessagesRow from '~/components/Page/Messages/Row.vue';
-	import Form from '~/components/Page/Messages/Form.vue';
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import { computed, ref, watch } from 'vue';
 
 	definePageMeta({
@@ -67,7 +65,7 @@
 	const route = useRoute();
 
 	const { data: page, error, refresh } = await useAsyncData('page-messages',
-		async () => await useStore().loadPage(undefined, Object.assign({}, route.query, { category: category.value, limit: limit.value })),
+		async () => await useApiGet('/messages', Object.assign({}, route.query, { category: category.value, limit: limit.value })),
 		{ watch: [() => useRoute().query] }
 	);
 

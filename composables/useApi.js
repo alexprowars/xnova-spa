@@ -2,6 +2,10 @@ import { showError, navigateTo, startLoading, stopLoading, useErrorNotification 
 import useStore from '~/store';
 
 export const useApiGet = async (url, params = {}) => {
+	if (!url.startsWith('/')) {
+		url = '/' + url;
+	}
+
 	try {
 		const result = await $fetch('/api' + url, {
 			method: 'get', params, headers: { 'X-Requested-With': 'XMLHttpRequest' }, retry: false
@@ -16,6 +20,10 @@ export const useApiGet = async (url, params = {}) => {
 export const useApiPost = async (url, data = {}) => {
 	if (data.toString().indexOf('FormData') < 0) {
 		data = objectToFormData(data);
+	}
+
+	if (!url.startsWith('/')) {
+		url = '/' + url;
 	}
 
 	try {

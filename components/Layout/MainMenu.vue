@@ -45,7 +45,7 @@
 		{ id: 'merchant', title: 'Рынок', url: '/merchant' },
 		{ id: 'officiers', title: 'Офицеры', url: '/officiers' },
 		{ id: 'alliance', title: 'Альянс', url: '/alliance' },
-		{ id: 'buddy', title: 'Друзья', url: '/buddy' },
+		{ id: 'friends', title: 'Друзья', url: '/friends' },
 		{ id: 'notes', title: 'Заметки', url: '/notes' },
 		{ id: 'records', title: 'Рекорды', url: '/records' },
 		{ id: 'hall', title: 'Зал славы', url: '/hall' },

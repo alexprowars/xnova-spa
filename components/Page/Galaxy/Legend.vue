@@ -15,7 +15,7 @@
 			</tr>
 			<tr>
 				<td>Заблокирован</td>
-				<td><span class="banned">G</span></td>
+				<td><span class="blocked">G</span></td>
 			</tr>
 			<tr>
 				<td>Неактивен 7 дней</td>

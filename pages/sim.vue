@@ -92,8 +92,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import { computed, ref } from 'vue';
 
 	definePageMeta({
@@ -110,7 +109,9 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useStore().loadPage();
+		let units = useRoute().query['units'] || '';
+
+		return await useApiGet('/sim', { units });
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

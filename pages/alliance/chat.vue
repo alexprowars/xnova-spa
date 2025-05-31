@@ -54,7 +54,7 @@
 
 <script setup>
 	import ChatMessageForm from '~/components/Page/Alliance/ChatMessageForm.vue';
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 
@@ -72,7 +72,7 @@
 	});
 
 	const { data: page, error, refresh } = await useAsyncData('page-alliance.chat',
-		async () => await useStore().loadPage(),
+		async () => await useApiGet('alliance/chat'),
 		{ watch: [() => useRoute().query] }
 	);
 

@@ -57,7 +57,7 @@
 <script setup>
 	import AllianceUpdateForm from '~/components/Page/Alliance/AllianceUpdateForm.vue';
 	import AllianceTextForm from '~/components/Page/Alliance/AllianceTextForm.vue';
-	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo, useSuccessNotification } from '#imports';
+	import { definePageMeta, openConfirmModal, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo, useSuccessNotification, useApiGet } from '#imports';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 
@@ -76,7 +76,7 @@
 
 	const { data: page, error } = await useAsyncData(
 		'page-alliance.admin',
-		async () => await useStore().loadPage(undefined, Object.assign({}, route.query)),
+		async () => await useApiGet('/alliance/admin', Object.assign({}, route.query)),
 		{ watch: [() => useRoute().query] }
 	);
 

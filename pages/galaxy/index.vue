@@ -79,7 +79,7 @@
 	import GalaxySelector from '~/components/Page/Galaxy/Selector.vue';
 	import GalaxyLegend from '~/components/Page/Galaxy/Legend.vue';
 	import MissileAttack from '~/components/Page/Galaxy/MissileAttack.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -102,7 +102,7 @@
 	const system = ref(route.params['system'] || route.query['system'] || null);
 
 	const { data: page, error } = await useAsyncData(
-		async () => await store.loadPage('/galaxy', { galaxy: galaxy.value, system: system.value }),
+		async () => await useApiGet('/galaxy', { galaxy: galaxy.value, system: system.value }),
 		{ watch: [() => useRoute().query, galaxy, system] }
 	);
 

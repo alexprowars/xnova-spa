@@ -73,8 +73,7 @@
 
 <script setup>
 	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
-	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
-	import useStore from '~/store';
+	import { definePageMeta, openConfirmModal, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
 	import { computed, ref } from 'vue';
 
 	definePageMeta({
@@ -91,7 +90,7 @@
 	const route = useRoute();
 
 	const { data: page, error, refresh } = await useAsyncData(
-		async () => await useStore().loadPage(undefined, Object.assign({}, route.params, route.query)),
+		async () => await useApiGet('/alliance/members', Object.assign({}, route.params, route.query)),
 		{ watch: [() => useRoute().query] }
 	);
 
