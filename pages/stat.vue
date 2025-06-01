@@ -2,7 +2,7 @@
 	<div class="page-stat">
 		<div class="block">
 			<div class="title text-center">
-				Статистика: {{ $formatDate(page['update'], 'HH:mm:ss DD MMM YYYY') }}
+				Статистика: {{ $formatDate(data['update'], 'HH:mm:ss DD MMM YYYY') }}
 			</div>
 			<div class="content border-0">
 				<div class="block-table">
@@ -38,9 +38,9 @@
 			</div>
 		</div>
 
-		<StatPlayers v-if="form.list === 'players'" :items="items"/>
-		<StatAlliances v-if="form.list === 'alliances'" :items="items"/>
-		<StatRaces v-if="form.list === 'races'" :items="items"/>
+		<StatPlayers v-if="form.list === 'players'" :items="data.items"/>
+		<StatAlliances v-if="form.list === 'alliances'" :items="data.items"/>
+		<StatRaces v-if="form.list === 'races'" :items="data.items"/>
 	</div>
 </template>
 
@@ -49,7 +49,7 @@
 	import StatAlliances from '~/components/Page/Stat/Alliances.vue';
 	import StatRaces from '~/components/Page/Stat/Races.vue';
 	import { definePageMeta, showError, useApiGet, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
-	import { ref, toRefs, watch } from 'vue';
+	import { ref, watch } from 'vue';
 
 	definePageMeta({
 		view: {
@@ -61,7 +61,7 @@
 		title: 'Статистика',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data, error } = await useAsyncData(async () => {
 		return await useApiGet('/stat');
 	}, { watch: [() => useRoute().query] });
 
@@ -76,11 +76,9 @@
 		pages: 0
 	});
 
-	const { items } = toRefs(page.value);
-
-	form.value.list = page.value['list'];
-	form.value.type = page.value['type'];
-	form.value.pages = Math.ceil(page.value['elements'] / 100);
+	form.value.list = data.value['list'];
+	form.value.type = data.value['type'];
+	form.value.pages = Math.ceil(data.value['elements'] / 100);
 
 	watch(() => form.value.list, () => {
 		form.value.type = 1;
@@ -101,6 +99,6 @@
 			page: form.value.page
 		});
 
-		items.value = result.data.items;
+		data.value.items = result.items;
 	}
 </script>

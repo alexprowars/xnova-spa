@@ -45,9 +45,6 @@ let config = {
 	},
 	ssr: false,
 	vite: {
-		build: {
-			target: ['chrome64', 'safari12'],
-		},
 		define: {
 			__DEV__: false,
 		},
@@ -69,7 +66,6 @@ let config = {
 	vue: {
 		compilerOptions: {
 			whitespace: 'preserve',
-			isCustomElement: (tag) => ['font'].includes(tag),
 		}
 	},
 	modules: [

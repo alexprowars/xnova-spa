@@ -185,12 +185,12 @@
 					<span :class="[user_status_class]">{{ item.user['name'] }}</span>
 
 					<span v-if="user_status" :class="[user_status_class]">
-						<font color="white">(</font><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLink to="/blocked" :class="[user_status_class]">{{ user_status }}</NuxtLink></span><span v-else>{{ user_status }}</span><font color="white">)</font>
+						<span style="color: white">(</span><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLink to="/blocked" :class="[user_status_class]">{{ user_status }}</NuxtLink></span><span v-else>{{ user_status }}</span><span style="color: white">)</span>
 					</span>
 
-					<span v-if="item.user['admin'] === 3" class="negative">A</span>
-					<span v-if="item.user['admin'] === 2" class="neutral">SGo</span>
-					<span v-if="item.user['admin'] === 1" class="positive">Go</span>
+					<span v-if="item.user['role'] === 'admin'" class="negative">A</span>
+					<span v-if="item.user['role'] === 'super-operator'" class="neutral">SGo</span>
+					<span v-if="item.user['role'] === 'operator'" class="positive">Go</span>
 				</div>
 			</Popper>
 		</th>

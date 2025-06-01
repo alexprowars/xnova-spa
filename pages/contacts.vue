@@ -5,7 +5,7 @@
 			<div class="block-table">
 				<div class="row">
 					<div class="col th">
-						<font color="orange">Здесь вы найдёте адреса всех администраторов и операторов игры для обратной связи</font>
+						<span style="color: orange">Здесь вы найдёте адреса всех администраторов и операторов игры для обратной связи</span>
 					</div>
 				</div>
 				<div class="row">
@@ -16,14 +16,14 @@
 				<template v-for="item in items">
 					<div class="row">
 						<div class="col th">{{ item['name'] }}</div>
-						<div class="col th">{{ item['auth'] }}</div>
+						<div class="col th">{{ item['role'] }}</div>
 						<div class="col th">
-							<a :href="'mailto:'+item['mail']">{{ item['mail'] }}</a>
+							<a :href="'mailto:'+item['email']">{{ item['email'] }}</a>
 						</div>
 					</div>
-					<div class="row" v-if="item['info'].length > 0">
+					<div class="row" v-if="item['about'].length > 0">
 						<div class="col c">
-							<TextViewer :text="item['info']"/>
+							<TextViewer :text="item['about']"/>
 						</div>
 					</div>
 				</template>

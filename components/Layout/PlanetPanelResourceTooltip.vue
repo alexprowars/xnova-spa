@@ -1,23 +1,20 @@
 <template>
 	<div class="resource-panel-item-tooltip">
-		<h1>{{ $t('resources.' + type) }}</h1>
-		<div class="line"></div>
-		<table>
-			<tbody>
-				<tr>
-					<td width="30%">Мощность:</td>
-					<td align="right">{{ resource['factor'] * 100 }}%</td>
-				</tr>
-				<tr>
-					<td>Производство:</td>
-					<td align="right">{{ $formatNumber(resource['production']) }}</td>
-				</tr>
-				<tr>
-					<td>Вместимость:</td>
-					<td align="right">{{ $formatNumber(resource['capacity']) }}</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="resource-panel-item-tooltip-title">{{ $t('resources.' + type) }}</div>
+		<div class="resource-panel-item-tooltip-info">
+			<div>
+				<div>Мощность:</div>
+				<div>{{ resource['factor'] * 100 }}%</div>
+			</div>
+			<div>
+				<div>Производство:</div>
+				<div>{{ $formatNumber(resource['production']) }}</div>
+			</div>
+			<div>
+				<div>Вместимость:</div>
+				<div>{{ $formatNumber(resource['capacity']) }}</div>
+			</div>
+		</div>
 	</div>
 </template>
 

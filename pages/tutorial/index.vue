@@ -6,7 +6,7 @@
 			</div>
 			<div class="content border-0">
 				<div class="block-table">
-					<div class="row" v-for="quest in items">
+					<div class="row" v-for="quest in data.items">
 						<div class="col-1 th" style="max-width:30px">{{ quest['id'] }}</div>
 						<div class="col-1 th" style="max-width:30px">
 							<img :src="'/images/'+(quest['finish'] ? 'check' : 'none')+'.gif'" height="11" width="12" alt="">
@@ -17,7 +17,7 @@
 							<template v-if="quest['available'] === false && Object.keys(quest['required']).length > 0">
 								<br><br>Требования:
 									<div v-for="(req, key) in quest['required']">
-										<span v-if="key === 'quest'" :class="[(!quests[req] || quests[req]['finish'] === 0) ? 'negative' : 'positive']">Выполнение задания №{{ req }}</span>
+										<span v-if="key === 'quest'" :class="[(!data.quests[req] || data.quests[req]['finish'] === 0) ? 'negative' : 'positive']">Выполнение задания №{{ req }}</span>
 										<span v-else-if="key === 'level_minier'" :class="[user.lvl_minier < req ? 'negative' : 'positive']">Промышленный уровень {{ req }}</span>
 										<span v-else-if="key === 'level_raid'" :class="[user.lvl_raid < req ? 'negative' : 'positive']">Военный уровень {{ req }}</span>
 									</div>
@@ -32,7 +32,6 @@
 
 <script setup>
 	import { showError, useAsyncData, definePageMeta, useHead, useRoute, useApiGet } from '#imports';
-	import { toRefs } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -52,6 +51,4 @@
 	if (error.value) {
 		throw showError(error.value);
 	}
-
-	const { items, quests } = toRefs(data.value);
 </script>

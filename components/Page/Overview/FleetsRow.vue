@@ -15,24 +15,24 @@
 					<table width="200">
 						<tbody>
 						<template v-if="!Object.keys(item['units']).length">
-							<tr><td width=100% align=center><font color=white>Нет информации</font></td></tr>
+							<tr><td width=100% align=center><span style="color: white">Нет информации</span></td></tr>
 						</template>
 						<template v-else>
 							<tr v-for="(count, unit) in item['units']">
-								<td v-if="count === null" width=100% align=center colspan=2><font color=white>{{ $t('tech.' + unit) }}</font></td>
-								<td v-if="count !== null" width=75% align=left><font color=white>{{ $t('tech.' + unit) }}:</font></td>
-								<td v-if="count !== null" width=25% align=right><font color=white>{{ $formatNumber(count) }}</font></td>
+								<td v-if="count === null" width=100% align=center colspan=2><span style="color: white">{{ $t('tech.' + unit) }}</span></td>
+								<td v-if="count !== null" width=75% align=left><span style="color: white">{{ $t('tech.' + unit) }}:</span></td>
+								<td v-if="count !== null" width=25% align=right><span style="color: white">{{ $formatNumber(count) }}</span></td>
 							</tr>
-							<tr v-if="item['total']"><td width=50% align=left><font color=white>Численность:</font></td><td width=50% align=right><font color=white>{{ $formatNumber(item['total']) }}</font></td></tr>
+							<tr v-if="item['total']"><td width=50% align=left><span style="color: white">Численность:</span></td><td width=50% align=right><span style="color: white">{{ $formatNumber(item['total']) }}</span></td></tr>
 						</template>
 						</tbody>
 					</table>
 				</template>
 
 				<template v-if="units.length && item['mission'] === 1">
-					<NuxtLink :to="'/sim/?units=' + units">флот</NuxtLink>
+					<NuxtLink :to="'/sim?units=' + units">флот</NuxtLink>
 				</template>
-				<span v-else>флот</span>
+				<a v-else>флот</a>
 			</Popper>
 
 			<template v-if="!item['owner']">
@@ -69,16 +69,16 @@
 						<table width=200>
 							<tbody>
 							<tr>
-								<td width=50% align=left><font color=white>{{ $t('resources.metal') }}</font></td>
-								<td width=50% align=right><font color=white>{{ $formatNumber(item['resources']['metal']) }}</font></td>
+								<td width=50% align=left>{{ $t('resources.metal') }}</td>
+								<td width=50% align=right>{{ $formatNumber(item['resources']['metal']) }}</td>
 							</tr>
 							<tr>
-								<td width=50% align=left><font color=white>{{ $t('resources.crystal') }}</font></td>
-								<td width=50% align=right><font color=white>{{ $formatNumber(item['resources']['crystal']) }}</font></td>
+								<td width=50% align=left>{{ $t('resources.crystal') }}</td>
+								<td width=50% align=right>{{ $formatNumber(item['resources']['crystal']) }}</td>
 							</tr>
 							<tr>
-								<td width=50% align=left><font color=white>{{ $t('resources.deuterium') }}</font></td>
-								<td width=50% align=right><font color=white>{{ $formatNumber(item['resources']['deuterium']) }}</font></td>
+								<td width=50% align=left>{{ $t('resources.deuterium') }}</td>
+								<td width=50% align=right>{{ $formatNumber(item['resources']['deuterium']) }}</td>
 							</tr>
 							</tbody>
 						</table>

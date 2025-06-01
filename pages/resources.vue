@@ -80,7 +80,7 @@
 										</span>
 									</td>
 									<td class="k">
-										<font color="#00ff00">{{ $formatNumber(planet['resources']['energy']['capacity']) }}</font>
+										<span style="color: #00ff00">{{ $formatNumber(planet['resources']['energy']['capacity']) }}</span>
 									</td>
 									<td v-if="!isVacation" class="k">
 										<input name="action" value="Пересчитать" type="submit">

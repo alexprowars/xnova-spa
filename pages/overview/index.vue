@@ -39,8 +39,8 @@
 					<div class="separator"></div>
 				</div>
 
-				<div v-if="fleets.length">
-					<Fleets :items="fleets"/>
+				<div v-if="data.fleets.length">
+					<Fleets :items="data.fleets"/>
 					<div class="separator"></div>
 				</div>
 				<div class="row overview">
@@ -62,7 +62,7 @@
 
 								<div style="border: 1px solid rgb(153, 153, 255); width: 100%; margin: 0 auto;">
 									<div id="CaseBarre" :style="'background-color: #'+(userFiledsPercent > 80 ? 'C00000' : (userFiledsPercent > 60 ? 'C0C000' : '00C000'))+'; width: '+userFiledsPercent+'%;  margin: 0 auto; text-align:center;'">
-										<font color="#000000"><b>{{ userFiledsPercent }}%</b></font>
+										<span style="color: #000000"><b>{{ userFiledsPercent }}%</b></span>
 									</div>
 								</div>
 							</div>
@@ -274,7 +274,7 @@
 	import { sendMission } from '~/utils/fleet';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile, useApiPost, useApiGet, refreshNuxtData, useI18n } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile, useApiPost, useApiGet, useI18n } from '#imports';
 	import { computed, onMounted } from 'vue';
 	import dayjs from 'dayjs';
 	import DailyBonus from '~/components/Page/Overview/DailyBonus.vue';
@@ -293,7 +293,7 @@
 
 	const store = useStore();
 
-	const { data, error } = await useAsyncData('page-overview',
+	const { data, error, refresh } = await useAsyncData('page-overview',
 		async () => await Promise.all([
 			useApiGet('/fleet/list'),
 			store.loadState()
@@ -305,7 +305,6 @@
 		throw showError(error.value);
 	}
 
-	const { fleets } = toRefs(data.value);
 	const { user, planet, queue } = storeToRefs(store);
 	const { host } = useRequestURL();
 	const { messages: chat } = storeToRefs(useChatStore());
@@ -328,14 +327,16 @@
 		return false;
 	});
 
-	function sendRecycle () {
-		sendMission(
+	async function sendRecycle () {
+		await sendMission(
 			8,
 			planet.value['coordinates']['galaxy'],
 			planet.value['coordinates']['system'],
 			planet.value['coordinates']['planet'],
 			2
-		)
+		);
+
+		await refresh();
 	}
 
 	function openPlayerPopup () {
@@ -344,7 +345,7 @@
 
 	async function changeToMoon(id) {
 		await useApiPost('/user/planet/' + id, {});
-		await refreshNuxtData();
+		await refresh();
 	}
 
 	onMounted(async () => {

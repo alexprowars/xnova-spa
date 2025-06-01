@@ -1140,16 +1140,31 @@ input[type=number]::-webkit-outer-spin-button {
 			color: #c5c5c5;
 			text-align: left;
 
-			h1 {
+			&-title {
 				color: #6f9fc8;
 				font-size: 0.9rem;
 				white-space: nowrap;
 				text-align: left;
 				font-weight: normal;
+				padding-bottom: 5px;
+				border-bottom: 1px #415866 solid;
 			}
 
-			table {
+			&-info {
 				width: 100%;
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+				margin-top: 5px;
+
+				> div {
+					display: flex;
+					justify-content: space-between;
+
+					& div:first-child {
+						width: 30%;
+					}
+				}
 			}
 		}
 

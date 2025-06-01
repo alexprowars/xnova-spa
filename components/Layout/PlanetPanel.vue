@@ -12,42 +12,7 @@
 					<PanelResource :type="'deuterium'" :resource="planet['resources']['deuterium']"/>
 				</div>
 				<div class="col text-center">
-					<div class="resource-panel-item">
-						<InfoPopup :id="4" title="Солнечная батарея" class="resource-panel-item-icon">
-							<Popper>
-								<div>
-									<span class="sprite skin_energy"></span>
-									<span class="sprite skin_s_energy"></span>
-								</div>
-								<template #content>
-									<div class="resource-panel-item-tooltip">
-										<h1>Энергия</h1>
-										<div class="line"></div>
-										<table>
-											<tbody>
-											<tr>
-												<td>Доступно:</td>
-												<td class="text-end">{{ $formatNumber(planet['resources']['energy']['value']) }}</td>
-											</tr>
-											<tr>
-												<td>Производится:</td>
-												<td class="text-end">{{ $formatNumber(planet['resources']['energy']['capacity']) }}</td>
-											</tr>
-											<tr>
-												<td>Потребление:</td>
-												<td class="text-end">{{ $formatNumber(planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) }}</td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</template>
-							</Popper>
-						</InfoPopup>
-						<div class="neutral">{{ $t('resources.energy') }}</div>
-						<div title="Доступно энергии">
-							<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $formatNumber(planet['resources']['energy']['value']) }}</span>
-						</div>
-					</div>
+					<PlanetPanelEnergy/>
 				</div>
 				<div class="col text-center">
 					<div class="resource-panel-item">
@@ -85,7 +50,7 @@
 
 <script setup>
 	import PanelResource from './PlanetPanelResource.vue';
-	import InfoPopup from '~/components/Page/Info/Popup.vue';
+	import PlanetPanelEnergy from './PlanetPanelEnergy.vue';
 	import useStore from '~/store';
 	import { onBeforeUnmount, onUpdated, ref } from 'vue';
 	import { storeToRefs } from 'pinia';

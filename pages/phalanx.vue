@@ -12,16 +12,16 @@
 		<tr v-for="item in items">
 			<th>
 				<div class="z">{{ $formatTime(dayjs(item['time']).diff(now) / 1000, ':', true) }}</div>
-				<font :color="item['direction'] === 1 ? 'lime' : 'green'">{{ $formatDate(item['time'], 'HH:mm:ss') }}</font>
+				<span :style="{ color: item['direction'] === 1 ? 'lime' : 'green' }">{{ $formatDate(item['time'], 'HH:mm:ss') }}</span>
 			</th>
 			<th>
-				<font :color="item['mission'] !== 6 ? 'lime' : 'orange'">
+				<span :style="{ color: item['mission'] !== 6 ? 'lime' : 'orange' }">
 					Игрок (<span v-html="item['fleet']"></span>) с {{ item['type_1'] }} {{ item['planet_name'] }}
-					<font color="white">[<span v-html="item['planet_position']"></span>]</font>
+					<span style="color: white">[<span v-html="item['planet_position']"></span>]</span>
 					{{ item['direction'] === 1 ? 'летит' : 'возвращается' }} на {{ item['type_2'] }} {{ item['target_name'] }}
-					<font color="white">[<span v-html="item['target_position']"></span>]</font>.
-					Задание: <font color="white">{{ $t('fleet_mission.' + item['mission']) }}</font>
-				</font>
+					<span style="color: white">[<span v-html="item['target_position']"></span>]</span>.
+					Задание: <span style="color: white">{{ $t('fleet_mission.' + item['mission']) }}</span>
+				</span>
 			</th>
 		</tr>
 		</tbody>

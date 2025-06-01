@@ -16,14 +16,14 @@
 					</div>
 					<br>
 					<div class="positive">Особенности расы:</div>
-					<font color="#84CFEF">+15% к добыче металла
+					<span style="color: #84CFEF">+15% к добыче металла
 					<br>+10% к скорости постройки кораблей
 					<br>+15% к энергии спутников
 					<br>-10% к стоимости улучшения кораблей
 					<br><br>Уникальный корабль:
-					<font color="#adff2f">
+					<span style="color: #adff2f">
 						<InfoPopup :id="220">Корвет</InfoPopup>
-					</font> (манёвренный и скоростной корабль)</font>
+					</span> (манёвренный и скоростной корабль)</span>
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
@@ -38,14 +38,14 @@
 					</div>
 					<br>
 					<div class="positive">Особенности расы:</div>
-					<font color="#84CFEF">+15% к добыче дейтерия
+					<span style="color: #84CFEF">+15% к добыче дейтерия
 					<br>-10% к стоимости постройки кораблей
 					<br>+20% к вместимости хранилищ
 					<br>+5% к энергии от солнечных батарей
 					<br><br>Уникальный корабль:
-					<font color="#adff2f">
+					<span style="color: #adff2f">
 						<InfoPopup :id="221">Перехватчик</InfoPopup>
-					</font> (скоростной легкий корабль)</font>
+					</span> (скоростной легкий корабль)</span>
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
@@ -66,14 +66,14 @@
 					</div>
 					<br>
 					<div class="positive">Особенности расы:</div>
-					<font color="#84CFEF">+5% к добыче всех ресурсов
+					<span style="color: #84CFEF">+5% к добыче всех ресурсов
 					<br>-5% к стоимости обороны
 					<br>+10% к скорости постройки зданий
 					<br>-5% к стоимости постройки зданий
 					<br><br>Уникальный корабль:
-					<font color="#adff2f">
+					<span style="color: #adff2f">
 						<InfoPopup :id="222">Дредноут</InfoPopup>
-					</font> (тяжелый боевой корабль)</font>
+					</span> (тяжелый боевой корабль)</span>
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
@@ -88,14 +88,14 @@
 					</div>
 					<br>
 					<div class="positive">Особенности расы:</div>
-					<font color="#84CFEF">+15% к добыче кристаллов
+					<span style="color: #84CFEF">+15% к добыче кристаллов
 					<br>+10% к скорости полёта кораблей
 					<br>+5% энергии от электростанций
 					<br>-10% к стоимости исследований
 					<br><br>Уникальный корабль:
-					<font color="#adff2f">
+					<span style="color: #adff2f">
 						<InfoPopup :id="223">Корсар</InfoPopup>
-					</font> (быстрый пиратский корабль)</font>
+					</span> (быстрый пиратский корабль)</span>
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">

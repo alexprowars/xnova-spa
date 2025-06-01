@@ -59,13 +59,6 @@
 				</th>
 				<th>{{ $formatNumber(total['resources']['energy']) }}</th>
 			</tr>
-			<tr>
-				<th>Заряд</th>
-				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources']['energy']['storage'] === 100 ? 'positive' : 'negative']">{{ $formatNumber(planet['resources']['energy']['storage']) }}</span>%
-				</th>
-				<th>&nbsp;</th>
-			</tr>
 
 			<tr>
 				<td class="c" :colspan="rows" align="left">Производство в час</td>
