@@ -13,7 +13,7 @@
 				<th colspan="2"><textarea cols="60" rows="10" v-model="message"></textarea></th>
 			</tr>
 			<tr>
-				<td class="c"><NuxtLinkLocale to="/friends">назад</NuxtLinkLocale></td>
+				<td class="c"><NuxtLink to="/friends">назад</NuxtLink></td>
 				<td class="c"><button type="submit">Отправить заявку</button></td>
 			</tr>
 			</tbody>

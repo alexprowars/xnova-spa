@@ -7,10 +7,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 		return morph(value, titles);
 	});
 
-	nuxtApp.provide('date', (value, format) => {
+	nuxtApp.provide('formatDate', (value, format) => {
 		return dayjs(value).tz().format(format)
 	});
 
-	nuxtApp.provide('number', number);
-	nuxtApp.provide('time', time);
+	nuxtApp.provide('formatNumber', number);
+	nuxtApp.provide('formatTime', time);
 })

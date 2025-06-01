@@ -65,13 +65,13 @@
 	function save() {
 		const data = new FormData(ranksRef.value);
 
-		useApiSubmit('alliance/admin/rights', data, () => {
+		useApiSubmit('alliance/admin/ranks', data, () => {
 			refreshNuxtData('page-alliance.ranks');
 		});
 	}
 
 	function remove(id) {
-		useApiSubmit('alliance/admin/rights/' + id, {
+		useApiSubmit('alliance/admin/ranks/' + id, {
 			_method: 'DELETE'
 		}, () => {
 			refreshNuxtData('page-alliance.ranks');

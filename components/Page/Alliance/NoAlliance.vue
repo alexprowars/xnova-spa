@@ -6,8 +6,8 @@
 				<td class="c" colspan="2">Альянсы</td>
 			</tr>
 			<tr>
-				<th><NuxtLinkLocale to="/alliance/create">Создать альянс</NuxtLinkLocale></th>
-				<th><NuxtLinkLocale to="/alliance/search">Поиск альянса</NuxtLinkLocale></th>
+				<th><NuxtLink to="/alliance/create">Создать альянс</NuxtLink></th>
+				<th><NuxtLink to="/alliance/search">Поиск альянса</NuxtLink></th>
 			</tr>
 			</tbody>
 		</table>
@@ -20,7 +20,7 @@
 			<template v-for="item in requests">
 				<tr>
 					<th width="70%">{{ item['name'] }} [{{ item['tag'] }}]</th>
-					<th>{{ $date(item['date'], 'DD MMM YYYY HH:mm') }}</th>
+					<th>{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm') }}</th>
 				</tr>
 				<tr>
 					<th colspan="2">
@@ -41,7 +41,7 @@
 			</tr>
 			<tr v-for="(item, i) in alliances">
 				<th>{{ i + 1 }}</th>
-				<th><NuxtLinkLocale :to="'/alliance/info/' + item['id']">{{ item['name'] }} [{{ item['tag'] }}]</NuxtLinkLocale></th>
+				<th><NuxtLink :to="'/alliance/info/' + item['id']">{{ item['name'] }} [{{ item['tag'] }}]</NuxtLink></th>
 				<th>{{ item['members'] }}</th>
 				<th>{{ item['total_points'] }}</th>
 			</tr>

@@ -5,20 +5,20 @@
 		</div>
 		<div class="col-6 k" v-if="index === 0">
 			<div v-if="time > 0" class="z">
-				{{ $time(time, ':', true) }}
+				{{ $formatTime(time, ':', true) }}
 				<br>
 				<a @click.prevent="cancelItem">Отменить</a>
 			</div>
 			<div v-else class="z">
 				Завершено
 				<br>
-				<NuxtLinkLocale :to="{ path: '/buildings', force: true }">Продолжить</NuxtLinkLocale>
+				<NuxtLink :to="{ path: '/buildings', force: true }">Продолжить</NuxtLink>
 			</div>
-			<div class="positive">{{ $date(item['date'], 'DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 		<div class="col-6 k" v-else>
 			<a @click.prevent="deleteItem">Удалить</a>
-			<div class="positive">{{ $date(item['date'], 'DD MMM HH:mm:ss') }}</div>
+			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 	</div>
 </template>

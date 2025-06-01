@@ -9,7 +9,7 @@
 
 			<div v-for="item in page['items']" class="row">
 				<div class="col-2 b text-center">
-					{{ $date(item['time'], 'HH:mm:ss') }}
+					{{ $formatDate(item['time'], 'HH:mm:ss') }}
 					<br>
 					<a :href="'/players/' + item['user_id']" target="_blank">{{ item['user'] }}</a>
 					<a @click.prevent="quote(item)"> -> </a>
@@ -47,7 +47,7 @@
 		<div class="separator"></div>
 		<ChatMessageForm v-model="message" @send="refresh"/>
 		<span style="float:left;margin-top:7px;">
-			<NuxtLinkLocale to="/alliance">[назад к альянсу]</NuxtLinkLocale>
+			<NuxtLink to="/alliance">[назад к альянсу]</NuxtLink>
 		</span>
 	</div>
 </template>

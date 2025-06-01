@@ -10,7 +10,7 @@
 				</div>
 				<div class="row">
 					<div class="col th">
-						Время сноса: {{ $time(data['time']) }}
+						Время сноса: {{ $formatTime(data['time']) }}
 
 						<button @click.prevent="destroyAction">Снести</button>
 					</div>

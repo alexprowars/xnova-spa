@@ -1,17 +1,17 @@
 <template>
 	<div v-if="planet" class="row resource-panel">
-		<div class="col-md-10 col-sm-10 col-12">
+		<div class="col-12">
 			<div class="row">
-				<div class="col-3 text-center">
+				<div class="col text-center">
 					<PanelResource :type="'metal'" :resource="planet['resources']['metal']"/>
 				</div>
-				<div class="col-3 text-center">
+				<div class="col text-center">
 					<PanelResource :type="'crystal'" :resource="planet['resources']['crystal']"/>
 				</div>
-				<div class="col-3 text-center">
+				<div class="col text-center">
 					<PanelResource :type="'deuterium'" :resource="planet['resources']['deuterium']"/>
 				</div>
-				<div class="col-3 text-center">
+				<div class="col text-center">
 					<div class="resource-panel-item">
 						<InfoPopup :id="4" title="Солнечная батарея" class="resource-panel-item-icon">
 							<Popper>
@@ -27,15 +27,15 @@
 											<tbody>
 											<tr>
 												<td>Доступно:</td>
-												<td class="text-end">{{ $number(planet['resources']['energy']['value']) }}</td>
+												<td class="text-end">{{ $formatNumber(planet['resources']['energy']['value']) }}</td>
 											</tr>
 											<tr>
 												<td>Производится:</td>
-												<td class="text-end">{{ $number(planet['resources']['energy']['capacity']) }}</td>
+												<td class="text-end">{{ $formatNumber(planet['resources']['energy']['capacity']) }}</td>
 											</tr>
 											<tr>
 												<td>Потребление:</td>
-												<td class="text-end">{{ $number(planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) }}</td>
+												<td class="text-end">{{ $formatNumber(planet['resources']['energy']['capacity'] - planet['resources']['energy']['value']) }}</td>
 											</tr>
 											</tbody>
 										</table>
@@ -45,17 +45,13 @@
 						</InfoPopup>
 						<div class="neutral">{{ $t('resources.energy') }}</div>
 						<div title="Доступно энергии">
-							<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['value']) }}</span>
+							<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $formatNumber(planet['resources']['energy']['value']) }}</span>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="col-md-2 col-sm-2 col-12">
-			<div class="row">
 				<div class="col text-center">
 					<div class="resource-panel-item">
-						<NuxtLinkLocale to="/credits" class="d-sm-inline-block resource-panel-item-icon">
+						<NuxtLink to="/credits" class="d-sm-inline-block resource-panel-item-icon">
 							<Popper>
 								<template #content>
 									<table width="550">
@@ -68,7 +64,7 @@
 										</tr>
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
-												<span v-if="officier['date'] && dayjs(officier['date']).diff() > 0">Нанят до<br><span class="positive">{{ $date(officier['date'], 'DD MMM HH:mm') }}</span></span>
+												<span v-if="officier['date'] && dayjs(officier['date']).diff() > 0">Нанят до<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
 												<span v-else><span class="positive">Не нанят</span></span>
 											</td>
 										</tr>
@@ -77,9 +73,9 @@
 								</template>
 								<span class="sprite skin_kredits"></span>
 							</Popper>
-						</NuxtLinkLocale>
+						</NuxtLink>
 						<div class="neutral">Кредиты</div>
-						{{ $number(user['credits']) }}
+						{{ $formatNumber(user['credits']) }}
 					</div>
 				</div>
 			</div>

@@ -4,8 +4,8 @@
 			<div v-if="value > 0" class="building-price-item">
 				<img :src="'/images/skin/s_'+resource+'.png'" v-tooltip="$t('resources.' + resource)" :alt="$t('resources.' + resource)">
 
-				<span v-if="resources[resource]['value'] >= value" class="resYes">{{ $number(value) }}</span>
-				<span v-else class="resNo" :v-tooltip="'Необходимо еще: '+$number(value - resources[resource]['value'])">{{ $number(value) }}</span>
+				<span v-if="resources[resource]['value'] >= value" class="resYes">{{ $formatNumber(value) }}</span>
+				<span v-else class="resNo" :v-tooltip="'Необходимо еще: '+$formatNumber(value - resources[resource]['value'])">{{ $formatNumber(value) }}</span>
 			</div>
 		</template>
 	</div>

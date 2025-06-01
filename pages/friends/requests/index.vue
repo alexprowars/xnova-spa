@@ -19,14 +19,14 @@
 							{{ i + 1 }}
 						</div>
 						<div class="col th middle">
-							<NuxtLinkLocale :to="'/messages/write/'+item['user']['id']">{{ item['user']['name'] }}</NuxtLinkLocale>
+							<NuxtLink :to="'/messages/write/'+item['user']['id']">{{ item['user']['name'] }}</NuxtLink>
 						</div>
 						<div class="col th middle">
-							<NuxtLinkLocale v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']">{{ item['user']['alliance']['name'] }}</NuxtLinkLocale>
+							<NuxtLink v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']">{{ item['user']['alliance']['name'] }}</NuxtLink>
 							<template v-else>-</template>
 						</div>
 						<div class="col-2 th middle">
-							<NuxtLinkLocale :to="'/galaxy/?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLinkLocale>
+							<NuxtLink :to="'/galaxy/?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLink>
 						</div>
 						<div class="col th middle" v-html="item['message']"></div>
 						<div class="col th text-center">
@@ -47,7 +47,7 @@
 		<div class="text-end">
 			<div class="row">
 				<div class="col">
-					<NuxtLinkLocale to="/friends" class="button">Вернуться назад</NuxtLinkLocale>
+					<NuxtLink to="/friends" class="button">Вернуться назад</NuxtLink>
 				</div>
 			</div>
 		</div>

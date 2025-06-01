@@ -8,12 +8,12 @@
 						<span class="positive">{{ item.count }}</span> {{ $t('tech.' + item.item) }}
 					</div>
 					<div class="col-6 text-end k border-left-0">
-						{{ $time(dayjs(item['date']).diff(now) / 1000) }}
+						{{ $formatTime(dayjs(item['date']).diff(now) / 1000) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12 c">
-						Оставшееся время {{ $time(left_time) }}
+						Оставшееся время {{ $formatTime(left_time) }}
 					</div>
 				</div>
 			</div>

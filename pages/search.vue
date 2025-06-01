@@ -39,17 +39,17 @@
 						<th>{{ result['username'] }}</th>
 						<th nowrap>
 							<SendMessagePopup :title="result['username']+': отправить сообщение'" :id="result['id']"/>
-							<NuxtLinkLocale :to="'/friends/new/'+result['id']+'/'" title="Предложение подружиться">
+							<NuxtLink :to="'/friends/new/'+result['id']+'/'" title="Предложение подружиться">
 								<span class='sprite skin_b'></span>
-							</NuxtLinkLocale>
+							</NuxtLink>
 						</th>
 						<th>
 							<img v-if="result['race'] !== 0" :src="'/images/skin/race'+result['race']+'.gif'" width="16" height="16" alt="">
 						</th>
 						<th>{{ result['ally_name'] }}</th>
 						<th>{{ result['planet_name'] }}</th>
-						<th><NuxtLinkLocale :to="'/galaxy/?galaxy='+result['g']+'&system='+result['s']">{{ result['g'] }}:{{ result['s'] }}:{{ result['p'] }}</NuxtLinkLocale></th>
-						<th><NuxtLinkLocale :to="'/stat/?view=players&range='+result['total_rank']">{{ result['total_rank'] }}</NuxtLinkLocale></th>
+						<th><NuxtLink :to="'/galaxy/?galaxy='+result['g']+'&system='+result['s']">{{ result['g'] }}:{{ result['s'] }}:{{ result['p'] }}</NuxtLink></th>
+						<th><NuxtLink :to="'/stat/?view=players&range='+result['total_rank']">{{ result['total_rank'] }}</NuxtLink></th>
 					</tr>
 					<tr v-if="items.length === 0">
 						<th colspan="7">Поиск не дал результатов</th>
@@ -68,9 +68,9 @@
 					</tr>
 					<tr v-for="result in items">
 						<th>
-							<NuxtLinkLocale :to="'/alliance/info/'+result['id']+'/'">
+							<NuxtLink :to="'/alliance/info/'+result['id']+'/'">
 								{{ result['tag'] }}
-							</NuxtLinkLocale>
+							</NuxtLink>
 						</th>
 						<th>{{ result['name'] }}</th>
 						<th>{{ result['members'] }}</th>

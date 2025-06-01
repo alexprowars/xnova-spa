@@ -38,13 +38,12 @@
 		<div class="bottom">
 			<div class="desk">Звездная Империя - онлайн-игра</div>
 			<div class="nav">
-				<a href="https://forum.xnova.su" title="Официальный форум" target="_blank">Форум</a>  |
-				<NuxtLinkLocale to="/xnsim">Симулятор</NuxtLinkLocale>  |
-				<NuxtLinkLocale to="/stat">Статистика</NuxtLinkLocale>  |
-				<a href="https://vk.com/xnova_game" title="Официальная группа ВКонтакте" target="_blank">ВКонтакте</a>  |
-				<NuxtLinkLocale to="/content/agb/">Правила</NuxtLinkLocale>  |
-				<NuxtLinkLocale to="/blocked">Блокировки</NuxtLinkLocale>  |
-				<NuxtLinkLocale to="/contacts">Администрация</NuxtLinkLocale>
+				<a href="https://t.me/x_nova_game" target="_blank">Telegram</a>  |
+				<NuxtLink to="/xnsim">Симулятор</NuxtLink>  |
+				<NuxtLink to="/stat">Статистика</NuxtLink>  |
+				<NuxtLink to="/content/agb/">Правила</NuxtLink>  |
+				<NuxtLink to="/blocked">Блокировки</NuxtLink>  |
+				<NuxtLink to="/contacts">Администрация</NuxtLink>
 			</div>
 			<div v-if="store['stats']" class="copy">
 				<a @click.prevent title="Игроков в сети" style="color:green">{{ store['stats']['online'] }}</a> / <a @click.prevent title="Всего игроков" style="color:yellow">{{ store['stats']['users'] }}</a>&nbsp;&nbsp;&nbsp;&copy; {{ (new Date).getFullYear() }} XNOVA.SU

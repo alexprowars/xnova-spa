@@ -4,7 +4,7 @@
 			<div class="z">
 				<Timer :value="item['date']"/>
 			</div>
-			<span class="positive d-sm-none">{{ $date(item['date'], 'DD MMM HH:mm:ss') }}</span>
+			<span class="positive d-sm-none">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</span>
 		</div>
 		<div class="th col-sm-10 col-8 text-start">
 			<span class="flight owndeploy">
@@ -12,7 +12,7 @@
 			</span>
 			<span v-if="item['level']" class="holding colony">{{ $t('tech.' + item['item']) }} ({{ item['level'] }})</span>
 			<span v-if="item['count']" class="holding colony">{{ $t('tech.' + item['item']) }} ({{ item['count'] }})</span>
-			<span class="positive float-sm-end d-none d-sm-inline">{{ $date(item['date'], 'DD MMM HH:mm:ss') }}</span>
+			<span class="positive float-sm-end d-none d-sm-inline">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</span>
 		</div>
 	</div>
 </template>

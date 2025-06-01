@@ -37,7 +37,7 @@
 									<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
 								</div>
 								<div class="th col-sm-2 col-2 middle">
-									<a @click.prevent="maxShips(ship['id'])">{{ $number(ship['count']) }}</a>
+									<a @click.prevent="maxShips(ship['id'])">{{ $formatNumber(ship['count']) }}</a>
 								</div>
 								<div v-if="ship.id === 212" class="th col-sm-3 col-4"></div>
 								<div v-else class="th col-sm-3 col-4">
@@ -56,12 +56,12 @@
 							<div v-if="count" class="row">
 								<div class="th col-4 col-sm-7">&nbsp;</div>
 								<div class="th col-4 col-sm-2">Вместимость</div>
-								<div class="th col-4 col-sm-3">{{ allCapacity ? $number(allCapacity) : '-' }}</div>
+								<div class="th col-4 col-sm-3">{{ allCapacity ? $formatNumber(allCapacity) : '-' }}</div>
 							</div>
 							<div v-if="count" class="row">
 								<div class="th col-4 col-sm-7">&nbsp;</div>
 								<div class="th col-4 col-sm-2">Скорость</div>
-								<div class="th col-4 col-sm-3">{{ allSpeed ? $number(allSpeed) : '-'}}</div>
+								<div class="th col-4 col-sm-3">{{ allSpeed ? $formatNumber(allSpeed) : '-'}}</div>
 							</div>
 							<div v-if="count && page.fleets.length < user['fleets_max']" class="row">
 								<div class="th col-12"><button type="submit">Далее</button></div>
@@ -77,7 +77,7 @@
 							Нет кораблей на планете
 							<div>
 								<div class="separator"></div>
-								<NuxtLinkLocale to="/shipyard" class="button">Перейти в верфь</NuxtLinkLocale>
+								<NuxtLink to="/shipyard" class="button">Перейти в верфь</NuxtLink>
 							</div>
 						</div>
 					</div>

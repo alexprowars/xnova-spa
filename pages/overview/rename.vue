@@ -84,7 +84,7 @@
 	});
 
 	function changeName() {
-		useApiSubmit('/overview/rename', {
+		useApiSubmit('/planet/rename', {
 			name: name.value
 		}, () => {
 			useSuccessNotification('Название планеты изменено');

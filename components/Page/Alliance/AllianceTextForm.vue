@@ -6,9 +6,9 @@
 				<td class="c" colspan="3">Редактировать текст</td>
 			</tr>
 			<tr>
-				<th><NuxtLinkLocale to="/alliance/admin?type=1">Внешний текст</NuxtLinkLocale></th>
-				<th><NuxtLinkLocale to="/alliance/admin?type=2">Внутренний текст</NuxtLinkLocale></th>
-				<th><NuxtLinkLocale to="/alliance/admin?type=3">Текст заявки</NuxtLinkLocale></th>
+				<th><NuxtLink to="/alliance/admin?type=1">Внешний текст</NuxtLink></th>
+				<th><NuxtLink to="/alliance/admin?type=2">Внутренний текст</NuxtLink></th>
+				<th><NuxtLink to="/alliance/admin?type=3">Текст заявки</NuxtLink></th>
 			</tr>
 			<tr>
 				<td v-if="data['text_type'] === 3" class="c" colspan="3">Текст заявок альянса</td>

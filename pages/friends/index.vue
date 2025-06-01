@@ -8,12 +8,12 @@
 				<div class="block-table">
 					<div class="row">
 						<div class="col text-center j">
-							<NuxtLinkLocale to="/friends/requests">Запросы</NuxtLinkLocale>
+							<NuxtLink to="/friends/requests">Запросы</NuxtLink>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col text-center j">
-							<NuxtLinkLocale to="/friends/requests/my">Мои запросы</NuxtLinkLocale>
+							<NuxtLink to="/friends/requests/my">Мои запросы</NuxtLink>
 						</div>
 					</div>
 					<div class="row">
@@ -29,14 +29,14 @@
 							{{ i + 1 }}
 						</div>
 						<div class="col th middle">
-							<NuxtLinkLocale :to="'/messages/write/'+item['user']['id']+'/'">{{ item['user']['name'] }}</NuxtLinkLocale>
+							<NuxtLink :to="'/messages/write/'+item['user']['id']+'/'">{{ item['user']['name'] }}</NuxtLink>
 						</div>
 						<div class="col th middle">
-							<NuxtLinkLocale v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']+'/'">{{ item['user']['alliance']['name'] }}</NuxtLinkLocale>
+							<NuxtLink v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']+'/'">{{ item['user']['alliance']['name'] }}</NuxtLink>
 							<template v-else>-</template>
 						</div>
 						<div class="col th middle">
-							<NuxtLinkLocale :to="'/galaxy/?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLinkLocale>
+							<NuxtLink :to="'/galaxy/?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLink>
 						</div>
 						<div class="col th middle">
 							<span v-if="item['online'] < 10" class="positive">

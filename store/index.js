@@ -53,6 +53,7 @@ export const useStore = defineStore('app', {
 			}
 
 			this.PAGE_LOAD(data);
+			useNuxtApp().$i18n.setLocale(this.settings.language);
 		},
 		PAGE_LOAD (data) {
 			for (let key in data) {

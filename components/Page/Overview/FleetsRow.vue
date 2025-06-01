@@ -4,7 +4,7 @@
 			<div class="z">
 				<Timer :value="item['date']"/>
 			</div>
-			<div class="positive">{{ $date(item['date'], 'DD MMM') }}</div>
+			<div class="positive">{{ $formatDate(item['date'], 'DD MMM') }}</div>
 		</div>
 		<div class="col-9 col-sm-10 th text-start" :class="[fleetStatus[item['status']], item['owner'] ? 'own' : '', fleetStyle[item['mission']]]">
 			<template v-if="item['owner']">Ваш</template>
@@ -21,16 +21,16 @@
 							<tr v-for="(count, unit) in item['units']">
 								<td v-if="count === null" width=100% align=center colspan=2><font color=white>{{ $t('tech.' + unit) }}</font></td>
 								<td v-if="count !== null" width=75% align=left><font color=white>{{ $t('tech.' + unit) }}:</font></td>
-								<td v-if="count !== null" width=25% align=right><font color=white>{{ $number(count) }}</font></td>
+								<td v-if="count !== null" width=25% align=right><font color=white>{{ $formatNumber(count) }}</font></td>
 							</tr>
-							<tr v-if="item['total']"><td width=50% align=left><font color=white>Численность:</font></td><td width=50% align=right><font color=white>{{ $number(item['total']) }}</font></td></tr>
+							<tr v-if="item['total']"><td width=50% align=left><font color=white>Численность:</font></td><td width=50% align=right><font color=white>{{ $formatNumber(item['total']) }}</font></td></tr>
 						</template>
 						</tbody>
 					</table>
 				</template>
 
 				<template v-if="units.length && item['mission'] === 1">
-					<NuxtLinkLocale :to="'/sim/?units=' + units">флот</NuxtLinkLocale>
+					<NuxtLink :to="'/sim/?units=' + units">флот</NuxtLink>
 				</template>
 				<span v-else>флот</span>
 			</Popper>
@@ -38,29 +38,29 @@
 			<template v-if="!item['owner']">
 				игрока
 				<template v-if="item['user']">
-					{{ item['user']['name'] }} <NuxtLinkLocale :to="'/messages/write/' + item['user']['id']" title="Отправить сообщение"><span class="sprite skin_m"></span></NuxtLinkLocale>
+					{{ item['user']['name'] }} <NuxtLink :to="'/messages/write/' + item['user']['id']" title="Отправить сообщение"><span class="sprite skin_m"></span></NuxtLink>
 				</template>
 			</template>
 
 			<template v-if="item['status'] === 0">
 				отправленный
-				{{ start }} <NuxtLinkLocale :to="'/galaxy?galaxy=' + item['start']['galaxy'] + '&system=' + item['start']['system']">[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]</NuxtLinkLocale>
+				{{ start }} <NuxtLink :to="'/galaxy?galaxy=' + item['start']['galaxy'] + '&system=' + item['start']['system']">[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]</NuxtLink>
 				направляется к
-				{{ target }} <NuxtLinkLocale :to="'/galaxy?galaxy=' + item['target']['galaxy'] + '&system=' + item['target']['system']">[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]</NuxtLinkLocale>
+				{{ target }} <NuxtLink :to="'/galaxy?galaxy=' + item['target']['galaxy'] + '&system=' + item['target']['system']">[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]</NuxtLink>
 			</template>
 			<template v-else-if="item['status'] === 1">
 				отправленный
-				{{ start }} <NuxtLinkLocale :to="'/galaxy?galaxy=' + item['start']['galaxy'] + '&system=' + item['start']['system']">[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]</NuxtLinkLocale>
+				{{ start }} <NuxtLink :to="'/galaxy?galaxy=' + item['start']['galaxy'] + '&system=' + item['start']['system']">[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]</NuxtLink>
 
 				<template v-if="item['mission'] === 5">защищает</template>
 				<template v-else>исследует</template>
 
-				{{ target }} <NuxtLinkLocale :to="'/galaxy?galaxy=' + item['target']['galaxy'] + '&system=' + item['target']['system']">[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]</NuxtLinkLocale>
+				{{ target }} <NuxtLink :to="'/galaxy?galaxy=' + item['target']['galaxy'] + '&system=' + item['target']['system']">[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]</NuxtLink>
 			</template>
 			<template v-else>
 				отправленный
-				{{ target }} <NuxtLinkLocale :to="'/galaxy?galaxy=' + item['target']['galaxy'] + '&system=' + item['target']['system']">[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]</NuxtLinkLocale>
-				{{ start }} <NuxtLinkLocale :to="'/galaxy?galaxy=' + item['start']['galaxy'] + '&system=' + item['start']['system']">[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]</NuxtLinkLocale>
+				{{ target }} <NuxtLink :to="'/galaxy?galaxy=' + item['target']['galaxy'] + '&system=' + item['target']['system']">[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]</NuxtLink>
+				{{ start }} <NuxtLink :to="'/galaxy?galaxy=' + item['start']['galaxy'] + '&system=' + item['start']['system']">[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]</NuxtLink>
 			</template>.
 			Задание:
 			<template v-if="item['resources']['metal'] > 0 || item['resources']['crystal'] > 0 || item['resources']['deuterium'] > 0">
@@ -70,15 +70,15 @@
 							<tbody>
 							<tr>
 								<td width=50% align=left><font color=white>{{ $t('resources.metal') }}</font></td>
-								<td width=50% align=right><font color=white>{{ $number(item['resources']['metal']) }}</font></td>
+								<td width=50% align=right><font color=white>{{ $formatNumber(item['resources']['metal']) }}</font></td>
 							</tr>
 							<tr>
 								<td width=50% align=left><font color=white>{{ $t('resources.crystal') }}</font></td>
-								<td width=50% align=right><font color=white>{{ $number(item['resources']['crystal']) }}</font></td>
+								<td width=50% align=right><font color=white>{{ $formatNumber(item['resources']['crystal']) }}</font></td>
 							</tr>
 							<tr>
 								<td width=50% align=left><font color=white>{{ $t('resources.deuterium') }}</font></td>
-								<td width=50% align=right><font color=white>{{ $number(item['resources']['deuterium']) }}</font></td>
+								<td width=50% align=right><font color=white>{{ $formatNumber(item['resources']['deuterium']) }}</font></td>
 							</tr>
 							</tbody>
 						</table>

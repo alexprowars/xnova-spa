@@ -46,7 +46,7 @@
 		</tr>
 		<tr>
 			<td class="c" colspan="2">
-				<NuxtLinkLocale to="/alliance/admin">вернутся к обзору</NuxtLinkLocale>
+				<NuxtLink to="/alliance/admin">вернутся к обзору</NuxtLink>
 			</td>
 		</tr>
 		</tbody>

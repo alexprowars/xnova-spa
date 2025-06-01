@@ -5,28 +5,28 @@
 			<div class="block-table">
 				<div v-if="item !== 212" class="row">
 					<div class="col th">Атака</div>
-					<div class="col th">{{ $number(fleet['attack']) }} ({{ $number(fleet['attack_full']) }})</div>
+					<div class="col th">{{ $formatNumber(fleet['attack']) }} ({{ $formatNumber(fleet['attack_full']) }})</div>
 				</div>
 				<div class="row">
 					<div class="col th">Броня</div>
-					<div class="col th">{{ $number(fleet['armor']) }} ({{ $number(fleet['armor_full']) }})</div>
+					<div class="col th">{{ $formatNumber(fleet['armor']) }} ({{ $formatNumber(fleet['armor_full']) }})</div>
 				</div>
 				<template v-if="item !== 212">
 					<div class="row">
 						<div class="col th">Щиты</div>
-						<div class="col th">{{ $number(fleet['shield']) }}</div>
+						<div class="col th">{{ $formatNumber(fleet['shield']) }}</div>
 					</div>
 					<div class="row">
 						<div class="col th">Грузоподъёмность</div>
-						<div class="col th">{{ $number(fleet['capacity']) }}</div>
+						<div class="col th">{{ $formatNumber(fleet['capacity']) }}</div>
 					</div>
 					<div class="row">
 						<div class="col th">Скорость</div>
-						<div class="col th">{{ $number(fleet['speed']) }} ({{ $number(fleet['speed_full']) }})</div>
+						<div class="col th">{{ $formatNumber(fleet['speed']) }} ({{ $formatNumber(fleet['speed_full']) }})</div>
 					</div>
 					<div class="row">
 						<div class="col th">Потребление топлива (дейтерий)</div>
-						<div class="col th">{{ $number(fleet['consumption']) }}</div>
+						<div class="col th">{{ $formatNumber(fleet['consumption']) }}</div>
 					</div>
 					<div class="row">
 						<div class="col th">Тип двигателя</div>
@@ -61,15 +61,15 @@
 				</div>
 				<div class="row">
 					<div class="col th">Металл</div>
-					<div class="col th">{{ $number(fleet['resources']['metal']['base']) }} ({{ $number(fleet['resources']['metal']['full']) }})</div>
+					<div class="col th">{{ $formatNumber(fleet['resources']['metal']['base']) }} ({{ $formatNumber(fleet['resources']['metal']['full']) }})</div>
 				</div>
 				<div class="row">
 					<div class="col th">Кристалл</div>
-					<div class="col th">{{ $number(fleet['resources']['crystal']['base']) }} ({{ $number(fleet['resources']['crystal']['full']) }})</div>
+					<div class="col th">{{ $formatNumber(fleet['resources']['crystal']['base']) }} ({{ $formatNumber(fleet['resources']['crystal']['full']) }})</div>
 				</div>
 				<div class="row">
 					<div class="col th">Дейтерий</div>
-					<div class="col th">{{ $number(fleet['resources']['deuterium']['base']) }} ({{ $number(fleet['resources']['deuterium']['full']) }})</div>
+					<div class="col th">{{ $formatNumber(fleet['resources']['deuterium']['base']) }} ({{ $formatNumber(fleet['resources']['deuterium']['full']) }})</div>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,5 @@
 <template>
-	<div>{{ $time(time, delimiter, true) }}</div>
+	<div>{{ $formatTime(time, delimiter, true) }}</div>
 </template>
 
 <script setup>

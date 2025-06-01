@@ -24,7 +24,7 @@
 					<th>
 						{{ page['members'] }}
 						<template v-if="page['access']['memberlist']">
-							(<NuxtLinkLocale to="/alliance/members">список</NuxtLinkLocale>)
+							(<NuxtLink to="/alliance/members">список</NuxtLink>)
 						</template>
 					</th>
 				</tr>
@@ -33,14 +33,14 @@
 					<th>
 						{{ page['range'] }}
 						<template v-if="page['access']['admin']">
-							(<NuxtLinkLocale to="/alliance/admin">управление альянсом</NuxtLinkLocale>)
+							(<NuxtLink to="/alliance/admin">управление альянсом</NuxtLink>)
 						</template>
 					</th>
 				</tr>
 				<tr v-if="page['diplomacy'] !== false">
 					<th>Дипломатия</th>
 					<th>
-						<NuxtLinkLocale to="/alliance/diplomacy">Просмотр</NuxtLinkLocale>
+						<NuxtLink to="/alliance/diplomacy">Просмотр</NuxtLink>
 						<template v-if="page['diplomacy'] > 0">
 							({{ page['diplomacy'] }} новых запросов)
 						</template>
@@ -49,7 +49,7 @@
 				<tr v-if="page['requests'] > 0">
 					<th>Заявки</th>
 					<th>
-						<NuxtLinkLocale to="/alliance/admin/equests">{{ page['requests'] }} заявок</NuxtLinkLocale>
+						<NuxtLink to="/alliance/admin/equests">{{ page['requests'] }} заявок</NuxtLink>
 					</th>
 				</tr>
 				<tr v-if="page['access']['chat']">
@@ -59,7 +59,7 @@
 							({{ user.alliance.messages }} новых)
 						</template>
 					</th>
-					<th><NuxtLinkLocale to="/alliance/chat">Войти в чат</NuxtLinkLocale></th>
+					<th><NuxtLink to="/alliance/chat">Войти в чат</NuxtLink></th>
 				</tr>
 				<tr v-if="page['web']">
 					<th>Домашняя страница</th>

@@ -2,7 +2,7 @@
 	<div class="page-stat">
 		<div class="block">
 			<div class="title text-center">
-				Статистика: {{ $date(page['update'], 'HH:mm:ss DD MMM YYYY') }}
+				Статистика: {{ $formatDate(page['update'], 'HH:mm:ss DD MMM YYYY') }}
 			</div>
 			<div class="content border-0">
 				<div class="block-table">

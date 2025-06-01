@@ -33,7 +33,7 @@
 					<template v-else>О</template>
 				</div>
 				<div class="col-3 th" :class="{ positive: dayjs(page['time']).diff(dayjs(item['time'])) === 0 }">
-					{{ $date(item['time'], 'DD MMM YYYY HH:mm:ss') }}
+					{{ $formatDate(item['time'], 'DD MMM YYYY HH:mm:ss') }}
 				</div>
 			</div>
 			<div v-if="page['hall'].length === 0" class="row">

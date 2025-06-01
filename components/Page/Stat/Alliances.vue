@@ -26,21 +26,21 @@
 						<span v-else-if="item['diff'] > 0" class="positive">+{{ item['diff'] }}</span>
 					</div>
 					<div class="th col-sm-5 col-4 middle">
-						<NuxtLinkLocale :class="{neutral: item['name_marked']}" :to="'/alliance/info/'+item['id']+'/'">{{ item['name'] }}</NuxtLinkLocale>
+						<NuxtLink :class="{neutral: item['name_marked']}" :to="'/alliance/info/'+item['id']+'/'">{{ item['name'] }}</NuxtLink>
 					</div>
 					<div class="th col-sm-1 col-2 middle">
 						{{ item['members'] }}
 					</div>
 					<div class="th col-sm-2 d-none d-sm-block">
-						<NuxtLinkLocale :to="'/alliance/stat/'+item['id']+'/'">{{ $number(item['points']) }}</NuxtLinkLocale>
+						<NuxtLink :to="'/alliance/stat/'+item['id']+'/'">{{ $formatNumber(item['points']) }}</NuxtLink>
 					</div>
 					<div class="th col-sm-2 d-none d-sm-block">
-						{{ $number(Math.floor(item['points'] / item['members'])) }}
+						{{ $formatNumber(Math.floor(item['points'] / item['members'])) }}
 					</div>
 					<div class="th d-sm-none col-4">
-						<NuxtLinkLocale :to="'/alliance/stat/'+item['id']+'/'">{{ $number(item['points']) }}</NuxtLinkLocale>
+						<NuxtLink :to="'/alliance/stat/'+item['id']+'/'">{{ $formatNumber(item['points']) }}</NuxtLink>
 						<br>
-						{{ $number(Math.floor(item['points'] / item['members'])) }}
+						{{ $formatNumber(Math.floor(item['points'] / item['members'])) }}
 					</div>
 				</div>
 			</div>

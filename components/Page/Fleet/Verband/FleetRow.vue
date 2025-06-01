@@ -9,7 +9,7 @@
 				<template #content>
 					<div v-for="data in item['ships']">{{ $t('tech.'+data['id']) }}: {{ data['count'] }}</div>
 				</template>
-				{{ $number(item['ships_total']) }}
+				{{ $formatNumber(item['ships_total']) }}
 			</Popper>
 		</th>
 		<th>
@@ -17,14 +17,14 @@
 			<div>{{ item['start']['name'] }}</div>
 		</th>
 		<th>
-			{{ $date(item['start']['date'], 'DD MMM HH:mm:ss') }}
+			{{ $formatDate(item['start']['date'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['start']['date']" class="positive"/>
 		</th>
 		<th>
 			<PlanetLink :galaxy="item['target']['galaxy']" :system="item['target']['system']" :planet="item['target']['planet']"/>
 			<div>{{ item['target']['name'] }}</div>
 		</th>
-		<th>{{ $date(item['target']['date'], 'DD MMM HH:mm:ss') }}</th>
+		<th>{{ $formatDate(item['target']['date'], 'DD MMM HH:mm:ss') }}</th>
 	</tr>
 </template>
 

@@ -28,7 +28,7 @@
 				</table>
 			</div>
 			<div class="col-sm-4 d-none d-sm-block">
-				<GalaxySelectorShortcut :items="shortcuts" :galaxy="galaxy" :system="galaxy" v-model="shortcut" @input="shortcutChange"/>
+				<GalaxySelectorShortcut :items="shortcuts" :galaxy="galaxy" :system="galaxy" v-model="shortcut"/>
 			</div>
 			<div class="col-sm-4 col-6">
 				<table style="margin: 0 auto">
@@ -92,6 +92,7 @@
 	resetShortcut();
 
 	watch(() => [props.galaxy, props.system], () => resetShortcut());
+	watch(shortcut, (value) => shortcutChange(value));
 
 	function shortcutChange(val) {
 		emit('change', {

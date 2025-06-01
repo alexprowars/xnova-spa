@@ -29,11 +29,17 @@ export default defineNuxtPlugin((nuxtApp) => {
 		dangerouslyHTMLString: true,
 	});
 
-	nuxtApp.hook('i18n:beforeLocaleSwitch', async ({ newLocale }) => {
+	nuxtApp.hook('i18n:beforeLocaleSwitch', async ({ oldLocale, newLocale }) => {
+		if (oldLocale === newLocale) {
+			return;
+		}
+
 		dayjs.locale(newLocale);
 	});
 
-	useRouter().beforeEach((to, from, next) => {
+	const router = useRouter();
+
+	router.beforeEach((to, from, next) => {
 		const loading = useLoading();
 
 		if (loading.value) {
@@ -43,11 +49,17 @@ export default defineNuxtPlugin((nuxtApp) => {
 		}
 	})
 
-	useRouter().afterEach((to, from, failure) => {
+	router.afterEach((to, from, failure) => {
 		stopLoading();
 
 		if (isNavigationFailure(failure)) {
 			console.log('failed navigation', failure, to.fullPath, from.fullPath);
+		}
+	});
+
+	router.onError((error, to) => {
+		if (error.message.includes('Failed to fetch dynamically imported module') || error.message.includes('Importing a module script failed')) {
+			window.location = to.fullPath;
 		}
 	});
 })

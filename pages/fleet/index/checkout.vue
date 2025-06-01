@@ -25,30 +25,30 @@
 			</div>
 			<div class="row">
 				<div class="th col-6">Расстояние</div>
-				<div class="th col-6">{{ $number(distance) }}</div>
+				<div class="th col-6">{{ $formatNumber(distance) }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Продолжительность полёта (к цели)</div>
-				<div class="th col-6">{{ $time(duration, ':', true) }}</div>
+				<div class="th col-6">{{ $formatTime(duration, ':', true) }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ $date(target_time, 'DD MMM HH:mm:ss') }}</div>
+				<div class="th col-6">{{ $formatDate(target_time, 'DD MMM HH:mm:ss') }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Максимальная скорость</div>
-				<div class="th col-6">{{ $number(maxspeed) }}</div>
+				<div class="th col-6">{{ $formatNumber(maxspeed) }}</div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Потребление топлива</div>
-				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $number(consumption) }}</span></div>
+				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $formatNumber(consumption) }}</span></div>
 			</div>
 			<div class="row">
 				<div class="th col-6">Грузоподъёмность</div>
-				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $number(storage) }}</span></div>
+				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $formatNumber(storage) }}</span></div>
 			</div>
 			<div class="row">
-				<div class="c col-12">Ссылки <NuxtLinkLocale to="/fleet/shortcut/">(Просмотр / Редактирование)</NuxtLinkLocale></div>
+				<div class="c col-12">Ссылки <NuxtLink to="/fleet/shortcut/">(Просмотр / Редактирование)</NuxtLink></div>
 			</div>
 
 			<div v-if="page['shortcuts'].length > 0" class="row">
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			<div v-else class="row">
-				<div class="th col-12"><NuxtLinkLocale to="/fleet/shortcut/add/" class="button">Добавить</NuxtLinkLocale></div>
+				<div class="th col-12"><NuxtLink to="/fleet/shortcut/add/" class="button">Добавить</NuxtLink></div>
 			</div>
 
 			<div v-if="page['planets'].length > 0" class="row">
@@ -79,7 +79,7 @@
 			<div v-if="page['moons'].length > 0" class="row">
 				<div class="c col-12">
 					Межгалактические врата
-					<span v-if="page['gate_time']" class="small">(заряжено через {{ $time((dayjs(page['gate_time']).diff(now) / 1000), ':', true) }})</span>
+					<span v-if="page['gate_time']" class="small">(заряжено через {{ $formatTime((dayjs(page['gate_time']).diff(now) / 1000), ':', true) }})</span>
 				</div>
 			</div>
 			<div v-if="page['moons'].length > 0" class="row">
@@ -87,7 +87,7 @@
 					<input type="radio" v-model="moon" :value="item['id']" :id="'moon'+item['id']">
 					<label :for="'moon'+item['id']">
 						{{ item['name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ item['planet'] }}]
-						<span v-if="item['jumpgate']">{{ $time((dayjs(page['jumpgate']).diff(now) / 1000), ':', true) }}</span>
+						<span v-if="item['jumpgate']">{{ $formatTime((dayjs(page['jumpgate']).diff(now) / 1000), ':', true) }}</span>
 					</label>
 				</div>
 			</div>
@@ -122,7 +122,7 @@
 							<th class="negative">Миссия невозможна</th>
 						</tr>
 						<tr>
-							<th>Время прилёта: {{ $date(target_time, 'DD MMM HH:mm:ss') }}</th>
+							<th>Время прилёта: {{ $formatDate(target_time, 'DD MMM HH:mm:ss') }}</th>
 						</tr>
 						</tbody>
 					</table>
@@ -151,7 +151,7 @@
 						<tr>
 							<th>Остаток</th>
 							<th colspan="2">
-								<span :class="[capacity >= 0 ? 'positive' : 'negative']">{{ $number(capacity) }}</span>
+								<span :class="[capacity >= 0 ? 'positive' : 'negative']">{{ $formatNumber(capacity) }}</span>
 							</th>
 						</tr>
 						<tr>
@@ -187,7 +187,7 @@
 									<option value="32">32</option>
 								</select>
 								<div v-if="hold > 0">
-									<br>Потребуется <span class="positive">{{ $number(hold) }}</span> дейтерия
+									<br>Потребуется <span class="positive">{{ $formatNumber(hold) }}</span> дейтерия
 								</div>
 							</th>
 						</tr>

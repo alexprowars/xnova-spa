@@ -1,7 +1,7 @@
 <template>
 	<div class="building-info-upgrade-timer">
 		<span v-if="time > 0">
-			{{ $time(time, ':', true) }}&nbsp;<a @click.prevent="cancelAction">Отменить<span v-if="build.name">на {{ build.name }}</span></a>
+			{{ $formatTime(time, ':', true) }}&nbsp;<a @click.prevent="cancelAction">Отменить<span v-if="build.name">на {{ build.name }}</span></a>
 		</span>
 		<a v-else href="" @click.prevent="refresh">завершено. продолжить...</a>
 	</div>

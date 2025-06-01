@@ -33,15 +33,11 @@ export const useApiPost = async (url, data = {}) => {
 
 		return handleResult(result);
 	} catch (e) {
-		if (e.response?.status === 422) {
-			throw e;
-		}
-
 		return handleError(e);
 	}
 }
 
-export const useApiSubmit = async (url, data = {}, callback) => {
+export const useApiSubmit = async (url, data = {}, callback, error) => {
 	startLoading();
 
 	try {
@@ -101,10 +97,6 @@ function parseData (data) {
 	if (data !== undefined) {
 		if (typeof data['redirect'] !== 'undefined') {
 			navigateTo({ path: data['redirect'], force: true });
-		}
-
-		if (data.data !== undefined && Array.isArray(data.data) && data.data.length === 0) {
-			data.data = null;
 		}
 
 		return data;

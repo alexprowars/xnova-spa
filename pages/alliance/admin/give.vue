@@ -17,7 +17,7 @@
 			</tr>
 			<tr>
 				<td class="c" colspan="8">
-					<NuxtLinkLocale to="/alliance/admin">назад</NuxtLinkLocale>
+					<NuxtLink to="/alliance/admin">назад</NuxtLink>
 				</td>
 			</tr>
 			</tbody>

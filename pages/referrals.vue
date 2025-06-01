@@ -11,9 +11,9 @@
 					</div>
 					<div class="row" v-for="item in page['items']">
 						<div class="col th">
-							<NuxtLinkLocale :to="'/players/' + item['id']">{{ item['username'] }}</NuxtLinkLocale>
+							<NuxtLink :to="'/players/' + item['id']">{{ item['username'] }}</NuxtLink>
 						</div>
-						<div class="col th">{{ $date(item['created_at'], 'DD MMM YYYY HH:mm:ss') }}</div>
+						<div class="col th">{{ $formatDate(item['created_at'], 'DD MMM YYYY HH:mm:ss') }}</div>
 						<div class="col th">П:{{ item['lvl_minier'] }}, В:{{ item['lvl_raid'] }}</div>
 					</div>
 				</div>
@@ -25,7 +25,7 @@
 				<div class="row">
 					<div class="col th">Вы были привлечены игроком:</div>
 					<div class="col th">
-						<NuxtLinkLocale :to="'/players/' + page['you']['id']">{{ page['you']['username'] }}</NuxtLinkLocale>
+						<NuxtLink :to="'/players/' + page['you']['id']">{{ page['you']['username'] }}</NuxtLink>
 					</div>
 				</div>
 			</div>

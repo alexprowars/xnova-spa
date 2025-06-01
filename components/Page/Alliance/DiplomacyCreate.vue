@@ -21,7 +21,7 @@
 				</th>
 			</tr>
 			<tr>
-				<td class="c"><NuxtLinkLocale to="/alliance">назад</NuxtLinkLocale></td>
+				<td class="c"><NuxtLink to="/alliance">назад</NuxtLink></td>
 				<td class="c">
 					<button type="submit">Добавить</button>
 				</td>

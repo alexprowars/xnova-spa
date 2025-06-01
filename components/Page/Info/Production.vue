@@ -32,7 +32,7 @@
 				</div>
 				<div v-for="row in production" class="row">
 					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
-					<div class="col th">{{ $number(row['prod']) }}</div>
+					<div class="col th">{{ $formatNumber(row['prod']) }}</div>
 					<div class="col th"><Colored :value="row['prod_diff']"/></div>
 					<div class="col th"><Colored :value="row['need']"/></div>
 					<div class="col th"><Colored :value="row['need_diff']"/></div>
@@ -46,7 +46,7 @@
 				</div>
 				<div v-for="row in production" class="row">
 					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
-					<div class="col th">{{ $number(row['prod']) }}</div>
+					<div class="col th">{{ $formatNumber(row['prod']) }}</div>
 					<div class="col th"><Colored :value="row['prod_diff']"/></div>
 				</div>
 			</template>

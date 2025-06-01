@@ -24,7 +24,7 @@
 	const name = ref('');
 
 	function save() {
-		useApiSubmit('alliance/admin/rights/create', {
+		useApiSubmit('alliance/admin/ranks/create', {
 			name: name.value,
 		}, () => {
 			name.value = '';

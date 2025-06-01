@@ -12,7 +12,7 @@
 		<div class="neutral">{{ $t('resources.'+type+'') }}</div>
 		<div title="Количество ресурса на планете">
 			<span :class="[resource.capacity > resource.value ? 'positive' : 'negative']">
-				{{ $number(resource.value) }}
+				{{ $formatNumber(resource.value) }}
 			</span>
 		</div>
 	</div>

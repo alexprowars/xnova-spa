@@ -9,7 +9,7 @@
 							<template v-for="(value, resource) in item['effects']">
 								<div v-if="value !== 0" class="building-effects-row">
 									<span :class="'sprite skin_s_'+resource" :title="$t('resources.' + resource)"></span>
-									<span :class="{ positive: value > 0, negative: value < 0 }">{{ $number(Math.abs(value)) }}</span>
+									<span :class="{ positive: value > 0, negative: value < 0 }">{{ $formatNumber(Math.abs(value)) }}</span>
 								</div>
 							</template>
 						</template>
@@ -17,11 +17,11 @@
 				</a>
 				<div class="building-info-actions">
 					<div class="building-title">
-						<NuxtLinkLocale :to="'/info/' + item['id']">
+						<NuxtLink :to="'/info/' + item['id']">
 							{{ $t('tech.'+item['id']) }}
-						</NuxtLinkLocale>
+						</NuxtLink>
 						<span v-if="level" class="positive" title="Текущий уровень постройки">
-							{{ $number(level) }}
+							{{ $formatNumber(level) }}
 						</span>
 					</div>
 					<div class="building-info-info" v-if="item['available']">
@@ -29,13 +29,13 @@
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-time"></use>
 							</svg>
-							{{ $time(item['time']) }}
+							{{ $formatTime(item['time']) }}
 						</div>
 						<div v-if="item['exp'] > 0" class="building-info-time" title="Опыт">
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-exp"></use>
 							</svg>
-							{{ $number(item['exp']) }} exp
+							{{ $formatNumber(item['exp']) }} exp
 						</div>
 						<div class="building-info-upgrade">
 							<div v-if="fieldsEmpty <= 0" class="negative">

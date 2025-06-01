@@ -9,9 +9,9 @@
 							<img :src="page['avatar']" :alt="page['username']" width="100%">
 							<div v-if="user">
 								<SendMessagePopup :title="page['username']+': отправить сообщение'" :id="page['id']"/>
-								<NuxtLinkLocale :to="'/friends/new/'+page['id']+'/'" title="Добавить в друзья">
+								<NuxtLink :to="'/friends/new/'+page['id']+'/'" title="Добавить в друзья">
 									<span class='sprite skin_b'></span>
-								</NuxtLinkLocale>
+								</NuxtLink>
 							</div>
 						</div>
 						<div class="col-6">
@@ -23,17 +23,17 @@
 								<div class="row">
 									<div class="col-4 text-start p-a-0">Планета:</div>
 									<div class="col-8 p-a-0">
-										<NuxtLinkLocale :to="'/galaxy/?galaxy='+page['galaxy']+'&system='+page['system']" style="font-weight:normal">
+										<NuxtLink :to="'/galaxy/?galaxy='+page['galaxy']+'&system='+page['system']" style="font-weight:normal">
 											{{ page['userplanet'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]
-										</NuxtLinkLocale>
+										</NuxtLink>
 									</div>
 								</div>
 								<div v-if="page['ally_id'] > 0" class="row">
 									<div class="col-4 text-start p-a-0">Альянс:</div>
 									<div class="col-8 p-a-0">
-										<NuxtLinkLocale :to="'/alliance/info/'+page['ally_id']+'/'">
+										<NuxtLink :to="'/alliance/info/'+page['ally_id']+'/'">
 											{{ page['ally_name'] }}
-										</NuxtLinkLocale>
+										</NuxtLink>
 									</div>
 								</div>
 								<div class="row">
@@ -65,28 +65,28 @@
 					</div>
 					<div class="row">
 						<div class="c col">Постройки</div>
-						<div class="th col">{{ $number(page['stats']['build_points']) }}</div>
-						<div class="th col">{{ $number(page['stats']['build_rank']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['build_points']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['build_rank']) }}</div>
 					</div>
 					<div class="row">
 						<div class="c col">Иследования</div>
-						<div class="th col">{{ $number(page['stats']['tech_points']) }}</div>
-						<div class="th col">{{ $number(page['stats']['tech_rank']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['tech_points']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['tech_rank']) }}</div>
 					</div>
 					<div class="row">
 						<div class="c col">Флот</div>
-						<div class="th col">{{ $number(page['stats']['fleet_points']) }}</div>
-						<div class="th col">{{ $number(page['stats']['fleet_rank']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['fleet_points']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['fleet_rank']) }}</div>
 					</div>
 					<div class="row">
 						<div class="c col">Оборона</div>
-						<div class="th col">{{ $number(page['stats']['defs_points']) }}</div>
-						<div class="th col">{{ $number(page['stats']['defs_rank']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['defs_points']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['defs_rank']) }}</div>
 					</div>
 					<div class="row">
 						<div class="c col">Всего</div>
-						<div class="th col">{{ $number(page['stats']['total_points']) }}</div>
-						<div class="th col">{{ $number(page['stats']['total_rank']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['total_points']) }}</div>
+						<div class="th col">{{ $formatNumber(page['stats']['total_rank']) }}</div>
 					</div>
 				</div>
 			</div>
@@ -102,17 +102,17 @@
 					</div>
 					<div v-if="page['wons'] > 0" class="row">
 						<div class="c col">Победы</div>
-						<div class="th col"><b>{{ $number(page['wons']) }}</b></div>
+						<div class="th col"><b>{{ $formatNumber(page['wons']) }}</b></div>
 						<div class="th col">{{ Math.round((100 / (page['wons'] + page['loos'])) * page['wons']) }} %</div>
 					</div>
 					<div v-if="page['loos'] > 0" class="row">
 						<div class="c col">Поражения</div>
-						<div class="th col"><b>{{ $number(page['loos']) }}</b></div>
+						<div class="th col"><b>{{ $formatNumber(page['loos']) }}</b></div>
 						<div class="th col">{{ Math.round((100 / (page['wons'] + page['loos'])) * page['loos']) }} %</div>
 					</div>
 					<div class="row">
 						<div class="c col">Всего вылетов</div>
-						<div class="th col"><b>{{ $number(page['total']) }}</b></div>
+						<div class="th col"><b>{{ $formatNumber(page['total']) }}</b></div>
 						<div class="th col">100 %</div>
 					</div>
 				</div>

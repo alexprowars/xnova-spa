@@ -6,7 +6,7 @@
 					<td class="c" colspan="2">{{ $t('options.vacation_mode') }}</td>
 				</tr>
 				<tr>
-					<th colspan="2">{{ $t('options.vacation_mode_until') }}: <br/>{{ $date(data['um_end_date'], 'DD MMM YYYY HH:mm:ss') }}</th>
+					<th colspan="2">{{ $t('options.vacation_mode_until') }}: <br/>{{ $formatDate(data['um_end_date'], 'DD MMM YYYY HH:mm:ss') }}</th>
 				</tr>
 				<tr>
 					<th>{{ $t('options.nickname') }}</th>

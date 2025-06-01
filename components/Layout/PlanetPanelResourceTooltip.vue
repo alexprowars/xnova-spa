@@ -10,11 +10,11 @@
 				</tr>
 				<tr>
 					<td>Производство:</td>
-					<td align="right">{{ $number(resource['production']) }}</td>
+					<td align="right">{{ $formatNumber(resource['production']) }}</td>
 				</tr>
 				<tr>
 					<td>Вместимость:</td>
-					<td align="right">{{ $number(resource['capacity']) }}</td>
+					<td align="right">{{ $formatNumber(resource['capacity']) }}</td>
 				</tr>
 			</tbody>
 		</table>

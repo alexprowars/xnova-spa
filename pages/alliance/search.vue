@@ -25,9 +25,9 @@
 				</tr>
 				<tr v-for="r in items">
 					<th class="text-center">
-						<NuxtLinkLocale :to="'/alliance/join/' + r['id']">
+						<NuxtLink :to="'/alliance/join/' + r['id']">
 							[{{ r['tag'] }}]
-						</NuxtLinkLocale>
+						</NuxtLink>
 					</th>
 					<th class="text-center">
 						{{ r['name'] }}

@@ -6,16 +6,16 @@
 				<td class="c">Управление альянсом</td>
 			</tr>
 			<tr>
-				<th><NuxtLinkLocale to="/alliance/admin/rights">Установить ранги</NuxtLinkLocale></th>
+				<th><NuxtLink to="/alliance/admin/ranks">Установить ранги</NuxtLink></th>
 			</tr>
 			<tr v-if="page['access']['kick']">
-				<th><NuxtLinkLocale to="/alliance/admin/members">Члены альянса</NuxtLinkLocale></th>
+				<th><NuxtLink to="/alliance/admin/members">Члены альянса</NuxtLink></th>
 			</tr>
 			<tr>
-				<th><NuxtLinkLocale to="/alliance/admin/tag">Изменить аббревиатуру альянса</NuxtLinkLocale></th>
+				<th><NuxtLink to="/alliance/admin/tag">Изменить аббревиатуру альянса</NuxtLink></th>
 			</tr>
 			<tr>
-				<th><NuxtLinkLocale to="/alliance/admin/name">Изменить название альянса</NuxtLinkLocale></th>
+				<th><NuxtLink to="/alliance/admin/name">Изменить название альянса</NuxtLink></th>
 			</tr>
 			</tbody>
 		</table>
@@ -45,7 +45,7 @@
 						<td class="c">Покинуть / Передать альянс</td>
 					</tr>
 					<tr>
-						<th><NuxtLinkLocale to="/alliance/admin/give" class="button">Продолжить</NuxtLinkLocale></th>
+						<th><NuxtLink to="/alliance/admin/give" class="button">Продолжить</NuxtLink></th>
 					</tr>
 					</tbody>
 				</table>

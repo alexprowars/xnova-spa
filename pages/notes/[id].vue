@@ -45,7 +45,7 @@
 				</tbody>
 			</table>
 		</form>
-		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLinkLocale to="/notes">Назад</NuxtLinkLocale></span>
+		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLink to="/notes">Назад</NuxtLink></span>
 	</div>
 </template>
 

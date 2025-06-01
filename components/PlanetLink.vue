@@ -1,7 +1,7 @@
 <template>
-	<NuxtLinkLocale :to="'/galaxy/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet">
+	<NuxtLink :to="'/galaxy/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet">
 		[{{ galaxy }}:{{ system }}:{{ planet }}]
-	</NuxtLinkLocale>
+	</NuxtLink>
 </template>
 
 <script setup>

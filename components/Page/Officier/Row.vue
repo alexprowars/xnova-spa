@@ -2,7 +2,7 @@
 	<div class="row officiers-item">
 		<div class="col-12 officiers-item-title">
 			{{ $t('tech.' + item['id']) }}
-			(<span v-if="time" class="positive">Нанят до: {{ $date(time, 'DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
+			(<span v-if="time" class="positive">Нанят до: {{ $formatDate(time, 'DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
 		</div>
 		<div class="d-none d-sm-block col-sm-2 text-center officiers-item-image">
 			<img :src="'/images/officiers/'+item['id']+'.jpg'" align="top" alt="">

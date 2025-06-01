@@ -17,34 +17,34 @@
 						{{ $t('tech.'+fleetId) }}: {{ fleetData['count'] }}
 					</div>
 				</template>
-				{{ $number(item['amount']) }}
+				{{ $formatNumber(item['amount']) }}
 			</Popper>
 		</div>
 		<div class="col-4 col-sm-3 th">
 			<div>
-				<NuxtLinkLocale :to="'/galaxy?galaxy='+item['target']['galaxy']+'&system='+item['target']['system']" class="negative">
+				<NuxtLink :to="'/galaxy?galaxy='+item['target']['galaxy']+'&system='+item['target']['system']" class="negative">
 					[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]
-				</NuxtLinkLocale>
+				</NuxtLink>
 			</div>
-			{{ $date(item['start']['date'], 'DD MMM HH:mm:ss') }}
+			{{ $formatDate(item['start']['date'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['start']['date']" delimiter="" class="positive"/>
 		</div>
 		<div v-if="item['target']['date']" class="col-4 col-sm-3 th">
 			<div>
-				<NuxtLinkLocale :to="'/galaxy?galaxy='+item['start']['galaxy']+'&system='+item['start']['system']" class="positive">
+				<NuxtLink :to="'/galaxy?galaxy='+item['start']['galaxy']+'&system='+item['start']['system']" class="positive">
 					[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]
-				</NuxtLinkLocale>
+				</NuxtLink>
 			</div>
-			{{ $date(item['target']['date'], 'DD MMM HH:mm:ss') }}
+			{{ $formatDate(item['target']['date'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['target']['date']" delimiter="" class="positive"/>
 		</div>
 		<div v-else class="col-4 col-sm-3 th">
 			-
 		</div>
 		<div class="col-4 col-sm-2 th">
-			<NuxtLinkLocale v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/' + item.id" class="button">
+			<NuxtLink v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/' + item.id" class="button">
 				Объединить
-			</NuxtLinkLocale>
+			</NuxtLink>
 
 			<button v-if="(item['stage'] === 3 && item['mission'] !== 15) || (item['stage'] === 0 && item['mission'] !== 20)" @click.prevent="backAction">Отозвать</button>
 		</div>

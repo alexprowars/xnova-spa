@@ -15,12 +15,12 @@
 						<input :value="item['id']" v-model="deleteItems" type="checkbox">
 					</div>
 					<div class="col-3 th">
-						{{ $date(item['time'], 'DD MMM YYYY HH:mm') }}
+						{{ $formatDate(item['time'], 'DD MMM YYYY HH:mm') }}
 					</div>
 					<div class="col-8 th">
-						<NuxtLinkLocale :to="'/notes/' + item['id']">
+						<NuxtLink :to="'/notes/' + item['id']">
 							<span :style="'color:'+item['color']">{{ item['title'] }}</span>
-						</NuxtLinkLocale>
+						</NuxtLink>
 					</div>
 				</div>
 				<div class="row" v-if="items.length === 0">
@@ -30,7 +30,7 @@
 			<div class="separator"></div>
 			<div class="text-end">
 				<button v-if="deleteItems.length > 0" class="negative" @click="deleteNotes">Удалить выбранное</button>
-				<NuxtLinkLocale class="button" to="/notes/create">Создать новую заметку</NuxtLinkLocale>
+				<NuxtLink class="button" to="/notes/create">Создать новую заметку</NuxtLink>
 			</div>
 		</div>
 	</div>

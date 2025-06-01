@@ -9,9 +9,9 @@ export type Events = {
 declare module '@vue/runtime-core' {
 	interface ComponentCustomProperties {
 		$morph(value: string, ...titles: any[]): string
-		$number(value: number): string
-		$date(value: number, format: string): string
-		$time(value: number, separator: string = '', full: boolean = false): string
+		$formatNumber(value: number): string
+		$formatDate(value: number, format: string): string
+		$formatTime(value: number, separator: string = '', full: boolean = false): string
 		$events: Emitter<Events>
 	}
 }
@@ -19,9 +19,9 @@ declare module '@vue/runtime-core' {
 declare module '#app' {
 	interface NuxtApp {
 		$morph(value: string, ...titles: any[]): string
-		$number(value: number): string
-		$date(value: number, format: string): string
-		$time(value: number, separator: string = '', full: boolean = false): string
+		$formatNumber(value: number): string
+		$formatDate(value: number, format: string): string
+		$formatTime(value: number, separator: string = '', full: boolean = false): string
 		$events: Emitter<Events>
 	}
 }

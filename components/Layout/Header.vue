@@ -2,24 +2,24 @@
 	<header class="top-menu">
 		<div class="top-menu-container">
 			<div class="top-menu-block left">
-				<NuxtLink v-if="user['quests'] < 10" :to="{ path: $localePath('/tutorial'), force: true }" class="m1" v-tooltip="'Квесты'">
+				<NuxtLink v-if="user['quests'] < 10" :to="{ path: '/tutorial', force: true }" class="m1" v-tooltip="$t('menu.quests')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-book"></use>
 					</svg>
 					<b>{{ 10 - user['quests'] }}</b>
 				</NuxtLink>
-				<NuxtLink :to="{ path: $localePath('/chat'), force: true }" class="m1" v-tooltip="'Чат'">
+				<NuxtLink :to="{ path: '/chat', force: true }" class="m1" v-tooltip="$t('menu.chat')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-chat"></use>
 					</svg>
 				</NuxtLink>
-				<NuxtLink :to="{ path: $localePath('/messages'), force: true }" class="m1" v-tooltip="'Сообщения'">
+				<NuxtLink :to="{ path: '/messages', force: true }" class="m1" v-tooltip="$t('menu.messages')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-message"></use>
 					</svg>
 					<b v-if="user.messages > 0">{{ user.messages }}</b>
 				</NuxtLink>
-				<NuxtLink v-if="user.alliance" :to="{ path: $localePath('/alliance/chat'), force: true }" class="m1" v-tooltip="'Альянс'">
+				<NuxtLink v-if="user.alliance" :to="{ path: '/alliance/chat', force: true }" class="m1" v-tooltip="$t('menu.alliance-chat')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-alliance"></use>
 					</svg>
@@ -27,42 +27,32 @@
 				</NuxtLink>
 			</div>
 			<div class="top-menu-block right">
-				<NuxtLink :to="{ path: $localePath('/stat'), force: true }" class="m1" v-tooltip="'Статистика'">
+				<NuxtLink :to="{ path: '/stat', force: true }" class="m1" v-tooltip="$t('menu.stats')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-statistics"></use>
 					</svg>
 				</NuxtLink>
-				<NuxtLink :to="{ path: $localePath('/tech'), force: true }" class="m1" v-tooltip="'Технологии'">
+				<NuxtLink :to="{ path: '/tech', force: true }" class="m1" v-tooltip="$t('menu.tech')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-tech"></use>
 					</svg>
 				</NuxtLink>
-				<NuxtLink :to="{ path: $localePath('/sim'), force: true }" class="m1" v-tooltip="'Симулятор'">
+				<NuxtLink :to="{ path: '/sim', force: true }" class="m1" v-tooltip="$t('menu.sim')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-sim"></use>
 					</svg>
 				</NuxtLink>
-				<NuxtLink :to="{ path: $localePath('/search'), force: true }" class="m1" v-tooltip="'Поиск'">
+				<NuxtLink :to="{ path: '/search', force: true }" class="m1" v-tooltip="$t('menu.search')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-search"></use>
 					</svg>
 				</NuxtLink>
-				<NuxtLink :to="{ path: $localePath('/support'), force: true }" class="m1" v-tooltip="'Техподдержка'">
-					<svg class="icon">
-						<use xlink:href="/images/symbols.svg#icon-support"></use>
-					</svg>
-				</NuxtLink>
-				<a href="http://forum.xnova.su/" target="_blank" class="m1" v-tooltip="'Форум'">
-					<svg class="icon">
-						<use xlink:href="/images/symbols.svg#icon-forum"></use>
-					</svg>
-				</a>
-				<NuxtLink :to="{ path: $localePath('/options'), force: true }" class="m1" v-tooltip="'Настройки'">
+				<NuxtLink :to="{ path: '/options', force: true }" class="m1" v-tooltip="$t('menu.options')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-settings"></use>
 					</svg>
 				</NuxtLink>
-				<a href="" @click.prevent="logout" class="m1" v-tooltip="'Выход'">
+				<a href="" @click.prevent="logout" class="m1" v-tooltip="$t('menu.logout')">
 					<svg class="icon red">
 						<use xlink:href="/images/symbols.svg#icon-exit"></use>
 					</svg>

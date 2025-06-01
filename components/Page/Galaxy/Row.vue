@@ -19,14 +19,14 @@
 									</div>
 
 									<div v-if="item.user['id'] !== currentUser['id']">
-										<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">Атаковать</NuxtLinkLocale>
+										<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">Атаковать</NuxtLink>
 										<br>
-										<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">Удерживать</NuxtLinkLocale>
+										<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">Удерживать</NuxtLink>
 									</div>
 									<div v-else>
-										<NuxtLinkLocale v-if="item.user['id'] === currentUser['id']" :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=4'">Оставить</NuxtLinkLocale>
+										<NuxtLink v-if="item.user['id'] === currentUser['id']" :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=4'">Оставить</NuxtLink>
 									</div>
-									<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=3'">Транспорт</NuxtLinkLocale>
+									<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=3'">Транспорт</NuxtLink>
 								</th>
 							</tr>
 						</tbody>
@@ -67,7 +67,7 @@
 										</tr>
 										<tr>
 											<th>Диаметр</th>
-											<th>{{ $number(item['moon']['diameter']) }}</th>
+											<th>{{ $formatNumber(item['moon']['diameter']) }}</th>
 										</tr>
 										<tr>
 											<th>Температура</th>
@@ -79,18 +79,18 @@
 										<tr v-if="!isVacation">
 											<th colspan="2" align="center">
 												<div v-if="item.user['id'] !== currentUser['id']">
-													<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=1'">Атаковать</NuxtLinkLocale>
+													<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=1'">Атаковать</NuxtLink>
 													<br>
-													<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=5'">Удерживать</NuxtLinkLocale>
+													<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=5'">Удерживать</NuxtLink>
 
 													<div v-if="planet['units']['dearth_star'] > 0">
-														<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=9'">Уничтожить</NuxtLinkLocale>
+														<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=9'">Уничтожить</NuxtLink>
 													</div>
 												</div>
 												<div v-else>
-													<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=4'">Оставить</NuxtLinkLocale>
+													<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=4'">Оставить</NuxtLink>
 												</div>
-												<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=3'">Транспорт</NuxtLinkLocale>
+												<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=3'">Транспорт</NuxtLink>
 											</th>
 										</tr>
 										</tbody>
@@ -139,7 +139,7 @@
 										</tr>
 										<tr v-if="!isVacation">
 											<th colspan="2" align="left">
-												<NuxtLinkLocale :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">Отправить флот</NuxtLinkLocale>
+												<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">Отправить флот</NuxtLink>
 											</th>
 										</tr>
 										</tbody>
@@ -165,17 +165,17 @@
 								<td v-else width="122" height="126" rowspan="3" valign="middle" class="c">нет<br>аватара</td>
 
 								<th v-if="item.user['id'] !== currentUser['id']">
-									<NuxtLinkLocale :to="'/messages/write/' + item.user['id'] + '/'">Послать сообщение</NuxtLinkLocale>
+									<NuxtLink :to="'/messages/write/' + item.user['id'] + '/'">Послать сообщение</NuxtLink>
 								</th>
 							</tr>
 							<tr v-if="item.user['id'] !== currentUser['id']">
 								<th>
-									<NuxtLinkLocale :to="'/friends/new/' + item.user['id'] + '/'">Добавить в друзья</NuxtLinkLocale>
+									<NuxtLink :to="'/friends/new/' + item.user['id'] + '/'">Добавить в друзья</NuxtLink>
 								</th>
 							</tr>
 							<tr>
 								<th valign="top">
-									<NuxtLinkLocale :to="'/stat?range=' + stat_page + '&id=' + item.user['id']">Статистика</NuxtLinkLocale>
+									<NuxtLink :to="'/stat?range=' + stat_page + '&id=' + item.user['id']">Статистика</NuxtLink>
 								</th>
 							</tr>
 						</tbody>
@@ -185,7 +185,7 @@
 					<span :class="[user_status_class]">{{ item.user['name'] }}</span>
 
 					<span v-if="user_status" :class="[user_status_class]">
-						<font color="white">(</font><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLinkLocale to="/blocked" :class="[user_status_class]">{{ user_status }}</NuxtLinkLocale></span><span v-else>{{ user_status }}</span><font color="white">)</font>
+						<font color="white">(</font><span v-if="user_status === 'UG' || user_status === 'G'"><NuxtLink to="/blocked" :class="[user_status_class]">{{ user_status }}</NuxtLink></span><span v-else>{{ user_status }}</span><font color="white">)</font>
 					</span>
 
 					<span v-if="item.user['admin'] === 3" class="negative">A</span>
@@ -195,9 +195,9 @@
 			</Popper>
 		</th>
 		<th>
-			<NuxtLinkLocale v-if="item && !item.delete && item.user['race']" :to="'/info/70' + item.user['race']">
+			<NuxtLink v-if="item && !item.delete && item.user['race']" :to="'/info/70' + item.user['race']">
 				<img :src="'/images/skin/race' + item.user['race'] + '.gif'" width="20" height="20" :alt="$t('races.' + item.user['race'])" :title="$t('races.' + item.user['race'])">
-			</NuxtLinkLocale>
+			</NuxtLink>
 		</th>
 		<th>
 			<Popper v-if="item && !item['planet']['destruyed'] && item['alliance']">
@@ -211,12 +211,12 @@
 							</tr>
 							<tr>
 								<th>
-									<NuxtLinkLocale :to="'/alliance/info/' + item['alliance']['id'] + '/'">Информация</NuxtLinkLocale>
+									<NuxtLink :to="'/alliance/info/' + item['alliance']['id'] + '/'">Информация</NuxtLink>
 								</th>
 							</tr>
 							<tr>
 								<th>
-									<NuxtLinkLocale to="/stat/?view=alliance&start=0">Статистика</NuxtLinkLocale>
+									<NuxtLink to="/stat/?view=alliance&start=0">Статистика</NuxtLink>
 								</th>
 							</tr>
 							<tr v-if="item['alliance']['web'] && item['alliance']['web'].length">
@@ -241,9 +241,9 @@
 			<div class="actions">
 				<template v-if="item && item.user['id'] !== currentUser['id'] && !item['planet']['destruyed']">
 					<SendMessagePopup :title="item.user['name']+': отправить сообщение'" :id="item.user['id']"/>
-					<NuxtLinkLocale :to="'/friends/new/' + item.user['id']" title="Добавить в друзья">
+					<NuxtLink :to="'/friends/new/' + item.user['id']" title="Добавить в друзья">
 						<span class="sprite skin_b"></span>
-					</NuxtLinkLocale>
+					</NuxtLink>
 
 					<a v-if="!isVacation && user['missile']" @click.prevent="$emit('sendMissile')" title="Ракетная атака">
 						<span class="sprite skin_r"></span>
@@ -262,17 +262,17 @@
 						<span class="sprite skin_e"></span>
 					</Popper>
 
-					<NuxtLinkLocale :to="'/players/' + item.user['id']" title="Информация об игроке">
+					<NuxtLink :to="'/players/' + item.user['id']" title="Информация об игроке">
 						<span class="sprite skin_s"></span>
-					</NuxtLinkLocale>
-					<NuxtLinkLocale :to="'/fleet/shortcut/add/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" title="Добавить в закладки">
+					</NuxtLink>
+					<NuxtLink :to="'/fleet/shortcut/add/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" title="Добавить в закладки">
 						<span class="sprite skin_z"></span>
-					</NuxtLinkLocale>
+					</NuxtLink>
 				</template>
 
-				<NuxtLinkLocale v-if="!isVacation && !item && currentPlanet['units']['colonizer']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&mission=7'" title="Колонизация">
+				<NuxtLink v-if="!isVacation && !item && currentPlanet['units']['colonizer']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&mission=7'" title="Колонизация">
 					<span class="sprite skin_e"></span>
-				</NuxtLinkLocale>
+				</NuxtLink>
 			</div>
 		</th>
 	</tr>

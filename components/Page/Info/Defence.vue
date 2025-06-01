@@ -5,15 +5,15 @@
 			<div class="block-table">
 				<div class="row">
 					<div class="col th">Атака</div>
-					<div class="col th">{{ $number(defence['attack']) }} ({{ $number(defence['attack_full']) }})</div>
+					<div class="col th">{{ $formatNumber(defence['attack']) }} ({{ $formatNumber(defence['attack_full']) }})</div>
 				</div>
 				<div class="row">
 					<div class="col th">Броня</div>
-					<div class="col th">{{ $number(defence['armor']) }}</div>
+					<div class="col th">{{ $formatNumber(defence['armor']) }}</div>
 				</div>
 				<div v-if="defence['shield'] > 0" class="row">
 					<div class="col th">Щиты</div>
-					<div class="col th">{{ $number(defence['shield']) }}</div>
+					<div class="col th">{{ $formatNumber(defence['shield']) }}</div>
 				</div>
 				<div v-if="defence['type_gun']" class="row">
 					<div class="col th">Тип оружия</div>
@@ -31,15 +31,15 @@
 				</div>
 				<div class="row">
 					<div class="col th">Металл</div>
-					<div class="col th">{{ $number(defence['resources']['metal']) }}</div>
+					<div class="col th">{{ $formatNumber(defence['resources']['metal']) }}</div>
 				</div>
 				<div class="row">
 					<div class="col th">Кристалл</div>
-					<div class="col th">{{ $number(defence['resources']['crystal']) }}</div>
+					<div class="col th">{{ $formatNumber(defence['resources']['crystal']) }}</div>
 				</div>
 				<div class="row">
 					<div class="col th">Дейтерий</div>
-					<div class="col th">{{ $number(defence['resources']['deuterium']) }}</div>
+					<div class="col th">{{ $formatNumber(defence['resources']['deuterium']) }}</div>
 				</div>
 			</div>
 			<template v-if="defence['rapidfire']" class="separator">
@@ -55,7 +55,7 @@
 					</div>
 					<div v-for="(battle, fId) in defence['rapidfire']" class="row">
 						<div class="col th text-start">
-							<NuxtLinkLocale :to="'/info/'+fId+'/'">{{ $t('tech.'+fId) }}</NuxtLinkLocale>
+							<NuxtLink :to="'/info/'+fId+'/'">{{ $t('tech.'+fId) }}</NuxtLink>
 						</div>
 						<div class="col th positive">
 							<span v-if="battle['TO']">{{ battle['TO'] }}</span>

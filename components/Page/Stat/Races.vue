@@ -14,10 +14,10 @@
 					<div class="th col-1 text-center">
 						<img :src="'/images/skin/race'+item['race']+'.gif'" width="30" height="30">
 					</div>
-					<div class="th col-3">{{ $number(item['count']) }}</div>
-					<div class="th col-3">{{ $number(item['points']) }}</div>
+					<div class="th col-3">{{ $formatNumber(item['count']) }}</div>
+					<div class="th col-3">{{ $formatNumber(item['points']) }}</div>
 					<div class="th col-3">
-						{{ $number(Math.floor(item['points'] / item['count'])) }}
+						{{ $formatNumber(Math.floor(item['points'] / item['count'])) }}
 					</div>
 				</div>
 			</div>

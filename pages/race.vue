@@ -27,7 +27,7 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<NuxtLinkLocale to="/race/index/sel/1/"><input type="button" value="Выбрать"></NuxtLinkLocale>
+						<NuxtLink to="/race/index/sel/1/"><input type="button" value="Выбрать"></NuxtLink>
 					</div>
 					<br>
 				</div>
@@ -49,7 +49,7 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<NuxtLinkLocale to="/race/index/sel/2/"><input type="button" value="Выбрать"></NuxtLinkLocale>
+						<NuxtLink to="/race/index/sel/2/"><input type="button" value="Выбрать"></NuxtLink>
 					</div>
 					<br>
 				</div>
@@ -77,7 +77,7 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<NuxtLinkLocale to="/race/index/sel/3/"><input type="button" value="Выбрать"></NuxtLinkLocale>
+						<NuxtLink to="/race/index/sel/3/"><input type="button" value="Выбрать"></NuxtLink>
 					</div>
 					<br>
 				</div>
@@ -99,7 +99,7 @@
 					<br><br>
 
 					<div v-if="race === 0" style="text-align:center">
-						<NuxtLinkLocale to="/race/index/sel/4/"><input type="button" value="Выбрать"></NuxtLinkLocale>
+						<NuxtLink to="/race/index/sel/4/"><input type="button" value="Выбрать"></NuxtLink>
 					</div>
 					<br>
 				</div>

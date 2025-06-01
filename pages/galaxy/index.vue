@@ -43,7 +43,7 @@
 					<tr v-if="user['technology']['expedition_tech']">
 						<th width="30">16</th>
 						<th colspan="8" class="c big">
-							<NuxtLinkLocale :to="'/fleet/?galaxy=' + page['galaxy'] + '&system=' + page['system'] + '&planet=16&mission=15'">неизведанные дали</NuxtLinkLocale>
+							<NuxtLink :to="'/fleet/?galaxy=' + page['galaxy'] + '&system=' + page['system'] + '&planet=16&mission=15'">неизведанные дали</NuxtLink>
 						</th>
 					</tr>
 					<tr>
@@ -64,8 +64,8 @@
 						<td class="c" colspan="3">{{ planet['units']['interplanetary_misil'] }} {{ $morph(planet['units']['interplanetary_misil'], 'ракета', 'ракеты', 'ракет') }}</td>
 						<td class="c" colspan="3">{{ page['user']['fleets'] }} / {{ user['fleets_max'] }} {{ $morph(page['user']['fleets'], 'флот', 'флота', 'флотов') }}</td>
 						<td class="c" colspan="3">
-							<div>{{ $number(planet['units']['recycler']) }} {{ $morph(planet['units']['recycler'], 'переработчик', 'переработчика', 'переработчиков') }}</div>
-							<div>{{ $number(planet['units']['spy_sonde']) }} {{ $morph(planet['units']['spy_sonde'], 'шпионский зонд', 'шпионских зонда', 'шпионских зондов') }}</div>
+							<div>{{ $formatNumber(planet['units']['recycler']) }} {{ $morph(planet['units']['recycler'], 'переработчик', 'переработчика', 'переработчиков') }}</div>
+							<div>{{ $formatNumber(planet['units']['spy_sonde']) }} {{ $morph(planet['units']['spy_sonde'], 'шпионский зонд', 'шпионских зонда', 'шпионских зондов') }}</div>
 						</td>
 					</tr>
 				</tbody>

@@ -28,7 +28,7 @@
 							<span v-if="item['status'] === 2" style="color:orange">ответ админа</span>
 							<span v-if="item['status'] === 3" style="color:green">ответ игрока</span>
 						</div>
-						<div class="col-3 c">{{ $date(item['date'], 'DD MMM YYYY HH:mm:ss') }}</div>
+						<div class="col-3 c">{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm:ss') }}</div>
 					</div>
 				</div>
 			</div>

@@ -19,14 +19,14 @@
 			<td class="b text-center">
 				<a :href="'/log/' + row['id']" target="_blank">Открыть</a>
 			</td>
-			<td class="b text-center"><NuxtLinkLocale :to="'/log/' + row['id']">Удалить лог</NuxtLinkLocale></td>
+			<td class="b text-center"><NuxtLink :to="'/log/' + row['id']">Удалить лог</NuxtLink></td>
 		</tr>
 		<tr v-if="items.length === 0" align="center">
 			<td class="b text-center" colspan="4">У вас пока нет сохранённых логов.</td>
 		</tr>
 		<tr>
 			<td class="c" colspan="4">
-				<NuxtLinkLocale to="/log/create">Создать новый лог боя</NuxtLinkLocale>
+				<NuxtLink to="/log/create">Создать новый лог боя</NuxtLink>
 			</td>
 		</tr>
 		</tbody>

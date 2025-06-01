@@ -30,7 +30,7 @@
 		</tr>
 		<tr v-if="page['request']">
 			<th colspan="2">
-				<NuxtLinkLocale :to="'/alliance/join/' + page['id']" class="button">Вступить в альянс</NuxtLinkLocale>
+				<NuxtLink :to="'/alliance/join/' + page['id']" class="button">Вступить в альянс</NuxtLink>
 			</th>
 		</tr>
 		</tbody>

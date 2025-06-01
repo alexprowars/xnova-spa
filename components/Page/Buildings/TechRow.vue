@@ -8,11 +8,11 @@
 
 				<div class="building-info-actions">
 					<div class="building-title">
-						<NuxtLinkLocale :to="'/info/' + item['id']">
+						<NuxtLink :to="'/info/' + item['id']">
 							{{ $t('tech.' + item['id']) }}
-						</NuxtLinkLocale>
+						</NuxtLink>
 						<span v-if="level" class="positive" title="Текущий уровень постройки">
-							{{ $number(level) }} <template v-if="item.max > 0">из <span class="neutral">{{ $number(item.max) }}</span></template>
+							{{ $formatNumber(level) }} <template v-if="item.max > 0">из <span class="neutral">{{ $formatNumber(item.max) }}</span></template>
 						</span>
 					</div>
 
@@ -21,7 +21,7 @@
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-time"></use>
 							</svg>
-							{{ $time(item['time']) }}
+							{{ $formatTime(item['time']) }}
 						</div>
 
 						<div v-html="item['effects']"></div>

@@ -7,10 +7,10 @@
 				</a>
 				<div class="building-info-actions">
 					<div class="building-title">
-						<NuxtLinkLocale :to="'/info/' + item['id']">
+						<NuxtLink :to="'/info/' + item['id']">
 							{{ $t('tech.' + item['id']) }}
-						</NuxtLinkLocale>
-						<span :class="{positive: level > 0, negative: level === 0}">{{ $number(level) }}</span>
+						</NuxtLink>
+						<span :class="{positive: level > 0, negative: level === 0}">{{ $formatNumber(level) }}</span>
 					</div>
 
 					<div class="building-info-info" v-if="item['available']">
@@ -18,7 +18,7 @@
 							<svg class="icon">
 								<use xlink:href="/images/symbols.svg#icon-time"></use>
 							</svg>
-							{{ $time(item['time']) }}
+							{{ $formatTime(item['time']) }}
 						</div>
 
 						<template v-if="item['effects']">
@@ -35,7 +35,7 @@
 						</div>
 						<div v-else-if="max > 0" class="buildmax">
 							<a @click.prevent="setMax">
-								max: <span class="positive">{{ $number(max) }}</span>
+								max: <span class="positive">{{ $formatNumber(max) }}</span>
 							</a>
 							<input type="number" min="0" :max="max" :name="'element[' + item['id'] + ']'" :alt="item['name']" v-model="count" style="width: 80px" maxlength="5" value="" placeholder="0">
 						</div>

@@ -22,14 +22,14 @@
 				<a href="" @click.prevent="show(item)">{{ item['name'] }}</a>
 			</th>
 			<th class="text-center">
-				{{ $date(item['date'], 'DD MMM YYYY HH:mm') }}
+				{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm') }}
 			</th>
 		</tr>
 		<tr v-if="page['items'].length === 0">
 			<th colspan="2">Список заявок пуст</th>
 		</tr>
 		<tr>
-			<td class="c" colspan="2"><NuxtLinkLocale to="/alliance">Назад</NuxtLinkLocale></td>
+			<td class="c" colspan="2"><NuxtLink to="/alliance">Назад</NuxtLink></td>
 		</tr>
 		</tbody>
 	</table>

@@ -1,5 +1,5 @@
 <template>
-	<div class="page-imperium table-responsive">
+	<div class="page-empire table-responsive">
 		<table class="table">
 			<tbody>
 			<tr valign="left">
@@ -24,7 +24,7 @@
 			<tr>
 				<th>Координаты</th>
 				<th v-for="planet in page['planets']">
-					[<NuxtLinkLocale :to="'/galaxy/'+planet['position']['galaxy']+'/'+planet['position']['system']+'/'">{{ planet['position']['galaxy'] }}:{{ planet['position']['system'] }}:{{ planet['position']['planet'] }}</NuxtLinkLocale>]
+					[<NuxtLink :to="'/galaxy/'+planet['position']['galaxy']+'/'+planet['position']['system']+'/'">{{ planet['position']['galaxy'] }}:{{ planet['position']['system'] }}:{{ planet['position']['planet'] }}</NuxtLink>]
 				</th>
 				<th>&nbsp;</th>
 			</tr>
@@ -39,7 +39,7 @@
 				<th>Кредиты</th>
 				<th :colspan="rows - 2">&nbsp;</th>
 				<th>
-					<span class="neutral">{{ $number(user['credits']) }}</span>
+					<span class="neutral">{{ $formatNumber(user['credits']) }}</span>
 				</th>
 			</tr>
 			<tr>
@@ -48,21 +48,21 @@
 			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
 				<th>{{ $t('resources.' + res) }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources'][res]['value'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ $number(planet['resources'][res]['value']) }}</span>
+					<span :class="[planet['resources'][res]['value'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ $formatNumber(planet['resources'][res]['value']) }}</span>
 				</th>
-				<th>{{ $number(total['resources'][res]) }}</th>
+				<th>{{ $formatNumber(total['resources'][res]) }}</th>
 			</tr>
 			<tr>
 				<th>{{ $t('resources.energy') }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['value']) }}</span>
+					<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $formatNumber(planet['resources']['energy']['value']) }}</span>
 				</th>
-				<th>{{ $number(total['resources']['energy']) }}</th>
+				<th>{{ $formatNumber(total['resources']['energy']) }}</th>
 			</tr>
 			<tr>
 				<th>Заряд</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['resources']['energy']['storage'] === 100 ? 'positive' : 'negative']">{{ $number(planet['resources']['energy']['storage']) }}</span>%
+					<span :class="[planet['resources']['energy']['storage'] === 100 ? 'positive' : 'negative']">{{ $formatNumber(planet['resources']['energy']['storage']) }}</span>%
 				</th>
 				<th>&nbsp;</th>
 			</tr>
@@ -72,8 +72,8 @@
 			</tr>
 			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
 				<th>{{ $t('resources.'+res) }}</th>
-				<th v-for="planet in page['planets']">{{ $number(planet['resources'][res]['production']) }}</th>
-				<th>{{ $number(total['production'][res]) }}</th>
+				<th v-for="planet in page['planets']">{{ $formatNumber(planet['resources'][res]['production']) }}</th>
+				<th>{{ $formatNumber(total['production'][res]) }}</th>
 			</tr>
 
 			<tr>
@@ -82,7 +82,7 @@
 			<tr v-for="(item, i) in [1, 2, 3, 4, 12, 212]">
 				<th>{{ $t('tech.'+item) }}</th>
 				<th v-for="planet in page['planets']">
-					<span :class="[planet['factor'][item] >= 100 ? 'positive' : 'negative']">{{ $number(planet['factor'][item]) }}</span>%
+					<span :class="[planet['factor'][item] >= 100 ? 'positive' : 'negative']">{{ $formatNumber(planet['factor'][item]) }}</span>%
 				</th>
 				<th v-if="i === 0" rowspan="6">&nbsp;</th>
 			</tr>
@@ -93,17 +93,17 @@
 				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0">
-						{{ $number(planet['elements'][id]['value']) }}
+						{{ $formatNumber(planet['elements'][id]['value']) }}
 					</span>
 					<span v-else>-</span>
-					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">-> {{ $number(planet['elements'][id]['build']) }}</span>
+					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">-> {{ $formatNumber(planet['elements'][id]['build']) }}</span>
 				</th>
 				<th>
 					<span>
-						{{ $number(total['elements'][id]['value']) }}
+						{{ $formatNumber(total['elements'][id]['value']) }}
 					</span>
 					<span v-if="total['elements'][id]['build'] > 0" class="positive">
-						-> {{ $number(total['elements'][id]['build']) }}
+						-> {{ $formatNumber(total['elements'][id]['build']) }}
 					</span>
 				</th>
 			</tr>
@@ -114,25 +114,25 @@
 				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0 || planet['elements'][id]?.['fly'] > 0">
-						{{ $number(planet['elements'][id]?.['value']) }}
+						{{ $formatNumber(planet['elements'][id]?.['value']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">
-						+ {{ $number(planet['elements'][id]['build']) }}
+						+ {{ $formatNumber(planet['elements'][id]['build']) }}
 					</span>
 					<span v-if="planet['elements'][id]?.['fly'] > 0" class="neutral">
-						+ {{ $number(planet['elements'][id]['fly']) }}
+						+ {{ $formatNumber(planet['elements'][id]['fly']) }}
 					</span>
 				</th>
 				<th>
 					<span>
-						{{ $number(total['elements'][id]?.['value']) }}
+						{{ $formatNumber(total['elements'][id]?.['value']) }}
 					</span>
 					<span v-if="total['elements'][id]?.['build'] > 0" class="positive">
-						+ {{ $number(total['elements'][id]['build']) }}
+						+ {{ $formatNumber(total['elements'][id]['build']) }}
 					</span>
 					<span v-if="total['elements'][id]?.['fly'] > 0" class="neutral">
-						+ {{ $number(total['elements'][id]['fly']) }}
+						+ {{ $formatNumber(total['elements'][id]['fly']) }}
 					</span>
 				</th>
 			</tr>
@@ -143,19 +143,19 @@
 				<th>{{ $t('tech.' + id) }}</th>
 				<th v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0">
-						{{ $number(planet['elements'][id]['value']) }}
+						{{ $formatNumber(planet['elements'][id]['value']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">
-						+ {{ $number(planet['elements'][id]['build']) }}
+						+ {{ $formatNumber(planet['elements'][id]['build']) }}
 					</span>
 				</th>
 				<th>
 					<span>
-						{{ $number(total['elements'][id]?.['value']) }}
+						{{ $formatNumber(total['elements'][id]?.['value']) }}
 					</span>
 					<span v-if="total['elements'][id]?.['build'] > 0" class="positive">
-						+ {{ $number(total['elements'][id]['build']) }}
+						+ {{ $formatNumber(total['elements'][id]['build']) }}
 					</span>
 				</th>
 			</tr>
@@ -177,7 +177,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useI18n, useRoute, navigateTo, useLocalePath, useApiGet } from '#imports';
+	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useI18n, useRoute, navigateTo, useApiGet } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -194,7 +194,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useApiGet('/imperium');
+		return await useApiGet('/empire');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -285,6 +285,6 @@
 	async function toPlanet(id) {
 		await useApiPost('/user/planet/' + id, {});
 
-		navigateTo(useLocalePath()('/overview'));
+		navigateTo('/overview');
 	}
 </script>

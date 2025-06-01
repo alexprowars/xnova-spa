@@ -13,7 +13,7 @@
 						<span v-else>
 							Следующая покупка через
 							<br>
-							{{ $time(data['time']) }}
+							{{ $formatTime(data['time']) }}
 						</span>
 					</div>
 					<div class="col-8 th middle">

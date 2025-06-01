@@ -10,7 +10,7 @@
 			</div>
 			<div class="row">
 				<div class="col-5 c">
-					<NuxtLinkLocale to="/info/113">{{ $t('tech.113') }}</NuxtLinkLocale>
+					<NuxtLink to="/info/113">{{ $t('tech.113') }}</NuxtLink>
 				</div>
 				<div class="col-2 th">
 					{{ user['technology']['energy_tech'] }} ур.
@@ -66,8 +66,8 @@
 									<th class="text-start" nowrap>Базовое производство</th>
 									<td class="k"></td>
 									<td class="k"></td>
-									<td v-for="res in page['resources']" class="k">{{ $number(planet['resources'][res]['basic']) }}</td>
-									<td class="k">{{ $number(planet['resources']['energy']['basic']) }}</td>
+									<td v-for="res in page['resources']" class="k">{{ $formatNumber(planet['resources'][res]['basic']) }}</td>
+									<td class="k">{{ $formatNumber(planet['resources']['energy']['basic']) }}</td>
 									<td class="k">100%</td>
 								</tr>
 								<ResourcesRow v-for="(item, index) in page['items']" :key="index" :item="item" :resources="page['resources']"/>
@@ -76,11 +76,11 @@
 									<th>{{ page['bonus_h'] }}%</th>
 									<td v-for="res in page['resources']" class="k" v-once>
 										<span :class="[(planet['resources'][res]['capacity'] > planet['resources'][res]['value']) ? 'positive' : 'negative']">
-											{{ $number(planet['resources'][res]['capacity'] / 1000) }} k
+											{{ $formatNumber(planet['resources'][res]['capacity'] / 1000) }} k
 										</span>
 									</td>
 									<td class="k">
-										<font color="#00ff00">{{ $number(planet['resources']['energy']['capacity']) }}</font>
+										<font color="#00ff00">{{ $formatNumber(planet['resources']['energy']['capacity']) }}</font>
 									</td>
 									<td v-if="!isVacation" class="k">
 										<input name="action" value="Пересчитать" type="submit">

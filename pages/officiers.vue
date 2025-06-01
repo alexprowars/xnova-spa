@@ -1,7 +1,7 @@
 <template>
 	<div class="page-officiers block">
 		<div class="title">
-			Доступно кредитов: {{ $number(user['credits']) }}
+			Доступно кредитов: {{ $formatNumber(user['credits']) }}
 		</div>
 		<div class="content container-fluid">
 			<div class="row">
@@ -9,7 +9,7 @@
 					<img :src="'/images/officiers/bigcredits.jpg'" alt="">
 				</div>
 				<div class="col-12 col-sm-7 text-start">
-					Кредиты (<NuxtLinkLocale to="/credits/"><span class="positive">Получить</span></NuxtLinkLocale>)
+					Кредиты (<NuxtLink to="/credits/"><span class="positive">Получить</span></NuxtLink>)
 					<br><br>
 					Инженеры берут за свою работу только межгалактичесие кредиты. В зависимости от суммы контракта работают на вас в течении всего времени найма.
 					<table class="powers">
@@ -26,9 +26,9 @@
 					</table>
 				</div>
 				<div class="col-sm-3 d-none d-sm-block text-center">
-					<NuxtLinkLocale to="/credits/" class="button positive">
+					<NuxtLink to="/credits/" class="button positive">
 						Получить кредиты
-					</NuxtLinkLocale>
+					</NuxtLink>
 				</div>
 			</div>
 			<Row v-for="item in items" :key="item['id']" :item="item"/>

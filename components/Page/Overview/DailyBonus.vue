@@ -6,7 +6,7 @@
 		<div class="block-table">
 			<div class="row">
 				<div class="col th">
-					Сейчас вы можете получить по <b class="positive">{{ $number(amount) }}</b> Металла, Кристаллов и Дейтерия.<br>
+					Сейчас вы можете получить по <b class="positive">{{ $formatNumber(amount) }}</b> Металла, Кристаллов и Дейтерия.<br>
 					Каждый день размер бонуса будет увеличиваться.<br>
 					<br>
 					<button @click.prevent="getBonus" class="button">Получить ресурсы</button><br>

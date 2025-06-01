@@ -15,35 +15,32 @@
 								<template v-else>{{ data['opt_usern_data'] }}</template>
 							</th>
 						</tr>
-						<template v-if="data['opt_isemail']">
-							<tr>
-								<th>Старый пароль</th>
-								<th><input name="password" size="20" value="" type="password" autocomplete="current-password"></th>
-							</tr>
-							<tr>
-								<th>Новый пароль (мин. 8 Знаков)</th>
-								<th><input name="new_password" size="20" maxlength="40" type="password" autocomplete="new-password"></th>
-							</tr>
-							<tr>
-								<th>Новый пароль (повтор)</th>
-								<th><input name="new_password_confirm" size="20" maxlength="40" type="password" autocomplete="new-password"></th>
-							</tr>
-						</template>
 						<tr>
 							<th>Адрес e-mail (логин)</th>
 							<th>
 								<input v-if="!data['opt_isemail']" type="text" name="email" value="">
 								<template v-else>
-									{{ data['opt_mail_data'] }} <NuxtLinkLocale to="/options/email/" class="button">сменить</NuxtLinkLocale>
+									{{ data['opt_mail_data'] }} <NuxtLink to="/options/email" class="button">сменить</NuxtLink>
 								</template>
 							</th>
 						</tr>
 						<tr>
 							<th>Пол</th>
-							<th><select name="sex">
-								<option value="M">мужской</option>
-								<option value="F" :selected="data['sex'] === 2" >женский</option>
-							</select></th>
+							<th>
+								<select name="sex">
+									<option value="M">мужской</option>
+									<option value="F" :selected="data['sex'] === 2" >женский</option>
+								</select>
+							</th>
+						</tr>
+						<tr>
+							<th>Язык</th>
+							<th>
+								<select name="locale" v-model="data['locale']">
+									<option value="en">English</option>
+									<option value="ru">Русский</option>
+								</select>
+							</th>
 						</tr>
 						<tr>
 							<th colspan="2">
@@ -52,6 +49,9 @@
 						</tr>
 					</tbody>
 				</table>
+			</Tab>
+			<Tab v-if="data['opt_isemail']" name="Пароль">
+				<ChangePasswordForm/>
 			</Tab>
 			<Tab name="Интерфейс">
 				<table class="table">
@@ -206,10 +206,10 @@
 						</tr>
 						<tr v-for="auth in data['auth']">
 							<th>{{ auth['external_id'] }}</th>
-							<th>{{ $date(auth['create_time'], 'DD MMM YYYY HH:mm:ss') }}</th>
+							<th>{{ $formatDate(auth['create_time'], 'DD MMM YYYY HH:mm:ss') }}</th>
 							<th>
 								<template v-if="auth['enter_time'] > 0">
-									{{ $date(auth['enter_time'], 'DD MMM YYYY HH:mm:ss') }}
+									{{ $formatDate(auth['enter_time'], 'DD MMM YYYY HH:mm:ss') }}
 								</template>
 								<template>
 									-
@@ -237,6 +237,7 @@
 <script setup>
 	import { ref } from 'vue';
 	import { refreshNuxtData, useApiSubmit, useSuccessNotification } from '#imports';
+	import ChangePasswordForm from '~/components/Page/Options/ChangePasswordForm.vue';
 
 	defineProps({
 		data: Object,
@@ -253,7 +254,7 @@
 		useApiSubmit('/options', new FormData(formRef.value), () => {
 			useSuccessNotification('Настройки успешно изменены');
 
-			refreshNuxtData('page-options');
+			refreshNuxtData();
 		});
 	}
 </script>

@@ -21,6 +21,7 @@
 	import { computed, reactive } from 'vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store/index.js';
+	import { useI18n } from '#imports';
 
 	const props = defineProps({
 		active: {
@@ -31,25 +32,26 @@
 
 	const emit = defineEmits(['toggle']);
 	const { isVacation } = storeToRefs(useStore());
+	const { t } = useI18n();
 
 	const items = reactive([
-		{ id: 'overview', title: 'Обзор', url: '/overview' },
-		{ id: 'imperium', title: 'Империя', url: '/imperium' },
-		{ id: 'galaxy', title: 'Космос', url: '/galaxy' },
-		{ id: 'fleet', title: 'Флот', url: '/fleet' },
-		{ id: 'buildings', title: 'Постройки', url: '/buildings', vacation: true },
-		{ id: 'research', title: 'Наука', url: '/research', vacation: true },
-		{ id: 'shipyard', title: 'Верфь', url: '/shipyard', vacation: true },
-		{ id: 'defense', title: 'Оборона', url: '/defense', vacation: true },
-		{ id: 'resources', title: 'Сырьё', url: '/resources' },
-		{ id: 'merchant', title: 'Рынок', url: '/merchant' },
-		{ id: 'officiers', title: 'Офицеры', url: '/officiers' },
-		{ id: 'alliance', title: 'Альянс', url: '/alliance' },
-		{ id: 'friends', title: 'Друзья', url: '/friends' },
-		{ id: 'notes', title: 'Заметки', url: '/notes' },
-		{ id: 'records', title: 'Рекорды', url: '/records' },
-		{ id: 'hall', title: 'Зал славы', url: '/hall' },
-		{ id: 'log', title: 'Логи', url: '/log' },
+		{ title: t('menu.overview'), url: '/overview' },
+		{ title: t('menu.empire'), url: '/empire' },
+		{ title: t('menu.galaxy'), url: '/galaxy' },
+		{ title: t('menu.fleet'), url: '/fleet' },
+		{ title: t('menu.buildings'), url: '/buildings', vacation: true },
+		{ title: t('menu.research'), url: '/research', vacation: true },
+		{ title: t('menu.shipyard'), url: '/shipyard', vacation: true },
+		{ title: t('menu.defense'), url: '/defense', vacation: true },
+		{ title: t('menu.resources'), url: '/resources' },
+		{ title: t('menu.merchant'), url: '/merchant' },
+		{ title: t('menu.officiers'), url: '/officiers' },
+		{ title: t('menu.alliance'), url: '/alliance' },
+		{ title: t('menu.friends'), url: '/friends' },
+		{ title: t('menu.notes'), url: '/notes' },
+		{ title: t('menu.records'), url: '/records' },
+		{ title: t('menu.hall'), url: '/hall' },
+		{ title: t('menu.logs'), url: '/log' },
 	]);
 
 	const filteredItems = computed(() => {

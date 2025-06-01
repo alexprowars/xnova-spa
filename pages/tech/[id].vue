@@ -24,7 +24,7 @@
 	}
 
 	useHead({
-		title: t('tech.' + page.value['element']),
+		title: t('tech.' + page.value['id']),
 	});
 
 	let counter = 0;
@@ -32,7 +32,7 @@
 
 	onMounted(() => {
 		objectTree = new ECOTree('object', 'rf_techinfo');
-		createTree(1, -1, page.value['element'], page.value['level'], page.value['access']);
+		createTree(1, -1, page.value['id'], page.value['level'], page.value['access']);
 	})
 
 	function createTree (tid, prntid, element, level, access, fwrd) {

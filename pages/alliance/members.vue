@@ -6,14 +6,14 @@
 		</tr>
 		<tr>
 			<th>№</th>
-			<th><NuxtLinkLocale :to="url + '?sort=name&order=' + page['order']">Ник</NuxtLinkLocale></th>
+			<th><NuxtLink :to="url + '?sort=name&order=' + page['order']">Ник</NuxtLink></th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th><NuxtLinkLocale :to="url + '?sort=rank&order=' + page['order']">Ранг</NuxtLinkLocale></th>
-			<th><NuxtLinkLocale :to="url + '?sort=points&order=' + page['order']">Очки</NuxtLinkLocale></th>
+			<th><NuxtLink :to="url + '?sort=rank&order=' + page['order']">Ранг</NuxtLink></th>
+			<th><NuxtLink :to="url + '?sort=points&order=' + page['order']">Очки</NuxtLink></th>
 			<th>Координаты</th>
-			<th><NuxtLinkLocale :to="url + '?sort=date&order=' + page['order']">Дата вступления</NuxtLinkLocale></th>
-			<th v-if="page['status']"><NuxtLinkLocale :to="url + '?sort=active&order=' + page['order']">Активность</NuxtLinkLocale></th>
+			<th><NuxtLink :to="url + '?sort=date&order=' + page['order']">Дата вступления</NuxtLink></th>
+			<th v-if="page['status']"><NuxtLink :to="url + '?sort=active&order=' + page['order']">Активность</NuxtLink></th>
 			<th v-if="page['admin']">Управление</th>
 		</tr>
 		<template v-for="(m, index) in page['members']">
@@ -29,7 +29,7 @@
 				<th>{{ m['range'] }}</th>
 				<th>{{ m['points'] }}</th>
 				<th>
-					<NuxtLinkLocale :to="'/galaxy/?galaxy=' + m['galaxy'] + '&system=' + m['system']">{{ m['galaxy'] }}:{{ m['system'] }}:{{ m['planet'] }}</NuxtLinkLocale>
+					<NuxtLink :to="'/galaxy/?galaxy=' + m['galaxy'] + '&system=' + m['system']">{{ m['galaxy'] }}:{{ m['system'] }}:{{ m['planet'] }}</NuxtLink>
 				</th>
 				<th>{{ m['date'] }}</th>
 				<th v-if="page['status']" v-html="m['onlinetime']"></th>
@@ -64,7 +64,7 @@
 		</template>
 		<tr>
 			<td class="c" colspan="10">
-				<NuxtLinkLocale :to="'/alliance' + (page['admin'] ? '/admin' : '')">вернутся к обзору</NuxtLinkLocale>
+				<NuxtLink :to="'/alliance' + (page['admin'] ? '/admin' : '')">вернутся к обзору</NuxtLink>
 			</td>
 		</tr>
 		</tbody>

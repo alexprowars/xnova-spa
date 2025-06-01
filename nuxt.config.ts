@@ -77,13 +77,13 @@ let config = {
 		'@pinia/nuxt',
 	],
 	i18n: {
-		baseUrl: 'https://xnova.su',
 		locales: [
+			{ code: 'en', language: 'en-US', file: 'en.json' },
 			{ code: 'ru', language: 'ru-RU', file: 'ru.json' },
 		],
 		lazy: true,
-		defaultLocale: 'ru',
-		strategy: 'prefix_except_default',
+		defaultLocale: 'en',
+		strategy: 'no_prefix',
 		customRoutes: 'config',
 		detectBrowserLanguage: false,
 		trailingSlash: false,
@@ -99,6 +99,7 @@ let config = {
 	],
 	runtimeConfig: {
 		public: {
+			baseUrl: null,
 			gtmId: null,
 			recaptchaKey: null,
 			reverbAppKey: null,

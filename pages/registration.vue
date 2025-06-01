@@ -33,14 +33,14 @@
 							<div class="col th text-start">
 								<input :class="{error: v$.rules.$error}" id="rules" type="checkbox" v-model="rules">
 								<label for="rules">Я принимаю</label>
-								<NuxtLinkLocale to="/content/agreement/" target="_blank">Пользовательское соглашение</NuxtLinkLocale>
+								<NuxtLink to="/content/agreement/" target="_blank">Пользовательское соглашение</NuxtLink>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col th text-start">
 								<input :class="{error: v$.laws.$error}" id="laws" type="checkbox" v-model="laws">
 								<label for="laws">Я принимаю</label>
-								<NuxtLinkLocale to="/content/agb/" target="_blank">Законы игры</NuxtLinkLocale>
+								<NuxtLink to="/content/agb/" target="_blank">Законы игры</NuxtLink>
 							</div>
 						</div>
 						<div class="row">

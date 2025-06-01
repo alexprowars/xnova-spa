@@ -2,17 +2,6 @@
 	<div>
 		<VacationTab v-if="page['vacation']" :data="page"/>
 		<OptionsTab v-else :data="page"/>
-
-		<template v-if="typeof page['bot_auth'] === 'object'">
-			<br><br>
-			<div class="block-table">
-				<div class="row">
-					<div class="col-12 th">
-						Ваш код для привязки Telegram-бота:<br><br><b>{{ page['bot_auth']['code'] }}</b>
-					</div>
-				</div>
-			</div>
-		</template>
 	</div>
 </template>
 

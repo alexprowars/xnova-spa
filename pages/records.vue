@@ -1,7 +1,7 @@
 <template>
 	<div class="block-table">
 		<div class="row">
-			<div class="col th">Обновлено в {{ $date(page['update'], 'HH:mm:ss DD MMM YYYY') }}</div>
+			<div class="col th">Обновлено в {{ $formatDate(page['update'], 'HH:mm:ss DD MMM YYYY') }}</div>
 		</div>
 		<template v-for="(list, group) in page['items']">
 			<div class="row">

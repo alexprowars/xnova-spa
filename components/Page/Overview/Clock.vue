@@ -1,5 +1,5 @@
 <template>
-	<div>{{ $date(now, 'DD MMM HH:mm:ss') }}</div>
+	<div>{{ $formatDate(now, 'DD MMM HH:mm:ss') }}</div>
 </template>
 
 <script setup>

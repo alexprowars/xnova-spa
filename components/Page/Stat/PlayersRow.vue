@@ -18,9 +18,9 @@
 				<span :class="{ neutral: marked }">{{ item['name'] }}</span>
 			</a>
 			<div v-if="item['alliance']" class="d-sm-none">
-				<NuxtLinkLocale :class="{neutral: item['alliance']['marked']}" :to="'/alliance/info/' + item['alliance']['id']">
+				<NuxtLink :class="{neutral: item['alliance']['marked']}" :to="'/alliance/info/' + item['alliance']['id']">
 					{{ item['alliance']['name'] }}
-				</NuxtLinkLocale>
+				</NuxtLink>
 			</div>
 			<div v-else class="d-sm-none">
 				&nbsp;
@@ -32,17 +32,17 @@
 			<SendMessagePopup v-if="user" :title="item['name'] + ': отправить сообщение'" :id="item['id']"/>
 		</div>
 		<div class="th col-sm-3 d-none d-sm-block row-alliance">
-			<NuxtLinkLocale v-if="item['alliance']" :class="{ neutral: item['alliance']['marked'] }" :to="'/alliance/info/' + item['alliance']['id']">
+			<NuxtLink v-if="item['alliance']" :class="{ neutral: item['alliance']['marked'] }" :to="'/alliance/info/' + item['alliance']['id']">
 				{{ item['alliance']['name'] }}
-			</NuxtLinkLocale>
+			</NuxtLink>
 			<div v-else>
 				&nbsp;
 			</div>
 		</div>
 		<div class="th col-sm-2 col-3 middle">
-			<NuxtLinkLocale :to="'/players/stat/'+item['id']+'/'">
-				{{ $number(item['points']) }}
-			</NuxtLinkLocale>
+			<NuxtLink :to="'/players/stat/'+item['id']+'/'">
+				{{ $formatNumber(item['points']) }}
+			</NuxtLink>
 		</div>
 	</div>
 </template>

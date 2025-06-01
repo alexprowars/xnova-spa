@@ -23,7 +23,7 @@
 					</div>
 					<div class="row">
 						<div class="col c">
-							<NuxtLinkLocale to="/fleet/shortcut/">Назад</NuxtLinkLocale>
+							<NuxtLink to="/fleet/shortcut/">Назад</NuxtLink>
 						</div>
 					</div>
 				</div>
