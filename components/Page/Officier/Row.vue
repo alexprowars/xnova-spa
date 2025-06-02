@@ -62,7 +62,7 @@
 	const store = useStore();
 	const { user, isVacation } = storeToRefs(store);
 
-	const time = computed(() => user.value['officiers'].find((v) => v['id'] === props.item['id'])?.['time']);
+	const time = computed(() => user.value['officiers'].find((v) => v['id'] === props.item['id'])?.['date']);
 
 	function submit (value, price) {
 		openConfirmModal(

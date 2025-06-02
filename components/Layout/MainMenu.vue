@@ -51,7 +51,7 @@
 		{ title: t('menu.notes'), url: '/notes' },
 		{ title: t('menu.records'), url: '/records' },
 		{ title: t('menu.hall'), url: '/hall' },
-		{ title: t('menu.logs'), url: '/log' },
+		{ title: t('menu.logs'), url: '/logs' },
 	]);
 
 	const filteredItems = computed(() => {

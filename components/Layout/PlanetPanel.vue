@@ -19,22 +19,20 @@
 						<NuxtLink to="/credits" class="d-sm-inline-block resource-panel-item-icon">
 							<Popper>
 								<template #content>
-									<table width="550">
-										<tbody>
-										<tr>
-											<td v-for="officier in user['officiers']" class="text-center">
+									<div class="resource-panel-officiers">
+										<div class="resource-panel-officiers-row">
+											<div v-for="officier in user['officiers']" class="text-center">
 												<div class="separator"></div>
 												<span class="officier" :class="['of' + officier['id'] + (officier['date'] ? '_ikon' : '')]"></span>
-											</td>
-										</tr>
-										<tr>
-											<td v-for="officier in user['officiers']" class="text-center">
+											</div>
+										</div>
+										<div class="resource-panel-officiers-row">
+											<div v-for="officier in user['officiers']" class="text-center">
 												<span v-if="officier['date']">Нанят до<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
 												<span v-else><span class="positive">Не нанят</span></span>
-											</td>
-										</tr>
-										</tbody>
-									</table>
+											</div>
+										</div>
+									</div>
 								</template>
 								<span class="sprite skin_kredits"></span>
 							</Popper>

@@ -24,7 +24,7 @@
 					</div>
 					<div class="row">
 						<div class="col c">
-							<NuxtLink to="/fleet/shortcut/">Назад</NuxtLink>
+							<NuxtLink to="/fleet/shortcut">Назад</NuxtLink>
 						</div>
 					</div>
 				</div>

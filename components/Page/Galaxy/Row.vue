@@ -265,7 +265,7 @@
 					<NuxtLink :to="'/players/' + item.user['id']" title="Информация об игроке">
 						<span class="sprite skin_s"></span>
 					</NuxtLink>
-					<NuxtLink :to="'/fleet/shortcut/add/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" title="Добавить в закладки">
+					<NuxtLink :to="'/fleet/shortcut/create?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" title="Добавить в закладки">
 						<span class="sprite skin_z"></span>
 					</NuxtLink>
 				</template>

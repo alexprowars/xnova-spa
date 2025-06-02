@@ -18,7 +18,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useApiGet('/log/' + useRoute().params.id);
+		return await useApiGet('/logs/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

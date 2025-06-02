@@ -20,7 +20,7 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useApiGet('/rw', Object.assign({}, route.query));
+		return await useApiGet('/rw/' + route.params.id, Object.assign({}, route.query));
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

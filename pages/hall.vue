@@ -25,7 +25,7 @@
 			<div v-for="(item, i) in page['hall']" class="row">
 				<div class="col-1 th">{{ i + 1 }}</div>
 				<div class="col th">
-					<a :href="'/log/' + item['log']" target="_blank">{{ item['title'] }}</a>
+					<a :href="'/logs/' + item['log']" target="_blank">{{ item['title'] }}</a>
 				</div>
 				<div class="col-1 th">
 					<template v-if="item['won'] === 0">Н</template>

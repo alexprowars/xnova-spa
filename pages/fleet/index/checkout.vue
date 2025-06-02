@@ -48,7 +48,7 @@
 				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $formatNumber(storage) }}</span></div>
 			</div>
 			<div class="row">
-				<div class="c col-12">Ссылки <NuxtLink to="/fleet/shortcut/">(Просмотр / Редактирование)</NuxtLink></div>
+				<div class="c col-12">Ссылки <NuxtLink to="/fleet/shortcut">(Просмотр / Редактирование)</NuxtLink></div>
 			</div>
 
 			<div v-if="page['shortcuts'].length > 0" class="row">
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			<div v-else class="row">
-				<div class="th col-12"><NuxtLink to="/fleet/shortcut/add/" class="button">Добавить</NuxtLink></div>
+				<div class="th col-12"><NuxtLink to="/fleet/shortcut/create" class="button">Добавить</NuxtLink></div>
 			</div>
 
 			<div v-if="page['planets'].length > 0" class="row">

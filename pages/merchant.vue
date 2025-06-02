@@ -68,7 +68,8 @@
 	});
 
 	const { t } = useI18n();
-	const { settings } = storeToRefs(useStore());
+	const store = useStore();
+	const { settings } = storeToRefs(store);
 
 	const type = ref('');
 	const resources = ref({ metal: 0, crystal: 0, deuterium: 0 });
@@ -89,12 +90,12 @@
 	function exchange() {
 		useApiSubmit('/merchant/exchange', {
 			type: type.value, ...resources.value
-		}, (result) => {
+		}, async (result) => {
 			useSuccessNotification('Вы обменяли ' + result['exchange'] + ' ' + t('resources.' + result['type']));
 
 			type.value = '';
 
-			refresh();
+			await store.loadState();
 		});
 	}
 </script>

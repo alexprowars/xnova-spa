@@ -726,6 +726,20 @@ ul {
 	}
 }
 
+.resource-panel-officiers {
+	max-width: 600px;
+	width: 100%;
+
+	.resource-panel-officiers-row {
+		display: flex;
+		gap: 5px;
+
+		> div {
+			flex: 1 0 0;
+		}
+	}
+}
+
 table td.c, table th, .table th, .block-table th {
 	padding: 4px;
 	vertical-align: middle;

@@ -73,13 +73,13 @@
 											<div>
 												{{ $t('tech.' + item['id']) }}
 												<br>
-												<span v-if="item['time']">
-													{{ $t('overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['time'], 'DD MMM HH:mm') }}</span>
+												<span v-if="item['date']">
+													{{ $t('overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm') }}</span>
 												</span>
 												<span v-else class="positive">{{ $t('overview.officier_noactive') }}</span>
 											</div>
 										</template>
-										<span class="officier" :class="['of' + item['id'] + (item['time'] ? '_ikon' : '')]"></span>
+										<span class="officier" :class="['of' + item['id'] + (item['date'] ? '_ikon' : '')]"></span>
 									</Popper>
 								</NuxtLink>
 							</div>
