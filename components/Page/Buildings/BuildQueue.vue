@@ -34,7 +34,7 @@
 	watch(endTime, (val) => {
 		if (val <= 0) {
 			timeout = setTimeout(async () => {
-				await refreshNuxtData('page-defense');
+				await refreshNuxtData();
 			}, 5000);
 		}
 	});

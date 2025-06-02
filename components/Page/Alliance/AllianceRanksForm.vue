@@ -20,7 +20,7 @@
 			</tr>
 			<tr v-for="rank in items">
 				<th>
-					<a href="" @click="remove(rank['id'])"><img src="/images/abort.gif" alt="Удалить ранг"></a>
+					<a href="" @click.prevent="remove(rank['id'])"><img src="/images/abort.gif" alt="Удалить ранг"></a>
 				</th>
 				<th>{{ rank['name'] }}</th>
 				<th>
@@ -66,7 +66,7 @@
 		const data = new FormData(ranksRef.value);
 
 		useApiSubmit('alliance/admin/ranks', data, () => {
-			refreshNuxtData('page-alliance.ranks');
+			refreshNuxtData();
 		});
 	}
 
@@ -74,7 +74,7 @@
 		useApiSubmit('alliance/admin/ranks/' + id, {
 			_method: 'DELETE'
 		}, () => {
-			refreshNuxtData('page-alliance.ranks');
+			refreshNuxtData();
 		});
 	}
 </script>

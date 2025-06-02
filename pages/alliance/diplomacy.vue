@@ -75,7 +75,6 @@
 	});
 
 	const { data: page, error, refresh } = await useAsyncData(
-		'page-alliance.diplomacy',
 		async () => await useApiGet('/alliance/diplomacy'),
 		{ watch: [() => useRoute().query] }
 	);

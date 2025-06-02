@@ -47,7 +47,7 @@
 
 	const store = useStore();
 
-	const { data: items, error } = await useAsyncData('page-buildings',
+	const { data: items, error } = await useAsyncData(
 		async () => await Promise.all([
 			useApiGet('/buildings'),
 			store.loadState()

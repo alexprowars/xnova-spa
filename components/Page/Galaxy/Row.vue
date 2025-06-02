@@ -125,11 +125,11 @@
 											<td class="c" colspan="2">Ресурсы</td>
 										</tr>
 										<tr v-if="item.debris.metal">
-											<th>Металл</th>
+											<th>{{ $t('resources.metal') }}</th>
 											<th>{{ item.debris.metal }}</th>
 										</tr>
 										<tr v-if="item.debris.crystal">
-											<th>Кристалл</th>
+											<th>{{ $t('resources.crystal') }}</th>
 											<th>{{ item.debris.crystal }}</th>
 										</tr>
 										<tr v-if="!isVacation && currentPlanet['units']['recycler'] > 0">
@@ -139,7 +139,7 @@
 										</tr>
 										<tr v-if="!isVacation">
 											<th colspan="2" align="left">
-												<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">Отправить флот</NuxtLink>
+												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">Отправить флот</NuxtLink>
 											</th>
 										</tr>
 										</tbody>

@@ -47,7 +47,7 @@
 					await closeModals();
 
 					if (useRoute().path.indexOf('/buildings') !== -1) {
-						await refreshNuxtData('page-buildings');
+						await refreshNuxtData();
 					}
 				}
 			}]

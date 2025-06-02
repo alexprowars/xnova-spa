@@ -78,7 +78,7 @@
 					}, () => {
 						useSuccessNotification('Вы отозвали свою заявку на вступление в альянс');
 
-						refreshNuxtData('page-alliance');
+						refreshNuxtData();
 					});
 				}
 			}]

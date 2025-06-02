@@ -51,7 +51,7 @@
 
 			useSuccessNotification('Отношение между вашими альянсами успешно добавлено')
 
-			refreshNuxtData('page-alliance.diplomacy');
+			refreshNuxtData();
 		});
 	}
 </script>

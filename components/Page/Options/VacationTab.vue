@@ -44,7 +44,7 @@
 		useApiSubmit('/options', new FormData(formRef.value), () => {
 			useSuccessNotification('Настройки успешно изменены');
 
-			refreshNuxtData('page-options');
+			refreshNuxtData();
 		});
 	}
 </script>

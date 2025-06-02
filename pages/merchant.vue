@@ -10,9 +10,9 @@
 
 						<select v-model="type">
 							<option value="">Выберите ресурс для обмена</option>
-							<option value="metal">Металл</option>
-							<option value="crystal">Кристалл</option>
-							<option value="deuterium">Дейтерий</option>
+							<option value="metal">{{ $t('resources.metal') }}</option>
+							<option value="crystal">{{ $t('resources.crystal') }}</option>
+							<option value="deuterium">{{ $t('resources.deuterium') }}</option>
 						</select>
 
 						<br><br>

@@ -43,7 +43,7 @@
 
 	const store = useStore();
 
-	const { data: items, error } = await useAsyncData('page-defense',
+	const { data: items, error } = await useAsyncData(
 		async () => await Promise.all([
 			useApiGet('/defense'),
 			store.loadState()
@@ -67,7 +67,7 @@
 				}
 			});
 
-			refreshNuxtData('page-defense');
+			refreshNuxtData();
 		});
 	}
 </script>

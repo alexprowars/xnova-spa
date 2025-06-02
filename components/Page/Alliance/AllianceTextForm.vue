@@ -43,7 +43,7 @@
 			type: props.data['text_type'],
 			text: props.data['text'],
 		}, () => {
-			refreshNuxtData('page-alliance.admin');
+			refreshNuxtData();
 		});
 	}
 </script>

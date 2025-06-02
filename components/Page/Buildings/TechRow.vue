@@ -86,7 +86,7 @@
 			element: props.item['id'],
 		});
 
-		await refreshNuxtData('page-research');
+		await refreshNuxtData();
 	}
 
 	function openInfoPopup () {

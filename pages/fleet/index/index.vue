@@ -106,7 +106,6 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(
-		'page-fleet',
 		async () => await Promise.all([
 			useApiGet('/fleet', Object.assign({}, route.params, route.query)),
 			store.loadState()
@@ -222,7 +221,7 @@
 			ships: fleets.value,
 			...page.value['selected']
 		}, (result) => {
-			const { data } = useNuxtData('page-fleet.checkout');
+			const { data } = useNuxtData('fleet.checkout');
 			data.value = result;
 
 			navigateTo('/fleet/checkout');

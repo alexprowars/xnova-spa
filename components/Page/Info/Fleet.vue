@@ -60,15 +60,15 @@
 					<div class="col c text-start">Затраты на производство</div>
 				</div>
 				<div class="row">
-					<div class="col th">Металл</div>
+					<div class="col th">{{ $t('resources.metal') }}</div>
 					<div class="col th">{{ $formatNumber(fleet['resources']['metal']['base']) }} ({{ $formatNumber(fleet['resources']['metal']['full']) }})</div>
 				</div>
 				<div class="row">
-					<div class="col th">Кристалл</div>
+					<div class="col th">{{ $t('resources.crystal') }}</div>
 					<div class="col th">{{ $formatNumber(fleet['resources']['crystal']['base']) }} ({{ $formatNumber(fleet['resources']['crystal']['full']) }})</div>
 				</div>
 				<div class="row">
-					<div class="col th">Дейтерий</div>
+					<div class="col th">{{ $t('resources.deuterium') }}</div>
 					<div class="col th">{{ $formatNumber(fleet['resources']['deuterium']['base']) }} ({{ $formatNumber(fleet['resources']['deuterium']['full']) }})</div>
 				</div>
 			</div>

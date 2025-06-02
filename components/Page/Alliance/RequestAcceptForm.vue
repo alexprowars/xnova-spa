@@ -56,7 +56,7 @@
 
 			emit('close');
 
-			refreshNuxtData('page-alliance.requests');
+			refreshNuxtData();
 		});
 	}
 </script>

@@ -30,15 +30,15 @@
 					<div class="col c">Затраты на производство</div>
 				</div>
 				<div class="row">
-					<div class="col th">Металл</div>
+					<div class="col th">{{ $t('resources.metal') }}</div>
 					<div class="col th">{{ $formatNumber(defence['resources']['metal']) }}</div>
 				</div>
 				<div class="row">
-					<div class="col th">Кристалл</div>
+					<div class="col th">{{ $t('resources.crystal') }}</div>
 					<div class="col th">{{ $formatNumber(defence['resources']['crystal']) }}</div>
 				</div>
 				<div class="row">
-					<div class="col th">Дейтерий</div>
+					<div class="col th">{{ $t('resources.deuterium') }}</div>
 					<div class="col th">{{ $formatNumber(defence['resources']['deuterium']) }}</div>
 				</div>
 			</div>

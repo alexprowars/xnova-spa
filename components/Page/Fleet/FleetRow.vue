@@ -79,7 +79,7 @@
 
 						useSuccessNotification('Флот возвращается назад!');
 
-						await refreshNuxtData('page-fleet');
+						await refreshNuxtData();
 					} catch (e) {
 						useErrorNotification(e.message);
 					}

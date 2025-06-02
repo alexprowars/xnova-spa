@@ -71,7 +71,7 @@
 		title: 'Альянс-чат',
 	});
 
-	const { data: page, error, refresh } = await useAsyncData('page-alliance.chat',
+	const { data: page, error, refresh } = await useAsyncData(
 		async () => await useApiGet('alliance/chat'),
 		{ watch: [() => useRoute().query] }
 	);

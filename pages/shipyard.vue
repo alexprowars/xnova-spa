@@ -43,7 +43,7 @@
 
 	const store = useStore();
 
-	const { data: items, error } = await useAsyncData('page-shipyard',
+	const { data: items, error } = await useAsyncData(
 		async () => await Promise.all([
 			useApiGet('/shipyard'),
 			store.loadState()
@@ -67,7 +67,7 @@
 				}
 			});
 
-			await refreshNuxtData('page-shipyard');
+			await refreshNuxtData();
 		});
 	}
 </script>

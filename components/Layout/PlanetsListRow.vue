@@ -27,7 +27,8 @@
 		}
 	});
 
-	const { planet } = storeToRefs(useStore());
+	const store = useStore();
+	const { planet } = storeToRefs(store);
 
 	async function changePlanet () {
 		if (planet.value.id === item.id) {
@@ -35,6 +36,10 @@
 		}
 
 		await useApiPost('/user/planet/' + item.id, {});
-		await refreshNuxtData();
+
+		await Promise.all([
+			refreshNuxtData(),
+			store.loadState(),
+		]);
 	}
 </script>

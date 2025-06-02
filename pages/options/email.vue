@@ -22,10 +22,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import { definePageMeta, navigateTo, useApiSubmit, useHead, useSuccessNotification } from '#imports';
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation } from '@vuelidate/validators'
-	import useStore from '~/store';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -38,16 +37,6 @@
 	useHead({
 		title: 'Смена Email',
 	});
-
-	const store = useStore();
-
-	const { error } = await useAsyncData(async () => {
-		await store.loadState(); return {}
-	}, { watch: [() => useRoute().query] });
-
-	if (error.value) {
-		throw showError(error.value);
-	}
 
 	const password = ref('');
 	const email = ref('');

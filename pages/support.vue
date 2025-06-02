@@ -17,10 +17,10 @@
 					</div>
 					<div v-for="item in items" class="row">
 						<div class="col-1 c">
-							<a @click="getInfo(item['id'])">{{ item['id'] }}</a>
+							<a @click.prevent="getInfo(item['id'])">{{ item['id'] }}</a>
 						</div>
 						<div class="col-6 c">
-							<a @click="getInfo(item['id'])">{{ item['subject'] }}</a>
+							<a @click.prevent="getInfo(item['id'])">{{ item['subject'] }}</a>
 						</div>
 						<div class="col-2 c">
 							<span v-if="item['status'] === 0" style="color:red">закрыто</span>
@@ -65,7 +65,7 @@
 		title: 'Техподдержка',
 	});
 
-	const { data: items, error } = await useAsyncData('page-support',
+	const { data: items, error } = await useAsyncData(
 		async () => await useApiGet('/support'),
 		{ watch: [() => useRoute().query] }
 	);

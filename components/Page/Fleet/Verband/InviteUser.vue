@@ -36,7 +36,7 @@
 			user_id: userId.value,
 			user_name: userName.value,
 		}, () => {
-			refreshNuxtData('page-verband.' + props['id']);
+			refreshNuxtData();
 		});
 	}
 </script>

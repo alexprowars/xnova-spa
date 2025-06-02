@@ -117,7 +117,7 @@
 		title: 'Ваш альянс',
 	});
 
-	const { data: page, error } = await useAsyncData('page-alliance',
+	const { data: page, error } = await useAsyncData(
 		async () => await useApiGet('/alliance'),
 		{ watch: [() => useRoute().query] }
 	);
@@ -150,7 +150,7 @@
 					useApiSubmit('alliance/exit', {}, () => {
 						useSuccessNotification('Вы покинули альянс');
 
-						refreshNuxtData('page-alliance');
+						refreshNuxtData();
 					});
 				}
 			}]

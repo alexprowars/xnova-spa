@@ -1,14 +1,15 @@
 <template>
-	<div class="information-message c" :class="[item.type.replace('-static', '')]" v-html="item.text"></div>
+	<div class="information-message c" :class="[type.replace('-static', '')]" v-html="text"></div>
 </template>
 
-<script>
-	export default {
-		name: "messages-row",
-		props: {
-			item: {
-				type: Object
-			}
+<script setup>
+	defineProps({
+		type: {
+			type: String,
+			default: '',
+		},
+		text: {
+			type: String
 		}
-	}
+	})
 </script>

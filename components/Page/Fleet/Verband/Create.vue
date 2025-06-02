@@ -26,7 +26,7 @@
 		useApiSubmit('/fleet/verband/' + props['id'], {
 			name: name.value,
 		}, () => {
-			refreshNuxtData('page-verband.' + props['id']);
+			refreshNuxtData();
 		});
 	}
 

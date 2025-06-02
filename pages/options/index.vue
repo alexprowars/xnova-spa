@@ -21,7 +21,7 @@
 		title: 'Hacтpoйки',
 	});
 
-	const { data: page, error } = await useAsyncData('page-options',
+	const { data: page, error } = await useAsyncData(
 		async () => await useApiGet('/options'),
 		{ watch: [() => useRoute().query] }
 	);

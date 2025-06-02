@@ -29,7 +29,7 @@
 		}, () => {
 			name.value = '';
 
-			refreshNuxtData('page-alliance.ranks');
+			refreshNuxtData();
 		});
 	}
 </script>

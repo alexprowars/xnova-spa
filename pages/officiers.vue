@@ -53,7 +53,7 @@
 		title: 'Офицеры',
 	});
 
-	const { data: items, error } = await useAsyncData('page-officiers',
+	const { data: items, error } = await useAsyncData(
 		async () => await useApiGet('/officiers'),
 		{ watch: [() => useRoute().query] });
 

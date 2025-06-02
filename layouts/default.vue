@@ -7,7 +7,9 @@
 			<div class="main-content" v-touch:tap="tap">
 				<LayoutPlanetPanel v-if="isAuthorized && view['resources']"/>
 				<div class="main-content-row">
-					<MessagesRow v-for="message in messages" :item="message"/>
+					<MessagesRow v-for="message in messages" :type="message.type || ''" :text="message.text"/>
+					<MessagesRow v-if="user?.vacation" type="warning" text="Включен режим отпуска! Функциональность игры ограничена."/>
+					<MessagesRow v-if="user?.deleted_at" type="info" :text="'Включен режим удаления профиля!<br>Ваш аккаунт будет удалён после ' + $formatDate(user.deleted_at, 'DD MMM YYYY HH:mm') + '. Выключить режим удаления можно в настройках игры.'"/>
 					<slot/>
 				</div>
 			</div>
@@ -44,7 +46,7 @@
 	const messages = computed(() => {
 		return (store.messages || []).filter((item) => {
 			return item['type'].indexOf('-static') >= 0;
-		})
+		});
 	});
 
 	const view = computed(() => {

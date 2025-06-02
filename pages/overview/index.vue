@@ -39,8 +39,8 @@
 					<div class="separator"></div>
 				</div>
 
-				<div v-if="data.fleets.length">
-					<Fleets :items="data.fleets"/>
+				<div v-if="fleets.length">
+					<Fleets :items="fleets"/>
 					<div class="separator"></div>
 				</div>
 				<div class="row overview">
@@ -73,13 +73,13 @@
 											<div>
 												{{ $t('tech.' + item['id']) }}
 												<br>
-												<span v-if="item['time'] && dayjs(item['time']).diff() > 0">
+												<span v-if="item['time']">
 													{{ $t('overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['time'], 'DD MMM HH:mm') }}</span>
 												</span>
 												<span v-else class="positive">{{ $t('overview.officier_noactive') }}</span>
 											</div>
 										</template>
-										<span class="officier" :class="['of' + item['id'] + (item['time'] && dayjs(item['time']).diff() > 0 ? '_ikon' : '')]"></span>
+										<span class="officier" :class="['of' + item['id'] + (item['time'] ? '_ikon' : '')]"></span>
 									</Popper>
 								</NuxtLink>
 							</div>
@@ -248,7 +248,7 @@
 			</div>
 		</div>
 
-		<div v-if="chat.length > 0" class="page-overview-chat">
+		<div v-if="isMobile() && chat.length > 0" class="page-overview-chat">
 			<div class="separator"></div>
 
 			<table class="table" style="max-width: 100%">
@@ -271,15 +271,14 @@
 	import Fleets from '~/components/Page/Overview/Feets.vue';
 	import Clock from '~/components/Page/Overview/Clock.vue';
 	import QueueRow from '~/components/Page/Overview/QueueRow.vue';
+	import DailyBonus from '~/components/Page/Overview/DailyBonus.vue';
+	import ChatMessage from '~/components/Page/Overview/ChatMessage.vue';
 	import { sendMission } from '~/utils/fleet';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile, useApiPost, useApiGet, useI18n } from '#imports';
-	import { computed, onMounted } from 'vue';
-	import dayjs from 'dayjs';
-	import DailyBonus from '~/components/Page/Overview/DailyBonus.vue';
 	import useChatStore from '~/store/chat.js';
-	import ChatMessage from '~/components/Page/Overview/ChatMessage.vue';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile, useApiPost, useApiGet, useI18n, refreshNuxtData } from '#imports';
+	import { computed, onMounted } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -293,7 +292,7 @@
 
 	const store = useStore();
 
-	const { data, error, refresh } = await useAsyncData('page-overview',
+	const { data, error } = await useAsyncData(
 		async () => await Promise.all([
 			useApiGet('/fleet/list'),
 			store.loadState()
@@ -305,6 +304,7 @@
 		throw showError(error.value);
 	}
 
+	const fleets = computed(() => data.value?.fleets || []);
 	const { user, planet, queue } = storeToRefs(store);
 	const { host } = useRequestURL();
 	const { messages: chat } = storeToRefs(useChatStore());
@@ -336,7 +336,7 @@
 			2
 		);
 
-		await refresh();
+		await refreshNuxtData();
 	}
 
 	function openPlayerPopup () {
@@ -345,7 +345,7 @@
 
 	async function changeToMoon(id) {
 		await useApiPost('/user/planet/' + id, {});
-		await refresh();
+		await refreshNuxtData();
 	}
 
 	onMounted(async () => {

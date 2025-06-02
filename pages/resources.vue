@@ -56,10 +56,10 @@
 									<th width="200"></th>
 									<th>Ур.</th>
 									<th>Бонус</th>
-									<th><InfoPopup :id="1" :title="$t('tech.1')">Металл</InfoPopup></th>
-									<th><InfoPopup :id="2" :title="$t('tech.2')">Кристалл</InfoPopup></th>
-									<th><InfoPopup :id="3" :title="$t('tech.3')">Дейтерий</InfoPopup></th>
-									<th><InfoPopup :id="4" :title="$t('tech.4')">Энергия</InfoPopup></th>
+									<th><InfoPopup :id="1" :title="$t('tech.1')">{{ $t('resources.metal') }}</InfoPopup></th>
+									<th><InfoPopup :id="2" :title="$t('tech.2')">{{ $t('resources.crystal') }}</InfoPopup></th>
+									<th><InfoPopup :id="3" :title="$t('tech.3')">{{ $t('resources.deuterium') }}</InfoPopup></th>
+									<th><InfoPopup :id="4" :title="$t('tech.4')">{{ $t('resources.energy') }}</InfoPopup></th>
 									<th width="100">КПД</th>
 								</tr>
 								<tr>
@@ -169,7 +169,7 @@
 
 	const store = useStore();
 
-	const { data: page, error, refresh } = await useAsyncData('page-resources',
+	const { data: page, error, refresh } = await useAsyncData(
 		async () => await Promise.all([
 			useApiGet('/resources'),
 			store.loadState()

@@ -48,7 +48,7 @@
 
 			emit('close');
 
-			await refreshNuxtData('page-support');
+			await refreshNuxtData();
 		} catch (e) {
 			await openAlertModal(null, e);
 		}

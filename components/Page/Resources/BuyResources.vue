@@ -49,7 +49,7 @@
 					useApiSubmit('/resources/buy', {}, (result) => {
 						useSuccessNotification('Вы успешно купили ' + result['metal'] + ' металла, ' + result['crystal'] + ' кристалла, ' + result['deuterium'] + ' дейтерия');
 
-						refreshNuxtData('page-resources');
+						refreshNuxtData();
 					});
 				}
 			}]

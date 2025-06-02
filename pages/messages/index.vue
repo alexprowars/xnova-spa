@@ -64,7 +64,7 @@
 	const limit = ref();
 	const route = useRoute();
 
-	const { data: page, error, refresh } = await useAsyncData('page-messages',
+	const { data: page, error, refresh } = await useAsyncData(
 		async () => await useApiGet('/messages', Object.assign({}, route.query, { category: category.value, limit: limit.value })),
 		{ watch: [() => useRoute().query] }
 	);

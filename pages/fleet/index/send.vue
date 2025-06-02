@@ -62,12 +62,12 @@
 		middleware: ['auth'],
 	});
 
-	const { data: page } = useNuxtData('page-fleet.send');
+	const { data: page } = useNuxtData('fleet.send');
 
 	if (page.value === null) {
 		await navigateTo('/fleet');
 	}
 
-	const { data } = useNuxtData('page-fleet.checkout');
+	const { data } = useNuxtData('fleet.checkout');
 	data.value = null;
 </script>

@@ -28,7 +28,6 @@
 	});
 
 	const { data: page, error } = await useAsyncData(
-		'page-alliance.ranks',
 		async () => await useApiGet('/alliance/admin/ranks'),
 		{ watch: [() => useRoute().query] }
 	);

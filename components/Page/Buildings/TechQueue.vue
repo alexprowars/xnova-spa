@@ -22,7 +22,7 @@
 	const time = computed(() => dayjs(props.build['date']).diff(dayjs(now.value).utc()) / 1000);
 
 	async function refresh() {
-		await refreshNuxtData('page-research');
+		await refreshNuxtData();
 	}
 
 	function cancelAction () {
@@ -38,7 +38,7 @@
 						element: props.build['item'],
 					});
 
-					await refreshNuxtData('page-research');
+					await refreshNuxtData();
 				}
 			}]
 		);

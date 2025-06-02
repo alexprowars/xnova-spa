@@ -134,19 +134,19 @@
 							<td colspan="3" class="c">Сырьё</td>
 						</tr>
 						<tr>
-							<th>Металл</th>
+							<th>{{ $t('resources.metal') }}</th>
 							<th><a @click.prevent="maxRes('metal')">макс.</a></th>
-							<th><input v-model="resource.metal" alt="Металл" size="10" type="text"></th>
+							<th><input v-model="resource.metal" :alt="$t('resources.metal')" size="10" type="text"></th>
 						</tr>
 						<tr>
-							<th>Кристалл</th>
+							<th>{{ $t('resources.crystal') }}</th>
 							<th><a @click.prevent="maxRes('crystal')">макс.</a></th>
-							<th><input v-model="resource.crystal" alt="Кристалл" size="10" type="text"></th>
+							<th><input v-model="resource.crystal" :alt="$t('resources.crystal')" size="10" type="text"></th>
 						</tr>
 						<tr>
-							<th>Дейтерий</th>
+							<th>{{ $t('resources.deuterium') }}</th>
 							<th><a @click.prevent="maxRes('deuterium')">макс.</a></th>
-							<th><input v-model="resource.deuterium" alt="Дейтерий" size="10" type="text"></th>
+							<th><input v-model="resource.deuterium" :alt="$t('resources.deuterium')" size="10" type="text"></th>
 						</tr>
 						<tr>
 							<th>Остаток</th>
@@ -216,7 +216,7 @@
 		middleware: ['auth'],
 	});
 
-	let { data } = useNuxtData('page-fleet.checkout');
+	let { data } = useNuxtData('fleet.checkout');
 
 	if (data.value === null) {
 		await navigateTo('/fleet');
@@ -363,7 +363,7 @@
 			speed: speed.value,
 			resource: resource.value,
 		}, (result) => {
-			const { data } = useNuxtData('page-fleet.send');
+			const { data } = useNuxtData('fleet.send');
 			data.value = result;
 
 			store.loadState();

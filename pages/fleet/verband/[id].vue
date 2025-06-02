@@ -80,7 +80,7 @@
 
 	const route = useRoute();
 
-	const { data: page, error } = await useAsyncData('page-verband.' + route.params['id'],
+	const { data: page, error } = await useAsyncData(
 		async () => await useApiGet('/fleet/verband/' + route.params.id),
 		{ watch: [() => useRoute().query] }
 	);

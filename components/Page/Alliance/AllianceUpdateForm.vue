@@ -58,7 +58,7 @@
 		const data = new FormData(formRef.value);
 
 		useApiSubmit('alliance/admin', data, () => {
-			refreshNuxtData('page-alliance.admin');
+			refreshNuxtData();
 		});
 	}
 </script>

@@ -24,12 +24,12 @@
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
 												<div class="separator"></div>
-												<span class="officier" :class="['of' + officier['id'] + (officier['date'] && dayjs(officier['date']).diff() > 0 ? '_ikon' : '')]"></span>
+												<span class="officier" :class="['of' + officier['id'] + (officier['date'] ? '_ikon' : '')]"></span>
 											</td>
 										</tr>
 										<tr>
 											<td v-for="officier in user['officiers']" class="text-center">
-												<span v-if="officier['date'] && dayjs(officier['date']).diff() > 0">Нанят до<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
+												<span v-if="officier['date']">Нанят до<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
 												<span v-else><span class="positive">Не нанят</span></span>
 											</td>
 										</tr>
@@ -54,7 +54,6 @@
 	import useStore from '~/store';
 	import { onBeforeUnmount, onUpdated, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
-	import dayjs from 'dayjs';
 
 	const updated = ref(0);
 

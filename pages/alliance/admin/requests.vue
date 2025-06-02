@@ -52,7 +52,6 @@
 	});
 
 	const { data: page, error } = await useAsyncData(
-		'page-alliance.requests',
 		async () => await useApiGet('/alliance/admin/requests'),
 		{ watch: [() => useRoute().query] }
 	);

@@ -51,7 +51,7 @@
 						index: props.index
 					});
 
-					await refreshNuxtData('page-buildings');
+					await refreshNuxtData();
 				}
 			}]
 		)
@@ -70,7 +70,7 @@
 						index: props.index - 1
 					})
 
-					await refreshNuxtData('page-buildings');
+					await refreshNuxtData();
 				}
 			}]
 		);

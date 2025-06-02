@@ -75,7 +75,6 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(
-		'page-alliance.admin',
 		async () => await useApiGet('/alliance/admin', Object.assign({}, route.query)),
 		{ watch: [() => useRoute().query] }
 	);

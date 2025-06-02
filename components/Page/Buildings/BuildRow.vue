@@ -119,7 +119,7 @@
 			element: props.item['id']
 		});
 
-		await refreshNuxtData('page-buildings');
+		await refreshNuxtData();
 	}
 
 	function openInfoPopup () {
