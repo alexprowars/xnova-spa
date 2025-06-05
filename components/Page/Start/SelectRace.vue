@@ -42,7 +42,7 @@
 
 			await useStore().loadState();
 
-			navigateTo('/tutorial');
+			navigateTo('/quests');
 		} catch (e) {
 			alert(e.data?.message || e.message);
 		}

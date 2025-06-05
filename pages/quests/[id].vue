@@ -1,16 +1,16 @@
 <template>
-	<div class="page-tutorial tutorial-detail">
+	<div class="page-quests quests-detail">
 		<div class="block">
 			<div class="title text-center">
 				{{ page['title'] }}
 			</div>
 			<div class="content border-0">
-				<div class="block-table tutorial">
+				<div class="block-table quests">
 					<div class="row">
 						<div class="col k text-start">
 							<div class="row">
 								<div class="col-3 text-center">
-									<img :src="'/images/tutorial/'+page['id']+'.jpg'" class="img-fluid" alt="">
+									<img :src="'/images/quests/'+page['id']+'.jpg'" class="img-fluid" alt="">
 								</div>
 								<div class="col-9">
 									<div class="description" v-html="page['description']"></div>
@@ -56,7 +56,7 @@
 	const store = useStore();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useApiGet('/tutorial/' + useRoute().params.id);
+		return await useApiGet('/quests/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -68,12 +68,12 @@
 	});
 
 	function finish() {
-		useApiSubmit('tutorial/' + page.value['id'], {}, () => {
+		useApiSubmit('quests/' + page.value['id'], {}, () => {
 			useSuccessNotification('Квест завершен');
 
 			store.loadState();
 
-			navigateTo('/tutorial');
+			navigateTo('/quests');
 		});
 	}
 </script>

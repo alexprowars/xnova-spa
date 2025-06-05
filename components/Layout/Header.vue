@@ -2,7 +2,7 @@
 	<header class="top-menu">
 		<div class="top-menu-container">
 			<div class="top-menu-block left">
-				<NuxtLink v-if="user['quests'] < 10" :to="{ path: '/tutorial', force: true }" class="m1" v-tooltip="$t('menu.quests')">
+				<NuxtLink v-if="user['quests'] < 10" :to="{ path: '/quests', force: true }" class="m1" v-tooltip="$t('menu.quests')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-book"></use>
 					</svg>

@@ -33,23 +33,23 @@ export const useStore = defineStore('app', {
 		async loadState() {
 			const data = await useApiGet('/state');
 
-			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['popup'] !== '') {
+			if (typeof data['quest'] !== 'undefined' && data['quest']['popup'] !== '') {
 				$.confirm({
 					title: 'Обучение',
-					content: data['tutorial']['popup'],
+					content: data['quest']['popup'],
 					confirmButton: 'Продолжить',
 					cancelButton: false,
 					backgroundDismiss: false,
 					confirm() {
-						if (data['tutorial']['url'] !== '') {
-							navigateTo(data['tutorial']['url']);
+						if (data['quest']['url'] !== '') {
+							navigateTo(data['quest']['url']);
 						}
 					}
 				})
 			}
 
-			if (typeof data['tutorial'] !== 'undefined' && data['tutorial']['toast'] !== '') {
-				useToast(data['tutorial']['toast'], 'info')
+			if (typeof data['quest'] !== 'undefined' && data['quest']['toast'] !== '') {
+				useToast(data['quest']['toast'], 'info')
 			}
 
 			this.PAGE_LOAD(data);

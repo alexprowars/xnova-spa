@@ -1,5 +1,5 @@
 <template>
-	<div class="page-tutorial">
+	<div class="page-quests">
 		<div class="block">
 			<div class="title text-center">
 				Текущие задания
@@ -12,7 +12,7 @@
 							<img :src="'/images/'+(quest['finish'] ? 'check' : 'none')+'.gif'" height="11" width="12" alt="">
 						</div>
 						<div class="col th text-start">
-							<NuxtLink v-if="quest['available']" :to="'/tutorial/' + quest['id']"><span class="positive">{{ quest['title'] }}</span></NuxtLink>
+							<NuxtLink v-if="quest['available']" :to="'/quests/' + quest['id']"><span class="positive">{{ quest['title'] }}</span></NuxtLink>
 							<span v-else class="positive">{{ quest['title'] }}</span>
 							<template v-if="quest['available'] === false && Object.keys(quest['required']).length > 0">
 								<br><br>Требования:
@@ -45,7 +45,7 @@
 	});
 
 	const { data, error } = await useAsyncData(async () => {
-		return await useApiGet('/tutorial');
+		return await useApiGet('/quests');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {

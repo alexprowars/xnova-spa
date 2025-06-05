@@ -21,28 +21,6 @@
 
 		<div class="separator"></div>
 
-		<div v-if="!isVacation" class="block">
-			<div class="title text-center">
-				Управление шахтами и энергетикой
-			</div>
-			<div class="content border-0">
-				<div class="block-table">
-					<div class="row">
-						<div class="col col-sm-6 th">
-							<button @click.prevent="shutdown('Y')" class="button">
-								Включить на всех<br>планетах
-							</button>
-						</div>
-						<div class="col col-sm-6 th">
-							<button @click.prevent="shutdown('N')" class="button">
-								Выключить на всех<br>планетах
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="block">
 			<div class="title text-center">
 				Производство на планете "{{ planet['name'] }}"
@@ -87,7 +65,7 @@
 									</td>
 								</tr>
 								<tr>
-									<th colspan="3">Сумма:</th>
+									<th colspan="3">Всего:</th>
 									<td v-for="res in page['resources']" class="k">
 										<Colored :value="planet['resources'][res]['production']"/>
 									</td>
@@ -141,6 +119,28 @@
 			<div class="content border-0">
 				<div class="block-table">
 					<StorageRow v-for="res in page['resources']" :key="res" :resource="res"/>
+				</div>
+			</div>
+		</div>
+
+		<div v-if="!isVacation" class="block">
+			<div class="title text-center">
+				Управление шахтами и энергетикой
+			</div>
+			<div class="content border-0">
+				<div class="block-table">
+					<div class="row">
+						<div class="col th">
+							<button @click.prevent="shutdown('Y')" class="button">
+								Включить на всех<br>планетах
+							</button>
+						</div>
+						<div class="col th">
+							<button @click.prevent="shutdown('N')" class="button">
+								Выключить на всех<br>планетах
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

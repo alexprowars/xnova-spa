@@ -1,5 +1,5 @@
 <template>
-	<div v-if="data['visible']" class="block">
+	<div v-if="visible" class="block">
 		<div class="title text-center">
 			Покупка ресурсов (8 ч. выработка ресурсов)
 		</div>
@@ -19,9 +19,9 @@
 					<div class="col-8 th middle">
 						<div>
 							Вы можете купить:
-							<Colored :value="data['metal']"/> металла,
-							<Colored :value="data['crystal']"/> кристалла,
-							<Colored :value="data['deuterium']"/> дейтерия
+							<Colored :value="data['metal'] || 0"/> металла,
+							<Colored :value="data['crystal'] || 0"/> кристалла,
+							<Colored :value="data['deuterium'] || 0"/> дейтерия
 						</div>
 					</div>
 				</div>
@@ -32,9 +32,18 @@
 
 <script setup>
 	import { openConfirmModal, useApiSubmit, useSuccessNotification, refreshNuxtData } from '#imports';
+	import { computed } from 'vue';
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store';
 
 	defineProps({
 		data: Object,
+	});
+
+	const { user, planet } = storeToRefs(useStore());
+
+	const visible = computed(() => {
+		return planet.value.type === 1 && user.value.vacation === null;
 	});
 
 	function buyResources() {
