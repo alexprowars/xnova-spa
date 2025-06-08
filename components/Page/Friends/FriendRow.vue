@@ -1,16 +1,16 @@
 <template>
-	<div class="row">
-		<div class="col th middle">
+	<div class="grid grid-cols-5">
+		<div class="th middle">
 			<NuxtLink :to="'/messages/write/'+item['user']['id']">{{ item['user']['name'] }}</NuxtLink>
 		</div>
-		<div class="col th middle">
+		<div class="th middle">
 			<NuxtLink v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']">{{ item['user']['alliance']['name'] }}</NuxtLink>
 			<template v-else>-</template>
 		</div>
-		<div class="col th middle">
+		<div class="th middle">
 			<NuxtLink :to="'/galaxy?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLink>
 		</div>
-		<div class="col th middle">
+		<div class="th middle">
 			<span v-if="item['online'] === 1" class="positive">
 				В игре
 			</span>
@@ -21,7 +21,7 @@
 				Не в игре
 			</span>
 		</div>
-		<div class="col th middle">
+		<div class="th middle">
 			<button @click.prevent="remove(item['id'])" class="button text-danger">Удалить</button>
 		</div>
 	</div>

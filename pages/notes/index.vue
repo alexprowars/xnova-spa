@@ -5,30 +5,29 @@
 		</div>
 		<div class="content">
 			<div class="block-table">
-				<div class="row">
-					<div class="col-1 c"></div>
-					<div class="col-3 c">Дата</div>
-					<div class="col-8 c">Тема</div>
+				<div class="grid grid-cols-12">
+					<div class="col-span-1 c"></div>
+					<div class="col-span-3 c">Дата</div>
+					<div class="col-span-8 c">Тема</div>
 				</div>
-				<div class="row" v-for="item in items">
-					<div class="col-1 th">
+				<div class="grid grid-cols-12" v-for="item in items">
+					<div class="col-span-1 th text-center">
 						<input :value="item['id']" v-model="deleteItems" type="checkbox">
 					</div>
-					<div class="col-3 th">
+					<div class="col-span-3 th text-center">
 						{{ $formatDate(item['time'], 'DD MMM YYYY HH:mm') }}
 					</div>
-					<div class="col-8 th">
+					<div class="col-span-8 th">
 						<NuxtLink :to="'/notes/' + item['id']">
 							<span :style="'color:'+item['color']">{{ item['title'] }}</span>
 						</NuxtLink>
 					</div>
 				</div>
-				<div class="row" v-if="items.length === 0">
-					<div class="th col-12">Заметки отсутствуют</div>
+				<div class="grid" v-if="items.length === 0">
+					<div class="th">Заметки отсутствуют</div>
 				</div>
 			</div>
-			<div class="separator"></div>
-			<div class="text-end">
+			<div class="mt-2">
 				<button v-if="deleteItems.length > 0" class="negative" @click="deleteNotes">Удалить выбранное</button>
 				<NuxtLink class="button" to="/notes/create">Создать новую заметку</NuxtLink>
 			</div>

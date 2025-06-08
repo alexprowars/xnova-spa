@@ -1,21 +1,21 @@
 <template>
 	<div class="block start">
 		<div class="title">Основная информация</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table">
-				<div class="row">
-					<div class="col th">Введите ваш игровой ник</div>
-					<div class="col th"><input name="name" size="20" maxlength="30" type="text" v-model="name"></div>
+				<div class="grid grid-cols-2">
+					<div class="th">Введите ваш игровой ник</div>
+					<div class="th"><input name="name" size="20" maxlength="30" type="text" v-model="name"></div>
 				</div>
-				<div class="row">
-					<div class="col c">Выберите ваш игровой образ</div>
+				<div class="grid">
+					<div class="c">Выберите ваш игровой образ</div>
 				</div>
-				<div class="row">
-					<div class="col th">
+				<div class="grid">
+					<div class="th">
 						<Tabs>
 							<Tab name="Мужской">
-								<div class="row">
-									<div v-for="i in 8" class="col-3">
+								<div class="grid grid-cols-4">
+									<div v-for="i in 8">
 										<input type="radio" :value="'1_'+i" :id="'f1_'+i" v-model="avatar">
 										<label :for="'f1_'+i" class="avatar">
 											<img :src="'/images/faces/1/'+i+'s.png'" alt="">
@@ -24,8 +24,8 @@
 								</div>
 							</Tab>
 							<Tab name="Женский">
-								<div class="row">
-									<div v-for="i in 8" class="col-3">
+								<div class="grid grid-cols-4">
+									<div v-for="i in 8">
 										<input type="radio" :value="'2_'+i" :id="'f2_'+i" v-model="avatar">
 										<label :for="'f2_'+i" class="avatar">
 											<img :src="'/images/faces/2/'+i+'s.png'" alt="">
@@ -36,8 +36,8 @@
 						</Tabs>
 					</div>
 				</div>
-				<div v-if="name && avatar" class="row">
-					<div class="col th">
+				<div v-if="name && avatar" class="grid">
+					<div class="th">
 						<button @click.prevent="save">Продолжить</button>
 					</div>
 				</div>

@@ -1,10 +1,10 @@
 <template>
 	<div class="block start race">
 		<div class="title">Выбор фракции</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table" id="tabs">
-				<div class="row">
-					<div v-for="(race, index) in Object.keys($tm('races'))" class="col-6 th">
+				<div class="grid grid-cols-2">
+					<div v-for="(race, index) in Object.keys($tm('races'))" class="th">
 						<input type="radio" @change="select(race)" :id="'f_'+race">
 						<label :for="'f_'+race" class="race">
 							<img :src="'/images/skin/race' + race + '.gif'" alt=""><br>
@@ -13,8 +13,8 @@
 						</label>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col th">
+				<div class="grid">
+					<div class="th">
 						<button @click.prevent="save">Продолжить</button>
 					</div>
 				</div>

@@ -1,14 +1,14 @@
 <template>
 	<Tabs class="page-techtree">
-		<Tab v-for="(groups, i) in page" :key="i" :name="groups['name']" class="container-fluid">
-			<div v-for="list in groups['items']" class="row">
-				<div class="col-sm-5 col-6 title">
+		<Tab v-for="(groups, i) in page" :key="i" :name="groups['name']">
+			<div v-for="list in groups['items']" class="grid grid-cols-2">
+				<div class="title flex items-center justify-between">
 					<NuxtLink :to="'/info/' + list['id']">{{ $t('tech.' + list['id']) }}</NuxtLink>
-					<div v-if="list['required'] !== ''" class="float-end d-none d-sm-block">
+					<div v-if="list['required'] !== ''" class="float-end hidden sm:block">
 						<NuxtLink :to="'/tech/' + list['id']">[i]</NuxtLink>
 					</div>
 				</div>
-				<div class="col-sm-7 col-6" v-html="list['required']"></div>
+				<div class="" v-html="list['required']"></div>
 			</div>
 		</Tab>
 	</Tabs>

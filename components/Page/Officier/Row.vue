@@ -1,50 +1,42 @@
 <template>
-	<div class="row officiers-item">
-		<div class="col-12 officiers-item-title">
+	<div class="officiers-item">
+		<div class="officiers-item-title">
 			{{ $t('tech.' + item['id']) }}
 			(<span v-if="time" class="positive">Нанят до: {{ $formatDate(time, 'DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
 		</div>
-		<div class="d-none d-sm-block col-sm-2 text-center officiers-item-image">
-			<img :src="'/images/officiers/'+item['id']+'.jpg'" align="top" alt="">
-		</div>
-		<div class="col-12 col-sm-7 text-start officiers-item-description">
-			<div v-html="$t('info.' + item['id'])"></div>
-			<table class="powers">
-				<tbody>
-					<tr>
-						<td :rowspan="(item['power'].length + 1)" valign="top" class="padding-0">
-							<img :src="'/images/officiers/'+item['id']+'.gif'" :alt="$t('tech.'+item['id'])">
-						</td>
-					</tr>
-					<tr v-for="power in item['power']">
-						<td class="up">{{ power }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="clearfix d-sm-none">
-			<div class="separator"></div>
-		</div>
-		<div class="col-6 d-sm-none text-center officiers-item-image">
-			<img :src="'/images/officiers/' + item['id'] + '.jpg'" align="top" alt="">
-		</div>
-		<div v-if="!isVacation" class="col-6 col-sm-3 text-center officiers-item-action">
-			<div class="negative">{{ time > 0 ? 'Продлить' : 'Нанять' }}</div>
+		<div class="flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-x-2">
+			<div class="basis-1/2 sm:basis-1/6 grow order-1 sm:order-none officiers-item-image">
+				<img :src="'/images/officiers/'+item['id']+'.jpg'" align="top" alt="">
+			</div>
+			<div class="basis-full sm:basis-4/6 grow text-left officiers-item-description">
+				<div v-html="$t('info.' + item['id'])"></div>
+				<div class="flex my-4 gap-2">
+					<div>
+						<img :src="'/images/officiers/'+item['id']+'.gif'" :alt="$t('tech.'+item['id'])">
+					</div>
+					<div class="flex flex-col justify-center gap-1">
+						<div v-for="power in item['power']" class="text-sky-300">{{ power }}</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="!isVacation" class="basis-1/2 sm:basis-1/6 order-2 text-center officiers-item-action flex items-center justify-center">
+				<div>
+					<div class="negative">{{ time > 0 ? 'Продлить' : 'Нанять' }}</div>
 
-			<button @click.prevent="submit(7, 20)">на неделю</button>
-			<br>Стоимость:&nbsp;<span class="positive">20</span>&nbsp;кр.
+					<button @click.prevent="submit(7, 20)">на неделю</button>
+					<br>Стоимость:&nbsp;<span class="positive">20</span>&nbsp;кр.
 
-			<div class="separator"></div>
+					<div class="separator"></div>
 
-			<button @click.prevent="submit(14, 40)">на 2 недели</button>
-			<br>Стоимость:&nbsp;<span class="positive">40</span>&nbsp;кр.
+					<button @click.prevent="submit(14, 40)">на 2 недели</button>
+					<br>Стоимость:&nbsp;<span class="positive">40</span>&nbsp;кр.
 
-			<div class="separator"></div>
+					<div class="separator"></div>
 
-			<button @click.prevent="submit(30, 80)">на месяц</button>
-			<br>Стоимость:&nbsp;<span class="positive">80</span>&nbsp;кр.
-
-			<div class="separator"></div>
+					<button @click.prevent="submit(30, 80)">на месяц</button>
+					<br>Стоимость:&nbsp;<span class="positive">80</span>&nbsp;кр.
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

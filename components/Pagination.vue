@@ -1,6 +1,6 @@
 <template>
 	<nav>
-		<ul class="pagination pagination-sm">
+		<ul class="pagination">
 			<li v-for="item in items" class="page-item" :class="{active: options['page'] === item}">
 				<a v-if="item > 0" href @click.prevent="load(item)" class="page-link">{{ item }}</a>
 				<a v-else href @click.prevent="load(item)" class="page-link">...</a>

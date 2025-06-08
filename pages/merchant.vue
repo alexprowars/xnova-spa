@@ -1,10 +1,10 @@
 <template>
 	<div class="block start">
 		<div class="title">Обмен сырья</div>
-		<div class="content border-0">
-			<form method="post" class="container-fluid table" @submit.prevent="exchange">
-				<div class="row">
-					<div class="col th">
+		<div class="content !border-0">
+			<form method="post" class="block-table text-center" @submit.prevent="exchange">
+				<div class="grid" :class="{ 'grid-cols-2': type !== '' }">
+					<div class="th">
 						Вы можете вызвать межгалактического торговца для обмена ресурсов.<br>
 						<div class="negative">Каждая операция обмена будет стоить вам 1 кредит.</div><br><br>
 
@@ -19,29 +19,29 @@
 						(курс {{ modifiers['deuterium'] }}/{{ modifiers['crystal'] }}/{{ modifiers['metal'] }})
 						<br><br>
 					</div>
-					<div v-if="type !== ''" class="col th">
+					<div v-if="type !== ''" class="th">
 						<div class="block-table">
-							<div class="row">
-								<div class="c col">Обменять {{ $t('resources.' + type).toLowerCase() }} на</div>
+							<div class="grid">
+								<div class="c">Обменять {{ $t('resources.' + type).toLowerCase() }} на</div>
 							</div>
-							<div class="row">
-								<div class="col-3 th"></div>
-								<div class="col-3 th">Курс</div>
-								<div class="col-6 th"></div>
+							<div class="grid grid-cols-12">
+								<div class="col-span-3 th"></div>
+								<div class="col-span-3 th">Курс</div>
+								<div class="col-span-6 th"></div>
 							</div>
-							<div v-for="res in ['metal', 'crystal', 'deuterium']" class="row">
-								<div class="col-3 th middle">{{ $t('resources.' + res) }}</div>
-								<div class="col-3 th middle">{{ modifiers[res] / modifiers[type] }}</div>
-								<div class="col-6 th middle">
+							<div v-for="res in ['metal', 'crystal', 'deuterium']" class="grid grid-cols-12">
+								<div class="col-span-3 th middle">{{ $t('resources.' + res) }}</div>
+								<div class="col-span-3 th middle">{{ modifiers[res] / modifiers[type] }}</div>
+								<div class="col-span-6 th middle">
 									<Number v-if="type !== res" min="0" v-model="resources[res]" placeholder="введите кол-во" @input="calculate"/>
 									<span v-else>{{ resources[res] }}</span>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col th negative">Внимание! Стоимость обмена 1 кредит</div>
+							<div class="grid">
+								<div class="th negative">Внимание! Стоимость обмена 1 кредит</div>
 							</div>
-							<div class="row">
-								<div class="col c">
+							<div class="grid">
+								<div class="c">
 									<button type="submit">Обменять ресурсы</button>
 								</div>
 							</div>

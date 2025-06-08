@@ -13,7 +13,7 @@
 		<MissileAttack v-if="missile" :page="page" :planet="missilePlanet" @close="missile = false"/>
 
 		<div class="table-responsive">
-			<table class="table galaxy">
+			<table class="table galaxy text-center">
 				<tbody>
 					<tr>
 						<td class="c" colspan="9">Солнечная система {{ page['galaxy'] }}:{{ page['system'] }}</td>

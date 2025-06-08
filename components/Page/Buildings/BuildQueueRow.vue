@@ -1,9 +1,9 @@
 <template>
-	<div class="row">
-		<div class="col-6 c">
+	<div class="grid grid-cols-2">
+		<div class="c">
 			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? '. Снос здания' : '' }}
 		</div>
-		<div class="col-6 k" v-if="index === 0">
+		<div class="k" v-if="index === 0">
 			<div v-if="time > 0" class="z">
 				{{ $formatTime(time, ':', true) }}
 				<br>
@@ -16,7 +16,7 @@
 			</div>
 			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
-		<div class="col-6 k" v-else>
+		<div class="k" v-else>
 			<a @click.prevent="deleteItem">Удалить</a>
 			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>

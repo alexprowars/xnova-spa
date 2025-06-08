@@ -6,21 +6,8 @@
 
 <script setup>
 	import { useLoading } from '#imports';
-	import { watch } from 'vue';
 
 	const loading = useLoading();
-
-	watch(loading, (value) => {
-		if (value) {
-			if (!document.querySelector('.dialog-box')) {
-				document.body.classList.add('loading');
-			}
-		} else {
-			if (!document.querySelector('.dialog-box')) {
-				document.body.classList.remove('loading');
-			}
-		}
-	})
 </script>
 
 <style>

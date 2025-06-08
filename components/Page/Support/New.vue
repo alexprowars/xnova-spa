@@ -3,22 +3,22 @@
 		<div class="title text-center">
 			Новый запрос
 		</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table">
-				<div class="row">
-					<div class="col-3 th">Тема:</div>
-					<div class="col-9 th">
+				<div class="grid grid-cols-4">
+					<div class="th">Тема:</div>
+					<div class="col-span-3 th">
 						<input type="text" v-model="subject" class="width-full" name="subject">
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-3 th">Текст сообщения:</div>
-					<div class="col-9 th">
+				<div class="grid grid-cols-4">
+					<div class="th">Текст сообщения:</div>
+					<div class="col-span-3 th">
 						<TextEditor v-model="message"/>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col c">
+				<div class="grid">
+					<div class="c">
 						<button @click.prevent="request">Отправить</button>
 						<button @click.prevent="emit('close')">Закрыть</button>
 					</div>

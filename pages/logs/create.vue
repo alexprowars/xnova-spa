@@ -1,10 +1,10 @@
 <template>
-	<div class="block-table container-fluid">
-		<div class="row">
-			<div class="col c">Сохранение боевого доклада</div>
+	<div class="block-table">
+		<div class="grid">
+			<div class="c">Сохранение боевого доклада</div>
 		</div>
-		<div class="row">
-			<div class="col th">
+		<div class="grid">
+			<div class="th">
 				<form method="post" @submit.prevent="create">
 					<div>Название:</div>
 					<div><input type="text" name="title" v-model="title" :class="{error: v$.title.$error}" size="50" maxlength="100"></div>

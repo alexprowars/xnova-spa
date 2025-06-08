@@ -3,28 +3,28 @@
 		<div class="title text-center">
 			Список друзей
 		</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table">
-				<div class="row">
-					<div class="col text-center j">
+				<div class="grid">
+					<div class="text-center">
 						<NuxtLink to="/friends/requests">Запросы</NuxtLink>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col text-center j">
+				<div class="grid">
+					<div class="text-center">
 						<NuxtLink to="/friends/requests/my">Мои запросы</NuxtLink>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col c">Имя</div>
-					<div class="col c">Альянс</div>
-					<div class="col c">Координаты</div>
-					<div class="col c">Онлайн</div>
-					<div class="col c">&nbsp;</div>
+				<div class="grid grid-cols-5">
+					<div class="c">Имя</div>
+					<div class="c">Альянс</div>
+					<div class="c">Координаты</div>
+					<div class="c">Онлайн</div>
+					<div class="c">&nbsp;</div>
 				</div>
 				<FriendRow v-for="item in items" :key="item['id']" :item="item"/>
-				<div v-if="items.length === 0" class="row">
-					<div class="col th">Нет друзей</div>
+				<div v-if="items.length === 0" class="grid">
+					<div class="th">Нет друзей</div>
 				</div>
 			</div>
 		</div>

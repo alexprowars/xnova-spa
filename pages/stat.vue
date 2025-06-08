@@ -4,19 +4,19 @@
 			<div class="title text-center">
 				Статистика: {{ $formatDate(data['update'], 'HH:mm:ss DD MMM YYYY') }}
 			</div>
-			<div class="content border-0">
-				<div class="block-table">
-					<div class="row">
-						<div class="th col-2 middle">Статистика</div>
-						<div class="th col-4 col-sm-2">
+			<div class="content !border-0">
+				<div class="block-table text-center">
+					<div class="grid grid-cols-12">
+						<div class="th col-span-2 middle">Статистика</div>
+						<div class="th col-span-4 sm:col-span-2">
 							<select v-model="form.list">
 								<option value="players">Игроков</option>
 								<option value="alliances">Альянсов</option>
 								<option value="races">Фракций</option>
 							</select>
 						</div>
-						<div class="th col-2 col-sm-1 middle">по</div>
-						<div class="th col-4 col-sm-3">
+						<div class="th col-span-2 sm:col-span-1 middle">по</div>
+						<div class="th col-span-4 sm:col-span-3">
 							<select v-model="form.type">
 								<option :value="1">Очкам</option>
 								<option :value="2">Флоту</option>
@@ -27,8 +27,8 @@
 								<option v-if="form.list !== 'races'" :value="7">Боевому уровню</option>
 							</select>
 						</div>
-						<div v-if="form.list !== 'races'" class="th col-2 middle">место</div>
-						<div v-if="form.list !== 'races'" class="th col-10 col-sm-2">
+						<div v-if="form.list !== 'races'" class="th col-span-2 middle">место</div>
+						<div v-if="form.list !== 'races'" class="th col-span-10 sm:col-span-2">
 							<select v-model="form.page">
 								<option v-for="i in form.pages" :value="i">{{ (i - 1) * 100 + 1 }} - {{ i * 100 }}</option>
 							</select>

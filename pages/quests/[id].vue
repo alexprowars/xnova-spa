@@ -4,17 +4,17 @@
 			<div class="title text-center">
 				{{ page['title'] }}
 			</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table quests">
-					<div class="row">
-						<div class="col k text-start">
-							<div class="row">
-								<div class="col-3 text-center">
-									<img :src="'/images/quests/'+page['id']+'.jpg'" class="img-fluid" alt="">
+					<div class="grid">
+						<div class="k text-left">
+							<div class="grid grid-cols-12 gap-3 m-3">
+								<div class="col-span-3 text-center">
+									<img :src="'/images/quests/' + page['id'] + '.jpg'" class="inline" alt="">
 								</div>
-								<div class="col-9">
+								<div class="col-span-9 text-left">
 									<div class="description" v-html="page['description']"></div>
-									<h3>Задачи:</h3>
+									<div class="text-xl mt-4">Задачи:</div>
 									<ul>
 										<li v-for="task in page['task']">
 											<span v-html="task[0]"></span>
@@ -30,10 +30,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col k">
+					<div class="grid">
+						<div class="k">
 							<input v-if="!page['errors']" type="button" class="end" @click.prevent="finish" value="Закончить">
-							<div v-if="page['solution']" class="solution" v-html="page['solution']"></div>
+							<div v-if="page['solution']" class="solution m-3" v-html="page['solution']"></div>
 						</div>
 					</div>
 				</div>

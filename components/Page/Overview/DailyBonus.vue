@@ -4,12 +4,11 @@
 			Ежедневный бонус
 		</div>
 		<div class="block-table">
-			<div class="row">
-				<div class="col th">
-					Сейчас вы можете получить по <b class="positive">{{ $formatNumber(amount) }}</b> Металла, Кристаллов и Дейтерия.<br>
-					Каждый день размер бонуса будет увеличиваться.<br>
-					<br>
-					<button @click.prevent="getBonus" class="button">Получить ресурсы</button><br>
+			<div class="grid">
+				<div class="th text-center">
+					<div>Сейчас вы можете получить по <b class="positive">{{ $formatNumber(amount) }}</b> Металла, Кристаллов и Дейтерия.</div>
+					<div class="mb-4">Каждый день размер бонуса будет увеличиваться.</div>
+					<button @click.prevent="getBonus" class="button">Получить ресурсы</button>
 				</div>
 			</div>
 		</div>

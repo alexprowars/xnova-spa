@@ -1,56 +1,48 @@
 <template>
 	<form ref="form" class="page-galaxy-select" @submit.prevent="change">
-		<div class="row">
-			<div class="col-12 d-sm-none">
-				<GalaxySelectorShortcut :items="shortcuts" v-model="shortcut"/>
+		<div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+			<div class="col-span-2 sm:col-span-1 sm:order-2">
+				<GalaxySelectorShortcut :items="shortcuts" :galaxy="galaxy" :system="system" v-model="shortcut"/>
 			</div>
-			<div class="separator d-sm-none"></div>
-			<div class="col-sm-4 col-6">
-				<table style="margin: 0 auto">
-					<tbody>
-						<tr>
-							<td class="c" colspan="3">
-								Галактика
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<button :disabled="galaxy === 1" @click.prevent="changeByDirection('galaxyLeft')">&lt;-</button>
-							</th>
-							<th>
-								<input name="galaxy" v-model.number="inputGalaxy" maxlength="3" tabindex="1" min="1" type="number">
-							</th>
-							<th>
-								<button :disabled="galaxy >= galaxyMax" @click.prevent="changeByDirection('galaxyRight')">-&gt;</button>
-							</th>
-						</tr>
-					</tbody>
-				</table>
+			<div class="sm:order-1 text-center">
+				<div class="block-table inline-block">
+					<div class="flex">
+						<div class="w-full c">
+							Галактика
+						</div>
+					</div>
+					<div class="flex">
+						<div class="th middle">
+							<button :disabled="galaxy === 1" @click.prevent="changeByDirection('galaxyLeft')">&lt;-</button>
+						</div>
+						<div class="th middle">
+							<input name="galaxy" v-model.number="inputGalaxy" maxlength="3" tabindex="1" min="1" type="number">
+						</div>
+						<div class="th middle">
+							<button :disabled="galaxy >= galaxyMax" @click.prevent="changeByDirection('galaxyRight')">-&gt;</button>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="col-sm-4 d-none d-sm-block">
-				<GalaxySelectorShortcut :items="shortcuts" :galaxy="galaxy" :system="galaxy" v-model="shortcut"/>
-			</div>
-			<div class="col-sm-4 col-6">
-				<table style="margin: 0 auto">
-					<tbody>
-						<tr>
-							<td class="c" colspan="3">
-								Солнечная система
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<button :disabled="system === 1" @click.prevent="changeByDirection('systemLeft')">&lt;-</button>
-							</th>
-							<th>
-								<input name="system" v-model.number="inputSystem" maxlength="3" tabindex="2" min="1" type="number">
-							</th>
-							<th>
-								<button :disabled="system >= systemMax" @click.prevent="changeByDirection('systemRight')">-&gt;</button>
-							</th>
-						</tr>
-					</tbody>
-				</table>
+			<div class="sm:order-3 text-center">
+				<div class="block-table inline-block">
+					<div class="flex">
+						<div class="w-full c">
+							Солнечная система
+						</div>
+					</div>
+					<div class="flex">
+						<div class="th middle">
+							<button :disabled="system === 1" @click.prevent="changeByDirection('systemLeft')">&lt;-</button>
+						</div>
+						<div class="th middle">
+							<input name="system" v-model.number="inputSystem" maxlength="3" tabindex="2" min="1" type="number">
+						</div>
+						<div class="th middle">
+							<button :disabled="system >= systemMax" @click.prevent="changeByDirection('systemRight')">-&gt;</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</form>

@@ -1,20 +1,18 @@
 <template>
 	<div v-if="queue.length" class="block page-building-unit-queue">
 		<div class="title">Текущее производство</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table">
-				<div v-for="item in queue" class="row">
-					<div class="col-6 text-start k">
+				<div v-for="item in queue" class="grid grid-cols-2">
+					<div class="!text-left k">
 						<span class="positive">{{ item.count }}</span> {{ $t('tech.' + item.item) }}
 					</div>
-					<div class="col-6 text-end k border-left-0">
+					<div class="!text-right k border-left-0">
 						{{ $formatTime(dayjs(item['date']).diff(now) / 1000) }}
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-12 c">
-						Оставшееся время {{ $formatTime(left_time) }}
-					</div>
+				<div class="c">
+					Оставшееся время {{ $formatTime(left_time) }}
 				</div>
 			</div>
 		</div>

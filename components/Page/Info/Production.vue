@@ -1,53 +1,53 @@
 <template>
 	<div class="block">
 		<div class="title">Производство</div>
-		<div class="content block-table border-0">
+		<div class="content block-table !border-t">
 			<template v-if="item === 42">
-				<div class="row">
-					<div class="col c">Уровень</div>
-					<div class="col c">Дальность</div>
+				<div class="grid grid-cols-2">
+					<div class="c">Уровень</div>
+					<div class="c">Дальность</div>
 				</div>
-				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
-					<div class="col th">{{ row['range'] }}</div>
+				<div v-for="row in production" class="grid grid-cols-2">
+					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
+					<div class="th">{{ row['range'] }}</div>
 				</div>
 			</template>
 			<template v-else-if="item === 22 || item === 23 || item === 24">
-				<div class="row">
-					<div class="col c">Уровень</div>
-					<div class="col c">Вместимость</div>
+				<div class="grid grid-cols-2">
+					<div class="c">Уровень</div>
+					<div class="c">Вместимость</div>
 				</div>
-				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
-					<div class="col th">{{ row['range'] }}k</div>
+				<div v-for="row in production" class="grid grid-cols-2">
+					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
+					<div class="th">{{ row['range'] }}k</div>
 				</div>
 			</template>
 			<template v-else-if="item !== 4">
-				<div class="row">
-					<div class="col c">Уровень</div>
-					<div class="col c">Выработка</div>
-					<div class="col c">Разница</div>
-					<div class="col c">Энергия</div>
-					<div class="col c">Разница</div>
+				<div class="grid grid-cols-5">
+					<div class="c">Уровень</div>
+					<div class="c">Выработка</div>
+					<div class="c">Разница</div>
+					<div class="c">Энергия</div>
+					<div class="c">Разница</div>
 				</div>
-				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
-					<div class="col th">{{ $formatNumber(row['prod']) }}</div>
-					<div class="col th"><Colored :value="row['prod_diff']"/></div>
-					<div class="col th"><Colored :value="row['need']"/></div>
-					<div class="col th"><Colored :value="row['need_diff']"/></div>
+				<div v-for="row in production" class="grid grid-cols-5">
+					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
+					<div class="th">{{ $formatNumber(row['prod']) }}</div>
+					<div class="th"><Colored :value="row['prod_diff']"/></div>
+					<div class="th"><Colored :value="row['need']"/></div>
+					<div class="th"><Colored :value="row['need_diff']"/></div>
 				</div>
 			</template>
 			<template v-else>
-				<div class="row">
-					<div class="col c">Уровень</div>
-					<div class="col c">Выработка</div>
-					<div class="col c">Разница</div>
+				<div class="grid grid-cols-3">
+					<div class="c">Уровень</div>
+					<div class="c">Выработка</div>
+					<div class="c">Разница</div>
 				</div>
-				<div v-for="row in production" class="row">
-					<div class="col th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
-					<div class="col th">{{ $formatNumber(row['prod']) }}</div>
-					<div class="col th"><Colored :value="row['prod_diff']"/></div>
+				<div v-for="row in production" class="grid grid-cols-3">
+					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
+					<div class="th">{{ $formatNumber(row['prod']) }}</div>
+					<div class="th"><Colored :value="row['prod_diff']"/></div>
 				</div>
 			</template>
 		</div>

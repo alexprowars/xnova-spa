@@ -1,33 +1,29 @@
 <template>
-	<form @submit.prevent="save">
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="3">Редактировать текст</td>
-			</tr>
-			<tr>
-				<th><NuxtLink to="/alliance/admin?type=1">Внешний текст</NuxtLink></th>
-				<th><NuxtLink to="/alliance/admin?type=2">Внутренний текст</NuxtLink></th>
-				<th><NuxtLink to="/alliance/admin?type=3">Текст заявки</NuxtLink></th>
-			</tr>
-			<tr>
-				<td v-if="data['text_type'] === 3" class="c" colspan="3">Текст заявок альянса</td>
-				<td v-else-if="data['text_type'] === 2" class="c" colspan="3">Внутренний текст альянса</td>
-				<td v-else class="c" colspan="3">Текст альянса</td>
-			</tr>
-			<tr>
-				<th colspan="3" class="p-a-0">
-					<TextEditor v-model="data['text']"/>
-				</th>
-			</tr>
-			<tr>
-				<th colspan="3">
-					<button type="reset">Очистить</button>
-					<button type="submit">Сохранить</button>
-				</th>
-			</tr>
-			</tbody>
-		</table>
+	<form class="block-table text-center" @submit.prevent="save">
+		<div class="grid">
+			<div class="c">Редактировать текст</div>
+		</div>
+		<div class="grid grid-cols-3">
+			<div class="th"><NuxtLink to="/alliance/admin?type=1">Внешний текст</NuxtLink></div>
+			<div class="th"><NuxtLink to="/alliance/admin?type=2">Внутренний текст</NuxtLink></div>
+			<div class="th"><NuxtLink to="/alliance/admin?type=3">Текст заявки</NuxtLink></div>
+		</div>
+		<div class="grid">
+			<div v-if="data['text_type'] === 3" class="c">Текст заявок альянса</div>
+			<div v-else-if="data['text_type'] === 2" class="c">Внутренний текст альянса</div>
+			<div v-else class="c">Текст альянса</div>
+		</div>
+		<div class="grid">
+			<div class="th">
+				<TextEditor v-model="data['text']"/>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="th">
+				<button type="reset">Очистить</button>
+				<button type="submit">Сохранить</button>
+			</div>
+		</div>
 	</form>
 </template>
 

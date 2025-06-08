@@ -1,12 +1,12 @@
 <template>
 	<footer>
-		<div class="d-none d-sm-block">
-			<div class="container-fluid">
-				<div class="float-start text-start">
+		<div class="hidden sm:block">
+			<div class="w-full px-2 flex justify-between">
+				<div>
 					<NuxtLink to="https://github.com/alexprowars/xnova" target="_blank" title="Последние изменения">{{ version }}</NuxtLink>
-					<a class="d-sm-none d-md-inline" target="_blank" href="https://xnova.su/">© 2008 - {{ (new Date).getFullYear() }} Xcms</a>
+					<a class="sm:hidden md:inline" target="_blank" href="https://xnova.su/">© 2008 - {{ (new Date).getFullYear() }} Xcms</a>
 				</div>
-				<div class="float-end text-end">
+				<div>
 					<a href="https://t.me/x_nova_game" target="_blank">Telegram</a>|
 					<NuxtLink to="/support">{{ $t('menu.support') }}</NuxtLink>|
 					<NuxtLink to="/blocked">{{ $t('menu.blocked') }}</NuxtLink>|
@@ -15,11 +15,10 @@
 					<NuxtLink to="/content/rules">{{ $t('menu.rules') }}</NuxtLink>|
 					<a @click.prevent title="Игроков в сети" style="color:green">{{ stats['online'] }}</a>/<a @click.prevent title="Всего игроков" style="color:yellow">{{ stats['users'] }}</a>
 				</div>
-				<div class="clearfix"></div>
 			</div>
 		</div>
-		<div class="row d-sm-none footer-mobile">
-			<div class="col-12 text-center">
+		<div class="sm:hidden footer-mobile">
+			<div class="text-center mb-4">
 				<a href="https://t.me/x_nova_game" target="_blank">Telegram</a>|
 				<NuxtLink to="/support">{{ $t('menu.support') }}</NuxtLink>|
 				<NuxtLink to="/blocked">{{ $t('menu.blocked') }}</NuxtLink>|
@@ -27,12 +26,14 @@
 				<NuxtLink to="/content/help">{{ $t('menu.help') }}</NuxtLink>|
 				<NuxtLink to="/content/rules">{{ $t('menu.rules') }}</NuxtLink>
 			</div>
-			<div class="col-8 text-center">
-				<NuxtLink to="https://github.com/alexprowars/xnova" target="_blank" title="Последние изменения">{{ version }}</NuxtLink>
-				<a class="media_1" target="_blank" href="https://xnova.su/">© 2008 - {{ (new Date).getFullYear() }} Xcms</a>
-			</div>
-			<div class="col-4 text-center">
-				<a @click.prevent title="Игроков в сети" style="color:green">{{ stats['online'] }}</a>/<a @click.prevent title="Всего игроков" style="color:yellow">{{ stats['users'] }}</a>
+			<div class="w-full px-2 flex justify-between">
+				<div>
+					<NuxtLink to="https://github.com/alexprowars/xnova" target="_blank" title="Последние изменения">{{ version }}</NuxtLink>
+					<a class="media_1" target="_blank" href="https://xnova.su/">© 2008 - {{ (new Date).getFullYear() }} Xcms</a>
+				</div>
+				<div>
+					<a @click.prevent title="Игроков в сети" style="color:green">{{ stats['online'] }}</a>/<a @click.prevent title="Всего игроков" style="color:yellow">{{ stats['users'] }}</a>
+				</div>
 			</div>
 		</div>
 	</footer>

@@ -2,39 +2,37 @@
 	<div class="page-overview-rename">
 		<div class="block">
 			<div class="title">Переименовать или покинуть планету</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table middle">
-					<div class="row">
-						<div class="col th d-none d-sm-flex">{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}</div>
-						<div class="col th">{{ planet['name'] }}</div>
-						<div class="col th">
+					<div class="grid grid-cols-3">
+						<div class="th hidden sm:flex middle">{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}</div>
+						<div class="th middle">{{ planet['name'] }}</div>
+						<div class="th middle">
 							<button type="button" @click.prevent="deletePlanet">Покинуть колонию</button>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col th d-none d-sm-flex">Сменить название</div>
-						<div class="col th"><input type="text" :placeholder="planet['name']" v-model="name" maxlength="20"></div>
-						<div class="col th"><button v-if="name" @click.prevent="changeName">Сменить название</button></div>
+					<div class="grid grid-cols-3">
+						<div class="th hidden sm:flex middle">Сменить название</div>
+						<div class="th middle"><input type="text" :placeholder="planet['name']" v-model="name" maxlength="20"></div>
+						<div class="th middle"><button v-if="name" @click.prevent="changeName">Сменить название</button></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div v-if="type" class="block page-overview-planet-image">
 			<div class="title">Сменить фон планеты</div>
-			<div class="content border-0">
-				<div class="block-table">
-					<div class="row">
-						<div v-for="i in planetImages[type]" class="col-6 col-sm-3 col-md-2">
-							<input type="radio" v-model="image" :value="i" :id="'image_'+i">
-							<label :for="'image_'+i">
-								<img :src="'/images/planeten/' + type + 'planet'+(i < 10 ? '0' : '')+i+'.jpg'" align="absmiddle" width="100%" alt="">
-							</label>
-						</div>
+			<div class="content !border-0 p-2">
+				<div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+					<div v-for="i in planetImages[type]">
+						<input type="radio" v-model="image" :value="i" :id="'image_'+i">
+						<label :for="'image_'+i">
+							<img :src="'/images/planeten/' + type + 'planet'+(i < 10 ? '0' : '')+i+'.jpg'" align="absmiddle" width="100%" alt="">
+						</label>
 					</div>
-					<div v-if="image > 0" class="row">
-						<div class="col th">
-							<button @click.prevent="changeImage">Сменить картинку (1 кредит)</button>
-						</div>
+				</div>
+				<div v-if="image > 0" class="grid">
+					<div class="th">
+						<button @click.prevent="changeImage">Сменить картинку (1 кредит)</button>
 					</div>
 				</div>
 			</div>

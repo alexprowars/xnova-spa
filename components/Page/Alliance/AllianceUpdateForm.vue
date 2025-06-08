@@ -1,46 +1,42 @@
 <template>
-	<form ref="formRef" @submit.prevent="save">
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="2">Дополнительные настройки</td>
-			</tr>
-			<tr>
-				<th width="200">Домашняя страница</th>
-				<th><input type="text" name="web" :value="data['web']" style="width:98%;"></th>
-			</tr>
-			<tr>
-				<th>Логотип</th>
-				<th>
-					<input type="file" name="image" value="" style="width:98%;">
-					<template v-if="data['image']">
-						<img :src="data['image']" style="max-width: 98%;max-height: 400px;" alt="">
-						<label>
-							<input type="checkbox" name="delete_image" value="Y"> Удалить
-						</label>
-					</template>
-				</th>
-			</tr>
-			<tr>
-				<th>Ранг основателя</th>
-				<th><input type="text" name="owner_range" :value="data['owner_range']" style="width:98%;"></th>
-			</tr>
-			<tr>
-				<th>Заявки</th>
-				<th>
-					<select style="width:98%;" name="request_notallow" v-model="data['request_allow']">
-						<option value="1">Закрытый альянс</option>
-						<option value="0">Открытый альянс</option>
-					</select>
-				</th>
-			</tr>
-			<tr>
-				<th colspan="2">
-					<button type="submit">Сохранить</button>
-				</th>
-			</tr>
-			</tbody>
-		</table>
+	<form class="block-table text-center" ref="formRef" @submit.prevent="save">
+		<div class="grid">
+			<div class="c">Дополнительные настройки</div>
+		</div>
+		<div class="grid grid-cols-4">
+			<div class="th">Домашняя страница</div>
+			<div class="th col-span-3"><input type="text" name="web" class="!w-full" :value="data['web']"></div>
+		</div>
+		<div class="grid grid-cols-4">
+			<div class="th">Логотип</div>
+			<div class="th col-span-3">
+				<input class="w-full" type="file" name="image" value="">
+				<template v-if="data['image']">
+					<img :src="data['image']" style="max-width: 98%;max-height: 400px;" alt="">
+					<label>
+						<input type="checkbox" name="delete_image" value="Y"> Удалить
+					</label>
+				</template>
+			</div>
+		</div>
+		<div class="grid grid-cols-4">
+			<div class="th">Ранг основателя</div>
+			<div class="th col-span-3"><input class="!w-full" type="text" name="owner_range" :value="data['owner_range']"></div>
+		</div>
+		<div class="grid grid-cols-4">
+			<div class="th">Заявки</div>
+			<div class="th col-span-3">
+				<select class="w-full" name="request_notallow" v-model="data['request_allow']">
+					<option value="1">Закрытый альянс</option>
+					<option value="0">Открытый альянс</option>
+				</select>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="th">
+				<button type="submit">Сохранить</button>
+			</div>
+		</div>
 	</form>
 </template>
 

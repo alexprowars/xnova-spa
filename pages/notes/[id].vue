@@ -1,51 +1,57 @@
 <template>
 	<div>
-		<form method="post" @submit.prevent="update">
-			<table class="table">
-				<tbody>
-				<tr>
-					<td class="c">Просмотр заметки</td>
-				</tr>
-				<tr>
-					<th style="text-align:left;font-weight:normal;">
-						<TextViewer :text="page['text']"/>
-					</th>
-				</tr>
-				</tbody>
-			</table>
-			<div class="separator"></div>
-			<table class="table">
-				<tbody>
-				<tr>
-					<td class="c" colspan="2">Редактирование заметки</td>
-				</tr>
-				<tr>
-					<th>Приоритет:
-						<select v-model="page['priority']">
-							<option value="2">Важно</option>
-							<option value="1">Обычно</option>
-							<option value="0">Неважно</option>
-						</select>
-					</th>
-					<th>Тема:
-						<input type="text" name="title" size="30" maxlength="30" v-model="page['title']" placeholder="Введите тему">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="2" class="p-a-0">
-						<TextEditor v-model="page['text']"/>
-					</th>
-				</tr>
-				<tr>
-					<td class="c" colspan="2">
-						<button @click.prevent="reset">Сброс</button>
-						<button type="submit">Сохранить</button>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</form>
-		<span style="float:left;margin-left: 10px;margin-top: 10px;"><NuxtLink to="/notes">Назад</NuxtLink></span>
+		<div class="block">
+			<div class="title text-center">Просмотр заметки</div>
+			<div class="content !border-0">
+				<div class="block-table">
+					<div class="grid">
+						<div class="th !text-left !font-normal">
+							<TextViewer :text="page['text']"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="block">
+			<div class="title text-center">Редактирование заметки</div>
+			<div class="content !border-0">
+				<form method="post" @submit.prevent="update">
+					<div class="block-table">
+						<div class="grid grid-cols-2">
+							<div class="th middle">
+								<div>
+									Приоритет:
+									<select v-model="page['priority']">
+										<option value="2">Важно</option>
+										<option value="1">Обычно</option>
+										<option value="0">Неважно</option>
+									</select>
+								</div>
+							</div>
+							<div class="th middle">
+								<div>
+									Тема: <input type="text" name="title" size="30" maxlength="30" v-model="page['title']" placeholder="Введите тему">
+								</div>
+							</div>
+						</div>
+						<div class="grid">
+							<div class="th">
+								<TextEditor v-model="page['text']"/>
+							</div>
+						</div>
+						<div class="grid">
+							<div class="c">
+								<button @click.prevent="reset">Сброс</button>
+								<button type="submit">Сохранить</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="mt-2">
+			<NuxtLink to="/notes" class="button !min-w-0">Назад</NuxtLink>
+		</div>
 	</div>
 </template>
 

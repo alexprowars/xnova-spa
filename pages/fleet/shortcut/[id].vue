@@ -1,11 +1,11 @@
 <template>
 	<div class="block">
 		<div class="title">{{ page['name'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<form method="post" @submit.prevent="update">
 				<div class="block-table">
-					<div class="row">
-						<div class="col th">
+					<div class="grid">
+						<div class="th">
 							<input type="text" name="title" v-model="page['name']" size="32" maxlength="32" title="Название">
 							<input type="text" name="galaxy" v-model.number="page['galaxy']" size="3" maxlength="2" title="Галактика">
 							<input type="text" name="system" v-model.number="page['system']" size="3" maxlength="3" title="Система">
@@ -15,15 +15,15 @@
 							</select>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col th">
+					<div class="grid">
+						<div class="th">
 							<button type="reset">Очистить</button>
 							<button type="submit">Обновить</button>
 							<button type="button" @click.prevent="del">Удалить</button>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col c">
+					<div class="grid">
+						<div class="c">
 							<NuxtLink to="/fleet/shortcut">Назад</NuxtLink>
 						</div>
 					</div>

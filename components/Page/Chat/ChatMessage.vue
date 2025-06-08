@@ -1,5 +1,5 @@
 <template>
-	<div class="page-chat-messages-row text-start">
+	<div class="page-chat-messages-row text-left">
 		<span :class="{date1: !item['me'] && !item['my'], date2: !!item['me'], date3: !!item['my']}" @click="emit('private', item['user'])">{{ $formatDate(item['date'], 'HH:mm') }}</span>
 		<span v-if="item['my']" class="negative">{{ item['user'] }}</span><span v-else class="to" @click="emit('player', item['user'])">{{ item['user'] }}</span>:
 		<span v-if="item['tou'].length" :class="[item['private'] ? 'private' : 'player']">

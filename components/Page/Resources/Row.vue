@@ -1,6 +1,6 @@
 <template>
 	<tr>
-		<th class="text-start" nowrap>
+		<th class="text-left" nowrap>
 			<InfoPopup :id="item['id']" :title="$t('tech.' + item['id'])">
 				{{ $t('tech.' + item['id']) }}
 			</InfoPopup>

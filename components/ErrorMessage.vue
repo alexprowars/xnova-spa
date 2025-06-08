@@ -1,10 +1,10 @@
 <template>
 	<div class="block-table">
-		<div class="row" v-if="data['title'] && data['title'].length">
-			<div class="col-12 c error" v-html="data['title']"></div>
+		<div class="grid" v-if="data['title'] && data['title'].length">
+			<div class="c error" v-html="data['title']"></div>
 		</div>
-		<div class="row">
-			<div class="col-12 th error-message" v-html="data['message']"></div>
+		<div class="grid">
+			<div class="th error-message" v-html="data['message']"></div>
 		</div>
 	</div>
 </template>

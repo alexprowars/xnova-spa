@@ -4,23 +4,23 @@
 			<div class="title">
 				Отправка сообщения
 			</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table form-group">
-					<div class="row">
-						<div class="col th">
+					<div class="grid">
+						<div class="th">
 							Получатель
 						</div>
 					</div>
-					<div v-if="to.length" class="row">
-						<div class="col c" v-html="to"></div>
+					<div v-if="to.length" class="grid">
+						<div class="c" v-html="to"></div>
 					</div>
-					<div class="row">
-						<div class="col th p-a-0">
+					<div class="grid">
+						<div class="th">
 							<TextEditor :class="{error: v$.message.$error}" v-model="message"/>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col c">
+					<div class="grid">
+						<div class="c">
 							<button type="submit">Отправить</button>
 						</div>
 					</div>

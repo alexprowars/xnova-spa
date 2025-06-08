@@ -1,17 +1,17 @@
 <template>
 	<form action="" method="post" @submit.prevent="send">
 		<div class="block-table">
-			<div class="row">
-				<div class="col c">
+			<div class="grid">
+				<div class="c">
 					Начать ракетную атаку на [{{ page['galaxy'] }}:{{ page['system'] }}:{{ planet }}]
 				</div>
 			</div>
-			<div class="row">
-				<div class="col th">
+			<div class="grid grid-cols-2">
+				<div class="th">
 					Количество ракет ({{ currentPlanet['units']['interplanetary_misil'] }}):
 					<input type="number" style="width:25%" min="1" :max="currentPlanet['units']['interplanetary_misil']" v-model.number="count">
 				</div>
-				<div class="col th">
+				<div class="th">
 					Цель:
 					<select name="target" v-model="target">
 						<option value="all">Вся оборона</option>
@@ -26,8 +26,8 @@
 					</select>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col c">
+			<div class="grid">
+				<div class="c">
 					<button type="submit">Отправить</button>
 					<button @click.prevent="$emit('close')">Отмена</button>
 				</div>

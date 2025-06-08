@@ -2,10 +2,10 @@
 	<div class="page-players">
 		<div class="page-players-main block">
 			<div class="title">Информация об игроке</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table page-players">
-					<div class="row border-0">
-						<div class="col-4 text-center">
+					<div class="grid grid-cols-6 border-0">
+						<div class="col-span-2 text-center">
 							<img :src="page['avatar']" :alt="page['username']" width="100%">
 							<div v-if="user">
 								<SendMessagePopup :title="page['username']+': отправить сообщение'" :id="page['id']"/>
@@ -14,38 +14,38 @@
 								</NuxtLink>
 							</div>
 						</div>
-						<div class="col-6">
+						<div class="col-span-3">
 							<div class="block-table">
-								<div class="row">
-									<div class="col-4 text-start p-a-0">Логин:</div>
-									<div class="col-8 p-a-0">{{ page['username'] }}</div>
+								<div class="grid grid-cols-3">
+									<div class="text-left p-a-0">Логин:</div>
+									<div class="col-span-2 p-a-0">{{ page['username'] }}</div>
 								</div>
-								<div class="row">
-									<div class="col-4 text-start p-a-0">Планета:</div>
-									<div class="col-8 p-a-0">
+								<div class="grid grid-cols-3">
+									<div class="text-left p-a-0">Планета:</div>
+									<div class="col-span-2 p-a-0">
 										<NuxtLink :to="'/galaxy/?galaxy='+page['galaxy']+'&system='+page['system']" style="font-weight:normal">
 											{{ page['userplanet'] }} [{{ page['galaxy'] }}:{{ page['system'] }}:{{ page['planet'] }}]
 										</NuxtLink>
 									</div>
 								</div>
-								<div v-if="page['ally_id'] > 0" class="row">
-									<div class="col-4 text-start p-a-0">Альянс:</div>
-									<div class="col-8 p-a-0">
+								<div v-if="page['ally_id'] > 0" class="grid grid-cols-3">
+									<div class="text-left p-a-0">Альянс:</div>
+									<div class="col-span-2 p-a-0">
 										<NuxtLink :to="'/alliance/info/'+page['ally_id']+'/'">
 											{{ page['ally_name'] }}
 										</NuxtLink>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-4 text-start p-a-0">Пол:</div>
-									<div class="col-8 p-a-0">{{ page['sex'] === 2 ? 'Женский' : 'Мужской' }}</div>
+								<div class="grid grid-cols-3">
+									<div class="text-left p-a-0">Пол:</div>
+									<div class="col-span-2 p-a-0">{{ page['sex'] === 2 ? 'Женский' : 'Мужской' }}</div>
 								</div>
 							</div>
 							<div v-if="page['race'] !== 0">
 								<br><img :src="'/images/skin/race'+page['race']+'.gif'" alt="">
 							</div>
 						</div>
-						<div class="col-2">
+						<div class="col-span-1">
 							<img :src="'/images/ranks/m'+page['m']+'.png'" alt="Промышленная отрасль" title="Промышленная отрасль">
 							<br>
 							<img :src="'/images/ranks/f'+page['f']+'.png'" alt="Военная отрасль" title="Военная отрасль">
@@ -56,72 +56,72 @@
 		</div>
 		<div v-if="page['stats']" class="page-players-stats block">
 			<div class="title">Статистика игры</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div class="row">
-						<div class="c col">&nbsp;</div>
-						<div class="c col">Очки</div>
-						<div class="c col">Место</div>
+					<div class="grid grid-cols-3">
+						<div class="c">&nbsp;</div>
+						<div class="c">Очки</div>
+						<div class="c">Место</div>
 					</div>
-					<div class="row">
-						<div class="c col">Постройки</div>
-						<div class="th col">{{ $formatNumber(page['stats']['build_points']) }}</div>
-						<div class="th col">{{ $formatNumber(page['stats']['build_rank']) }}</div>
+					<div class="grid grid-cols-3">
+						<div class="c">Постройки</div>
+						<div class="th">{{ $formatNumber(page['stats']['build_points']) }}</div>
+						<div class="th">{{ $formatNumber(page['stats']['build_rank']) }}</div>
 					</div>
-					<div class="row">
-						<div class="c col">Иследования</div>
-						<div class="th col">{{ $formatNumber(page['stats']['tech_points']) }}</div>
-						<div class="th col">{{ $formatNumber(page['stats']['tech_rank']) }}</div>
+					<div class="grid grid-cols-3">
+						<div class="c">Иследования</div>
+						<div class="th">{{ $formatNumber(page['stats']['tech_points']) }}</div>
+						<div class="th">{{ $formatNumber(page['stats']['tech_rank']) }}</div>
 					</div>
-					<div class="row">
-						<div class="c col">Флот</div>
-						<div class="th col">{{ $formatNumber(page['stats']['fleet_points']) }}</div>
-						<div class="th col">{{ $formatNumber(page['stats']['fleet_rank']) }}</div>
+					<div class="grid grid-cols-3">
+						<div class="c">Флот</div>
+						<div class="th">{{ $formatNumber(page['stats']['fleet_points']) }}</div>
+						<div class="th">{{ $formatNumber(page['stats']['fleet_rank']) }}</div>
 					</div>
-					<div class="row">
-						<div class="c col">Оборона</div>
-						<div class="th col">{{ $formatNumber(page['stats']['defs_points']) }}</div>
-						<div class="th col">{{ $formatNumber(page['stats']['defs_rank']) }}</div>
+					<div class="grid grid-cols-3">
+						<div class="c">Оборона</div>
+						<div class="th">{{ $formatNumber(page['stats']['defs_points']) }}</div>
+						<div class="th">{{ $formatNumber(page['stats']['defs_rank']) }}</div>
 					</div>
-					<div class="row">
-						<div class="c col">Всего</div>
-						<div class="th col">{{ $formatNumber(page['stats']['total_points']) }}</div>
-						<div class="th col">{{ $formatNumber(page['stats']['total_rank']) }}</div>
+					<div class="grid grid-cols-3">
+						<div class="c">Всего</div>
+						<div class="th">{{ $formatNumber(page['stats']['total_points']) }}</div>
+						<div class="th">{{ $formatNumber(page['stats']['total_rank']) }}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="page-players-stats block">
 			<div class="title">Статистика боёв</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div class="row">
-						<div class="c col">&nbsp;</div>
-						<div class="c col">Сумма</div>
-						<div class="c col">Процент</div>
+					<div class="grid grid-cols-3">
+						<div class="c">&nbsp;</div>
+						<div class="c">Сумма</div>
+						<div class="c">Процент</div>
 					</div>
-					<div v-if="page['wons'] > 0" class="row">
-						<div class="c col">Победы</div>
-						<div class="th col"><b>{{ $formatNumber(page['wons']) }}</b></div>
-						<div class="th col">{{ Math.round((100 / (page['wons'] + page['loos'])) * page['wons']) }} %</div>
+					<div v-if="page['wons'] > 0" class="grid grid-cols-3">
+						<div class="c">Победы</div>
+						<div class="th"><b>{{ $formatNumber(page['wons']) }}</b></div>
+						<div class="th">{{ Math.round((100 / (page['wons'] + page['loos'])) * page['wons']) }} %</div>
 					</div>
-					<div v-if="page['loos'] > 0" class="row">
-						<div class="c col">Поражения</div>
-						<div class="th col"><b>{{ $formatNumber(page['loos']) }}</b></div>
-						<div class="th col">{{ Math.round((100 / (page['wons'] + page['loos'])) * page['loos']) }} %</div>
+					<div v-if="page['loos'] > 0" class="grid grid-cols-3">
+						<div class="c">Поражения</div>
+						<div class="th"><b>{{ $formatNumber(page['loos']) }}</b></div>
+						<div class="th">{{ Math.round((100 / (page['wons'] + page['loos'])) * page['loos']) }} %</div>
 					</div>
-					<div class="row">
-						<div class="c col">Всего вылетов</div>
-						<div class="th col"><b>{{ $formatNumber(page['total']) }}</b></div>
-						<div class="th col">100 %</div>
+					<div class="grid grid-cols-3">
+						<div class="c">Всего вылетов</div>
+						<div class="th"><b>{{ $formatNumber(page['total']) }}</b></div>
+						<div class="th">100 %</div>
 					</div>
 				</div>
 			</div>
 			<div v-if="page['about'].length" class="page-players-about block">
-				<div class="content border-0">
+				<div class="content !border-0">
 					<div class="block-table">
-						<div class="row">
-							<div class="b col">
+						<div class="grid">
+							<div class="b">
 								<TextViewer :text="page['about']"/>
 							</div>
 						</div>

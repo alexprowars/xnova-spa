@@ -2,11 +2,11 @@
 
 	&:not(.page-building-unit) .block > .title {
 		border: 1px solid $border-color;
-		margin: 0 2px 2px 0;
+		@apply mb-1;
 	}
 
 	&-build-queue {
-		margin: 2px 2px 2px 0;
+		@apply mb-1;
 	}
 
 	.page-building-items {
@@ -232,9 +232,5 @@
 			background-image: url('/images/icons/shield.png');
 			background-position-y: 1px;
 		}
-	}
-
-	.page-building-unit-queue {
-		margin-right: 2px;
 	}
 }

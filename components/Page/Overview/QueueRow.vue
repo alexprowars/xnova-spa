@@ -1,18 +1,18 @@
 <template>
-	<div class="row flight">
-		<div class="th col-4 col-sm-2">
+	<div class="grid grid-cols-6 flight">
+		<div class="th col-span-2 sm:col-span-1 text-center">
 			<div class="z">
 				<Timer :value="item['date']"/>
 			</div>
-			<span class="positive d-sm-none">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</span>
+			<span class="positive sm:hidden">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</span>
 		</div>
-		<div class="th col-sm-10 col-8 text-start">
+		<div class="th col-span-4 sm:col-span-5">
 			<span class="flight owndeploy">
 				<a v-if="item['planet_id'] !== planet.id" href="" @click.prevent="changePlanet" style="color:#33ff33;">{{ planetItem?.['name'] }}</a><span v-else>{{ planetItem?.['name'] }}</span>:
 			</span>
 			<span v-if="item['level']" class="holding colony">{{ $t('tech.' + item['item']) }} ({{ item['level'] }})</span>
 			<span v-if="item['count']" class="holding colony">{{ $t('tech.' + item['item']) }} ({{ item['count'] }})</span>
-			<span class="positive float-sm-end d-none d-sm-inline">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</span>
+			<span class="positive float-sm-end hidden sm:inline">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</span>
 		</div>
 	</div>
 </template>

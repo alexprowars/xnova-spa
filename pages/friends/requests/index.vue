@@ -4,29 +4,24 @@
 			<div class="title text-center">
 				{{ isMy ? 'Мои запросы' : 'Другие запросы' }}
 			</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div class="row">
-						<div class="col c">Имя</div>
-						<div class="col c">Альянс</div>
-						<div class="col-2 c">Координаты</div>
-						<div class="col c">Текст запроса</div>
-						<div class="col c">&nbsp;</div>
+					<div class="grid grid-cols-6">
+						<div class="c">Имя</div>
+						<div class="c">Альянс</div>
+						<div class="col-span-2 c">Координаты</div>
+						<div class="c">Текст запроса</div>
+						<div class="c">&nbsp;</div>
 					</div>
 					<RequestRow v-for="item in items" :key="item['id']" :item="item" :is-my="isMy"/>
-					<div v-if="items.length === 0" class="row">
-						<div class="col th">Нет запросов</div>
+					<div v-if="items.length === 0" class="grid">
+						<div class="th">Нет запросов</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="separator"></div>
-		<div class="text-end">
-			<div class="row">
-				<div class="col">
-					<NuxtLink to="/friends" class="button">Вернуться назад</NuxtLink>
-				</div>
-			</div>
+		<div class="mt-2">
+			<NuxtLink to="/friends" class="button">Вернуться назад</NuxtLink>
 		</div>
 	</div>
 </template>

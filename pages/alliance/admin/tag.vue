@@ -3,13 +3,13 @@
 		<div class="block">
 			<div class="title">Введите новую аббревиатуру альянса</div>
 			<div class="content block-table border-0 middle">
-				<div class="row">
-					<div class="col th">
+				<div class="grid">
+					<div class="th">
 						<input type="text" v-model="tag">
 						<button type="submit">Изменить</button>
 					</div>
 				</div>
-				<div class="row c">
+				<div class="grid c">
 					<NuxtLink to="/alliance/admin">вернутся к обзору</NuxtLink>
 				</div>
 			</div>

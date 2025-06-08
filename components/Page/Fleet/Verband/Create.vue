@@ -1,8 +1,8 @@
 <template>
 	<form method="post" @submit.prevent="create">
 		<div class="block-table">
-			<div class="row">
-				<div class="col th">
+			<div class="grid">
+				<div class="th">
 					<input type="text" v-model="name" size="50">
 					<br>
 					<button type="submit">Создать</button>

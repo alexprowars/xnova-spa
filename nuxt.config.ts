@@ -36,7 +36,6 @@ let config = {
 		},
 	},
 	css: [
-		'~/assets/vendors.scss',
 		'~/assets/styles.scss',
 	],
 	telemetry: false,
@@ -57,6 +56,11 @@ let config = {
 			}
 		},
 	},
+	postcss: {
+		plugins: {
+			tailwindcss: {},
+		},
+	},
 	experimental: {
 		appManifest: false,
 	},
@@ -70,7 +74,7 @@ let config = {
 	},
 	modules: [
 		'@nuxtjs/i18n',
-		'@pinia/nuxt',
+		'@pinia/nuxt'
 	],
 	i18n: {
 		locales: [

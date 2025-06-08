@@ -1,12 +1,12 @@
 <template>
-	<div class="row">
-		<div class="col-2 th">
+	<div class="grid grid-cols-12">
+		<div class="col-span-2 th">
 			{{ $t('resources.' + resource) }}
 		</div>
-		<div class="col-1 th">
+		<div class="col-span-1 th">
 			{{ storage }}%
 		</div>
-		<div class="col-9 th">
+		<div class="col-span-9 th">
 			<ResourcesBar :value="storage"/>
 		</div>
 	</div>

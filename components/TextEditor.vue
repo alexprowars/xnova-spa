@@ -90,11 +90,11 @@
 		<textarea ref="textRef" rows="10" v-model="value"></textarea>
 
 		<div v-if="showPreview" class="editor-component-preview table">
-			<div class="row">
-				<div class="col-12 c">Предварительный просмотр</div>
+			<div class="grid">
+				<div class="c">Предварительный просмотр</div>
 			</div>
-			<div class="row">
-				<div class="col-12 b" v-html="parser.parse(value)"></div>
+			<div class="grid">
+				<div class="b" v-html="parser.parse(value)"></div>
 			</div>
 		</div>
 	</div>

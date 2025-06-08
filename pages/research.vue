@@ -3,7 +3,7 @@
 		<div class="block">
 			<div class="title">Исследования</div>
 			<div class="content page-building-items">
-				<div class="row">
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
 					<TechRow v-for="item in items" :key="item['id']" :item="item"/>
 				</div>
 			</div>

@@ -55,7 +55,7 @@
 				<tr v-if="page['access']['chat']">
 					<th>
 						Альянс чат
-						<template v-if="user.alliance.messages > 0">
+						<template v-if="user.alliance?.messages > 0">
 							({{ user.alliance.messages }} новых)
 						</template>
 					</th>

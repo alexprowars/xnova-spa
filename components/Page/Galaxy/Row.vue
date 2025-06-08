@@ -1,7 +1,7 @@
 <template>
 	<tr class="planetRow">
-		<th>{{ planet }}</th>
-		<th class="img">
+		<td class="th">{{ planet }}</td>
+		<td class="th img">
 			<Popper v-if="item && !item['planet']['destruyed']">
 				<template #content>
 					<table width="240">
@@ -34,8 +34,8 @@
 				</template>
 				<img :src="'/images/planeten/small/s_' + item['planet']['image'] + '.jpg'" width="34" height="34" alt="">
 			</Popper>
-		</th>
-		<th>
+		</td>
+		<td class="th">
 			<div v-if="item && !item['planet']['destruyed']">
 				<span v-if="item['planet']['active'] <= 10" class="star">(*)</span>
 				<span v-else-if="item['planet']['active'] < 60" class="star">({{ Math.floor(item['planet']['active']) }})</span>
@@ -44,8 +44,8 @@
 			<div v-else-if="item && item['planet']['destruyed']">
 				Планета уничтожена
 			</div>
-		</th>
-		<th class="img" style="white-space: nowrap;">
+		</td>
+		<td class="th img whitespace-nowrap">
 			<Popper v-if="item && item['moon'] && !item['moon']['destruyed']">
 				<template #content>
 					<table width="240">
@@ -103,8 +103,8 @@
 				<img src="/images/planeten/small/s_mond.jpg" height="34" width="34" alt="">
 			</Popper>
 			<span v-if="item && item['moon'] && item['moon']['destruyed']">~</span>
-		</th>
-		<th :class="[debris_class]">
+		</td>
+		<td class="th" :class="[debris_class]">
 			<Popper v-if="item && (item.debris.metal || item.debris.crystal)">
 				<template #content>
 					<table width="240">
@@ -151,8 +151,8 @@
 				</template>
 				<img src="/images/planeten/debris.jpg" height="22" width="22" alt="">
 			</Popper>
-		</th>
-		<th>
+		</td>
+		<td class="th">
 			<Popper v-if="item && item.user && !item['planet']['destruyed']">
 				<template #content>
 					<table width="280">
@@ -193,13 +193,13 @@
 					<span v-if="item.user['role'] === 'operator'" class="positive">Go</span>
 				</div>
 			</Popper>
-		</th>
-		<th>
+		</td>
+		<td class="th">
 			<NuxtLink v-if="item && !item.delete && item.user['race']" :to="'/info/70' + item.user['race']">
 				<img :src="'/images/skin/race' + item.user['race'] + '.gif'" width="20" height="20" :alt="$t('races.' + item.user['race'])" :title="$t('races.' + item.user['race'])">
 			</NuxtLink>
-		</th>
-		<th>
+		</td>
+		<td class="th">
 			<Popper v-if="item && !item['planet']['destruyed'] && item['alliance']">
 				<template #content>
 					<table width="240">
@@ -236,8 +236,8 @@
 				<small v-if="item['alliance']['diplomacy'] === 2" class="positive">[мир]</small>
 				<small v-if="item['alliance']['diplomacy'] === 3" class="negative">[война]</small>
 			</div>
-		</th>
-		<th style="white-space: nowrap;">
+		</td>
+		<td class="th whitespace-nowrap">
 			<div class="actions">
 				<template v-if="item && item.user['id'] !== currentUser['id'] && !item['planet']['destruyed']">
 					<SendMessagePopup :title="item.user['name']+': отправить сообщение'" :id="item.user['id']"/>
@@ -274,7 +274,7 @@
 					<span class="sprite skin_e"></span>
 				</NuxtLink>
 			</div>
-		</th>
+		</td>
 	</tr>
 </template>
 

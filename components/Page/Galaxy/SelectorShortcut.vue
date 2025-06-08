@@ -1,18 +1,12 @@
 <template>
-	<table style="max-width:200px;width:100%;margin: 0 auto">
-		<tbody>
-			<tr>
-				<td class="c">
-					<select v-model="value" style="width:100%">
-						<option :value="null">--- выберите планету ---</option>
-						<option v-for="item in items" :value="item">
-							{{ item.name }} [{{ item.galaxy }}:{{ item.system }}:{{ item.planet }}]
-						</option>
-					</select>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="block-table w-full mx-auto max-w-[200px] c">
+		<select v-model="value" style="width:100%">
+			<option :value="null">--- выберите планету ---</option>
+			<option v-for="item in items" :value="item">
+				{{ item.name }} [{{ item.galaxy }}:{{ item.system }}:{{ item.planet }}]
+			</option>
+		</select>
+	</div>
 </template>
 
 <script setup>

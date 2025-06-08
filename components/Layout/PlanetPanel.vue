@@ -1,46 +1,42 @@
 <template>
-	<div v-if="planet" class="row resource-panel">
-		<div class="col-12">
-			<div class="row">
-				<div class="col text-center">
-					<PanelResource :type="'metal'" :resource="planet['resources']['metal']"/>
-				</div>
-				<div class="col text-center">
-					<PanelResource :type="'crystal'" :resource="planet['resources']['crystal']"/>
-				</div>
-				<div class="col text-center">
-					<PanelResource :type="'deuterium'" :resource="planet['resources']['deuterium']"/>
-				</div>
-				<div class="col text-center">
-					<PlanetPanelEnergy/>
-				</div>
-				<div class="col text-center">
-					<div class="resource-panel-item">
-						<NuxtLink to="/credits" class="d-sm-inline-block resource-panel-item-icon">
-							<Popper>
-								<template #content>
-									<div class="resource-panel-officiers">
-										<div class="resource-panel-officiers-row">
-											<div v-for="officier in user['officiers']" class="text-center">
-												<div class="separator"></div>
-												<span class="officier" :class="['of' + officier['id'] + (officier['date'] ? '_ikon' : '')]"></span>
-											</div>
-										</div>
-										<div class="resource-panel-officiers-row">
-											<div v-for="officier in user['officiers']" class="text-center">
-												<span v-if="officier['date']">Нанят до<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
-												<span v-else><span class="positive">Не нанят</span></span>
-											</div>
-										</div>
+	<div v-if="planet" class="grid grid-cols-5 resource-panel">
+		<div class="text-center">
+			<PanelResource :type="'metal'" :resource="planet['resources']['metal']"/>
+		</div>
+		<div class="text-center">
+			<PanelResource :type="'crystal'" :resource="planet['resources']['crystal']"/>
+		</div>
+		<div class="text-center">
+			<PanelResource :type="'deuterium'" :resource="planet['resources']['deuterium']"/>
+		</div>
+		<div class="text-center">
+			<PlanetPanelEnergy/>
+		</div>
+		<div class="text-center">
+			<div class="resource-panel-item">
+				<NuxtLink to="/credits" class="sm:inline-block resource-panel-item-icon">
+					<Popper>
+						<template #content>
+							<div class="resource-panel-officiers">
+								<div class="resource-panel-officiers-row">
+									<div v-for="officier in user['officiers']" class="text-center">
+										<div class="separator"></div>
+										<span class="officier" :class="['of' + officier['id'] + (officier['date'] ? '_ikon' : '')]"></span>
 									</div>
-								</template>
-								<span class="sprite skin_kredits"></span>
-							</Popper>
-						</NuxtLink>
-						<div class="neutral">Кредиты</div>
-						{{ $formatNumber(user['credits']) }}
-					</div>
-				</div>
+								</div>
+								<div class="resource-panel-officiers-row">
+									<div v-for="officier in user['officiers']" class="text-center">
+										<span v-if="officier['date']">Нанят до<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
+										<span v-else><span class="positive">Не нанят</span></span>
+									</div>
+								</div>
+							</div>
+						</template>
+						<span class="sprite skin_kredits"></span>
+					</Popper>
+				</NuxtLink>
+				<div class="neutral">Кредиты</div>
+				{{ $formatNumber(user['credits']) }}
 			</div>
 		</div>
 	</div>

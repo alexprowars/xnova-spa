@@ -2,12 +2,12 @@
 	<div class="page-building page-building-build">
 		<div class="block">
 			<div class="title">
-				<div class="row">
-					<div class="col-12 col-sm-6">
+				<div class="flex flex-col sm:flex-row justify-between gap-2">
+					<div>
 						Занято полей
 						<span class="positive">{{ planet['field_used'] }}</span> из <span class="negative">{{ planet['field_max'] }}</span>
 					</div>
-					<div class="text-sm-end col-12 col-sm-6">
+					<div>
 						Осталось
 						<span class="positive">{{ fieldsEmpty }}</span>
 						{{ $morph(fieldsEmpty, 'свободное', 'свободных', 'свободных') }}
@@ -19,7 +19,7 @@
 			<BuildQueue :queue="queueByType('build')"/>
 
 			<div class="content page-building-items">
-				<div class="row">
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
 					<BuildRow v-for="(item, i) in items" :key="i" :item="item"/>
 				</div>
 			</div>

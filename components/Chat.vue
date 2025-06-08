@@ -5,13 +5,13 @@
 				Чат
 				<span v-if="unread > 0">({{ unread }})</span>
 			</div>
-			<div v-show="active" class="content border-0">
+			<div v-show="active" class="content !border-0">
 				<div class="col-12 th">
 					<div ref="chatRef" class="page-chat-messages">
 						<ChatMessage v-for="(item, i) in sortedMessages" :key="i" :item="item" @player="toPlayer" @private="toPrivate"/>
 					</div>
 				</div>
-				<div class="col-12 th d-flex">
+				<div class="col-12 th flex">
 					<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keydown.enter.prevent="sendMessage" maxlength="750">
 					<button @click.prevent="sendMessage">Отправить</button>
 				</div>

@@ -1,28 +1,32 @@
 <template>
-	<div class="page-chat">
-		<div class="col-12 th">
+	<div class="block-table page-chat divide-y">
+		<div class="th !p-2">
 			<div ref="chatboxRef" class="page-chat-messages">
 				<ChatMessage v-for="(item, i) in messages" :key="i" :item="item" @player="toPlayer" @private="toPrivate"/>
 			</div>
 		</div>
-		<div class="col-12 th">
-			<div class="float-end">
-				<div class="editor-component-toolbar d-inline-block">
-					<button type="button" class="buttons" title="Вставить ссылку" @click="addTag('[url]|[/url]', 1)">
-						<span class="sprite bb_world_link"></span>
-					</button>
-					<button type="button" class="buttons" title="Вставить картинку" @click="addTag('[img]|[/img]', 3)">
-						<span class="sprite bb_picture_add"></span>
-					</button>
-					<button type="button" class="buttons" title="Смайлы" @click="smiles = !smiles">
-						<span class="sprite bb_emoticon_grin"></span>
-					</button>
+		<div class="th text-center">
+			<div class="flex items-center gap-2 mb-2">
+				<div class="grow">
+					<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keypress.13.prevent="sendMessage" maxlength="750">
 				</div>
-				<div v-if="smiles" class="smiles">
-					<img v-for="smile in smilesList" :src="'/images/smile/' + smile + '.gif'" :alt="smile" @click="addSmile(smile)">
+				<div>
+					<div class="editor-component-toolbar inline-block !p-0">
+						<button type="button" class="buttons" title="Вставить ссылку" @click="addTag('[url]|[/url]', 1)">
+							<span class="sprite bb_world_link"></span>
+						</button>
+						<button type="button" class="buttons" title="Вставить картинку" @click="addTag('[img]|[/img]', 3)">
+							<span class="sprite bb_picture_add"></span>
+						</button>
+						<button type="button" class="buttons" title="Смайлы" @click="smiles = !smiles">
+							<span class="sprite bb_emoticon_grin"></span>
+						</button>
+					</div>
+					<div v-if="smiles" class="smiles">
+						<img v-for="smile in smilesList" :src="'/images/smile/' + smile + '.gif'" :alt="smile" @click="addSmile(smile)">
+					</div>
 				</div>
 			</div>
-			<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keypress.13.prevent="sendMessage" maxlength="750">
 
 			<button @click.prevent="clear">Очистить</button>
 			<button @click.prevent="sendMessage">Отправить</button>

@@ -1,34 +1,32 @@
 <template>
 	<div class="block">
-		<div class="officiers-list container-fluid">
-			<div class="row officiers-item">
-				<div class="col-12 officiers-item-title">
+		<div class="officiers-list">
+			<div class="officiers-item">
+				<div class="officiers-item-title">
 					Доступно кредитов: {{ $formatNumber(user['credits']) }}
 				</div>
-				<div class="d-none d-sm-block col-sm-2 text-center">
-					<img :src="'/images/officiers/bigcredits.jpg'" alt="">
-				</div>
-				<div class="col-12 col-sm-7 text-start">
-					Кредиты (<NuxtLink to="/credits"><span class="positive">Получить</span></NuxtLink>)
-					<br><br>
-					Инженеры берут за свою работу только межгалактичесие кредиты. В зависимости от суммы контракта работают на вас в течении всего времени найма.
-					<table class="powers">
-						<tbody>
-						<tr>
-							<td class="padding-0">
+				<div class="flex flex-wrap sm:flex-nowrap gap-2">
+					<div class="hidden sm:block sm:basis-1/6 officiers-item-image">
+						<img :src="'/images/officiers/bigcredits.jpg'" alt="">
+					</div>
+					<div class="basis-full sm:basis-5/6 text-left">
+						Инженеры берут за свою работу только межгалактичесие кредиты. В зависимости от суммы контракта работают на вас в течении всего времени найма.
+
+						<div class="flex my-4 gap-2">
+							<div>
 								<img src="/images/officiers/smalcredts.gif" alt="">
-							</td>
-							<td>
-								При помощи кредитов можно нанять инженеров
-							</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-sm-3 d-none d-sm-block text-center">
-					<NuxtLink to="/credits" class="button positive">
-						Получить кредиты
-					</NuxtLink>
+							</div>
+							<div class="flex flex-col justify-center gap-1">
+								<div class="text-sky-300">
+									При помощи кредитов можно нанять инженеров
+								</div>
+							</div>
+						</div>
+
+						<NuxtLink to="/credits" class="button positive">
+							Получить кредиты
+						</NuxtLink>
+					</div>
 				</div>
 			</div>
 			<Row v-for="item in items" :key="item['id']" :item="item"/>

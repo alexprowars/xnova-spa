@@ -1,15 +1,15 @@
 <template>
 	<div class="text-center">
 		<div class="block-table raceSelect">
-			<div v-if="race === 0" class="row">
-				<div class="col-12 c big">Выбор фракции</div>
+			<div v-if="race === 0" class="grid">
+				<div class="c big">Выбор фракции</div>
 			</div>
-			<div class="row">
-				<div class="col-6 k big">Конфедерация</div>
-				<div class="col-6 k big">Бионики</div>
+			<div class="grid grid-cols-2">
+				<div class="k big">Конфедерация</div>
+				<div class="k big">Бионики</div>
 			</div>
-			<div class="row">
-				<div class="th col-6 text-start">
+			<div class="grid grid-cols-2">
+				<div class="th text-left">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race1.gif'" alt="">
@@ -31,7 +31,7 @@
 					</div>
 					<br>
 				</div>
-				<div class="th col-6 text-start">
+				<div class="th text-left">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race2.gif'" alt="">
@@ -54,12 +54,12 @@
 					<br>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-6 k big">Сайлоны</div>
-				<div class="col-6 k big">Древние</div>
+			<div class="grid grid-cols-2">
+				<div class="k big">Сайлоны</div>
+				<div class="k big">Древние</div>
 			</div>
-			<div class="row">
-				<div class="th col-6 text-start">
+			<div class="grid grid-cols-2">
+				<div class="th text-left">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race3.gif'" alt="">
@@ -81,7 +81,7 @@
 					</div>
 					<br>
 				</div>
-				<div class="th col-6 text-start">
+				<div class="th text-left">
 					<div style="text-align:center">
 						<div class="separator"></div>
 						<img :src="'/images/skin/race4.gif'" alt="">
@@ -105,8 +105,8 @@
 				</div>
 			</div>
 			<div v-if="race !== 0">
-				<div class="row">
-					<div class="col-12 k big">
+				<div class="grid">
+					<div class="k big">
 						<span v-if="page['change']">
 							Бесплатная смена фракции ({{ page['change'] }} попытка осталось)
 						</span>
@@ -115,11 +115,9 @@
 						</span>
 					</div>
 				</div>
-				<div v-if="page['change_available']" class="row">
-					<div class="th col-sx-12">
-						На планетах не должно идти строительство, исследования, летать флот и весь флот фракции подлежит демонтировке (без возврата ресурсов).<br><br>
-						<RaceChange/>
-					</div>
+				<div v-if="page['change_available']" class="th">
+					На планетах не должно идти строительство, исследования, летать флот и весь флот фракции подлежит демонтировке (без возврата ресурсов).<br><br>
+					<RaceChange/>
 				</div>
 			</div>
 		</div>

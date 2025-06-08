@@ -1,12 +1,12 @@
 <template>
 	<form v-if="page" ref="formRef" method="post" @submit.prevent="send">
-		<div class="block-table">
-			<div class="row">
-				<div class="c col-12">Отправка флота</div>
+		<div class="block-table text-center">
+			<div class="grid">
+				<div class="c">Отправка флота</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Цель</div>
-				<div class="th col-6 fleet-coordinates-input">
+			<div class="grid grid-cols-2">
+				<div class="th">Цель</div>
+				<div class="th fleet-coordinates-input">
 					<input type="number" min="1" :max="page['galaxy_max']" v-model="page['target']['galaxy']">
 					<input type="number" min="1" :max="page['system_max']" v-model="page['target']['system']">
 					<input type="number" min="1" :max="page['planet_max']" v-model="page['target']['planet']">
@@ -15,44 +15,44 @@
 					</select>
 				</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Скорость</div>
-				<div class="th col-6">
+			<div class="grid grid-cols-2">
+				<div class="th">Скорость</div>
+				<div class="th">
 					<select name="speed" v-model="speed" @change="info">
 						<option v-for="i in 10" :value="11 - i">{{ (11 - i) * 10 }}</option>
 					</select> %
 				</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Расстояние</div>
-				<div class="th col-6">{{ $formatNumber(distance) }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Расстояние</div>
+				<div class="th">{{ $formatNumber(distance) }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Продолжительность полёта (к цели)</div>
-				<div class="th col-6">{{ $formatTime(duration, ':', true) }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Продолжительность полёта (к цели)</div>
+				<div class="th">{{ $formatTime(duration, ':', true) }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ $formatDate(target_time, 'DD MMM HH:mm:ss') }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Время прибытия (к цели)</div>
+				<div class="th">{{ $formatDate(target_time, 'DD MMM HH:mm:ss') }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Максимальная скорость</div>
-				<div class="th col-6">{{ $formatNumber(maxspeed) }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Максимальная скорость</div>
+				<div class="th">{{ $formatNumber(maxspeed) }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Потребление топлива</div>
-				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $formatNumber(consumption) }}</span></div>
+			<div class="grid grid-cols-2">
+				<div class="th">Потребление топлива</div>
+				<div class="th"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $formatNumber(consumption) }}</span></div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Грузоподъёмность</div>
-				<div class="th col-6"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $formatNumber(storage) }}</span></div>
+			<div class="grid grid-cols-2">
+				<div class="th">Грузоподъёмность</div>
+				<div class="th"><span :class="[storage > consumption ? 'positive' : 'negative']">{{ $formatNumber(storage) }}</span></div>
 			</div>
-			<div class="row">
-				<div class="c col-12">Ссылки <NuxtLink to="/fleet/shortcut">(Просмотр / Редактирование)</NuxtLink></div>
+			<div class="grid">
+				<div class="c">Ссылки <NuxtLink to="/fleet/shortcut">(Просмотр / Редактирование)</NuxtLink></div>
 			</div>
 
-			<div v-if="page['shortcuts'].length > 0" class="row">
-				<div v-for="link in page['shortcuts']" class="th col-6" :class="{'col-12': page['shortcuts'].length === 1}">
+			<div v-if="page['shortcuts'].length > 0" class="grid" :class="{'grid-cols-2': page['shortcuts'].length !== 1}">
+				<div v-for="link in page['shortcuts']" class="th">
 					<a @click.prevent="setTarget(link['galaxy'], link['system'], link['planet'], link['planet_type'])">
 						{{ link['name'] }} {{ link['galaxy'] }}:{{ link['system'] }}:{{ link['planet'] }}
 						<span v-if="link['planet_type'] === 1">(P)</span>
@@ -61,29 +61,31 @@
 					</a>
 				</div>
 			</div>
-			<div v-else class="row">
-				<div class="th col-12"><NuxtLink to="/fleet/shortcut/create" class="button">Добавить</NuxtLink></div>
+			<div v-else class="grid">
+				<div class="th">
+					<NuxtLink to="/fleet/shortcut/create" class="button">Добавить</NuxtLink>
+				</div>
 			</div>
 
-			<div v-if="page['planets'].length > 0" class="row">
-				<div class="c col-12">Планеты</div>
+			<div v-if="page['planets'].length > 0" class="grid">
+				<div class="c">Планеты</div>
 			</div>
-			<div v-if="page['planets'].length > 0" class="row">
-				<div v-for="(planet, i) in page['planets']" class="th" :class="['col-'+(page['planets'].length % 2 > 0 && i === page['planets'].length - 1 ? 12 : 6)]">
+			<div v-if="page['planets'].length > 0" class="grid grid-cols-2">
+				<div v-for="(planet, i) in page['planets']" class="th" :class="['col-span-'+(page['planets'].length % 2 > 0 && i === page['planets'].length - 1 ? 2 : 1)]">
 					<a @click.prevent="setTarget(planet['galaxy'], planet['system'], planet['planet'], planet['planet_type'])">
 						{{ planet['name'] }} {{ planet['galaxy'] }}:{{ planet['system'] }}:{{ planet['planet'] }}
 					</a>
 				</div>
 			</div>
 
-			<div v-if="page['moons'].length > 0" class="row">
-				<div class="c col-12">
+			<div v-if="page['moons'].length > 0" class="grid">
+				<div class="c">
 					Межгалактические врата
 					<span v-if="page['gate_time']" class="small">(заряжено через {{ $formatTime((dayjs(page['gate_time']).diff(now) / 1000), ':', true) }})</span>
 				</div>
 			</div>
-			<div v-if="page['moons'].length > 0" class="row">
-				<div v-for="(item, i) in page['moons']" class="th" :class="['col-'+(page['moons'].length % 2 > 0 && i === page['moons'].length - 1 ? 12 : 6)]">
+			<div v-if="page['moons'].length > 0" class="grid grid-cols-2">
+				<div v-for="(item, i) in page['moons']" class="th" :class="['col-span-'+(page['moons'].length % 2 > 0 && i === page['moons'].length - 1 ? 2 : 1)]">
 					<input type="radio" v-model="moon" :value="item['id']" :id="'moon'+item['id']">
 					<label :for="'moon'+item['id']">
 						{{ item['name'] }} [{{ item['galaxy'] }}:{{ item['system'] }}:{{ item['planet'] }}]
@@ -92,17 +94,17 @@
 				</div>
 			</div>
 
-			<div v-if="page['alliances'].length > 0" class="row">
-				<div class="c col-12">Боевые союзы</div>
+			<div v-if="page['alliances'].length > 0" class="grid">
+				<div class="c">Боевые союзы</div>
 			</div>
-			<div v-for="(row, index) in page['alliances']" class="row">
-				<div class="th col-12">
+			<div v-for="(row, index) in page['alliances']" class="grid">
+				<div class="th">
 					<a @click.prevent="allianceSet(index)">({{ row['name'] }})</a>
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="th col-6">
+			<div class="grid grid-cols-2">
+				<div class="th">
 					<table class="table">
 						<tbody>
 						<tr>
@@ -127,7 +129,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="th col-6">
+				<div class="th">
 					<table class="table">
 						<tbody>
 						<tr>
@@ -195,8 +197,8 @@
 					</table>
 				</div>
 			</div>
-			<div v-if="page['missions'].length > 0" class="row">
-				<div class="th col-12">
+			<div v-if="page['missions'].length > 0" class="grid">
+				<div class="th">
 					<button type="submit">Далее</button>
 				</div>
 			</div>

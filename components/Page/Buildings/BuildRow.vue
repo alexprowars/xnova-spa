@@ -1,71 +1,69 @@
 <template>
-	<div class="col-md-6 col-12">
-		<div class="page-building-items-item building" :class="{ blocked: !item['available'] }">
-			<div class="building-info">
-				<a :href="'/info/' + item['id']" @click.prevent="openInfoPopup" class="building-info-img" :style="{ backgroundImage: 'url(' + image + ')' }">
-					<img :src="'/images/buildings/item/' + item['id'] + '.png'" :alt="$t('tech.' + item['id'])" class="img-fluid" v-tooltip="$t('tech.' + item['id'])">
-					<div class="building-effects">
-						<template v-if="item['effects']">
-							<template v-for="(value, resource) in item['effects']">
-								<div v-if="value !== 0" class="building-effects-row">
-									<span :class="'sprite skin_s_'+resource" :title="$t('resources.' + resource)"></span>
-									<span :class="{ positive: value > 0, negative: value < 0 }">{{ $formatNumber(Math.abs(value)) }}</span>
-								</div>
-							</template>
+	<div class="page-building-items-item building" :class="{ blocked: !item['available'] }">
+		<div class="building-info">
+			<a :href="'/info/' + item['id']" @click.prevent="openInfoPopup" class="building-info-img" :style="{ backgroundImage: 'url(' + image + ')' }">
+				<img :src="'/images/buildings/item/' + item['id'] + '.png'" :alt="$t('tech.' + item['id'])" class="img-fluid" v-tooltip="$t('tech.' + item['id'])">
+				<div class="building-effects">
+					<template v-if="item['effects']">
+						<template v-for="(value, resource) in item['effects']">
+							<div v-if="value !== 0" class="building-effects-row">
+								<span :class="'sprite skin_s_'+resource" :title="$t('resources.' + resource)"></span>
+								<span :class="{ positive: value > 0, negative: value < 0 }">{{ $formatNumber(Math.abs(value)) }}</span>
+							</div>
 						</template>
+					</template>
+				</div>
+			</a>
+			<div class="building-info-actions">
+				<div class="building-title">
+					<NuxtLink :to="'/info/' + item['id']">
+						{{ $t('tech.'+item['id']) }}
+					</NuxtLink>
+					<span v-if="level" class="positive" title="Текущий уровень постройки">
+						{{ $formatNumber(level) }}
+					</span>
+				</div>
+				<div class="building-info-info" v-if="item['available']">
+					<div class="building-info-time">
+						<svg class="icon">
+							<use xlink:href="/images/symbols.svg#icon-time"></use>
+						</svg>
+						{{ $formatTime(item['time']) }}
 					</div>
-				</a>
-				<div class="building-info-actions">
-					<div class="building-title">
-						<NuxtLink :to="'/info/' + item['id']">
-							{{ $t('tech.'+item['id']) }}
-						</NuxtLink>
-						<span v-if="level" class="positive" title="Текущий уровень постройки">
-							{{ $formatNumber(level) }}
+					<div v-if="item['exp'] > 0" class="building-info-time" title="Опыт">
+						<svg class="icon">
+							<use xlink:href="/images/symbols.svg#icon-exp"></use>
+						</svg>
+						{{ $formatNumber(item['exp']) }} exp
+					</div>
+					<div class="building-info-upgrade">
+						<div v-if="fieldsEmpty <= 0" class="negative">
+							нет места
+						</div>
+						<a v-else-if="user['queue_max'] > 1 && queueByType('build').length > 0" @click.prevent="addAction">
+							Добавить в очередь
+						</a>
+						<div v-else-if="!hasResources" class="negative text-center">
+							нет ресурсов
+						</div>
+						<div v-else-if="user['queue_max'] <= queueByType('build').length" class="negative">
+							очередь заполнена
+						</div>
+						<a v-else-if="queueByType('build').length === 0" @click.prevent="addAction" class="button">
+							{{ level === 0 ? 'Построить' : 'Улучшить' }}
+						</a>
+					</div>
+				</div>
+				<div v-else-if="item['requirements']" class="building-required">
+					<div v-for="req in item['requirements']">
+						<span class="negative">
+							{{ $t('tech.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
 						</span>
-					</div>
-					<div class="building-info-info" v-if="item['available']">
-						<div class="building-info-time">
-							<svg class="icon">
-								<use xlink:href="/images/symbols.svg#icon-time"></use>
-							</svg>
-							{{ $formatTime(item['time']) }}
-						</div>
-						<div v-if="item['exp'] > 0" class="building-info-time" title="Опыт">
-							<svg class="icon">
-								<use xlink:href="/images/symbols.svg#icon-exp"></use>
-							</svg>
-							{{ $formatNumber(item['exp']) }} exp
-						</div>
-						<div class="building-info-upgrade">
-							<div v-if="fieldsEmpty <= 0" class="negative">
-								нет места
-							</div>
-							<a v-else-if="user['queue_max'] > 1 && queueByType('build').length > 0" @click.prevent="addAction">
-								Добавить в очередь
-							</a>
-							<div v-else-if="!hasResources" class="negative text-center">
-								нет ресурсов
-							</div>
-							<div v-else-if="user['queue_max'] <= queueByType('build').length" class="negative">
-								очередь заполнена
-							</div>
-							<a v-else-if="queueByType('build').length === 0" @click.prevent="addAction" class="button">
-								{{ level === 0 ? 'Построить' : 'Улучшить' }}
-							</a>
-						</div>
-					</div>
-					<div v-else-if="item['requirements']" class="building-required">
-						<div v-for="req in item['requirements']">
-							<span class="negative">
-								{{ $t('tech.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
-							</span>
-						</div>
 					</div>
 				</div>
 			</div>
-			<BuildRowPrice :price="item['price']"/>
 		</div>
+		<BuildRowPrice :price="item['price']"/>
 	</div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-	<div class="row">
-		<div class="col-1 b text-center">{{ item['id'] }}</div>
-		<div class="col b text-center">{{ item['title'] }}</div>
-		<div class="col-2 b text-center">
+	<div class="grid grid-cols-12">
+		<div class="col-span-1 b text-center">{{ item['id'] }}</div>
+		<div class="col-span-7 b text-center">{{ item['title'] }}</div>
+		<div class="col-span-2 b text-center">
 			<a :href="'/logs/' + item['id']" target="_blank">Открыть</a>
 		</div>
-		<div class="col-2 b text-center">
+		<div class="col-span-2 b text-center">
 			<a href="" @click.prevent="deleteItem">Удалить</a>
 		</div>
 	</div>

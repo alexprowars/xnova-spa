@@ -1,15 +1,15 @@
 <template>
 	<div class="block">
 		<div class="title">Снос здания "{{ $t('tech.' + item) }}" уровень {{ data['level'] }}</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table">
-				<div class="row">
-					<div class="col th">
+				<div class="grid">
+					<div class="th">
 						<build-row-price :price="data['resources']"/>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col th">
+				<div class="grid">
+					<div class="th">
 						Время сноса: {{ $formatTime(data['time']) }}
 
 						<button @click.prevent="destroyAction">Снести</button>

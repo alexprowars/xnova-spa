@@ -1,7 +1,7 @@
 <template>
-	<div class="row page-fleet-fly-item">
-		<div class="col-3 col-sm-1 th">{{ i + 1 }}</div>
-		<div class="col-6 col-sm-2 th">
+	<div class="grid grid-cols-12 divide-x page-fleet-fly-item">
+		<div class="col-span-3 sm:col-span-1 th">{{ i + 1 }}</div>
+		<div class="col-span-6 sm:col-span-2 th">
 			<a>{{ $t('fleet_mission.'+item.mission) }}</a>
 			<div v-if="item.start.time + 1 === item.target.time">
 				<a title="Возврат домой">(R)</a>
@@ -10,7 +10,7 @@
 				<a title="Полёт к цели">(A)</a>
 			</div>
 		</div>
-		<div class="col-3 col-sm-1 th">
+		<div class="col-span-3 sm:col-span-1 th">
 			<Popper>
 				<template #content>
 					<div v-for="(fleetData, fleetId) in item['units']">
@@ -20,7 +20,7 @@
 				{{ $formatNumber(item['amount']) }}
 			</Popper>
 		</div>
-		<div class="col-4 col-sm-3 th">
+		<div class="col-span-4 sm:col-span-3 border-t sm:border-0 th">
 			<div>
 				<NuxtLink :to="'/galaxy?galaxy='+item['target']['galaxy']+'&system='+item['target']['system']" class="negative">
 					[{{ item['target']['galaxy'] }}:{{ item['target']['system'] }}:{{ item['target']['planet'] }}]
@@ -29,7 +29,7 @@
 			{{ $formatDate(item['start']['date'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['start']['date']" delimiter="" class="positive"/>
 		</div>
-		<div v-if="item['target']['date']" class="col-4 col-sm-3 th">
+		<div v-if="item['target']['date']" class="col-span-4 sm:col-span-3 border-t sm:border-0 th">
 			<div>
 				<NuxtLink :to="'/galaxy?galaxy='+item['start']['galaxy']+'&system='+item['start']['system']" class="positive">
 					[{{ item['start']['galaxy'] }}:{{ item['start']['system'] }}:{{ item['start']['planet'] }}]
@@ -38,10 +38,10 @@
 			{{ $formatDate(item['target']['date'], 'DD MMM HH:mm:ss') }}
 			<Timer :value="item['target']['date']" delimiter="" class="positive"/>
 		</div>
-		<div v-else class="col-4 col-sm-3 th">
+		<div v-else class="col-span-4 sm:col-span-3 border-t sm:border-0 th">
 			-
 		</div>
-		<div class="col-4 col-sm-2 th">
+		<div class="col-span-4 sm:col-span-2 border-t sm:border-0 th">
 			<NuxtLink v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/' + item.id" class="button">
 				Объединить
 			</NuxtLink>

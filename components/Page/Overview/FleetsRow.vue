@@ -1,12 +1,12 @@
 <template>
-	<div class="row overview-fleets-row">
-		<div class="col-3 col-sm-2 th">
+	<div class="grid grid-cols-12 overview-fleets-row">
+		<div class="col-span-3 sm:col-span-2 th">
 			<div class="z">
 				<Timer :value="item['date']"/>
 			</div>
 			<div class="positive">{{ $formatDate(item['date'], 'DD MMM') }}</div>
 		</div>
-		<div class="col-9 col-sm-10 th text-start" :class="[fleetStatus[item['status']], item['owner'] ? 'own' : '', fleetStyle[item['mission']]]">
+		<div class="col-span-9 sm:col-span-10 th text-left" :class="[fleetStatus[item['status']], item['owner'] ? 'own' : '', fleetStyle[item['mission']]]">
 			<template v-if="item['owner']">Ваш</template>
 			<template v-else>{{ item['assault'] ? 'Союзный ' : 'Чужой' }}</template>
 
@@ -66,22 +66,20 @@
 			<template v-if="item['resources']['metal'] > 0 || item['resources']['crystal'] > 0 || item['resources']['deuterium'] > 0">
 				<Popper>
 					<template #content>
-						<table width=200>
-							<tbody>
-							<tr>
-								<td width=50% align=left>{{ $t('resources.metal') }}</td>
-								<td width=50% align=right>{{ $formatNumber(item['resources']['metal']) }}</td>
-							</tr>
-							<tr>
-								<td width=50% align=left>{{ $t('resources.crystal') }}</td>
-								<td width=50% align=right>{{ $formatNumber(item['resources']['crystal']) }}</td>
-							</tr>
-							<tr>
-								<td width=50% align=left>{{ $t('resources.deuterium') }}</td>
-								<td width=50% align=right>{{ $formatNumber(item['resources']['deuterium']) }}</td>
-							</tr>
-							</tbody>
-						</table>
+						<div class="w-[200px]">
+							<div class="grid grid-cols-2">
+								<div>{{ $t('resources.metal') }}</div>
+								<div class="text-right">{{ $formatNumber(item['resources']['metal']) }}</div>
+							</div>
+							<div class="grid grid-cols-2">
+								<div>{{ $t('resources.crystal') }}</div>
+								<div class="text-right">{{ $formatNumber(item['resources']['crystal']) }}</div>
+							</div>
+							<div class="grid grid-cols-2">
+								<div>{{ $t('resources.deuterium') }}</div>
+								<div class="text-right">{{ $formatNumber(item['resources']['deuterium']) }}</div>
+							</div>
+						</div>
 					</template>
 					<span>{{ $t('fleet_mission.' + item.mission) }}</span>
 				</Popper>

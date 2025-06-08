@@ -1,11 +1,9 @@
 .page-chat-messages {
-	margin: 5px;
 	vertical-align: text-top;
 	min-height: 200px;
 	height: 70vh;
 	overflow-y: auto;
 	overflow-x: hidden;
-	width: calc(100% - 10px);
 	font-size: 1.2rem;
 
 	.date {
@@ -65,11 +63,9 @@
 }
 
 .page-chat .page-chat-message {
-	width: calc(100% - 100px);
-	margin-top: 2px;
+	width: 100%;
 	font-size: 1.3rem;
 	padding: 2px;
-	margin-bottom: 5px;
 }
 
 .page-chat-history {

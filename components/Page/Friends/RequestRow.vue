@@ -1,17 +1,17 @@
 <template>
-	<div class="row">
-		<div class="col th middle">
+	<div class="grid grid-cols-5">
+		<div class="th middle">
 			<NuxtLink :to="'/messages/write/'+item['user']['id']">{{ item['user']['name'] }}</NuxtLink>
 		</div>
-		<div class="col th middle">
+		<div class="th middle">
 			<NuxtLink v-if="item['user']['alliance']['id'] > 0" :to="'/alliance/info/'+item['user']['alliance']['id']">{{ item['user']['alliance']['name'] }}</NuxtLink>
 			<template v-else>-</template>
 		</div>
-		<div class="col-2 th middle">
+		<div class="th middle">
 			<NuxtLink :to="'/galaxy?galaxy='+item['user']['galaxy']+'&system='+item['user']['system']">{{ item['user']['galaxy'] }}:{{ item['user']['system'] }}:{{ item['user']['planet'] }}</NuxtLink>
 		</div>
-		<div class="col th middle" v-html="item['message']"></div>
-		<div class="col th text-center">
+		<div class="th middle" v-html="item['message']"></div>
+		<div class="th text-center">
 			<button v-if="isMy" @click.prevent="remove" class="button text-danger">Удалить запрос</button>
 			<template v-else>
 				<button @click.prevent="approve" class="button text-success">Принять</button>

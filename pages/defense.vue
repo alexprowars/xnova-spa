@@ -4,19 +4,15 @@
 		<div class="block">
 			<div class="content page-building-items">
 				<form ref="formRef" action="" method="post" @submit.prevent="constructAction">
-					<div class="row">
-						<div class="col-12">
-							<div class="c">
-								<button type="submit">Построить</button>
-							</div>
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
+						<div class="col-span-2 c border">
+							<button type="submit">Построить</button>
 						</div>
 
 						<UnitRow v-for="(item, i) in items" ref="itemsRef" :key="i" :item="item"/>
 
-						<div class="col-12">
-							<div class="c">
-								<button type="submit">Построить</button>
-							</div>
+						<div class="col-span-2 c border">
+							<button type="submit">Построить</button>
 						</div>
 					</div>
 				</form>

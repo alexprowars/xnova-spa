@@ -1,40 +1,40 @@
 <template>
 	<div class="page-alliance-chat">
 		<div class="block-table">
-			<div class="row">
-				<div class="col-12 c">
+			<div class="grid">
+				<div class="c">
 					<a href="" @click.prevent="refresh">Обновить</a>
 				</div>
 			</div>
 
-			<div v-for="item in page['items']" class="row">
-				<div class="col-2 b text-center">
+			<div v-for="item in page['items']" class="grid grid-cols-12">
+				<div class="col-span-2 b text-center">
 					{{ $formatDate(item['time'], 'HH:mm:ss') }}
 					<br>
 					<a :href="'/players/' + item['user_id']" target="_blank">{{ item['user'] }}</a>
 					<a @click.prevent="quote(item)"> -> </a>
 				</div>
-				<div class="col-9 b">
+				<div class="col-span-9 b">
 					<TextViewer v-if="user['options']['bb_parser']" :text="item['message']"/>
 					<div v-else>{{ item['message'] }}</div>
 				</div>
-				<div v-if="page['owner']" class="col-1 b text-center">
+				<div v-if="page['owner']" class="col-span-1 b text-center">
 					<input type="checkbox" :value="item['id']" v-model="marked">
 				</div>
 			</div>
 
-			<div v-if="page['items'].length === 0" class="row">
-				<div class="col-12 b" align="center">В альянсе нет сообщений.</div>
+			<div v-if="page['items'].length === 0" class="grid">
+				<div class="b text-center">В альянсе нет сообщений.</div>
 			</div>
 
-			<div class="row">
-				<div class="col-12 th">
+			<div class="grid">
+				<div class="th">
 					<Pagination :options="page['pagination']"/>
 				</div>
 			</div>
 
-			<div v-if="marked.length" class="row">
-				<div class="col-12 th">
+			<div v-if="marked.length" class="grid">
+				<div class="th">
 					<select v-model="deleteType">
 						<option value="marked">Удалить выделенные</option>
 						<option value="unmarked">Удалить не выделенные</option>

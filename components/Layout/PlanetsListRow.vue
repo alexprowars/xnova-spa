@@ -1,18 +1,17 @@
 <template>
-	<div class="planet" :class="['type_' + item.type, (planet.id === item.id ? 'current' : '')]">
-		<a @click.prevent="changePlanet" :title="item.name">
+	<div class="planet flex gap-2 justify-between sm:flex-col lg:flex-row" :class="['type_' + item.planet_type, (planet.id === item.id ? 'current' : '')]">
+		<div @click.prevent="changePlanet" class="cursor-pointer" :title="item.name">
 			<img :src="'/images/planeten/small/s_' + item.image + '.jpg'" height="40" width="40" :alt="item.name">
-		</a>
-		<span class="d-none d-sm-block d-md-none">
+		</div>
+		<div class="hidden sm:block lg:hidden w-full">
 			<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.planet"/>
-		</span>
-		<div class="d-sm-none d-md-block">
+		</div>
+		<div class="sm:hidden lg:block grow">
 			{{ item.name }}<br>
 			<span>
 				<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.planet"/>
 			</span>
 		</div>
-		<div class="clear"></div>
 	</div>
 </template>
 

@@ -1,22 +1,22 @@
 <template>
 	<div class="block-table">
-		<div v-if="fleets.length > 0" class="row">
-			<div class="col-3 col-sm-1 th">№</div>
-			<div class="col-6 col-sm-2 th">Миссия</div>
-			<div class="col-3 col-sm-1 th">Кол-во</div>
-			<div class="col-4 col-sm-3 th d-none d-sm-block">Цель</div>
-			<div class="col-2 col-sm-3 th d-none d-sm-block">Возврат</div>
-			<div class="col-2 th d-none d-sm-block">Приказы</div>
+		<div v-if="fleets.length > 0" class="grid grid-cols-12 divide-x">
+			<div class="col-span-3 sm:col-span-1 th">№</div>
+			<div class="col-span-6 sm:col-span-2 th">Миссия</div>
+			<div class="col-span-3 sm:col-span-1 th">Кол-во</div>
+			<div class="col-span-4 sm:col-span-3 th hidden sm:block">Цель</div>
+			<div class="col-span-2 sm:col-span-3 th hidden sm:block">Возврат</div>
+			<div class="col-span-2 th hidden sm:block">Приказы</div>
 		</div>
 
-		<FleetRow class="row page-fleet-fly-item" v-for="(item, index) in fleets" :key="index" :i="index" :item="item"/>
+		<FleetRow v-for="(item, index) in fleets" :key="index" :i="index" :item="item"/>
 
-		<div class="row" v-if="fleets.length === 0">
-			<div class="th col text-center">нет активности флота</div>
+		<div class="grid" v-if="fleets.length === 0">
+			<div class="th text-center">нет активности флота</div>
 		</div>
 
-		<div class="row" v-if="fleets.length >= user['fleets_max']">
-			<div class="th col negative text-center">Все слоты заняты!</div>
+		<div class="grid" v-if="fleets.length >= user['fleets_max']">
+			<div class="th negative text-center">Все слоты заняты!</div>
 		</div>
 	</div>
 </template>

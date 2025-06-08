@@ -46,6 +46,10 @@
 			max-height: 34px;
 			padding: 0;
 			font-size: 0;
+
+			img {
+				max-width: none;
+			}
 		}
 
 		.actions {

@@ -1,9 +1,9 @@
 <template>
 	<div class="page-credits">
 		<div class="block">
-			<div class="content container-fluid">
-				<div class="row">
-					<div class="col th border-0">
+			<div class="content">
+				<div class="grid">
+					<div class="th border-0">
 						<div class="separator"></div>
 						<div class="separator"></div>
 						Для развития проекта Вы можете поддержать нас, получая кредиты по следующему курсу:<br><br>
@@ -20,9 +20,9 @@
 			<div class="title text-center">
 				Покупка кредитов
 			</div>
-			<div class="content container-fluid">
-				<div class="row">
-					<div class="col th border-0">
+			<div class="content">
+				<div class="grid">
+					<div class="th border-0">
 						<div class="separator"></div>
 						Ваш ID: <span class="neutral">{{ user['id'] }}</span>
 						<div class="separator"></div>

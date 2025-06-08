@@ -4,31 +4,31 @@
 			<div class="title text-center">
 				Служба техподдержки
 			</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div v-if="!items.length" class="row">
-						<div class="col th">Нет запросов в техподдержку</div>
+					<div v-if="!items.length" class="grid">
+						<div class="th">Нет запросов в техподдержку</div>
 					</div>
-					<div v-else class="row">
-						<div class="col-1 th">ID</div>
-						<div class="col-6 th">Тема</div>
-						<div class="col-2 th">Статус</div>
-						<div class="col-3 th">Дата</div>
+					<div v-else class="grid grid-cols-12">
+						<div class="col-span-1 th">ID</div>
+						<div class="col-span-6 th">Тема</div>
+						<div class="col-span-2 th">Статус</div>
+						<div class="col-span-3 th">Дата</div>
 					</div>
-					<div v-for="item in items" class="row">
-						<div class="col-1 c">
+					<div v-for="item in items" class="grid grid-cols-12">
+						<div class="col-span-1 c">
 							<a @click.prevent="getInfo(item['id'])">{{ item['id'] }}</a>
 						</div>
-						<div class="col-6 c">
+						<div class="col-span-6 c">
 							<a @click.prevent="getInfo(item['id'])">{{ item['subject'] }}</a>
 						</div>
-						<div class="col-2 c">
+						<div class="col-span-2 c">
 							<span v-if="item['status'] === 0" style="color:red">закрыто</span>
 							<span v-if="item['status'] === 1" style="color:green">открыто</span>
 							<span v-if="item['status'] === 2" style="color:orange">ответ админа</span>
 							<span v-if="item['status'] === 3" style="color:green">ответ игрока</span>
 						</div>
-						<div class="col-3 c">{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm:ss') }}</div>
+						<div class="col-span-3 c">{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm:ss') }}</div>
 					</div>
 				</div>
 			</div>
@@ -38,8 +38,8 @@
 
 		<div v-if="!request">
 			<div class="separator"></div>
-			<div class="row">
-				<div class="col text-end">
+			<div class="grid">
+				<div class="text-right">
 					<button @click="newRequest">Создать запрос</button>
 				</div>
 			</div>

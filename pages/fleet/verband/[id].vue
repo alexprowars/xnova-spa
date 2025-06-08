@@ -2,7 +2,7 @@
 	<div class="page-fleet-verband">
 		<div class="block">
 			<div class="title">Флоты в совместной атаке</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<table class="table">
 					<tbody>
 					<tr>
@@ -21,21 +21,21 @@
 		</div>
 		<div v-if="!page['assault']" class="block">
 			<div class="title">Создание ассоциации флота</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<Create :id="page['fleetid']"/>
 			</div>
 		</div>
 		<div v-else-if="page['fleetid'] === page['assault']['fleet_id']" class="block">
 			<div class="title">Ассоциация флота {{ page['assault']['name'] }}</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div class="row">
-						<div class="col th">
+					<div class="grid">
+						<div class="th">
 							<ChangeName :id="page['fleetid']" :name="page['assault']['name']"/>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col th">
+					<div class="grid">
+						<div class="th">
 							<table class="table">
 								<tbody>
 								<tr>

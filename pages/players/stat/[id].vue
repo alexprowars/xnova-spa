@@ -3,22 +3,21 @@
 		<div class="title">
 			{{ pageType === 'ally' ? 'Альянс' : 'Игрок' }} "{{ page['name'] }}"
 		</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table">
-				<div class="row">
-					<div class="col c"><b>Статистика по месту</b></div>
+				<div class="grid">
+					<div class="c"><b>Статистика по месту</b></div>
 				</div>
-				<div class="row">
-					<div class="col th" style="padding: 10px;">
+				<div class="grid">
+					<div class="th" style="padding: 10px;">
 						<canvas ref="rankChartRef"></canvas>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col c"><b>Статистика по очкам</b></div>
+				<div class="grid">
+					<div class="c"><b>Статистика по очкам</b></div>
 				</div>
-				<div class="row">
-					<div class="col th" style="padding: 10px;">
-
+				<div class="grid">
+					<div class="th p-4">
 						<input type="radio" id="show_builds" v-model="typeChart" value="build">
 						<label for="show_builds">Постройки</label>
 

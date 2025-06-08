@@ -2,19 +2,19 @@
 	<div class="page-referrals">
 		<div v-if="page['items'].length > 0" class="block">
 			<div class="title">Привлечённые игроки</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div class="row">
-						<div class="col c">Ник</div>
-						<div class="col c">Дата регистрации</div>
-						<div class="col c">Уровень развития</div>
+					<div class="grid grid-cols-3">
+						<div class="c">Ник</div>
+						<div class="c">Дата регистрации</div>
+						<div class="c">Уровень развития</div>
 					</div>
-					<div class="row" v-for="item in page['items']">
-						<div class="col th">
+					<div class="grid grid-cols-3" v-for="item in page['items']">
+						<div class="th">
 							<NuxtLink :to="'/players/' + item['id']">{{ item['username'] }}</NuxtLink>
 						</div>
-						<div class="col th">{{ $formatDate(item['created_at'], 'DD MMM YYYY HH:mm:ss') }}</div>
-						<div class="col th">П:{{ item['lvl_minier'] }}, В:{{ item['lvl_raid'] }}</div>
+						<div class="th">{{ $formatDate(item['created_at'], 'DD MMM YYYY HH:mm:ss') }}</div>
+						<div class="th">П:{{ item['lvl_minier'] }}, В:{{ item['lvl_raid'] }}</div>
 					</div>
 				</div>
 			</div>
@@ -22,9 +22,9 @@
 
 		<template v-if="page['you'] !== undefined">
 			<div class="block-table">
-				<div class="row">
-					<div class="col th">Вы были привлечены игроком:</div>
-					<div class="col th">
+				<div class="grid grid-cols-2">
+					<div class="th">Вы были привлечены игроком:</div>
+					<div class="th">
 						<NuxtLink :to="'/players/' + page['you']['id']">{{ page['you']['username'] }}</NuxtLink>
 					</div>
 				</div>
@@ -32,10 +32,10 @@
 		</template>
 
 		<div class="block">
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div class="row">
-						<div class="col th" style="padding:15px;">
+					<div class="grid">
+						<div class="th" style="padding:15px;">
 							Помоги проекту, поделись им с друзьями!<br><br>
 
 							<div class="yashare-auto-init"
@@ -52,10 +52,10 @@
 		</div>
 		<div class="block">
 			<div class="title">Юзербар</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="block-table">
-					<div class="row">
-						<div class="col text-center">
+					<div class="grid">
+						<div class="text-center">
 							<br>
 							<img :src="'/userbar' + user.id + '.jpg'" alt="">
 

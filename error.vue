@@ -4,11 +4,11 @@
 	</DefaultLayout>
 	<div v-else class="application">
 		<div class="error">
-			<div class="row">
+			<div>
 				<div v-if="error.statusCode === 404" class="e404">Вы попали на несуществующую страницу!</div>
 				<div v-else>{{ error['message'] }}</div>
 			</div>
-			<div class="row">
+			<div>
 				<LayoutGame/>
 			</div>
 		</div>

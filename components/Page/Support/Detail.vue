@@ -3,25 +3,25 @@
 		<div class="title text-center">
 			Текст обращения
 		</div>
-		<div class="content border-0">
+		<div class="content !border-0">
 			<div class="block-table">
-				<div class="row">
-					<div class="col th text-start" v-html="item['message']"></div>
+				<div class="grid">
+					<div class="th text-left" v-html="item['message']"></div>
 				</div>
-				<div v-if="item['status'] === 0" class="row">
-					<div class="col c">Закрыт</div>
+				<div v-if="item['status'] === 0" class="grid">
+					<div class="c">Закрыт</div>
 				</div>
 				<div v-else>
-					<div class="row">
-						<div class="col c">Ответ</div>
+					<div class="grid">
+						<div class="c">Ответ</div>
 					</div>
-					<div class="row">
-						<div class="col th">
+					<div class="grid">
+						<div class="th">
 							<TextEditor v-model="message"/>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col c">
+					<div class="grid">
+						<div class="c">
 							<button @click.prevent="answer">Ответить</button>
 							<button @click.prevent="emit('close')">Закрыть</button>
 						</div>

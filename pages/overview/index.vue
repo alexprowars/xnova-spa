@@ -4,152 +4,139 @@
 
 		<div class="block">
 			<div class="title">
-				<div class="row">
-					<div class="col-12 col-sm-6">
+				<div class="flex flex-col gap-2 sm:flex-row sm:justify-between">
+					<div>
 						{{ $t('planet_type.'+planet['type']) }} "{{ planet['name'] }}"
 						<NuxtLink :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
 							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}]
 						</NuxtLink>
 						<NuxtLink to="/overview/rename" :title="$t('overview.planet_rename_hint')">({{ $t('overview.planet_rename_action') }})</NuxtLink>
 					</div>
-					<div class="separator d-sm-none"></div>
-					<div class="col-12 col-sm-6">
+					<div>
 						<div class="float-sm-end"><clock/></div>
-						<div class="clearfix d-sm-none"></div>
+						<div class="clearfix sm:hidden"></div>
 					</div>
 				</div>
 			</div>
 			<div class="content">
-
-				<div v-if="productionNotify" class="row">
-					<div class="col text-center">
-						<span class="negative">
-							<i18n-t keypath="overview.resources_notify" scope="global">
-								<template #link>
-									<NuxtLink to="/resources">{{ $t('menu.resources') }}</NuxtLink>
-								</template>
-							</i18n-t>
-						</span>
-					</div>
-					<div class="separator"></div>
+				<div v-if="productionNotify" class="text-center mb-2">
+					<span class="negative">
+						<i18n-t keypath="overview.resources_notify" scope="global">
+							<template #link>
+								<NuxtLink to="/resources">{{ $t('menu.resources') }}</NuxtLink>
+							</template>
+						</i18n-t>
+					</span>
 				</div>
 
-				<div v-if="user['protection']" class="row">
-					<div class="col text-center" v-html="$t('overview.newbie_mode_notify')"></div>
-					<div class="separator"></div>
+				<div v-if="user['protection']" class="mb-2">
+					<div class="text-center" v-html="$t('overview.newbie_mode_notify')"></div>
 				</div>
 
 				<div v-if="fleets.length">
 					<Fleets :items="fleets"/>
 					<div class="separator"></div>
 				</div>
-				<div class="row overview">
-					<div class="col-sm-4 col-12">
-						<div class="row">
-							<div class="col-12">
-								<div class="planet-image">
-									<NuxtLink to="/overview/rename/">
-										<img :src="'/images/planeten/' + planet['image'] + '.jpg'" alt="">
-									</NuxtLink>
-									<div v-if="planet['moon']" class="moon-image">
-										<a href="" @click.prevent="changeToMoon(planet['moon']['id'])" :title="planet['moon']['name']">
-											<img :src="'/images/planeten/' + planet['moon']['image'] + '.jpg'" height="50" width="50" alt="">
-										</a>
-									</div>
-								</div>
-
-								<div class="separator"></div>
-
-								<div style="border: 1px solid rgb(153, 153, 255); width: 100%; margin: 0 auto;">
-									<div id="CaseBarre" :style="'background-color: #'+(userFiledsPercent > 80 ? 'C00000' : (userFiledsPercent > 60 ? 'C0C000' : '00C000'))+'; width: '+userFiledsPercent+'%;  margin: 0 auto; text-align:center;'">
-										<span style="color: #000000"><b>{{ userFiledsPercent }}%</b></span>
-									</div>
-								</div>
-							</div>
-							<div class="col-12 page-overview-officiers">
-								<NuxtLink v-for="item in user['officiers']" to="/officiers" class="page-overview-officiers-item">
-									<Popper>
-										<template #content>
-											<div>
-												{{ $t('tech.' + item['id']) }}
-												<br>
-												<span v-if="item['date']">
-													{{ $t('overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm') }}</span>
-												</span>
-												<span v-else class="positive">{{ $t('overview.officier_noactive') }}</span>
-											</div>
-										</template>
-										<span class="officier" :class="['of' + item['id'] + (item['date'] ? '_ikon' : '')]"></span>
-									</Popper>
-								</NuxtLink>
+				<div class="overview grid sm:grid-cols-3 gap-2">
+					<div>
+						<div class="planet-image mb-2">
+							<NuxtLink to="/overview/rename/">
+								<img :src="'/images/planeten/' + planet['image'] + '.jpg'" alt="">
+							</NuxtLink>
+							<div v-if="planet['moon']" class="moon-image">
+								<a href="" @click.prevent="changeToMoon(planet['moon']['id'])" :title="planet['moon']['name']">
+									<img :src="'/images/planeten/' + planet['moon']['image'] + '.jpg'" height="50" width="50" alt="">
+								</a>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-4 col-12">
-						<div class="separator d-sm-none"></div>
-						<div class="block-table container-fluid">
-							<div class="row">
-								<div class="col-12 c">{{ $t('overview.diameter') }}</div>
+						<div style="border: 1px solid rgb(153, 153, 255); width: 100%; margin: 0 auto;">
+							<div id="CaseBarre" :style="'background-color: #'+(userFiledsPercent > 80 ? 'C00000' : (userFiledsPercent > 60 ? 'C0C000' : '00C000'))+'; width: '+userFiledsPercent+'%;  margin: 0 auto; text-align:center;'">
+								<span style="color: #000000"><b>{{ userFiledsPercent }}%</b></span>
 							</div>
-							<div class="row">
-								<div class="col-12 th">
+						</div>
+						<div class="page-overview-officiers">
+							<NuxtLink v-for="item in user['officiers']" to="/officiers" class="page-overview-officiers-item">
+								<Popper>
+									<template #content>
+										<div>
+											{{ $t('tech.' + item['id']) }}
+											<br>
+											<span v-if="item['date']">
+												{{ $t('overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm') }}</span>
+											</span>
+											<span v-else class="positive">{{ $t('overview.officier_noactive') }}</span>
+										</div>
+									</template>
+									<span class="officier" :class="['of' + item['id'] + (item['date'] ? '_ikon' : '')]"></span>
+								</Popper>
+							</NuxtLink>
+						</div>
+					</div>
+					<div>
+						<div class="separator sm:hidden"></div>
+						<div class="block-table text-center">
+							<div class="grid">
+								<div class="c">{{ $t('overview.diameter') }}</div>
+							</div>
+							<div class="grid">
+								<div class="th">
 									{{ $formatNumber(planet['diameter']) }} {{ $t('km') }}
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 c">{{ $t('overview.used') }}</div>
+							<div class="grid">
+								<div class="c">{{ $t('overview.used') }}</div>
 							</div>
-							<div class="row">
-								<div class="col-12 th">
+							<div class="grid">
+								<div class="th">
 									<a :title="$t('overview.used_fields')">{{ planet['field_used'] }}</a> / <a :title="$t('overview.used_fields_max')">{{ planet['field_max'] }}</a> {{ $t('overview.fields') }}
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 c">{{ $t('overview.temp') }}</div>
+							<div class="grid">
+								<div class="c">{{ $t('overview.temp') }}</div>
 							</div>
-							<div class="row">
-								<div class="col-12 th">
+							<div class="grid">
+								<div class="th">
 									{{ $t('overview.temp_from') }} {{ planet['temp_min'] }}&deg;C {{ $t('overview.temp_until') }} {{ planet['temp_max'] }}&deg;C
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 c">
+							<div class="grid">
+								<div class="c">
 									{{ $t('overview.debris') }}
 									<a v-if="hasDebrisMission" @click.prevent="sendRecycle">
 										({{ $t('overview.recycle') }})
 									</a>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 th doubleth middle">
+							<div class="grid">
+								<div class="th doubleth middle">
 									<div>
-										<img src="/images/skin/s_metal.png" alt="" align="absmiddle" v-tooltip="$t('resources.metal')">
+										<img src="/images/skin/s_metal.png" class="inline" alt="" align="absmiddle" v-tooltip="$t('resources.metal')">
 										{{ $formatNumber(planet['debris']['metal']) }}
 										/
-										<img src="/images/skin/s_crystal.png" alt="" align="absmiddle" v-tooltip="$t('resources.crystal')">
+										<img src="/images/skin/s_crystal.png" class="inline" alt="" align="absmiddle" v-tooltip="$t('resources.crystal')">
 										{{ $formatNumber(planet['debris']['crystal']) }}
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 c">{{ $t('overview.battles') }}</div>
+							<div class="grid">
+								<div class="c">{{ $t('overview.battles') }}</div>
 							</div>
-							<div class="row">
-								<div class="col-12 th middle">
-									<img src="/images/wins.gif" alt="" align="absmiddle" v-tooltip="$t('overview.battles_wins')">&nbsp;
+							<div class="grid">
+								<div class="th middle">
+									<img src="/images/wins.gif" class="inline" alt="" align="absmiddle" v-tooltip="$t('overview.battles_wins')">&nbsp;
 									{{ user['raids']['win'] }}
 									&nbsp;&nbsp;
-									<img src="/images/losses.gif" alt="" align="absmiddle" v-tooltip="$t('overview.battles_defeats')">&nbsp;
+									<img src="/images/losses.gif" class="inline" alt="" align="absmiddle" v-tooltip="$t('overview.battles_defeats')">&nbsp;
 									{{ user['raids']['lost'] }}
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 th">
+							<div class="grid">
+								<div class="th">
 									{{ $t('overview.fraction') }}: <NuxtLink to="/race">{{ $t('races.' + user['race']) }}</NuxtLink>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 th">
+							<div class="grid">
+								<div class="th">
 									<NuxtLink to="/referrals">
 										https://{{ host }}/?{{ user['id'] }}
 									</NuxtLink>
@@ -158,48 +145,48 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-4 col-12">
-						<div class="separator d-sm-none"></div>
-						<div class="block-table container-fluid">
-							<div class="row">
-								<div class="c col-sm-5 col-6">{{ $t('overview.player') }}:</div>
-								<div class="c col-sm-7 col-6" style="word-break: break-all;">
-									<a :href="'/players/'+user['id']+'/'" @click.prevent="openPlayerPopup">{{ user['name'] }}</a>
+					<div>
+						<div class="separator sm:hidden"></div>
+						<div class="block-table text-center">
+							<div class="grid grid-cols-12">
+								<div class="col-span-6 sm:col-span-5 c">{{ $t('overview.player') }}:</div>
+								<div class="col-span-6 sm:col-span-7 c" style="word-break: break-all;">
+									<a :href="'/players/' + user['id']" @click.prevent="openPlayerPopup">{{ user['name'] }}</a>
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-sm-5 col-6">{{ $t('overview.stats_build') }}:</div>
-								<div class="th col-sm-7 col-6">
+							<div class="grid grid-cols-12 divide-x">
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_build') }}:</div>
+								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['build']) }}</span>
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-sm-5 col-6">{{ $t('overview.stats_fleet') }}:</div>
-								<div class="th col-sm-7 col-6">
+							<div class="grid grid-cols-12 divide-x">
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_fleet') }}:</div>
+								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['fleet']) }}</span>
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-sm-5 col-6">{{ $t('overview.stats_defs') }}:</div>
-								<div class="th col-sm-7 col-6">
+							<div class="grid grid-cols-12 divide-x">
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_defs') }}:</div>
+								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['defs']) }}</span>
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-sm-5 col-6">{{ $t('overview.stats_tech') }}:</div>
-								<div class="th col-sm-7 col-6">
+							<div class="grid grid-cols-12 divide-x">
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_tech') }}:</div>
+								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['tech']) }}</span>
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-sm-5 col-6">{{ $t('overview.stats_total') }}:</div>
-								<div class="th col-sm-7 col-6">
+							<div class="grid grid-cols-12 divide-x">
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_total') }}:</div>
+								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['total']) }}</span>
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-sm-5 col-6">{{ $t('overview.place') }}:</div>
-								<div class="th col-sm-7 col-6">
+							<div class="grid grid-cols-12 divide-x">
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.place') }}:</div>
+								<div class="col-span-6 sm:col-span-7 th">
 									<NuxtLink :to="'/stat?view=players&range=' + user['points']['place']">{{ user['points']['place'] }}</NuxtLink>
 									<span :title="$t('overview.place_diff')">
 										<span v-if="user['points']['diff'] >= 1" class="positive">+{{ user['points']['diff'] }}</span>
@@ -207,29 +194,29 @@
 									</span>
 								</div>
 							</div>
-							<div class="row">
-								<div class="c col-12">{{ $t('overview.mine_level') }}</div>
+							<div class="grid">
+								<div class="c">{{ $t('overview.mine_level') }}</div>
 							</div>
-							<div class="row">
-								<div class="th col-12">
+							<div class="grid">
+								<div class="th">
 									{{ user['lvl']['mine']['l'] }} {{ $t('overview.from') }} 100
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-12">
+							<div class="grid">
+								<div class="th">
 									{{ $formatNumber(user['lvl']['mine']['p']) }} / {{ $formatNumber(user['lvl']['mine']['u']) }} exp
 								</div>
 							</div>
-							<div class="row">
-								<div class="c col-12">{{ $t('overview.raid_level') }}</div>
+							<div class="grid">
+								<div class="c">{{ $t('overview.raid_level') }}</div>
 							</div>
-							<div class="row">
-								<div class="th col-12">
+							<div class="grid">
+								<div class="th">
 									{{ user['lvl']['raid']['l'] }} {{ $t('overview.from') }} 100
 								</div>
 							</div>
-							<div class="row">
-								<div class="th col-12">
+							<div class="grid">
+								<div class="th">
 									{{ $formatNumber(user['lvl']['raid']['p']) }} / {{ $formatNumber(user['lvl']['raid']['u']) }} exp
 								</div>
 							</div>
@@ -251,17 +238,13 @@
 		<div v-if="isMobile() && chat.length > 0" class="page-overview-chat">
 			<div class="separator"></div>
 
-			<table class="table" style="max-width: 100%">
-				<tbody>
-					<tr>
-						<th class="text-start">
-							<div style="overflow-y: auto;overflow-x: hidden;">
-								<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
-							</div>
-						</th>
-					</tr>
-				</tbody>
-			</table>
+			<div class="table w-full">
+				<div class="th">
+					<div class="text-left overflow-y-auto overflow-x-hidden">
+						<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

@@ -1,21 +1,21 @@
 <template>
 	<div class="page-resources">
-		<div class="block-table">
-			<div class="row">
-				<div class="col-5 c">Уровень производства</div>
-				<div class="col-2 th">{{ page['production_level'] }}%</div>
-				<div class="col-5 th">
+		<div class="block-table text-center">
+			<div class="grid grid-cols-12">
+				<div class="col-span-5 c">Уровень производства</div>
+				<div class="col-span-2 th">{{ page['production_level'] }}%</div>
+				<div class="col-span-5 th">
 					<ResourcesBar :value="page['production_level']" :reverse="true"></ResourcesBar>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-5 c">
+			<div class="grid grid-cols-12">
+				<div class="col-span-5 c">
 					<NuxtLink to="/info/113">{{ $t('tech.113') }}</NuxtLink>
 				</div>
-				<div class="col-2 th">
+				<div class="col-span-2 th">
 					{{ user['technology']['energy_tech'] }} ур.
 				</div>
-				<div class="col-5 th"></div>
+				<div class="col-span-5 th"></div>
 			</div>
 		</div>
 
@@ -25,7 +25,7 @@
 			<div class="title text-center">
 				Производство на планете "{{ planet['name'] }}"
 			</div>
-			<div class="content border-0">
+			<div class="content !border-0">
 				<div class="table-responsive">
 					<form method="post" @submit.prevent="updateState">
 						<table class="table">
@@ -41,7 +41,7 @@
 									<th width="100">КПД</th>
 								</tr>
 								<tr>
-									<th class="text-start" nowrap>Базовое производство</th>
+									<th class="text-left" nowrap>Базовое производство</th>
 									<td class="k"></td>
 									<td class="k"></td>
 									<td v-for="res in page['resources']" class="k">{{ $formatNumber(planet['resources'][res]['basic']) }}</td>
@@ -82,29 +82,29 @@
 			<div class="title text-center">
 				Информация о производстве
 			</div>
-			<div class="content border-0">
-				<div class="block-table">
-					<div class="row">
-						<div class="col-2 th">&nbsp;</div>
-						<div class="col-2 th">Час</div>
-						<div class="col-2 th">День</div>
-						<div class="col-3 th">Неделя</div>
-						<div class="col-3 th">Месяц</div>
+			<div class="content !border-0">
+				<div class="block-table text-center">
+					<div class="grid grid-cols-12">
+						<div class="col-span-2 th">&nbsp;</div>
+						<div class="col-span-2 th">Час</div>
+						<div class="col-span-2 th">День</div>
+						<div class="col-span-3 th">Неделя</div>
+						<div class="col-span-3 th">Месяц</div>
 					</div>
-					<div class="row" v-for="res in page['resources']">
-						<div class="col-2 th">
+					<div class="grid grid-cols-12" v-for="res in page['resources']">
+						<div class="col-span-2 th">
 							{{ $t('resources.' + res) }}
 						</div>
-						<div class="col-2 th">
+						<div class="col-span-2 th">
 							<Colored :value="planet['resources'][res]['production']"/>
 						</div>
-						<div class="col-2 th">
+						<div class="col-span-2 th">
 							<Colored :value="planet['resources'][res]['production'] * 24"/>
 						</div>
-						<div class="col-3 th">
+						<div class="col-span-3 th">
 							<Colored :value="planet['resources'][res]['production'] * 24 * 7"/>
 						</div>
-						<div class="col-3 th">
+						<div class="col-span-3 th">
 							<Colored :value="planet['resources'][res]['production'] * 24 * 7 * 30"/>
 						</div>
 					</div>
@@ -116,8 +116,8 @@
 			<div class="title text-center">
 				Статус хранилища
 			</div>
-			<div class="content border-0">
-				<div class="block-table">
+			<div class="content !border-0">
+				<div class="block-table text-center">
 					<StorageRow v-for="res in page['resources']" :key="res" :resource="res"/>
 				</div>
 			</div>
@@ -127,15 +127,15 @@
 			<div class="title text-center">
 				Управление шахтами и энергетикой
 			</div>
-			<div class="content border-0">
-				<div class="block-table">
-					<div class="row">
-						<div class="col th">
+			<div class="content !border-0">
+				<div class="block-table text-center">
+					<div class="grid grid-cols-2">
+						<div class="th">
 							<button @click.prevent="shutdown('Y')" class="button">
 								Включить на всех<br>планетах
 							</button>
 						</div>
-						<div class="col th">
+						<div class="th">
 							<button @click.prevent="shutdown('N')" class="button">
 								Выключить на всех<br>планетах
 							</button>

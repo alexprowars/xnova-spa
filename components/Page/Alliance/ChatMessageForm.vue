@@ -1,23 +1,19 @@
 <template>
-	<form method="post" @submit.prevent="send">
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c">Отправить сообщение в чат альянса</td>
-			</tr>
-			<tr>
-				<th class="p-a-0">
-					<TextEditor v-model="value"/>
-				</th>
-			</tr>
-			<tr>
-				<td class="c">
-					<button @click.prevent="reset">Очистить</button>
-					<button type="submit">Отправить</button>
-				</td>
-			</tr>
-			</tbody>
-		</table>
+	<form class="block-table text-center" method="post" @submit.prevent="send">
+		<div class="grid">
+			<div class="c">Отправить сообщение в чат альянса</div>
+		</div>
+		<div class="grid">
+			<div class="th">
+				<TextEditor v-model="value"/>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="c">
+				<button @click.prevent="reset">Очистить</button>
+				<button type="submit">Отправить</button>
+			</div>
+		</div>
 	</form>
 </template>
 

@@ -1,55 +1,55 @@
 <template>
 	<div v-if="page">
-		<div class="block-table">
-			<div class="row">
-				<div class="c col-12"><span class="success">Флот отправлен</span></div>
+		<div class="block-table text-center">
+			<div class="grid">
+				<div class="c"><span class="success">Флот отправлен</span></div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Миссия</div>
-				<div class="th col-6">{{ $t('fleet_mission.' + page['mission']) }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Миссия</div>
+				<div class="th">{{ $t('fleet_mission.' + page['mission']) }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Расстояние</div>
-				<div class="th col-6">{{ $formatNumber(page['distance']) }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Расстояние</div>
+				<div class="th">{{ $formatNumber(page['distance']) }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Скорость</div>
-				<div class="th col-6">{{ $formatNumber(page['speed']) }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Скорость</div>
+				<div class="th">{{ $formatNumber(page['speed']) }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Потребление топлива</div>
-				<div class="th col-6">{{ $formatNumber(page['consumption']) }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Потребление топлива</div>
+				<div class="th">{{ $formatNumber(page['consumption']) }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Дислокация</div>
-				<div class="th col-6">
-					<NuxtLink :to="'/galaxy/?galaxy=' + page['from']['galaxy'] + '&system=' + page['from']['system']">
+			<div class="grid grid-cols-2">
+				<div class="th">Дислокация</div>
+				<div class="th">
+					<NuxtLink :to="'/galaxy?galaxy=' + page['from']['galaxy'] + '&system=' + page['from']['system']">
 						{{ page['from']['galaxy'] }}:{{ page['from']['system'] }}:{{ page['from']['planet'] }}
 					</NuxtLink>
 				</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Цель</div>
-				<div class="th col-6">
-					<NuxtLink :to="'/galaxy/?galaxy=' + page['target']['galaxy'] + '&system=' + page['target']['system']">
+			<div class="grid grid-cols-2">
+				<div class="th">Цель</div>
+				<div class="th">
+					<NuxtLink :to="'/galaxy?galaxy=' + page['target']['galaxy'] + '&system=' + page['target']['system']">
 						{{ page['target']['galaxy'] }}:{{ page['target']['system'] }}:{{ page['target']['planet'] }}
 					</NuxtLink>
 				</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Время прибытия (к цели)</div>
-				<div class="th col-6">{{ $formatDate(page['start_time'], 'DD MMM HH:mm:ss') }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Время прибытия (к цели)</div>
+				<div class="th">{{ $formatDate(page['start_time'], 'DD MMM HH:mm:ss') }}</div>
 			</div>
-			<div class="row">
-				<div class="th col-6">Время прибытия (домой)</div>
-				<div class="th col-6">{{ $formatDate(page['end_time'], 'DD MMM HH:mm:ss') }}</div>
+			<div class="grid grid-cols-2">
+				<div class="th">Время прибытия (домой)</div>
+				<div class="th">{{ $formatDate(page['end_time'], 'DD MMM HH:mm:ss') }}</div>
 			</div>
-			<div v-if="['units'].length" class="row">
-				<div class="c col-12">Корабли</div>
+			<div v-if="['units'].length" class="grid">
+				<div class="c">Корабли</div>
 			</div>
-			<div v-for="(count, unit) in page['units']" class="row">
-				<div class="th col-6">{{ $t('tech.' + unit) }}</div>
-				<div class="th col-6">{{ $formatNumber(count) }}</div>
+			<div v-for="(count, unit) in page['units']" class="grid grid-cols-2">
+				<div class="th">{{ $t('tech.' + unit) }}</div>
+				<div class="th">{{ $formatNumber(count) }}</div>
 			</div>
 		</div>
 	</div>

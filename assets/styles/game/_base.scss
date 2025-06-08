@@ -2,15 +2,25 @@
 
 html {
 	font-size: 12px;
+	line-height: 1.2;
 	position: relative;
 	-webkit-overflow-scrolling: touch;
 	overflow-scrolling: touch;
+
+	@media (min-width: 480px) and (max-width: 1200px) {
+		font-size: 10px;
+	}
+
+	@media (min-width: 1200px) and (max-width: 1600px) {
+		font-size: 11px;
+	}
 }
 
 body {
 	background: #000 url("/images/background_1.jpg") no-repeat bottom fixed;
 	overflow-y: scroll;
 	-webkit-font-smoothing: antialiased;
+	color: $text-color;
 }
 
 body, html {
@@ -50,6 +60,11 @@ p td {
 	font-size: 0.9rem;
 }
 
+.table {
+	vertical-align: top;
+	width: 100%;
+}
+
 table table td, .table table td, .block-table table td {
 	padding: 0;
 	margin-right: 0;
@@ -57,13 +72,12 @@ table table td, .table table td, .block-table table td {
 }
 
 table th, .table th, .block-table th, .th {
-	text-align: center;
-	padding: 2px 3px;
 	background: $main-bg-color;
 	color: #d7d7d7;
-	border: 1px solid $border-color;
 	vertical-align: middle;
 	font-size: 1.1rem;
+	border-color: $border-color;
+	@apply px-2 py-1.5 border-solid;
 }
 
 .top-menu-container {
@@ -71,20 +85,27 @@ table th, .table th, .block-table th, .th {
 	justify-content: space-between;
 }
 
-td.b, div.b {
+td.b {
 	padding: 3px 3px 3px 3px;
 	border: 1px solid $border-color;
 	color: #ebebeb;
 	background: #353535;
 	font-weight: normal;
-	text-align: left;
+}
+
+div.b {
+	padding: 3px 3px 3px 3px;
+	border-style: solid;
+	border-color: $border-color;
+	color: #ebebeb;
+	background: #353535;
+	font-weight: normal;
 }
 
 th.b {
 	padding: 3px 3px 3px 3px;
 	color: #ebebeb;
 	background: #353535;
-	text-align: left;
 	font-weight: normal;
 	border: 1px solid #202020;
 	word-wrap: break-word;
@@ -93,12 +114,13 @@ th.b {
 
 .c, table .c {
 	color: $text-color;
-	padding: 2px 3px;
 	text-align: center;
 	font-weight: normal;
-	border: 1px solid $border-color;
 	background: $head-bg-color;
 	font-size: 1.1rem;
+	border-color: $border-color;
+	border-style: solid;
+	@apply px-2 py-1.5;
 }
 
 .c.big, .k.big {
@@ -123,14 +145,15 @@ select, textarea {
 }
 
 select {
-	font-size: 1rem;
+	font-size: 1.1rem;
 }
 
 textarea {
-	width: 99%;
+	width: 100%;
 	color: #ffffff;
 	background: #354566;
 	margin: 0 0 0 0;
+	@apply p-1;
 }
 
 .k, td.k {
@@ -138,7 +161,6 @@ textarea {
 	vertical-align: middle;
 	color: #e6ebfb;
 	background: #42444d;
-	border: 1px solid $border-color;
 }
 
 td.l {
@@ -442,8 +464,8 @@ input[type=radio], input[type=radio] + label, input[type=checkbox] {
 }
 
 img.info {
-	margin-right: 5px;
 	border: 1px solid #ccc;
+	max-width: none;
 }
 
 .activity {
@@ -489,11 +511,20 @@ textarea#text {
 }
 
 main {
-	width: $container-width;
+	max-width: $container-width;
+	width: 100%;
 	margin-top: 10px;
 	flex-grow: 2;
 	display: flex;
 	flex-direction: row;
+
+	@media (min-width: 480px) and (max-width: 1200px) {
+		max-width: 1000px;
+	}
+
+	@media (min-width: 481px) and (max-width: 992px) {
+		max-width: 800px;
+	}
 }
 
 .main-menu {
@@ -538,6 +569,11 @@ main {
 			}
 		}
 	}
+
+	@media (min-width: 481px) and (max-width: 992px) {
+		margin-right: 5px;
+		width: 100px;
+	}
 }
 
 .main-content {
@@ -552,6 +588,24 @@ main {
 	order: 3;
 	margin-left: 15px;
 	width: $planets-width;
+
+	@media (min-width: 481px) and (max-width: 992px) {
+		width: 60px;
+		margin-left: 5px;
+
+		.list {
+			width: 60px;
+
+			.planet > div.clear {
+				display: block;
+			}
+
+			.planet img {
+				width: 52px;
+				height: 52px;
+			}
+		}
+	}
 }
 
 .application {
@@ -576,11 +630,10 @@ main {
 }
 
 .separator {
-	height: 5px;
-	width: 100%;
 	clear: both;
 	font-size: 1px;
 	line-height: 1px;
+	@apply h-1 w-full;
 }
 
 .resNo {
@@ -628,9 +681,7 @@ ul {
 		background: #13181D;
 		border: 1px solid #030303;
 		color: #848484;
-		margin: 10px;
-		padding: 20px;
-		line-height: 15px;
+		@apply m-3 py-4 px-5;
 
 		> ul {
 			padding: 0;
@@ -641,6 +692,11 @@ ul {
 
 	ul {
 		list-style: decimal inside none;
+		padding: 0;
+	}
+
+	img {
+		display: inline;
 	}
 }
 
@@ -652,6 +708,10 @@ ul {
 }
 
 .main-planets {
+	.planet-sidebar {
+		width: 100%;
+	}
+
 	.list {
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -667,11 +727,6 @@ ul {
 			padding: 3px;
 			position: relative;
 			border-radius: 3px;
-
-			> a {
-				float: left;
-				margin-right: 5px;
-			}
 
 			> div {
 				max-width: 108px;
@@ -723,6 +778,10 @@ ul {
 
 	.full {
 		color: #ff3f3e
+	}
+
+	@media (max-width: 1200px) {
+		width: 100%;
 	}
 }
 
@@ -915,6 +974,10 @@ p {
 	svg.red {
 		fill: #e40d0d;
 	}
+
+	@media (min-width: 481px) and (max-width: 992px) {
+		padding: 0 6px;
+	}
 }
 
 .smiles {
@@ -947,7 +1010,6 @@ input[type="checkbox"], input[type="radio"] {
 		padding: 5px;
 		font-size: 1.2rem;
 		font-weight: normal;
-		text-align: left;
 		background: $head-bg-color;
 
 		input[type=submit] {
@@ -955,7 +1017,7 @@ input[type="checkbox"], input[type="radio"] {
 		}
 
 		+ .content {
-			border-top: 0;
+			border-top-width: 0;
 		}
 	}
 
@@ -968,7 +1030,7 @@ input[type="checkbox"], input[type="radio"] {
 	}
 
 	+ .block {
-		margin-top: 5px;
+		@apply mt-1;
 	}
 }
 
@@ -1085,40 +1147,20 @@ footer {
 	}
 }
 
-div.block-table {
-	padding-left: 5px;
-	padding-right: 5px;
-	margin-left: auto;
-	margin-right: auto;
+.block-table {
+	@apply divide-y divide-[#415683];
 }
 
 .table, .block-table {
 	margin-bottom: 0;
+	border: 1px solid #415683;
 
-	> :last-child {
-		border-bottom: 1px solid $border-color;
+	> div {
+		@apply divide-x divide-[#415683];
 	}
 
-	.row > div {
-		padding: 4px 5px;
-		border-right-width: 0;
-		border-bottom-width: 0;
-
-		&:last-child {
-			border-right-width: 1px;
-		}
-
-		&.middle {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-	}
-
-	&.middle .row > div {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	.middle {
+		@apply flex justify-center items-center;
 	}
 
 	.table {
@@ -1130,6 +1172,16 @@ div.block-table {
 	}
 }
 
+.block-table + .block-table {
+	@apply mt-1;
+}
+
+table.table {
+	th, .th, .c, .k {
+		border: 1px solid #415683;
+	}
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
 	-webkit-appearance: none;
@@ -1138,6 +1190,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 .doubleth {
 	height: 47px;
+
+	@media (min-width: 480px) and (max-width: 1200px) {
+		height: 44px;
+	}
 }
 
 .line {
@@ -1244,4 +1300,76 @@ header a:hover svg.icon {
 .log-layout {
 	margin: 0 auto;
 	width: 95%;
+}
+
+.h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6 {
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: .5rem;
+    margin-top: 0
+}
+
+.h1,h1 {
+    font-size: calc(1.375rem + 1.5vw)
+}
+
+@media (min-width: 1200px) {
+    .h1,h1 {
+        font-size:2.5rem
+    }
+}
+
+.h2,h2 {
+    font-size: calc(1.325rem + .9vw)
+}
+
+@media (min-width: 1200px) {
+    .h2,h2 {
+        font-size:2rem
+    }
+}
+
+.h3,h3 {
+    font-size: calc(1.3rem + .6vw)
+}
+
+@media (min-width: 1200px) {
+    .h3,h3 {
+        font-size:1.75rem
+    }
+}
+
+.h4,h4 {
+    font-size: calc(1.275rem + .3vw)
+}
+
+@media (min-width: 1200px) {
+    .h4,h4 {
+        font-size:1.5rem
+    }
+}
+
+.h5,h5 {
+    font-size: 1.25rem
+}
+
+.h6,h6 {
+    font-size: 1rem
+}
+
+.table-responsive {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+	display: inline-block;
+}
+
+.pagination {
+	@apply  inline-flex text-sm px-0 -space-x-px;
+
+	a {
+		@apply flex items-center justify-center px-5 h-12 text-lg leading-tight border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white;
+	}
 }

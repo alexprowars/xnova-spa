@@ -11,25 +11,25 @@
 					<option v-for="i in limitItems" :value="i">{{ i }}</option>
 				</select>
 				на странице
-				<div v-if="deleteItems.length > 0" class="d-inline-block">
+				<div v-if="deleteItems.length > 0" class="inline-block">
 					<button type="button" @click.prevent="deleteMessages">Удалить отмеченные</button>
 				</div>
 			</div>
 			<div class="content noborder">
 				<div class="block-table">
-					<div v-if="messages.length" class="row">
-						<div class="col-1 th text-center">
+					<div v-if="messages.length" class="grid grid-cols-12 text-center">
+						<div class="col-span-1 th">
 							<input type="checkbox" class="checkAll" v-model="checkAll">
 						</div>
-						<div class="col-3 th text-center">Дата</div>
-						<div class="col-6 th text-center">От</div>
-						<div class="col-2 th text-center"></div>
+						<div class="col-span-3 th">Дата</div>
+						<div class="col-span-6 th">От</div>
+						<div class="col-span-2 th"></div>
 					</div>
 
 					<MessagesRow v-for="item in messages" :key="item['id']" :item="item"/>
 
-					<div v-if="page['pagination']['total'] === 0" class="row">
-						<div class="col-12 th text-center">нет сообщений</div>
+					<div v-if="page['pagination']['total'] === 0" class="grid">
+						<div class="th">нет сообщений</div>
 					</div>
 				</div>
 

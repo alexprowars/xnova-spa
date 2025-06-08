@@ -1,56 +1,54 @@
 <template>
-	<table class="table">
-		<tbody>
-		<tr>
-			<td class="c" colspan="2">Описание Законов</td>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r1.png" alt=""></th>
-			<th>Расформировать альянс</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r2.png" alt=""></th>
-			<th>Редактирование участников</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r3.png" alt=""></th>
-			<th>Показать заявки</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r4.png" alt=""></th>
-			<th>Показать список участников</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r5.png" alt=""></th>
-			<th>Проверить запросы</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r6.png" alt=""></th>
-			<th>Управление альянсом</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r7.png" alt=""></th>
-			<th>Показать онлайн статус в списке участников</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r8.png" alt=""></th>
-			<th>Написать сообщение в чат</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r9.png" alt=""></th>
-			<th>'Правая Рука' (для передачи необходим ранг основателя)</th>
-		</tr>
-		<tr>
-			<th><img src="/images/alliance/r10.gif" alt=""></th>
-			<th>Дипломатия</th>
-		</tr>
-		<tr>
-			<td class="c" colspan="2">
+	<div class="block-table text-center">
+		<div class="grid">
+			<div class="c">Описание Законов</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r1.png" alt=""></div>
+			<div class="th basis-full">Расформировать альянс</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r2.png" alt=""></div>
+			<div class="th basis-full">Редактирование участников</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r3.png" alt=""></div>
+			<div class="th basis-full">Показать заявки</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r4.png" alt=""></div>
+			<div class="th basis-full">Показать список участников</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r5.png" alt=""></div>
+			<div class="th basis-full">Проверить запросы</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r6.png" alt=""></div>
+			<div class="th basis-full">Управление альянсом</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r7.png" alt=""></div>
+			<div class="th basis-full">Показать онлайн статус в списке участников</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r8.png" alt=""></div>
+			<div class="th basis-full">Написать сообщение в чат</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r9.png" alt=""></div>
+			<div class="th basis-full">'Правая Рука' (для передачи необходим ранг основателя)</div>
+		</div>
+		<div class="flex">
+			<div class="th basis-1/12"><img src="/images/alliance/r10.gif" alt=""></div>
+			<div class="th basis-full">Дипломатия</div>
+		</div>
+		<div class="grid">
+			<div class="c">
 				<NuxtLink to="/alliance/admin">вернутся к обзору</NuxtLink>
-			</td>
-		</tr>
-		</tbody>
-	</table>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup>
