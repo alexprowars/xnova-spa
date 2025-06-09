@@ -16,7 +16,7 @@
 							<div>
 								<img src="/images/officiers/smalcredts.gif" alt="">
 							</div>
-							<div class="flex flex-col justify-center gap-1">
+							<div class="flex flex-col justify-center">
 								<div class="text-sky-300">
 									При помощи кредитов можно нанять инженеров
 								</div>

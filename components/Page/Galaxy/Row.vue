@@ -4,33 +4,31 @@
 		<td class="th img">
 			<Popper v-if="item && !item['planet']['destruyed']">
 				<template #content>
-					<table width="240">
-						<tbody>
-							<tr>
-								<td class="c" colspan="2">Планета {{ item['planet']['name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]</td>
-							</tr>
-							<tr>
-								<th width="80">
-									<img :src="'/images/planeten/small/s_' + item['planet']['image'] + '.jpg'" height="75" width="75" alt="">
-								</th>
-								<th v-if="!isVacation" align="left">
-									<div v-if="user['phalanx'] > 0">
-										<a :href="'/phalanx/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet" target="_blank">Фаланга</a>
-									</div>
+					<div class="block-table w-80">
+						<div class="grid">
+							<div class="c">Планета {{ item['planet']['name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]</div>
+						</div>
+						<div class="flex">
+							<div class="th basis-2/4">
+								<img :src="'/images/planeten/small/s_' + item['planet']['image'] + '.jpg'" height="75" width="75" alt="">
+							</div>
+							<div class="th basis-full middle flex-col" v-if="!isVacation">
+								<div v-if="user['phalanx'] > 0">
+									<a :href="'/phalanx/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet" target="_blank">Фаланга</a>
+								</div>
 
-									<div v-if="item.user['id'] !== currentUser['id']">
-										<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">Атаковать</NuxtLink>
-										<br>
-										<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">Удерживать</NuxtLink>
-									</div>
-									<div v-else>
-										<NuxtLink v-if="item.user['id'] === currentUser['id']" :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=4'">Оставить</NuxtLink>
-									</div>
-									<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=3'">Транспорт</NuxtLink>
-								</th>
-							</tr>
-						</tbody>
-					</table>
+								<div v-if="item.user['id'] !== currentUser['id']">
+									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">Атаковать</NuxtLink>
+									<br>
+									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">Удерживать</NuxtLink>
+								</div>
+								<div v-else>
+									<NuxtLink v-if="item.user['id'] === currentUser['id']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=4'">Оставить</NuxtLink>
+								</div>
+								<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=3'">Транспорт</NuxtLink>
+							</div>
+						</div>
+					</div>
 				</template>
 				<img :src="'/images/planeten/small/s_' + item['planet']['image'] + '.jpg'" width="34" height="34" alt="">
 			</Popper>
@@ -60,41 +58,39 @@
 									<img src="/images/planeten/mond.jpg" height="75" width="75" alt="">
 								</th>
 								<th>
-									<table class="table">
-										<tbody>
-										<tr>
-											<td class="c" colspan="2">Характеристики</td>
-										</tr>
-										<tr>
-											<th>Диаметр</th>
-											<th>{{ $formatNumber(item['moon']['diameter']) }}</th>
-										</tr>
-										<tr>
-											<th>Температура</th>
-											<th>{{ item['moon']['temp'] }}</th>
-										</tr>
-										<tr>
-											<td class="c" colspan="2">Действия</td>
-										</tr>
-										<tr v-if="!isVacation">
-											<th colspan="2" align="center">
+									<div class="block-table">
+										<div class="grid">
+											<div class="c">Характеристики</div>
+										</div>
+										<div class="grid grid-cols-2">
+											<div class="th">Диаметр</div>
+											<div class="th">{{ $formatNumber(item['moon']['diameter']) }}</div>
+										</div>
+										<div class="grid grid-cols-2">
+											<div class="th">Температура</div>
+											<div class="th">{{ item['moon']['temp'] }}</div>
+										</div>
+										<div class="grid">
+											<div class="c">Действия</div>
+										</div>
+										<div v-if="!isVacation" class="grid">
+											<div class="th text-center">
 												<div v-if="item.user['id'] !== currentUser['id']">
-													<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=1'">Атаковать</NuxtLink>
+													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=1'">Атаковать</NuxtLink>
 													<br>
-													<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=5'">Удерживать</NuxtLink>
+													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=5'">Удерживать</NuxtLink>
 
 													<div v-if="planet['units']['dearth_star'] > 0">
-														<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=9'">Уничтожить</NuxtLink>
+														<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=9'">Уничтожить</NuxtLink>
 													</div>
 												</div>
 												<div v-else>
-													<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=4'">Оставить</NuxtLink>
+													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=4'">Оставить</NuxtLink>
 												</div>
-												<NuxtLink :to="'/fleet/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=3'">Транспорт</NuxtLink>
-											</th>
-										</tr>
-										</tbody>
-									</table>
+												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=3'">Транспорт</NuxtLink>
+											</div>
+										</div>
+									</div>
 								</th>
 							</tr>
 						</tbody>
@@ -119,31 +115,29 @@
 									<img src="/images/planeten/debris.jpg" height="75" width="75" alt="">
 								</th>
 								<th>
-									<table class="table">
-										<tbody>
-										<tr>
-											<td class="c" colspan="2">Ресурсы</td>
-										</tr>
-										<tr v-if="item.debris.metal">
-											<th>{{ $t('resources.metal') }}</th>
-											<th>{{ item.debris.metal }}</th>
-										</tr>
-										<tr v-if="item.debris.crystal">
-											<th>{{ $t('resources.crystal') }}</th>
-											<th>{{ item.debris.crystal }}</th>
-										</tr>
-										<tr v-if="!isVacation && currentPlanet['units']['recycler'] > 0">
-											<th colspan="2" align="left">
+									<div class="block-table">
+										<div class="grid">
+											<div class="c">Ресурсы</div>
+										</div>
+										<div v-if="item.debris.metal" class="grid grid-cols-2">
+											<div class="th">{{ $t('resources.metal') }}</div>
+											<div class="th">{{ item.debris.metal }}</div>
+										</div>
+										<div v-if="item.debris.crystal" class="grid grid-cols-2">
+											<div class="th">{{ $t('resources.crystal') }}</div>
+											<div class="th">{{ item.debris.crystal }}</div>
+										</div>
+										<div v-if="!isVacation && currentPlanet['units']['recycler'] > 0" class="grid">
+											<div class="th">
 												<a @click.prevent="debris">Собрать</a>
-											</th>
-										</tr>
-										<tr v-if="!isVacation">
-											<th colspan="2" align="left">
+											</div>
+										</div>
+										<div v-if="!isVacation" class="grid">
+											<div class="th">
 												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">Отправить флот</NuxtLink>
-											</th>
-										</tr>
-										</tbody>
-									</table>
+											</div>
+										</div>
+									</div>
 								</th>
 							</tr>
 						</tbody>
@@ -249,7 +243,7 @@
 						<span class="sprite skin_r"></span>
 					</a>
 
-					<Popper v-if="!isVacation && currentPlanet['units']['spy_sonde'] && !item.user['vacation']">
+					<Popper tag="a" v-if="!isVacation && currentPlanet['units']['spy_sonde'] && !item.user['vacation']">
 						<template #content>
 							<div class="text-center">
 								<input type="text" v-model.number="spyCount">

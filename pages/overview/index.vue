@@ -33,11 +33,10 @@
 					<div class="text-center" v-html="$t('overview.newbie_mode_notify')"></div>
 				</div>
 
-				<div v-if="fleets.length">
+				<div v-if="fleets.length" class="mb-1.5">
 					<Fleets :items="fleets"/>
-					<div class="separator"></div>
 				</div>
-				<div class="overview grid sm:grid-cols-3 gap-2">
+				<div class="overview grid sm:grid-cols-3 gap-1.5">
 					<div>
 						<div class="planet-image mb-2">
 							<NuxtLink to="/overview/rename/">
@@ -223,27 +222,15 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="clearfix"></div>
-
-				<div v-if="queue.length > 0">
-					<div class="separator"></div>
-					<div class="block-table">
-						<QueueRow v-for="(list, i) in queue" :key="i" :item="list"/>
-					</div>
+				<div v-if="queue.length > 0" class="block-table mt-1.5">
+					<QueueRow v-for="(list, i) in queue" :key="i" :item="list"/>
 				</div>
 			</div>
 		</div>
 
-		<div v-if="isMobile() && chat.length > 0" class="page-overview-chat">
-			<div class="separator"></div>
-
-			<div class="table w-full">
-				<div class="th">
-					<div class="text-left overflow-y-auto overflow-x-hidden">
-						<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
-					</div>
-				</div>
+		<div v-if="isMobile() && chat.length > 0" class="page-overview-chat mt-1.5">
+			<div class="th w-full text-left overflow-y-auto overflow-x-hidden">
+				<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
 			</div>
 		</div>
 	</div>

@@ -111,9 +111,6 @@ let config = {
 	nitro: {
 		devProxy: {},
 	},
-	routeRules: {
-		//'/api/**': { proxy: 'https://xnova.su/api/**' },
-	},
 	compatibilityDate: '2025-05-01'
 }
 

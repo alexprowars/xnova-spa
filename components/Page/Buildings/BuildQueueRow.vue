@@ -1,6 +1,6 @@
 <template>
-	<div class="grid grid-cols-2">
-		<div class="c">
+	<div class="grid grid-cols-2 text-center">
+		<div class="c middle">
 			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? '. Снос здания' : '' }}
 		</div>
 		<div class="k" v-if="index === 0">

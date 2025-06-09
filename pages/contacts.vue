@@ -2,11 +2,9 @@
 	<div class="block">
 		<div class="title">Начальство</div>
 		<div class="content !border-0">
-			<div class="block-table">
-				<div class="grid">
-					<div class="th">
-						<span style="color: orange">Здесь вы найдёте адреса всех администраторов и операторов игры для обратной связи</span>
-					</div>
+			<div class="block-table text-center">
+				<div class="th">
+					<span style="color: orange">Здесь вы найдёте адреса всех администраторов и операторов игры для обратной связи</span>
 				</div>
 				<div class="grid grid-cols-3">
 					<div class="c">Имя</div>
@@ -21,10 +19,8 @@
 							<a :href="'mailto:'+item['email']">{{ item['email'] }}</a>
 						</div>
 					</div>
-					<div class="grid" v-if="item['about'].length > 0">
-						<div class="c">
-							<TextViewer :text="item['about']"/>
-						</div>
+					<div class="c" v-if="item['about'].length > 0">
+						<TextViewer :text="item['about']"/>
 					</div>
 				</template>
 			</div>

@@ -8,7 +8,6 @@
 			:system-max="page['system_max']"
 			@change="changeCoordinates"
 		/>
-		<div class="separator"></div>
 
 		<MissileAttack v-if="missile" :page="page" :planet="missilePlanet" @close="missile = false"/>
 

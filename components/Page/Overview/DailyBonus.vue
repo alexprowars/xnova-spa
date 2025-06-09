@@ -3,7 +3,7 @@
 		<div class="title text-center">
 			Ежедневный бонус
 		</div>
-		<div class="block-table">
+		<div class="content block-table">
 			<div class="grid">
 				<div class="th text-center">
 					<div>Сейчас вы можете получить по <b class="positive">{{ $formatNumber(amount) }}</b> Металла, Кристаллов и Дейтерия.</div>

@@ -3,7 +3,7 @@
 		<div class="title">
 			{{ pageType === 'ally' ? 'Альянс' : 'Игрок' }} "{{ page['name'] }}"
 		</div>
-		<div class="content !border-0">
+		<div>
 			<div class="block-table">
 				<div class="grid">
 					<div class="c"><b>Статистика по месту</b></div>
@@ -13,6 +13,8 @@
 						<canvas ref="rankChartRef"></canvas>
 					</div>
 				</div>
+			</div>
+			<div class="block-table">
 				<div class="grid">
 					<div class="c"><b>Статистика по очкам</b></div>
 				</div>

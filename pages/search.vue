@@ -3,9 +3,9 @@
 		<div class="block">
 			<div class="title">Поиск по игре</div>
 			<div class="content !border-0">
-				<div class="block-table middle">
+				<div class="block-table text-center">
 					<div class="grid">
-						<div class="th">
+						<div class="th middle">
 							<select v-model="type">
 								<option value="playername">Логин игрока</option>
 								<option value="planetname">Название планеты</option>

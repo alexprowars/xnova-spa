@@ -31,7 +31,7 @@
 					</div>
 				</div>
 				<div v-if="image > 0" class="grid">
-					<div class="th">
+					<div class="th text-center">
 						<button @click.prevent="changeImage">Сменить картинку (1 кредит)</button>
 					</div>
 				</div>

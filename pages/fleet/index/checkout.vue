@@ -5,8 +5,8 @@
 				<div class="c">Отправка флота</div>
 			</div>
 			<div class="grid grid-cols-2">
-				<div class="th">Цель</div>
-				<div class="th fleet-coordinates-input">
+				<div class="th middle">Цель</div>
+				<div class="th middle gap-2 fleet-coordinates-input">
 					<input type="number" min="1" :max="page['galaxy_max']" v-model="page['target']['galaxy']">
 					<input type="number" min="1" :max="page['system_max']" v-model="page['target']['system']">
 					<input type="number" min="1" :max="page['planet_max']" v-model="page['target']['planet']">
@@ -16,8 +16,8 @@
 				</div>
 			</div>
 			<div class="grid grid-cols-2">
-				<div class="th">Скорость</div>
-				<div class="th">
+				<div class="th middle">Скорость</div>
+				<div class="th middle gap-2">
 					<select name="speed" v-model="speed" @change="info">
 						<option v-for="i in 10" :value="11 - i">{{ (11 - i) * 10 }}</option>
 					</select> %

@@ -5,13 +5,13 @@
 			<div class="content page-building-items">
 				<form ref="formRef" action="" method="post" @submit.prevent="constructAction">
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
-						<div class="col-span-2 c border">
+						<div class="col-span-2 c border text-center">
 							<button type="submit">Построить</button>
 						</div>
 
 						<UnitRow v-for="(item, i) in items" ref="itemsRef" :key="i" :item="item"/>
 
-						<div class="col-span-2 c border">
+						<div class="col-span-2 c border text-center">
 							<button type="submit">Построить</button>
 						</div>
 					</div>

@@ -12,7 +12,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="separator"></div>
 		<div class="block-table text-center">
 			<div class="grid grid-cols-12">
 				<div class="col-span-1 c">Место</div>

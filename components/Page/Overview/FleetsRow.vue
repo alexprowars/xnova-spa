@@ -12,21 +12,22 @@
 
 			<Popper>
 				<template #content>
-					<table width="200">
-						<tbody>
-						<template v-if="!Object.keys(item['units']).length">
-							<tr><td width=100% align=center><span style="color: white">Нет информации</span></td></tr>
-						</template>
+					<div width="200">
+						<div v-if="!Object.keys(item['units']).length" class="text-center">
+							Нет информации
+						</div>
 						<template v-else>
-							<tr v-for="(count, unit) in item['units']">
-								<td v-if="count === null" width=100% align=center colspan=2><span style="color: white">{{ $t('tech.' + unit) }}</span></td>
-								<td v-if="count !== null" width=75% align=left><span style="color: white">{{ $t('tech.' + unit) }}:</span></td>
-								<td v-if="count !== null" width=25% align=right><span style="color: white">{{ $formatNumber(count) }}</span></td>
-							</tr>
-							<tr v-if="item['total']"><td width=50% align=left><span style="color: white">Численность:</span></td><td width=50% align=right><span style="color: white">{{ $formatNumber(item['total']) }}</span></td></tr>
+							<div v-for="(count, unit) in item['units']" class="grid grid-cols-4">
+								<div v-if="count === null" class="col-span-4 text-center">>{{ $t('tech.' + unit) }}</div>
+								<div v-if="count !== null" class="col-span-3">{{ $t('tech.' + unit) }}:</div>
+								<div v-if="count !== null" class="text-right">{{ $formatNumber(count) }}</div>
+							</div>
+							<div v-if="item['total']" class="grid grid-cols-2">
+								<div>Численность:</div>
+								<div class="text-right">{{ $formatNumber(item['total']) }}</div>
+							</div>
 						</template>
-						</tbody>
-					</table>
+					</div>
 				</template>
 
 				<template v-if="units.length && item['mission'] === 1">

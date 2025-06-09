@@ -1,44 +1,42 @@
 <template>
-	<table width="240">
-		<tbody>
-			<tr>
-				<td width="220">Сильный игрок</td>
-				<td><span class="strong">S</span></td>
-			</tr>
-			<tr>
-				<td>Слабый игрок</td>
-				<td><span class="noob">N</span></td>
-			</tr>
-			<tr>
-				<td>Режим отпуска</td>
-				<td><span class="vacation">U</span></td>
-			</tr>
-			<tr>
-				<td>Заблокирован</td>
-				<td><span class="blocked">G</span></td>
-			</tr>
-			<tr>
-				<td>Неактивен 7 дней</td>
-				<td><span class="inactive">i</span></td>
-			</tr>
-			<tr>
-				<td>Неактивен 28 дней</td>
-				<td><span class="longinactive">iI</span></td>
-			</tr>
-			<tr>
-				<td><span class="negative">Администратор</span></td>
-				<td><span class="negative">A</span></td>
-			</tr>
-			<tr>
-				<td><span class="positive">Оператор</span></td>
-				<td><span class="positive">GO</span></td>
-			</tr>
-			<tr>
-				<td><span class="neutral">Супер оператор</span></td>
-				<td><span class="neutral">SGO</span></td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="flex flex-col gap-1 w-72">
+		<div class="flex justify-between">
+			<div>Сильный игрок</div>
+			<div><span class="sdivong">S</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div>Слабый игрок</div>
+			<div><span class="noob">N</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div>Режим отпуска</div>
+			<div><span class="vacation">U</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div>Заблокирован</div>
+			<div><span class="blocked">G</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div>Неактивен 7 дней</div>
+			<div><span class="inactive">i</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div>Неактивен 28 дней</div>
+			<div><span class="longinactive">iI</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div><span class="negative">Администратор</span></div>
+			<div><span class="negative">A</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div><span class="positive">Оператор</span></div>
+			<div><span class="positive">GO</span></div>
+		</div>
+		<div class="flex justify-between">
+			<div><span class="neudival">Супер оператор</span></div>
+			<div><span class="neudival">SGO</span></div>
+		</div>
+	</div>
 </template>
 
 <script>

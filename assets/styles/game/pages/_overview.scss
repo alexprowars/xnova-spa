@@ -19,7 +19,7 @@
 }
 
 .page-overview .block .content {
-	padding: 5px;
+	@apply p-1.5;
 }
 
 .page-overview-planet-image input[type=radio] {
@@ -34,4 +34,141 @@
 
 .page-overview-planet-image input[type=radio]:checked + label {
 	border-color: #3abc55;
+}
+
+.overview-fleets-row {
+	.v-popper {
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	.own {
+		&.deploy {
+			color: #33ff33;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.transport {
+			color: #33ff33;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.espionage {
+			color: #ff9900;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.harvest {
+			color: #f9f900;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.colony {
+			color: #007dfb;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.federation {
+			color: #3aaf3a;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.attack {
+			color: #33ff33;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.missile {
+			color: #99ffff;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.destroy {
+			color: #33ff33;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+
+		&.hold {
+			color: #33ff33;
+
+			a {
+				color: #d8d8d8;
+			}
+		}
+	}
+
+	.attack {
+		color: red;
+
+		a {
+			color: #d8d8d8;
+		}
+	}
+
+	.espionage {
+		color: #ff0000;
+
+		a {
+			color: #d8d8d8;
+		}
+	}
+
+	.missile {
+		color: #cc3333;
+
+		a {
+			color: #d8d8d8;
+		}
+	}
+
+	.destroy {
+		color: #ff0000;
+
+		a {
+			color: #d8d8d8;
+		}
+	}
+
+	.federation {
+		color: #007dfb;
+
+		a {
+			color: #d8d8d8;
+		}
+	}
+
+	.return, .own.return {
+		color: #339900;
+
+		a {
+			color: #d8d8d8;
+		}
+	}
 }

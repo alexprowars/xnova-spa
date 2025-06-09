@@ -6,12 +6,12 @@
 		<div class="content !border-0">
 			<div class="block-table">
 				<div class="grid">
-					<div class="text-center">
+					<div class="th text-center">
 						<NuxtLink to="/friends/requests">Запросы</NuxtLink>
 					</div>
 				</div>
 				<div class="grid">
-					<div class="text-center">
+					<div class="th text-center">
 						<NuxtLink to="/friends/requests/my">Мои запросы</NuxtLink>
 					</div>
 				</div>

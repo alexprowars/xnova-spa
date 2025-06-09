@@ -1,6 +1,8 @@
 .page-galaxy {
 
 	&-select {
+		@apply mb-1.5;
+
 		button {
 			min-width: 0;
 		}
@@ -45,7 +47,6 @@
 		.img {
 			max-height: 34px;
 			padding: 0;
-			font-size: 0;
 
 			img {
 				max-width: none;
@@ -53,11 +54,15 @@
 		}
 
 		.actions {
-			font-size: 0;
 			display: flex;
 			justify-content: center;
 			gap: 4px;
 			flex-wrap: wrap;
+			align-items: center;
+
+			> a, > div {
+				display: flex;
+			}
 		}
 	}
 }

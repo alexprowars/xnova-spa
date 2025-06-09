@@ -10,8 +10,7 @@
 			</div>
 			<div class="grid grid-cols-2">
 				<div class="th text-left">
-					<div style="text-align:center">
-						<div class="separator"></div>
+					<div class="text-center mt-2">
 						<img :src="'/images/skin/race1.gif'" alt="">
 					</div>
 					<br>
@@ -32,8 +31,7 @@
 					<br>
 				</div>
 				<div class="th text-left">
-					<div style="text-align:center">
-						<div class="separator"></div>
+					<div class="text-center mt-2">
 						<img :src="'/images/skin/race2.gif'" alt="">
 					</div>
 					<br>
@@ -60,8 +58,7 @@
 			</div>
 			<div class="grid grid-cols-2">
 				<div class="th text-left">
-					<div style="text-align:center">
-						<div class="separator"></div>
+					<div class="text-center mt-2">
 						<img :src="'/images/skin/race3.gif'" alt="">
 					</div>
 					<br>
@@ -82,8 +79,7 @@
 					<br>
 				</div>
 				<div class="th text-left">
-					<div style="text-align:center">
-						<div class="separator"></div>
+					<div class="text-center mt-2">
 						<img :src="'/images/skin/race4.gif'" alt="">
 					</div>
 					<br>
@@ -104,18 +100,18 @@
 					<br>
 				</div>
 			</div>
-			<div v-if="race !== 0">
+			<div v-if="race !== 0 && data['change_available']">
 				<div class="grid">
 					<div class="k big">
-						<span v-if="page['change']">
-							Бесплатная смена фракции ({{ page['change'] }} попытка осталось)
+						<span v-if="data['change']">
+							Бесплатная смена фракции ({{ data['change'] }} попытка осталось)
 						</span>
 						<span v-else>
 							Сменить фракцию за 100 кредитов
 						</span>
 					</div>
 				</div>
-				<div v-if="page['change_available']" class="th">
+				<div v-if="data['change_available']" class="th">
 					На планетах не должно идти строительство, исследования, летать флот и весь флот фракции подлежит демонтировке (без возврата ресурсов).<br><br>
 					<RaceChange/>
 				</div>
@@ -145,7 +141,7 @@
 	const route = useRoute();
 	const store = useStore();
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data, error } = await useAsyncData(async () => {
 		return await useApiGet('/race');
 	}, { watch: [() => useRoute().query] });
 

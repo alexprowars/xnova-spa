@@ -63,7 +63,6 @@
 			&-title {
 				background: $head-bg-color;
 				padding: 4px;
-				font-size: 1.1rem;
 			}
 
 			&-info {
@@ -79,14 +78,14 @@
 					right: 10px;
 
 					svg.icon {
-						fill: lime;
+						@apply fill-green-500;
 						width: 30px;
 						height: 30px;
 						display: block;
 		    			margin: 0 auto;
 
 						&.red {
-							fill: #FF3F3E;
+							@apply fill-red-500;
 						}
 					}
 

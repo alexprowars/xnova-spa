@@ -20,21 +20,19 @@
 				</div>
 			</div>
 			<div v-if="!isVacation" class="basis-1/2 sm:basis-1/6 order-2 text-center officiers-item-action flex items-center justify-center">
-				<div>
-					<div class="negative">{{ time > 0 ? 'Продлить' : 'Нанять' }}</div>
-
-					<button @click.prevent="submit(7, 20)">на неделю</button>
-					<br>Стоимость:&nbsp;<span class="positive">20</span>&nbsp;кр.
-
-					<div class="separator"></div>
-
-					<button @click.prevent="submit(14, 40)">на 2 недели</button>
-					<br>Стоимость:&nbsp;<span class="positive">40</span>&nbsp;кр.
-
-					<div class="separator"></div>
-
-					<button @click.prevent="submit(30, 80)">на месяц</button>
-					<br>Стоимость:&nbsp;<span class="positive">80</span>&nbsp;кр.
+				<div class="flex flex-col gap-2">
+					<div>
+						<button @click.prevent="submit(7, 20)">на неделю</button>
+						<br>Стоимость:&nbsp;<span class="positive">20</span>&nbsp;кр.
+					</div>
+					<div>
+						<button @click.prevent="submit(14, 40)">на 2 недели</button>
+						<br>Стоимость:&nbsp;<span class="positive">40</span>&nbsp;кр.
+					</div>
+					<div>
+						<button @click.prevent="submit(30, 80)">на месяц</button>
+						<br>Стоимость:&nbsp;<span class="positive">80</span>&nbsp;кр.
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,25 +1,23 @@
 <template>
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Старый пароль</th>
-				<th><input name="current_password" v-model="currentPassword" :class="{error: v$.currentPassword.$error}" size="20" value="" type="password" autocomplete="current-password"></th>
-			</tr>
-			<tr>
-				<th>Новый пароль (мин. 8 Знаков)</th>
-				<th><input name="password" v-model="newPassword" :class="{error: v$.newPassword.$error}" size="20" maxlength="40" type="password" autocomplete="new-password"></th>
-			</tr>
-			<tr>
-				<th>Новый пароль (повтор)</th>
-				<th><input name="password_confirmation" v-model="newPasswordConfirmation" :class="{error: v$.newPasswordConfirmation.$error}" size="20" maxlength="40" type="password" autocomplete="new-password"></th>
-			</tr>
-			<tr>
-				<th colspan="2">
-					<button type="button" @click.prevent="save">{{ $t('options.save') }}</button>
-				</th>
-			</tr>
-		</tbody>
-	</table>
+	<div class="block-table !border-0 text-center">
+		<div class="grid grid-cols-2">
+			<div class="th middle">Старый пароль</div>
+			<div class="th middle"><input name="current_password" v-model="currentPassword" :class="{error: v$.currentPassword.$error}" size="20" value="" type="password" autocomplete="current-password"></div>
+		</div>
+		<div class="grid grid-cols-2">
+			<div class="th middle">Новый пароль (мин. 8 Знаков)</div>
+			<div class="th middle"><input name="password" v-model="newPassword" :class="{error: v$.newPassword.$error}" size="20" maxlength="40" type="password" autocomplete="new-password"></div>
+		</div>
+		<div class="grid grid-cols-2">
+			<div class="th middle">Новый пароль (повтор)</div>
+			<div class="th middle"><input name="password_confirmation" v-model="newPasswordConfirmation" :class="{error: v$.newPasswordConfirmation.$error}" size="20" maxlength="40" type="password" autocomplete="new-password"></div>
+		</div>
+		<div class="grid">
+			<div class="th">
+				<button type="button" @click.prevent="save">{{ $t('options.save') }}</button>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup>

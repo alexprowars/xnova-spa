@@ -87,6 +87,10 @@
 	watch(shortcut, (value) => shortcutChange(value));
 
 	function shortcutChange(val) {
+		if (!val) {
+			return;
+		}
+
 		emit('change', {
 			galaxy: val.galaxy, system: val.system,
 		});

@@ -1,9 +1,9 @@
 <template>
 	<div class="page-resources">
-		<div class="block-table text-center">
+		<div class="block-table">
 			<div class="grid grid-cols-12">
 				<div class="col-span-5 c">Уровень производства</div>
-				<div class="col-span-2 th">{{ page['production_level'] }}%</div>
+				<div class="col-span-2 th text-center">{{ page['production_level'] }}%</div>
 				<div class="col-span-5 th">
 					<ResourcesBar :value="page['production_level']" :reverse="true"></ResourcesBar>
 				</div>
@@ -12,17 +12,15 @@
 				<div class="col-span-5 c">
 					<NuxtLink to="/info/113">{{ $t('tech.113') }}</NuxtLink>
 				</div>
-				<div class="col-span-2 th">
+				<div class="col-span-2 th text-center">
 					{{ user['technology']['energy_tech'] }} ур.
 				</div>
 				<div class="col-span-5 th"></div>
 			</div>
 		</div>
 
-		<div class="separator"></div>
-
 		<div class="block">
-			<div class="title text-center">
+			<div class="title">
 				Производство на планете "{{ planet['name'] }}"
 			</div>
 			<div class="content !border-0">
@@ -79,7 +77,7 @@
 		</div>
 
 		<div v-if="!isVacation" class="block">
-			<div class="title text-center">
+			<div class="title">
 				Информация о производстве
 			</div>
 			<div class="content !border-0">
@@ -113,7 +111,7 @@
 		</div>
 
 		<div class="block">
-			<div class="title text-center">
+			<div class="title">
 				Статус хранилища
 			</div>
 			<div class="content !border-0">
@@ -124,20 +122,20 @@
 		</div>
 
 		<div v-if="!isVacation" class="block">
-			<div class="title text-center">
+			<div class="title">
 				Управление шахтами и энергетикой
 			</div>
 			<div class="content !border-0">
 				<div class="block-table text-center">
 					<div class="grid grid-cols-2">
 						<div class="th">
-							<button @click.prevent="shutdown('Y')" class="button">
-								Включить на всех<br>планетах
+							<button @click.prevent="shutdown('Y')" class="button h-12">
+								Включить на всех планетах
 							</button>
 						</div>
 						<div class="th">
-							<button @click.prevent="shutdown('N')" class="button">
-								Выключить на всех<br>планетах
+							<button @click.prevent="shutdown('N')" class="button h-12">
+								Выключить на всех планетах
 							</button>
 						</div>
 					</div>

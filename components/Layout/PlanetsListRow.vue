@@ -1,6 +1,6 @@
 <template>
-	<div class="planet flex gap-2 justify-between sm:flex-col lg:flex-row" :class="['type_' + item.planet_type, (planet.id === item.id ? 'current' : '')]">
-		<div @click.prevent="changePlanet" class="cursor-pointer" :title="item.name">
+	<div class="planet flex gap-1.5 justify-between sm:flex-col lg:flex-row cursor-pointer" :class="['type_' + item.planet_type, (planet.id === item.id ? 'current' : '')]"  @click.prevent="changePlanet">
+		<div :title="item.name">
 			<img :src="'/images/planeten/small/s_' + item.image + '.jpg'" height="40" width="40" :alt="item.name">
 		</div>
 		<div class="hidden sm:block lg:hidden w-full">
