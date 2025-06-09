@@ -513,6 +513,7 @@
 			"base_production": "Base Production",
 			"storage": "Capacity",
 			"calculate": "Calculate",
+			"total": "Total",
 			"planet_production": "Production on planet \"{0}\"",
 			"production_info": "Production Information",
 			"per_hour": "Hour",

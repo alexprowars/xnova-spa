@@ -1,43 +1,50 @@
 <template>
 	<div>
-		<form method="post" @submit.prevent="search">
-			<table class="table">
-				<tbody>
-				<tr>
-					<td class="c" colspan="2">Поиск альянса</td>
-				</tr>
-				<tr>
-					<th>Строка поиска</th>
-					<th>
-						<input type="text" name="query" v-model="query">
-						<button type="submit">Поиск</button>
-					</th>
-				</tr>
-				</tbody>
-			</table>
-		</form>
-		<div v-if="items.length">
-			<div class="separator"></div>
-			<table class="table">
-				<tbody>
-				<tr>
-					<td class="c" colspan="3">Найденые альянсы:</td>
-				</tr>
-				<tr v-for="r in items">
-					<th class="text-center">
-						<NuxtLink :to="'/alliance/join/' + r['id']">
-							[{{ r['tag'] }}]
-						</NuxtLink>
-					</th>
-					<th class="text-center">
-						{{ r['name'] }}
-					</th>
-					<th class="text-center">
-						{{ r['members'] }}
-					</th>
-				</tr>
-				</tbody>
-			</table>
+		<div class="block">
+			<div class="title">
+				Поиск альянса
+			</div>
+			<div class="content">
+				<form class="block-table text-center" method="post" @submit.prevent="search">
+					<div>
+						<div class="th">
+							<input type="text" name="query" :class="{error: v$.query.$error}" v-model="query">
+						</div>
+					</div>
+					<div>
+						<div class="c">
+							<button type="submit">Поиск</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div v-if="items.length" class="block">
+			<div class="title">
+				Найденые альянсы
+			</div>
+			<div class="content">
+				<div class="block-table text-center">
+					<div v-for="r in items" class="grid grid-cols-3">
+						<div class="th">
+							<NuxtLink :to="'/alliance/join/' + r['id']">
+								[{{ r['tag'] }}]
+							</NuxtLink>
+						</div>
+						<div class="th">
+							{{ r['name'] }}
+						</div>
+						<div class="th">
+							{{ r['members'] }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-2">
+			<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
 		</div>
 	</div>
 </template>
@@ -46,6 +53,8 @@
 	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
+	import { useVuelidate } from '@vuelidate/core'
+	import { required } from '@vuelidate/validators'
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -69,8 +78,24 @@
 	const query = ref('');
 	const items = ref([]);
 
-	function search() {
-		useApiSubmit('/alliance/search', {
+	const validations = {
+		query: {
+			required
+		},
+	}
+
+	const v$ = useVuelidate(
+		validations,
+		{ query },
+		{ $autoDirty: true }
+	);
+
+	async function search() {
+		if (!await v$.value.$validate()) {
+			return
+		}
+
+		await useApiSubmit('/alliance/search', {
 			query: query.value,
 		}, (result) => {
 			items.value = result;

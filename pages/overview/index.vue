@@ -21,7 +21,7 @@
 			<div class="content">
 				<div v-if="productionNotify" class="text-center mb-2">
 					<span class="negative">
-						<i18n-t keypath="overview.resources_notify" scope="global">
+						<i18n-t keypath="pages.overview.resources_notify" scope="global">
 							<template #link>
 								<NuxtLink to="/resources">{{ $t('menu.resources') }}</NuxtLink>
 							</template>
@@ -228,9 +228,12 @@
 			</div>
 		</div>
 
-		<div v-if="isMobile() && chat.length > 0" class="page-overview-chat mt-1.5">
-			<div class="th w-full text-left overflow-y-auto overflow-x-hidden">
-				<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
+		<div v-if="isMobile() && chat.length > 0" class="block">
+			<div class="title">{{ $t('menu.chat') }}</div>
+			<div class="content">
+				<div class="overflow-y-auto overflow-x-hidden max-h-72">
+					<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
+				</div>
 			</div>
 		</div>
 	</div>

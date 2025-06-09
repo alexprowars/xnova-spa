@@ -186,18 +186,18 @@
 				</div>
 			</Tab>
 			<Tab name="Точки входа">
-				<div v-if="data['auth'].length" class="block-table text-center">
+				<div v-if="data['auth'].length" class="block-table text-center !border-b">
 					<div class="grid grid-cols-3">
 						<div class="c">Аккаунт</div>
 						<div class="c">Дата регистрации</div>
 						<div class="c">Последняя авторизация</div>
 					</div>
 					<div v-for="auth in data['auth']" class="grid grid-cols-3">
-						<div class="th">{{ auth['external_id'] }}</div>
-						<div class="th">{{ $formatDate(auth['create_time'], 'DD MMM YYYY HH:mm:ss') }}</div>
+						<div class="th">{{ auth['provider'] }} {{ auth['provider_id'] }}</div>
+						<div class="th">{{ $formatDate(auth['created_at'], 'DD MMM YYYY HH:mm:ss') }}</div>
 						<div class="th">
-							<template v-if="auth['enter_time'] > 0">
-								{{ $formatDate(auth['enter_time'], 'DD MMM YYYY HH:mm:ss') }}
+							<template v-if="auth['login_date']">
+								{{ $formatDate(auth['login_date'], 'DD MMM YYYY HH:mm:ss') }}
 							</template>
 							<template>
 								-
@@ -205,7 +205,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="block-table text-center">
+				<div class="block-table text-center !mt-2">
 					<div class="grid">
 						<div class="c">Привязать аккаунт к социальным сетям</div>
 					</div>

@@ -6,9 +6,8 @@
 		<table ref="formRef" class="table">
 			<tbody>
 				<tr>
-					<th>XNova SIM</th>
-					<th :colspan="cols - 1" class="spezial">
-
+					<td class="th">XNova SIM</td>
+					<td :colspan="cols - 1" class="th spezial">
 						<select size="1" v-model.number="attackers">
 							<option v-for="i in page['slots']['max']" :value="i">{{ i }}</option>
 						</select>
@@ -18,73 +17,72 @@
 						<select size="1" v-model.number="defenders">
 							<option v-for="i in page['slots']['max']" :value="i">{{ i }}</option>
 						</select>
-
-					</th>
+					</td>
 				</tr>
 				<tr>
-					<th>&nbsp;</th>
-					<th>Ведущий</th>
-					<th v-for="i in Math.min(page['slots']['max'], attackers) - 1" class="angreifer leftcol_data">
+					<td class="th">&nbsp;</td>
+					<td class="th">Ведущий</td>
+					<td v-for="i in Math.min(page['slots']['max'], attackers) - 1" class="th angreifer leftcol_data">
 						Атакующий&nbsp;{{ i }}
-					</th>
-					<th>Планета</th>
-					<th v-for="i in Math.min(page['slots']['max'], defenders) - 1" class="angreifer leftcol_data">
+					</td>
+					<td class="th">Планета</td>
+					<td v-for="i in Math.min(page['slots']['max'], defenders) - 1" class="th angreifer leftcol_data">
 						Защитник&nbsp;{{ i }}
-					</th>
+					</td>
 				</tr>
 				<tr>
 					<td class="c" :colspan="cols">Исследования и офицеры</td>
 				</tr>
 				<tr v-for="techId in page['tech']" align="center">
-					<th>{{ $t('tech.'+techId) }}</th>
+					<td class="th">{{ $t('tech.'+techId) }}</td>
 
-					<th v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
 						<input class="number" :value="page['slots']['attackers'][i] !== undefined && page['slots']['attackers'][i][techId] !== undefined ? page['slots']['attackers'][i][techId]['c'] : 0" type="text" :name="'gr'+i+'-'+techId" maxlength="2">
-					</th>
+					</td>
 
-					<th v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
 						<input class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][techId] !== undefined ? page['slots']['defenders'][i]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+techId" maxlength="2">
-					</th>
+					</td>
 				</tr>
 				<tr>
 					<td class="c" :colspan="cols">Флот</td>
 				</tr>
 				<tr v-for="fleetId in Object.keys($tm('tech')).filter((v) => v > 200 && v < 300)" align="center">
-					<th>{{ $t('tech.' + fleetId) }}</th>
+					<td class="th">{{ $t('tech.' + fleetId) }}</td>
 
-					<th v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
 						<template v-if="parseInt(fleetId) === 212">-</template>
 						<input v-else class="number" :value="page['slots']['attackers'][i] !== undefined && page['slots']['attackers'][i][fleetId] !== undefined ? page['slots']['attackers'][i][fleetId]['c'] : 0" type="text" :name="'gr'+i+'-'+fleetId" maxlength="7">
-					</th>
+					</td>
 
-					<th v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
 						<input class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][fleetId] !== undefined ? page['slots']['defenders'][i][fleetId]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+fleetId" maxlength="7">
-					</th>
+					</td>
 				</tr>
 				<tr>
 					<td class="c" :colspan="cols">Оборона</td>
 				</tr>
 				<tr v-for="fleetId in Object.keys($tm('tech')).filter((v) => v > 400 && v < 500)" align="center">
-					<th>{{ $t('tech.' + fleetId) }}</th>
+					<td class="th">{{ $t('tech.' + fleetId) }}</td>
 
-					<th v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)">
 						-
-					</th>
+					</td>
 
-					<th v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)">
 						<template v-if="(parseInt(fleetId) === 407 || parseInt(fleetId) === 408) && i > 0">-</template>
 						<input v-else class="number" :value="page['slots']['defenders'][i] !== undefined && page['slots']['defenders'][i][fleetId] !== undefined ? page['slots']['defenders'][i][fleetId]['c'] : 0" type="text" :name="'gr'+(i +page['slots']['max'])+'-'+fleetId" maxlength="7">
-					</th>
+					</td>
 				</tr>
 				<tr align="center">
-					<th>&nbsp;</th>
-					<th v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)"><a href="" @click.prevent="clear(i)">Очистить</a></th>
-					<th v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)"><a href="" @click.prevent="clear(page['slots']['max'] + i)">Очистить</a></th>
+					<td class="th">&nbsp;</td>
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], attackers) - 1)"><a href="" @click.prevent="clear(i)">Очистить</a></td>
+					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)"><a href="" @click.prevent="clear(page['slots']['max'] + i)">Очистить</a></td>
 				</tr>
 				<tr>
-					<th :colspan="cols">
+					<td class="th" :colspan="cols">
 						<input class="button" type="button" value="Симуляция" @click.prevent="calculate">
-					</th>
+					</td>
 				</tr>
 			</tbody>
 		</table>

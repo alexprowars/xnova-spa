@@ -1,5 +1,5 @@
 <template>
-	<table class="table">
+	<table class="table text-center">
 		<tbody>
 		<tr>
 			<td class="c" colspan="2">Обзор заявок</td>
@@ -10,23 +10,23 @@
 			</td>
 		</tr>
 		<tr v-if="page['items'].length > 0">
-			<td class="c text-center">
+			<td class="c">
 				Логин
 			</td>
-			<td class="c text-center">
+			<td class="c">
 				Дата подачи заявки
 			</td>
 		</tr>
 		<tr v-for="item in page['items']">
-			<th class="text-center">
+			<td class="th">
 				<a href="" @click.prevent="show(item)">{{ item['name'] }}</a>
-			</th>
-			<th class="text-center">
+			</td>
+			<td class="th">
 				{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm') }}
-			</th>
+			</td>
 		</tr>
 		<tr v-if="page['items'].length === 0">
-			<th colspan="2">Список заявок пуст</th>
+			<td class="th" colspan="2">Список заявок пуст</td>
 		</tr>
 		<tr>
 			<td class="c" colspan="2"><NuxtLink to="/alliance">Назад</NuxtLink></td>

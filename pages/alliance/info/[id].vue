@@ -1,40 +1,42 @@
 <template>
-	<table class="table" style="table-layout: fixed;">
-		<tbody>
-		<tr>
-			<td class="c" colspan="2">Информация об альянсе</td>
-		</tr>
-		<tr v-if="page['image'] !== ''">
-			<th colspan="2"><img :src="page['image']" style="max-width:100%" alt=""></th>
-		</tr>
-		<tr>
-			<th>Аббревиатура</th>
-			<th>{{ page['tag'] }}</th>
-		</tr>
-		<tr>
-			<th>Имя</th>
-			<th>{{ page['name'] }}</th>
-		</tr>
-		<tr>
-			<th>Участники</th>
-			<th>{{ page['member_scount'] }}</th>
-		</tr>
-		<tr v-if="page['description'] !== ''">
-			<td class="b" colspan="2" height="100" style="padding:3px;">
-				<TextViewer :text="page['description']"/>
-			</td>
-		</tr>
-		<tr v-if="page['web'] !== ''">
-			<th>Сайт альянса:</th>
-			<th><a :href="page['web']" target="_blank">{{ page['web'] }}</a></th>
-		</tr>
-		<tr v-if="page['request']">
-			<th colspan="2">
-				<NuxtLink :to="'/alliance/join/' + page['id']" class="button">Вступить в альянс</NuxtLink>
-			</th>
-		</tr>
-		</tbody>
-	</table>
+	<div class="block">
+		<div class="title">
+			Информация об альянсе
+		</div>
+		<div class="content">
+			<div class="block-table text-center">
+				<div v-if="page['image']">
+					<div class="th"><img :src="page['image']" style="max-width:100%" alt=""></div>
+				</div>
+				<div class="grid grid-cols-2">
+					<div class="th">Аббревиатура</div>
+					<div class="th">{{ page['tag'] }}</div>
+				</div>
+				<div class="grid grid-cols-2">
+					<div class="th">Имя</div>
+					<div class="th">{{ page['name'] }}</div>
+				</div>
+				<div class="grid grid-cols-2">
+					<div class="th">Участники</div>
+					<div class="th">{{ page['member_scount'] }}</div>
+				</div>
+				<div v-if="page['description']">
+					<div class="b min-h-20 p-2 text-left">
+						<TextViewer :text="page['description']"/>
+					</div>
+				</div>
+				<div v-if="page['web']" class="grid grid-cols-2">
+					<div class="th">Сайт альянса:</div>
+					<div class="th"><a :href="page['web']" target="_blank">{{ page['web'] }}</a></div>
+				</div>
+				<div v-if="page['request']">
+					<div class="th">
+						<NuxtLink :to="'/alliance/join/' + page['id']" class="button">Вступить в альянс</NuxtLink>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup>

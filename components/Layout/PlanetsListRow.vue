@@ -1,12 +1,12 @@
 <template>
-	<div class="planet flex gap-1.5 justify-between sm:flex-col lg:flex-row cursor-pointer" :class="['type_' + item.planet_type, (planet.id === item.id ? 'current' : '')]"  @click.prevent="changePlanet">
+	<div class="planet flex gap-1.5 justify-between sm:flex-col md:flex-row cursor-pointer" :class="['type_' + item.planet_type, (planet.id === item.id ? 'current' : '')]"  @click.prevent="changePlanet">
 		<div :title="item.name">
 			<img :src="'/images/planeten/small/s_' + item.image + '.jpg'" height="40" width="40" :alt="item.name">
 		</div>
-		<div class="hidden sm:block lg:hidden w-full">
+		<div class="hidden sm:block md:hidden w-full">
 			<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.planet"/>
 		</div>
-		<div class="sm:hidden lg:block grow">
+		<div class="sm:hidden md:block grow">
 			{{ item.name }}<br>
 			<span>
 				<PlanetLink :galaxy="item.galaxy" :system="item.system" :planet="item.planet"/>

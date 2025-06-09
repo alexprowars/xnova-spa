@@ -2,25 +2,23 @@
 	<div class="page-remind">
 		<div class="block">
 			<div class="title">Восстановление пароля</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div v-if="error" v-html="error.message" :class="[error.type]" class="message"></div>
-				<form method="post" class="form" @submit.prevent="send">
-					<div class="block-table">
-						<div class="grid">
-							<div class="th">
-								Введите ваш Email, который вы указали при регистрации.
-								При нажатии на кнопку "Получить пароль" на ваш e-mail будет выслана ссылка на новый пароль.
-							</div>
+				<form class="block-table form text-center" method="post" @submit.prevent="send">
+					<div class="grid">
+						<div class="th">
+							Введите ваш Email, который вы указали при регистрации.
+							При нажатии на кнопку "Получить пароль" на ваш e-mail будет выслана ссылка на новый пароль.
 						</div>
-						<div class="grid">
-							<div class="th">
-								Ваш Email: <input :class="{error: v$.email.$error}" type="email" name="email" v-model="email">
-							</div>
+					</div>
+					<div class="grid">
+						<div class="th">
+							Ваш Email: <input :class="{error: v$.email.$error}" type="email" name="email" v-model="email">
 						</div>
-						<div class="grid">
-							<div class="th">
-								<button type="submit">Выслать пароль</button>
-							</div>
+					</div>
+					<div class="grid">
+						<div class="th">
+							<button type="submit">Выслать пароль</button>
 						</div>
 					</div>
 				</form>

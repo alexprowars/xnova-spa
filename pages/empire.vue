@@ -6,106 +6,106 @@
 				<td class="c" :colspan="rows">{{ $t('pages.empire.title') }}</td>
 			</tr>
 			<tr>
-				<th>&nbsp;</th>
-				<th v-for="planet in page['planets']" width="75">
+				<td class="th">&nbsp;</td>
+				<td class="th text-center" v-for="planet in page['planets']" width="75">
 					<a href="" @click.prevent="toPlanet(planet['id'])">
 						<img :src="'/images/planeten/small/s_'+planet['image']+'.jpg'" height="75" width="75" alt="">
 					</a>
-				</th>
-				<th width="100">{{ $t('pages.empire.total') }}</th>
+				</td>
+				<td class="th text-center" width="100">{{ $t('pages.empire.total') }}</td>
 			</tr>
 			<tr>
-				<th>{{ $t('pages.empire.planet_name') }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('pages.empire.planet_name') }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					<a href="" @click.prevent="toPlanet(planet['id'])">{{ planet['name'] }}</a>
-				</th>
-				<th>&nbsp;</th>
+				</td>
+				<td class="th">&nbsp;</td>
 			</tr>
 			<tr>
-				<th>{{ $t('pages.empire.planet_coordinates') }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('pages.empire.planet_coordinates') }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					[<NuxtLink :to="'/galaxy/'+planet['position']['galaxy']+'/'+planet['position']['system']+'/'">{{ planet['position']['galaxy'] }}:{{ planet['position']['system'] }}:{{ planet['position']['planet'] }}</NuxtLink>]
-				</th>
-				<th>&nbsp;</th>
+				</td>
+				<td class="th">&nbsp;</td>
 			</tr>
 			<tr>
-				<th>{{ $t('pages.empire.planet_fields') }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('pages.empire.planet_fields') }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					{{ planet['fields'] }} / {{ planet['fields_max'] }}
-				</th>
-				<th>{{ total.fields }} / {{ total.fields_max }}</th>
+				</td>
+				<td class="th text-center">{{ total.fields }} / {{ total.fields_max }}</td>
 			</tr>
 			<tr>
-				<th>{{ $t('credits') }}</th>
-				<th :colspan="rows - 2">&nbsp;</th>
-				<th>
+				<td class="th">{{ $t('credits') }}</td>
+				<td class="th" :colspan="rows - 2">&nbsp;</td>
+				<td class="th text-center">
 					<span class="neutral">{{ $formatNumber(user['credits']) }}</span>
-				</th>
+				</td>
 			</tr>
 			<tr>
 				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.resources') }}</td>
 			</tr>
 			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
-				<th>{{ $t('resources.' + res) }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('resources.' + res) }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					<span :class="[planet['resources'][res]['value'] < planet['resources'][res]['storage'] ? 'positive' : 'negative']">{{ $formatNumber(planet['resources'][res]['value']) }}</span>
-				</th>
-				<th>{{ $formatNumber(total['resources'][res]) }}</th>
+				</td>
+				<td class="th text-center">{{ $formatNumber(total['resources'][res]) }}</td>
 			</tr>
 			<tr>
-				<th>{{ $t('resources.energy') }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('resources.energy') }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					<span :class="[planet['resources']['energy']['value'] >= 0 ? 'positive' : 'negative']">{{ $formatNumber(planet['resources']['energy']['value']) }}</span>
-				</th>
-				<th>{{ $formatNumber(total['resources']['energy']) }}</th>
+				</td>
+				<td class="th text-center">{{ $formatNumber(total['resources']['energy']) }}</td>
 			</tr>
 
 			<tr>
 				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.production_per_hour') }}</td>
 			</tr>
 			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
-				<th>{{ $t('resources.'+res) }}</th>
-				<th v-for="planet in page['planets']">{{ $formatNumber(planet['resources'][res]['production']) }}</th>
-				<th>{{ $formatNumber(total['production'][res]) }}</th>
+				<td class="th">{{ $t('resources.'+res) }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">{{ $formatNumber(planet['resources'][res]['production']) }}</td>
+				<td class="th text-center">{{ $formatNumber(total['production'][res]) }}</td>
 			</tr>
 
 			<tr>
 				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.production_level') }}</td>
 			</tr>
 			<tr v-for="(item, i) in [1, 2, 3, 4, 12, 212]">
-				<th>{{ $t('tech.'+item) }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('tech.'+item) }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					<span :class="[planet['factor'][item] >= 100 ? 'positive' : 'negative']">{{ $formatNumber(planet['factor'][item]) }}</span>%
-				</th>
-				<th v-if="i === 0" rowspan="6">&nbsp;</th>
+				</td>
+				<td class="th text-center" v-if="i === 0" rowspan="6">&nbsp;</td>
 			</tr>
 			<tr>
 				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_buildings') }}</td>
 			</tr>
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r < 100)">
-				<th>{{ $t('tech.' + id) }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('tech.' + id) }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0">
 						{{ $formatNumber(planet['elements'][id]['value']) }}
 					</span>
 					<span v-else>-</span>
 					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">-> {{ $formatNumber(planet['elements'][id]['build']) }}</span>
-				</th>
-				<th>
+				</td>
+				<td class="th text-center">
 					<span>
 						{{ $formatNumber(total['elements'][id]['value']) }}
 					</span>
 					<span v-if="total['elements'][id]['build'] > 0" class="positive">
 						-> {{ $formatNumber(total['elements'][id]['build']) }}
 					</span>
-				</th>
+				</td>
 			</tr>
 			<tr>
 				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_fleets') }}</td>
 			</tr>
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 200 && r < 300)">
-				<th>{{ $t('tech.' + id) }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('tech.' + id) }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0 || planet['elements'][id]?.['fly'] > 0">
 						{{ $formatNumber(planet['elements'][id]?.['value']) }}
 					</span>
@@ -116,8 +116,8 @@
 					<span v-if="planet['elements'][id]?.['fly'] > 0" class="neutral">
 						+ {{ $formatNumber(planet['elements'][id]['fly']) }}
 					</span>
-				</th>
-				<th>
+				</td>
+				<td class="th text-center">
 					<span>
 						{{ $formatNumber(total['elements'][id]?.['value']) }}
 					</span>
@@ -127,14 +127,14 @@
 					<span v-if="total['elements'][id]?.['fly'] > 0" class="neutral">
 						+ {{ $formatNumber(total['elements'][id]['fly']) }}
 					</span>
-				</th>
+				</td>
 			</tr>
 			<tr>
 				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_defense') }}</td>
 			</tr>
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 400 && r < 600)">
-				<th>{{ $t('tech.' + id) }}</th>
-				<th v-for="planet in page['planets']">
+				<td class="th">{{ $t('tech.' + id) }}</td>
+				<td class="th text-center" v-for="planet in page['planets']">
 					<span v-if="planet['elements'][id]?.['value'] > 0 || planet['elements'][id]?.['build'] > 0">
 						{{ $formatNumber(planet['elements'][id]['value']) }}
 					</span>
@@ -142,27 +142,27 @@
 					<span v-if="planet['elements'][id]?.['build'] > 0" class="positive">
 						+ {{ $formatNumber(planet['elements'][id]['build']) }}
 					</span>
-				</th>
-				<th>
+				</td>
+				<td class="th text-center">
 					<span>
 						{{ $formatNumber(total['elements'][id]?.['value']) }}
 					</span>
 					<span v-if="total['elements'][id]?.['build'] > 0" class="positive">
 						+ {{ $formatNumber(total['elements'][id]['build']) }}
 					</span>
-				</th>
+				</td>
 			</tr>
 			<tr>
 				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_techs') }}</td>
 			</tr>
 			<tr v-for="item in page['tech']">
-				<th :colspan="rows - 1">{{ $t('tech.' + item['id']) }}</th>
-				<th>
+				<td class="th" :colspan="rows - 1">{{ $t('tech.' + item['id']) }}</td>
+				<td class="th text-center">
 					<span class="neutral">{{ item['value'] }}</span>
 					<span v-if="item['build'] > 0" class="positive">
 						-> {{ item['build'] }}
 					</span>
-				</th>
+				</td>
 			</tr>
 			</tbody>
 		</table>

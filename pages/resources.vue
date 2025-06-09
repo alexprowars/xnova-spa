@@ -5,57 +5,55 @@
 				{{ $t('pages.resources.planet_production', [planet['name']]) }}
 			</div>
 			<div class="content !border-0">
-				<div class="table-responsive">
-					<form method="post" @submit.prevent="updateState">
-						<table class="table">
-							<tbody>
-								<tr>
-									<th width="200"></th>
-									<th>{{ $t('pages.resources.lvl') }}</th>
-									<th>{{ $t('pages.resources.bonus') }}</th>
-									<th><InfoPopup :id="1" :title="$t('tech.1')">{{ $t('resources.metal') }}</InfoPopup></th>
-									<th><InfoPopup :id="2" :title="$t('tech.2')">{{ $t('resources.crystal') }}</InfoPopup></th>
-									<th><InfoPopup :id="3" :title="$t('tech.3')">{{ $t('resources.deuterium') }}</InfoPopup></th>
-									<th><InfoPopup :id="4" :title="$t('tech.4')">{{ $t('resources.energy') }}</InfoPopup></th>
-									<th width="100">{{ $t('pages.resources.efficiency') }}</th>
-								</tr>
-								<tr>
-									<th class="text-left" nowrap>{{ $t('pages.resources.base_production') }}</th>
-									<td class="k text-center"></td>
-									<td class="k text-center"></td>
-									<td v-for="res in page['resources']" class="k text-center">{{ $formatNumber(planet['resources'][res]['basic']) }}</td>
-									<td class="k text-center">{{ $formatNumber(planet['resources']['energy']['basic']) }}</td>
-									<td class="k text-center">100%</td>
-								</tr>
-								<ResourcesRow v-for="(item, index) in page['items']" :key="index" :item="item" :resources="page['resources']"/>
-								<tr>
-									<th colspan="2">{{ $t('pages.resources.storage') }}:</th>
-									<th>{{ page['bonus_h'] }}%</th>
-									<td v-for="res in page['resources']" class="k text-center" v-once>
-										<span :class="[(planet['resources'][res]['capacity'] > planet['resources'][res]['value']) ? 'positive' : 'negative']">
-											{{ $formatNumber(planet['resources'][res]['capacity'] / 1000) }} k
-										</span>
-									</td>
-									<td class="k text-center">
-										<span style="color: #00ff00">{{ $formatNumber(planet['resources']['energy']['capacity']) }}</span>
-									</td>
-									<td v-if="!isVacation" class="k text-center">
-										<button type="submit" class="button" name="action" value="Y">
-											{{ $t('pages.resources.calculate') }}
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<th colspan="3">Всего:</th>
-									<td v-for="res in page['resources']" class="k text-center">
-										<Colored :value="planet['resources'][res]['production']"/>
-									</td>
-									<td class="k text-center"><Colored :value="planet['resources']['energy']['value']"/></td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
-				</div>
+				<form class="table-responsive" method="post" @submit.prevent="updateState">
+					<table class="table">
+						<tbody>
+							<tr class="text-center">
+								<td class="th" width="200"></td>
+								<td class="th">{{ $t('pages.resources.lvl') }}</td>
+								<td class="th">{{ $t('pages.resources.bonus') }}</td>
+								<td class="th"><InfoPopup :id="1" :title="$t('tech.1')">{{ $t('resources.metal') }}</InfoPopup></td>
+								<td class="th"><InfoPopup :id="2" :title="$t('tech.2')">{{ $t('resources.crystal') }}</InfoPopup></td>
+								<td class="th"><InfoPopup :id="3" :title="$t('tech.3')">{{ $t('resources.deuterium') }}</InfoPopup></td>
+								<td class="th"><InfoPopup :id="4" :title="$t('tech.4')">{{ $t('resources.energy') }}</InfoPopup></td>
+								<td class="th" width="100">{{ $t('pages.resources.efficiency') }}</td>
+							</tr>
+							<tr>
+								<td class="th text-left" nowrap>{{ $t('pages.resources.base_production') }}</td>
+								<td class="k text-center"></td>
+								<td class="k text-center"></td>
+								<td v-for="res in page['resources']" class="k text-center">{{ $formatNumber(planet['resources'][res]['basic']) }}</td>
+								<td class="k text-center">{{ $formatNumber(planet['resources']['energy']['basic']) }}</td>
+								<td class="k text-center">100%</td>
+							</tr>
+							<ResourcesRow v-for="(item, index) in page['items']" :key="index" :item="item" :resources="page['resources']"/>
+							<tr>
+								<td class="th" colspan="2">{{ $t('pages.resources.storage') }}</td>
+								<td class="th text-center">{{ page['bonus_h'] }}%</td>
+								<td v-for="res in page['resources']" class="k text-center" v-once>
+									<span :class="[(planet['resources'][res]['capacity'] > planet['resources'][res]['value']) ? 'positive' : 'negative']">
+										{{ $formatNumber(planet['resources'][res]['capacity'] / 1000) }} k
+									</span>
+								</td>
+								<td class="k text-center">
+									<span class="positive">{{ $formatNumber(planet['resources']['energy']['capacity']) }}</span>
+								</td>
+								<td v-if="!isVacation" class="k text-center">
+									<button type="submit" class="button" name="action" value="Y">
+										{{ $t('pages.resources.calculate') }}
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td class="th" colspan="3">{{ $t('pages.resources.total') }}</td>
+								<td v-for="res in page['resources']" class="k text-center">
+									<Colored :value="planet['resources'][res]['production']"/>
+								</td>
+								<td class="k text-center"><Colored :value="planet['resources']['energy']['value']"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			</div>
 		</div>
 
@@ -85,8 +83,8 @@
 				{{ $t('pages.resources.production_info') }}
 			</div>
 			<div class="content">
-				<div class="block-table text-center">
-					<div class="grid grid-cols-12">
+				<div class="block-table">
+					<div class="grid grid-cols-12 text-center">
 						<div class="col-span-2 th">&nbsp;</div>
 						<div class="col-span-2 th">{{ $t('pages.resources.per_hour') }}</div>
 						<div class="col-span-2 th">{{ $t('pages.resources.per_day') }}</div>
@@ -97,16 +95,16 @@
 						<div class="col-span-2 th">
 							{{ $t('resources.' + res) }}
 						</div>
-						<div class="col-span-2 th">
+						<div class="col-span-2 th text-center">
 							<Colored :value="planet['resources'][res]['production']"/>
 						</div>
-						<div class="col-span-2 th">
+						<div class="col-span-2 th text-center">
 							<Colored :value="planet['resources'][res]['production'] * 24"/>
 						</div>
-						<div class="col-span-3 th">
+						<div class="col-span-3 th text-center">
 							<Colored :value="planet['resources'][res]['production'] * 24 * 7"/>
 						</div>
-						<div class="col-span-3 th">
+						<div class="col-span-3 th text-center">
 							<Colored :value="planet['resources'][res]['production'] * 24 * 7 * 30"/>
 						</div>
 					</div>
@@ -119,7 +117,7 @@
 				{{ $t('pages.resources.storage_status') }}
 			</div>
 			<div class="content">
-				<div class="block-table text-center">
+				<div class="block-table">
 					<StorageRow v-for="res in page['resources']" :key="res" :resource="res"/>
 				</div>
 			</div>

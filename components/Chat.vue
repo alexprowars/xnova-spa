@@ -2,7 +2,7 @@
 	<div v-if="!mobile" class="component-chat" :class="{active: active}">
 		<div class="block">
 			<div class="title" @click="toggleActive">
-				Чат
+				{{ $t('menu.chat') }}
 				<span v-if="unread > 0">({{ unread }})</span>
 			</div>
 			<div v-show="active" class="content">

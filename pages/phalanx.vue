@@ -7,14 +7,14 @@
 			</td>
 		</tr>
 		<tr v-if="items.length === 0">
-			<th colspan="2">На этой планете нет движения флотов.</th>
+			<td class="th" colspan="2">На этой планете нет движения флотов.</td>
 		</tr>
 		<tr v-for="item in items">
-			<th>
+			<td class="th">
 				<div class="z">{{ $formatTime(dayjs(item['time']).diff(now) / 1000, ':', true) }}</div>
 				<span :style="{ color: item['direction'] === 1 ? 'lime' : 'green' }">{{ $formatDate(item['time'], 'HH:mm:ss') }}</span>
-			</th>
-			<th>
+			</td>
+			<td class="th">
 				<span :style="{ color: item['mission'] !== 6 ? 'lime' : 'orange' }">
 					Игрок (<span v-html="item['fleet']"></span>) с {{ item['type_1'] }} {{ item['planet_name'] }}
 					<span style="color: white">[<span v-html="item['planet_position']"></span>]</span>
@@ -22,7 +22,7 @@
 					<span style="color: white">[<span v-html="item['target_position']"></span>]</span>.
 					Задание: <span style="color: white">{{ $t('fleet_mission.' + item['mission']) }}</span>
 				</span>
-			</th>
+			</td>
 		</tr>
 		</tbody>
 	</table>

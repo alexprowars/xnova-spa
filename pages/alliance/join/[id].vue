@@ -1,29 +1,32 @@
 <template>
-	<form @submit.prevent="send">
-		<table class="table">
-			<tbody>
-			<template v-if="page['text']">
-				<tr>
-					<td class="c" colspan="2">Приветствие альянса</td>
-				</tr>
-				<tr>
-					<td class="b" colspan="2" height="100" style="padding:3px;">
-						<TextViewer :text="page['text']"/>
-					</td>
-				</tr>
-			</template>
-			<tr>
-				<td class="c" colspan="2">Написать запрос на вступление в альянс [{{ page['tag'] }}]</td>
-			</tr>
-			<tr>
-				<th><textarea cols="40" rows="10" v-model="message"></textarea></th>
-			</tr>
-			<tr>
-				<th colspan="2"><button type="submit">Отправить</button></th>
-			</tr>
-			</tbody>
-		</table>
-	</form>
+	<div class="block">
+		<div class="title">
+			Запрос на вступление в альянс [{{ page['tag'] }}]
+		</div>
+		<div class="content">
+			<form class="block-table text-center" @submit.prevent="send">
+				<template v-if="page['text']">
+					<div>
+						<div class="c">Приветствие альянса</div>
+					</div>
+					<div>
+						<div class="b min-h-20 p-2 text-left">
+							<TextViewer :text="page['text']"/>
+						</div>
+					</div>
+				</template>
+				<div>
+					<div class="th"><textarea cols="40" rows="10" v-model="message"></textarea></div>
+				</div>
+				<div>
+					<div class="c"><button type="submit">Отправить</button></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="mt-2">
+		<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+	</div>
 </template>
 
 <script setup>

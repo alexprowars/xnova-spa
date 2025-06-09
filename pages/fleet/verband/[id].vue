@@ -6,15 +6,15 @@
 				<table class="table">
 					<tbody>
 					<tr>
-						<th>Задание</th>
-						<th>Кол-во</th>
-						<th>Отправлен</th>
-						<th>Прибытие</th>
-						<th>Цель</th>
-						<th>Возврат</th>
+						<td class="th">Задание</td>
+						<td class="th">Кол-во</td>
+						<td class="th">Отправлен</td>
+						<td class="th">Прибытие</td>
+						<td class="th">Цель</td>
+						<td class="th">Возврат</td>
 					</tr>
 					<FleetRow v-for="item in page['items']" :key="item['id']" :item="item"/>
-					<tr v-if="page['items'].length === 0"><th colspan="6">-</th></tr>
+					<tr v-if="page['items'].length === 0"><td class="th" colspan="6">-</td></tr>
 					</tbody>
 				</table>
 			</div>
@@ -43,15 +43,15 @@
 									<td class="c">Пригласить участников</td>
 								</tr>
 								<tr>
-									<th width="50%" valign="top">
+									<td class="th" width="50%" valign="top">
 										<select size="10" style="width:75%;">
 											<option v-for="user in page['users']">{{ user }}</option>
 											<option v-if="page['users'].length === 0">нет участников</option>
 										</select>
-									</th>
-									<th>
+									</td>
+									<td class="th">
 										<InviteUser :id="page['fleetid']" :friends="page['friends']" :alliance="page['alliance']"/>
-									</th>
+									</td>
 								</tr>
 								</tbody>
 							</table>

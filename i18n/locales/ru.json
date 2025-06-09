@@ -519,6 +519,7 @@
 			"base_production": "Базовое производство",
 			"storage": "Вместимость",
 			"calculate": "Пересчитать",
+			"total": "Всего",
 			"planet_production": "Производство на планете \"{0}\"",
 			"production_info": "Информация о производстве",
 			"per_hour": "Час",

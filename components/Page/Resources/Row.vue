@@ -1,28 +1,28 @@
 <template>
 	<tr>
-		<th class="text-left" nowrap>
+		<td class="th text-left" nowrap>
 			<InfoPopup :id="item['id']" :title="$t('tech.' + item['id'])">
 				{{ $t('tech.' + item['id']) }}
 			</InfoPopup>
-		</th>
-		<th>
+		</td>
+		<td class="th text-center">
 			<Colored :value="item['level']"/>
-		</th>
-		<th>
+		</td>
+		<td class="th text-center">
 			{{ item['bonus'] }}%
-		</th>
-		<th v-for="res in resources">
+		</td>
+		<td class="th text-center" v-for="res in resources">
 			<Colored :value="item['resources'][res]"/>
-		</th>
-		<th>
+		</td>
+		<td class="th text-center">
 			<Colored :value="item['resources']['energy']"/>
-		</th>
-		<th>
+		</td>
+		<td class="th text-center">
 			<select v-if="!isVacation" v-model="item['factor']">
 				<option v-for="j in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :value="j">{{ j * 10 }}%</option>
 			</select>
 			<span v-else>{{ item['factor'] * 10 }}%</span>
-		</th>
+		</td>
 	</tr>
 </template>
 

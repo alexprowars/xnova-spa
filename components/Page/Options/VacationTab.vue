@@ -6,24 +6,24 @@
 					<td class="c" colspan="2">{{ $t('pages.options.vacation_mode') }}</td>
 				</tr>
 				<tr>
-					<th colspan="2">{{ $t('pages.options.vacation_mode_until') }}: <br/>{{ $formatDate(data['um_end_date'], 'DD MMM YYYY HH:mm:ss') }}</th>
+					<td class="th" colspan="2">{{ $t('pages.options.vacation_mode_until') }}: <br/>{{ $formatDate(data['um_end_date'], 'DD MMM YYYY HH:mm:ss') }}</td>
 				</tr>
 				<tr>
-					<th>{{ $t('pages.options.nickname') }}</th>
-					<th><input name="username" size="20" :value="data['opt_usern_data']" type="hidden">{{ data['opt_usern_data'] }}</th>
+					<td class="th">{{ $t('pages.options.nickname') }}</td>
+					<td class="th"><input name="username" size="20" :value="data['opt_usern_data']" type="hidden">{{ data['opt_usern_data'] }}</td>
 				</tr>
 				<tr>
-					<th><a :title="$t('pages.options.vacation_tip')">{{ $t('pages.options.vacation_on') }}</a></th>
-					<th><input name="vacation" v-model="data['opt_modev_data']" type="checkbox"></th>
+					<td class="th"><a :title="$t('pages.options.vacation_tip')">{{ $t('pages.options.vacation_on') }}</a></td>
+					<td class="th"><input name="vacation" v-model="data['opt_modev_data']" type="checkbox"></td>
 				</tr>
 				<tr>
-					<th><a :title="$t('pages.options.delete_tip')">{{ $t('pages.options.delete_on') }}</a></th>
-					<th><input name="delete" v-model="data['opt_delac_data']" type="checkbox"></th>
+					<td class="th"><a :title="$t('pages.options.delete_tip')">{{ $t('pages.options.delete_on') }}</a></td>
+					<td class="th"><input name="delete" v-model="data['opt_delac_data']" type="checkbox"></td>
 				</tr>
 				<tr>
-					<th colspan="2">
+					<td class="th" colspan="2">
 						<button type="submit">{{ $t('pages.options.save') }}</button>
-					</th>
+					</td>
 				</tr>
 			</tbody>
 		</table>

@@ -36,23 +36,23 @@
 						<td class="c" width="40">Место</td>
 					</tr>
 					<tr v-for="result in items">
-						<th>{{ result['username'] }}</th>
-						<th nowrap>
+						<td class="th">{{ result['username'] }}</td>
+						<td class="th" nowrap>
 							<SendMessagePopup :title="$t('send_message')" :id="result['id']"/>
-							<NuxtLink :to="'/friends/new/'+result['id']+'/'" title="Предложение подружиться">
+							<NuxtLink :to="'/friends/new/' + result['id']" title="Предложение подружиться">
 								<span class='sprite skin_b'></span>
 							</NuxtLink>
-						</th>
-						<th>
+						</td>
+						<td class="th">
 							<img v-if="result['race'] !== 0" :src="'/images/skin/race'+result['race']+'.gif'" width="16" height="16" alt="">
-						</th>
-						<th>{{ result['ally_name'] }}</th>
-						<th>{{ result['planet_name'] }}</th>
-						<th><NuxtLink :to="'/galaxy/?galaxy='+result['g']+'&system='+result['s']">{{ result['g'] }}:{{ result['s'] }}:{{ result['p'] }}</NuxtLink></th>
-						<th><NuxtLink :to="'/stat/?view=players&range='+result['total_rank']">{{ result['total_rank'] }}</NuxtLink></th>
+						</td>
+						<td class="th">{{ result['ally_name'] }}</td>
+						<td class="th">{{ result['planet_name'] }}</td>
+						<td class="th"><NuxtLink :to="'/galaxy?galaxy='+result['g']+'&system='+result['s']">{{ result['g'] }}:{{ result['s'] }}:{{ result['p'] }}</NuxtLink></td>
+						<td class="th"><NuxtLink :to="'/stat?view=players&range='+result['total_rank']">{{ result['total_rank'] }}</NuxtLink></td>
 					</tr>
 					<tr v-if="items.length === 0">
-						<th colspan="7">Поиск не дал результатов</th>
+						<td class="th" colspan="7">Поиск не дал результатов</td>
 					</tr>
 					</tbody>
 				</table>
@@ -67,17 +67,17 @@
 						<td class="c">Очки</td>
 					</tr>
 					<tr v-for="result in items">
-						<th>
-							<NuxtLink :to="'/alliance/info/'+result['id']+'/'">
+						<td class="th">
+							<NuxtLink :to="'/alliance/info/' + result['id']">
 								{{ result['tag'] }}
 							</NuxtLink>
-						</th>
-						<th>{{ result['name'] }}</th>
-						<th>{{ result['members'] }}</th>
-						<th>{{ result['total_points'] }}</th>
+						</td>
+						<td class="th">{{ result['name'] }}</td>
+						<td class="th">{{ result['members'] }}</td>
+						<td class="th">{{ result['total_points'] }}</td>
 					</tr>
 					<tr v-if="items.length === 0">
-						<th colspan="6">Поиск не дал результатов</th>
+						<td class="th" colspan="6">Поиск не дал результатов</td>
 					</tr>
 					</tbody>
 				</table>

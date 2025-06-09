@@ -1,19 +1,28 @@
 <template>
-	<div class="block-table">
-		<div class="grid">
-			<div class="c">Сохранение боевого доклада</div>
-		</div>
-		<div class="grid">
-			<div class="th">
-				<form method="post" @submit.prevent="create">
-					<div>Название:</div>
-					<div><input type="text" name="title" v-model="title" :class="{error: v$.title.$error}" size="50" maxlength="100"></div>
-					<div>ID боевого доклада:</div>
-					<div><input type="text" name="code" v-model="code" :class="{error: v$.code.$error}" size="50" maxlength="40"></div>
-					<button type="submit">Сохранить</button>
-				</form>
+	<div class="block">
+		<div class="title">Сохранение боевого доклада</div>
+		<div class="content">
+			<div class="block-table text-center">
+				<div class="grid">
+					<div class="th">
+						<form method="post" @submit.prevent="create">
+							<div>Название:</div>
+							<div class="mt-1"><input type="text" name="title" v-model="title" :class="{error: v$.title.$error}" size="50" maxlength="100"></div>
+							<div class="mt-4">ID боевого доклада:</div>
+							<div class="mt-1"><input type="text" name="code" v-model="code" :class="{error: v$.code.$error}" size="50" maxlength="40"></div>
+						</form>
+					</div>
+				</div>
+				<div class="grid">
+					<div class="c">
+						<button type="submit">Сохранить</button>
+					</div>
+				</div>
 			</div>
 		</div>
+	</div>
+	<div class="mt-2">
+		<NuxtLink to="/logs" class="button">Назад</NuxtLink>
 	</div>
 </template>
 

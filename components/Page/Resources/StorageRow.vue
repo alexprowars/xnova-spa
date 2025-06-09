@@ -3,10 +3,10 @@
 		<div class="col-span-2 th">
 			{{ $t('resources.' + resource) }}
 		</div>
-		<div class="col-span-1 th">
+		<div class="col-span-1 th text-center">
 			{{ storage }}%
 		</div>
-		<div class="col-span-9 th">
+		<div class="col-span-9 th text-center">
 			<ResourcesBar :value="storage"/>
 		</div>
 	</div>
