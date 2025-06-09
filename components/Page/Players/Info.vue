@@ -2,7 +2,7 @@
 	<div class="page-players">
 		<div class="page-players-main block">
 			<div class="title">Информация об игроке</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table page-players">
 					<div class="grid grid-cols-6 gap-1.5 !divide-x-0">
 						<div class="col-span-2 text-center flex flex-col gap-1.5">
@@ -56,7 +56,7 @@
 		</div>
 		<div v-if="page['stats']" class="page-players-stats block">
 			<div class="title">Статистика игры</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table text-center">
 					<div class="grid grid-cols-3">
 						<div class="c">&nbsp;</div>
@@ -93,7 +93,7 @@
 		</div>
 		<div class="page-players-stats block">
 			<div class="title">Статистика боёв</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table text-center">
 					<div class="grid grid-cols-3">
 						<div class="c">&nbsp;</div>
@@ -118,7 +118,7 @@
 				</div>
 			</div>
 			<div v-if="page['about'].length" class="page-players-about block">
-				<div class="content !border-0">
+				<div class="content">
 					<div class="block-table">
 						<div class="grid">
 							<div class="b">

@@ -8,7 +8,7 @@
 				<div class="block-table inline-block">
 					<div class="flex">
 						<div class="w-full c">
-							{{ $t('galaxy.selector.galaxy') }}
+							{{ $t('pages.galaxy.selector.galaxy') }}
 						</div>
 					</div>
 					<div class="flex">
@@ -28,7 +28,7 @@
 				<div class="block-table inline-block">
 					<div class="flex">
 						<div class="w-full c">
-							{{ $t('galaxy.selector.system') }}
+							{{ $t('pages.galaxy.selector.system') }}
 						</div>
 					</div>
 					<div class="flex">

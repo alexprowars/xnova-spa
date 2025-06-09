@@ -1,20 +1,22 @@
 <template>
-	<form class="block-table text-center" method="post" @submit.prevent="send">
-		<div class="grid">
-			<div class="c">Отправить сообщение в чат альянса</div>
+	<div class="block">
+		<div class="title">Отправить сообщение в чат альянса</div>
+		<div class="content">
+			<form class="block-table text-center" method="post" @submit.prevent="send">
+				<div class="grid">
+					<div class="th">
+						<TextEditor v-model="value"/>
+					</div>
+				</div>
+				<div class="grid">
+					<div class="c">
+						<button @click.prevent="reset">Очистить</button>
+						<button type="submit">Отправить</button>
+					</div>
+				</div>
+			</form>
 		</div>
-		<div class="grid">
-			<div class="th">
-				<TextEditor v-model="value"/>
-			</div>
-		</div>
-		<div class="grid">
-			<div class="c">
-				<button @click.prevent="reset">Очистить</button>
-				<button type="submit">Отправить</button>
-			</div>
-		</div>
-	</form>
+	</div>
 </template>
 
 <script setup>

@@ -11,67 +11,69 @@
 
 		<MissileAttack v-if="missile" :page="page" :planet="missilePlanet" @close="missile = false"/>
 
-		<div class="table-responsive">
-			<table class="table galaxy text-center">
-				<tbody>
-					<tr>
-						<td class="c" colspan="9">
-							{{ $t('galaxy.title', [page['galaxy'], page['system']]) }}
-						</td>
-					</tr>
-					<tr>
-						<td class="c" width="35">№</td>
-						<td class="c" width="34">&nbsp;</td>
-						<td class="c">{{ $t('galaxy.column_planet') }}</td>
-						<td class="c" width="34">&nbsp;</td>
-						<td class="c" width="30">{{ $t('galaxy.column_debris') }}</td>
-						<td class="c" width="180">{{ $t('galaxy.column_player') }}</td>
-						<td class="c" width="30">&nbsp;</td>
-						<td class="c" width="100">{{ $t('galaxy.column_alliance') }}</td>
-						<td class="c" width="135">{{ $t('galaxy.column_actions') }}</td>
-					</tr>
+		<div class="block">
+			<div class="title">
+				{{ $t('pages.galaxy.title', [page['galaxy'], page['system']]) }}
+			</div>
+			<div class="content">
+				<div class="table-responsive">
+					<table class="table galaxy text-center">
+						<tbody>
+							<tr>
+								<td class="c" width="35">№</td>
+								<td class="c" width="34">&nbsp;</td>
+								<td class="c">{{ $t('pages.galaxy.column_planet') }}</td>
+								<td class="c" width="34">&nbsp;</td>
+								<td class="c" width="30">{{ $t('pages.galaxy.column_debris') }}</td>
+								<td class="c" width="180">{{ $t('pages.galaxy.column_player') }}</td>
+								<td class="c" width="30">&nbsp;</td>
+								<td class="c" width="100">{{ $t('pages.galaxy.column_alliance') }}</td>
+								<td class="c" width="135">{{ $t('pages.galaxy.column_actions') }}</td>
+							</tr>
 
-					<GalaxyRow v-for="(item, index) in rows"
-						:key="page['galaxy'] + ':' + page['system'] + ':' + index"
-						:item="item"
-						:user="page['user']"
-						:galaxy="page['galaxy']"
-						:system="page['system']"
-						:planet="index + 1"
-						@sendMissile="sendMissile(item['planet'])"
-					/>
+							<GalaxyRow v-for="(item, index) in rows"
+								:key="page['galaxy'] + ':' + page['system'] + ':' + index"
+								:item="item"
+								:user="page['user']"
+								:galaxy="page['galaxy']"
+								:system="page['system']"
+								:planet="index + 1"
+								@sendMissile="sendMissile(item['planet'])"
+							/>
 
-					<tr v-if="user['technology']['expedition_tech']">
-						<th width="30">16</th>
-						<th colspan="8" class="c big">
-							<NuxtLink :to="'/fleet/?galaxy=' + page['galaxy'] + '&system=' + page['system'] + '&planet=16&mission=15'">
-								{{ $t('galaxy.planet_16') }}
-							</NuxtLink>
-						</th>
-					</tr>
-					<tr>
-						<td class="c" colspan="6">
-							{{ $t('galaxy.no_planets', page.items.length) }}
-						</td>
-						<td class="c" colspan="3">
-							<Popper>
-								<template #content>
-									<GalaxyLegend/>
-								</template>
-								<span>{{ $t('galaxy.legend_text') }}</span>
-							</Popper>
-						</td>
-					</tr>
-					<tr>
-						<td class="c" colspan="3">{{ $t('galaxy.rockets', planet['units']['interplanetary_misil']) }}</td>
-						<td class="c" colspan="3">{{ page['user']['fleets'] }} / {{ $t('galaxy.fleets', user['fleets_max']) }}</td>
-						<td class="c" colspan="3">
-							<div>{{ $t('galaxy.recyclers', planet['units']['recycler']) }}</div>
-							<div>{{ $t('galaxy.spy_probes', planet['units']['spy_sonde']) }}</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+							<tr v-if="user['technology']['expedition_tech']">
+								<td class="th" width="30">16</td>
+								<td class="c big" colspan="8">
+									<NuxtLink :to="'/fleet?galaxy=' + page['galaxy'] + '&system=' + page['system'] + '&planet=16&mission=15'">
+										{{ $t('pages.galaxy.planet_16') }}
+									</NuxtLink>
+								</td>
+							</tr>
+							<tr>
+								<td class="c" colspan="6">
+									{{ $t('pages.galaxy.no_planets', page.items.length) }}
+								</td>
+								<td class="c" colspan="3">
+									<Popper>
+										<template #content>
+											<GalaxyLegend/>
+										</template>
+										<span>{{ $t('pages.galaxy.legend_text') }}</span>
+									</Popper>
+								</td>
+							</tr>
+							<tr>
+								<td class="c" colspan="3">{{ $t('pages.galaxy.rockets', planet['units']['interplanetary_misil']) }}</td>
+								<td class="c" colspan="3">{{ page['user']['fleets'] }} / {{ $t('pages.galaxy.fleets', user['fleets_max']) }}</td>
+								<td class="c" colspan="3">
+									<div>{{ $t('pages.galaxy.recyclers', planet['units']['recycler']) }}</div>
+									<div>{{ $t('pages.galaxy.spy_probes', planet['units']['spy_sonde']) }}</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

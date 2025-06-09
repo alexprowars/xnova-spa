@@ -5,7 +5,7 @@
 				<span class="sprite" :class="['skin_'+type]"></span>
 				<span class="sprite" :class="['skin_s_'+type]"></span>
 				<template #content>
-					<resource-tooltip :resource="resource" :type="type"></resource-tooltip>
+					<ResourceTooltip :resource="resource" :type="type"/>
 				</template>
 			</Popper>
 		</InfoPopup>

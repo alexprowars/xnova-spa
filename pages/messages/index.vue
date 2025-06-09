@@ -1,44 +1,42 @@
 <template>
-	<form method="post" @submit.prevent>
-		<div class="block">
-			<div class="title">
-				Сообщения
-				<select name="category" v-model="category">
-					<option v-for="type in Object.keys($tm('message_types'))" :value="type">{{ $t('message_types.' + type) }}</option>
-				</select>
-				по
-				<select name="limit" v-model="limit">
-					<option v-for="i in limitItems" :value="i">{{ i }}</option>
-				</select>
-				на странице
-				<div v-if="deleteItems.length > 0" class="inline-block">
-					<button type="button" @click.prevent="deleteMessages">Удалить отмеченные</button>
+	<form class="block" method="post" @submit.prevent>
+		<div class="title">
+			Сообщения
+			<select name="category" v-model="category">
+				<option v-for="type in Object.keys($tm('message_types'))" :value="type">{{ $t('message_types.' + type) }}</option>
+			</select>
+			по
+			<select name="limit" v-model="limit">
+				<option v-for="i in limitItems" :value="i">{{ i }}</option>
+			</select>
+			на странице
+			<div v-if="deleteItems.length > 0" class="inline-block">
+				<button type="button" @click.prevent="deleteMessages">Удалить отмеченные</button>
+			</div>
+		</div>
+		<div class="content">
+			<div class="block-table">
+				<div v-if="messages.length" class="grid grid-cols-12 text-center">
+					<div class="col-span-1 th">
+						<input type="checkbox" class="checkAll" v-model="checkAll">
+					</div>
+					<div class="col-span-3 th">Дата</div>
+					<div class="col-span-6 th">От</div>
+					<div class="col-span-2 th"></div>
+				</div>
+
+				<MessagesRow v-for="item in messages" :key="item['id']" :item="item"/>
+
+				<div v-if="page['pagination']['total'] === 0" class="grid">
+					<div class="th">нет сообщений</div>
 				</div>
 			</div>
-			<div class="content noborder">
-				<div class="block-table">
-					<div v-if="messages.length" class="grid grid-cols-12 text-center">
-						<div class="col-span-1 th">
-							<input type="checkbox" class="checkAll" v-model="checkAll">
-						</div>
-						<div class="col-span-3 th">Дата</div>
-						<div class="col-span-6 th">От</div>
-						<div class="col-span-2 th"></div>
-					</div>
 
-					<MessagesRow v-for="item in messages" :key="item['id']" :item="item"/>
-
-					<div v-if="page['pagination']['total'] === 0" class="grid">
-						<div class="th">нет сообщений</div>
-					</div>
-				</div>
-
-				<div v-if="page['pagination']['total'] > page['pagination']['limit']" class="float-start">
-					<Pagination :options="page['pagination']"/>
-				</div>
-				<div v-if="deleteItems.length > 0" class="float-end" style="padding: 5px">
-					<button type="button" @click.prevent="deleteMessages">Удалить отмеченные</button>
-				</div>
+			<div v-if="page['pagination']['total'] > page['pagination']['limit']" class="float-start">
+				<Pagination :options="page['pagination']"/>
+			</div>
+			<div v-if="deleteItems.length > 0" class="float-end" style="padding: 5px">
+				<button type="button" @click.prevent="deleteMessages">Удалить отмеченные</button>
 			</div>
 		</div>
 	</form>

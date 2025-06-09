@@ -81,6 +81,10 @@
 		let max = -1;
 
 		Object.keys(tm('resources')).forEach((item) => {
+			if (typeof props.item['price'][item] === undefined || typeof planet.value['resources'][item] === 'undefined') {
+				return;
+			}
+
 			let count = Math.floor(planet.value['resources'][item]['value'] / props.item['price'][item])
 
 			if (max < 0) {

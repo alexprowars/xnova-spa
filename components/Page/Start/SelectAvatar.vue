@@ -1,7 +1,7 @@
 <template>
 	<div class="block start">
 		<div class="title">Основная информация</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-2">
 					<div class="th">Введите ваш игровой ник</div>

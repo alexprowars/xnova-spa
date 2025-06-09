@@ -6,13 +6,13 @@
 				<form ref="formRef" action="" method="post" @submit.prevent="constructAction">
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
 						<div class="col-span-2 c border text-center">
-							<button type="submit">{{ $t('building.action_build') }}</button>
+							<button type="submit">{{ $t('pages.building.action_build') }}</button>
 						</div>
 
 						<UnitRow v-for="(item, i) in items" ref="itemsRef" :key="i" :item="item"/>
 
 						<div class="col-span-2 c border text-center">
-							<button type="submit">{{ $t('building.action_build') }}</button>
+							<button type="submit">{{ $t('pages.building.action_build') }}</button>
 						</div>
 					</div>
 				</form>

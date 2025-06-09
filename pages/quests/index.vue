@@ -4,7 +4,7 @@
 			<div class="title text-center">
 				Текущие задания
 			</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table">
 					<div class="flex divide-x" v-for="quest in data.items">
 						<div class="th w-10">{{ quest['id'] }}</div>

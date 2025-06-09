@@ -1,7 +1,7 @@
 <template>
 	<div v-if="queue.length" class="block page-building-unit-queue">
-		<div class="title">{{ $t('building.unit_queue') }}</div>
-		<div class="content !border-0">
+		<div class="title">{{ $t('pages.building.unit_queue') }}</div>
+		<div class="content">
 			<div class="block-table">
 				<div v-for="item in queue" class="grid grid-cols-2">
 					<div class="text-left k">
@@ -13,7 +13,7 @@
 				</div>
 				<div class="grid">
 					<div class="c text-center">
-						{{ $t('building.unit_queue_left') }} {{ $formatTime(left_time) }}
+						{{ $t('pages.building.unit_queue_left') }} {{ $formatTime(left_time) }}
 					</div>
 				</div>
 			</div>

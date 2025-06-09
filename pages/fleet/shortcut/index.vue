@@ -4,7 +4,7 @@
 			<div class="title">
 				Быстрые ссылки
 			</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table">
 					<div class="grid grid-cols-2">
 						<div v-for="item in items" class="th">

@@ -1,28 +1,28 @@
 <template>
-	<form @submit.prevent="send">
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="8">Передача альянса</td>
-			</tr>
-			<tr>
-				<th colspan="3">Передать альянс игроку:</th>
-				<th>
-					<select v-model="userId">
-						<option value="">Выберите игрока</option>
-						<option v-for="item in page['users']" :value="item['id']">{{ item['name'] }} [{{ item['rank'] }}]</option>
-					</select>
-				</th>
-				<th colspan="3"><button type="submit">Передача</button></th>
-			</tr>
-			<tr>
-				<td class="c" colspan="8">
-					<NuxtLink to="/alliance/admin">назад</NuxtLink>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-	</form>
+	<div class="block">
+		<div class="title">Передача альянса</div>
+		<div class="content">
+			<form class="block-table text-center" @submit.prevent="send">
+				<div>
+					<div class="th">
+						Передать альянс игроку:
+						<select v-model="userId">
+							<option value="">Выберите игрока</option>
+							<option v-for="item in page['users']" :value="item['id']">{{ item['name'] }} [{{ item['rank'] }}]</option>
+						</select>
+					</div>
+				</div>
+				<div v-if="userId">
+					<div class="th">
+						<button type="submit">Передача</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="mt-2">
+		<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+	</div>
 </template>
 
 <script setup>

@@ -35,4 +35,10 @@
 			display: block;
 		}
 	}
+
+	.tabs-component-panel {
+		> .block-table, > .table {
+			border: 0;
+		}
+	}
 }

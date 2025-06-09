@@ -4,7 +4,7 @@
 			<div class="title text-center">
 				Служба техподдержки
 			</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table">
 					<div v-if="!items.length" class="grid">
 						<div class="th">Нет запросов в техподдержку</div>

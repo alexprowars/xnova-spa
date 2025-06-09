@@ -25,6 +25,7 @@
 
 	.table.galaxy {
 		border-spacing: 0;
+		border: 0;
 
 		.debris_0 {
 			background: rgb(0, 100, 0) none;
@@ -38,8 +39,7 @@
 			background: rgb(100, 0, 0) none;
 		}
 
-		> tr > th {
-			padding: 1px;
+		tr > .th {
 			vertical-align: middle;
 			text-align: center;
 		}

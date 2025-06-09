@@ -1,20 +1,24 @@
 <template>
-	<form method="post" @submit.prevent="save">
-		<div class="block">
-			<div class="title">Введите новое название альянса</div>
-			<div class="content block-table border-0 middle">
-				<div class="grid">
+	<div class="block">
+		<div class="title">Введите новое название альянса</div>
+		<div class="content">
+			<form method="post" @submit.prevent="save" class="block-table text-center">
+				<div>
 					<div class="th">
 						<input type="text" v-model="name">
+					</div>
+				</div>
+				<div>
+					<div class="c">
 						<button type="submit">Изменить</button>
 					</div>
 				</div>
-				<div class="grid c">
-					<NuxtLink to="/alliance/admin">вернутся к обзору</NuxtLink>
-				</div>
-			</div>
+			</form>
 		</div>
-	</form>
+	</div>
+	<div class="mt-2">
+		<NuxtLink to="/alliance/admin" class="button">Назад</NuxtLink>
+	</div>
 </template>
 
 <script setup>

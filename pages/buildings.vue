@@ -11,8 +11,8 @@
 						</template>
 					</i18n-t>
 					<div>
-						{{ $t('building.fields_left') }}
-						<span class="positive">{{ fieldsEmpty }}</span> {{ $t('building.fields_left_2', fieldsEmpty) }}
+						{{ $t('pages.building.fields_left') }}
+						<span class="positive">{{ fieldsEmpty }}</span> {{ $t('pages.building.fields_left_2', fieldsEmpty) }}
 					</div>
 				</div>
 			</div>

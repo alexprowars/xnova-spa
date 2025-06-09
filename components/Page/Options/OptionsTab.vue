@@ -2,10 +2,10 @@
 	<form ref="formRef" method="post" @submit.prevent="send">
 		<Tabs>
 			<Tab name="Информация">
-				<div class="block-table !border-0 text-center">
+				<div class="block-table text-center">
 					<div class="grid grid-cols-2">
 						<div class="th flex-col middle">
-							{{ $t('options.nickname') }}
+							{{ $t('pages.options.nickname') }}
 							<br>
 							<span class="negative">Можно менять не чаще раза в сутки</span>
 						</div>
@@ -43,7 +43,7 @@
 					</div>
 					<div class="grid">
 						<div class="th">
-							<button type="submit">{{ $t('options.save') }}</button>
+							<button type="submit">{{ $t('pages.options.save') }}</button>
 						</div>
 					</div>
 				</div>
@@ -52,7 +52,7 @@
 				<ChangePasswordForm/>
 			</Tab>
 			<Tab name="Интерфейс">
-				<div class="block-table !border-0 text-center">
+				<div class="block-table text-center">
 					<div class="grid grid-cols-2">
 						<div class="th middle">Упорядочить планеты по:</div>
 						<div class="th middle">
@@ -126,13 +126,13 @@
 					</div>
 					<div class="grid">
 						<div class="th">
-							<button type="submit">{{ $t('options.save') }}</button>
+							<button type="submit">{{ $t('pages.options.save') }}</button>
 						</div>
 					</div>
 				</div>
 			</Tab>
 			<Tab name="Описание">
-				<div class="block-table !border-0 text-center">
+				<div class="block-table text-center">
 					<div class="grid">
 						<div class="th">
 							<TextEditor v-model="data['about']"/>
@@ -140,13 +140,13 @@
 					</div>
 					<div class="grid">
 						<div class="th">
-							<button type="submit">{{ $t('options.save') }}</button>
+							<button type="submit">{{ $t('pages.options.save') }}</button>
 						</div>
 					</div>
 				</div>
 			</Tab>
 			<Tab name="Отпуск / Удаление">
-				<div class="block-table !border-0 text-center">
+				<div class="block-table text-center">
 					<div class="grid grid-cols-2">
 						<div class="th"><a title="Режим отпуска нужен для защиты планет во время вашего отсутствия">Включить режим отпуска</a></div>
 						<div class="th"><input name="vacation" v-model="data['opt_modev_data']" type="checkbox"></div>
@@ -167,13 +167,13 @@
 					</div>
 					<div class="grid">
 						<div class="th">
-							<button type="submit">{{ $t('options.save') }}</button>
+							<button type="submit">{{ $t('pages.options.save') }}</button>
 						</div>
 					</div>
 				</div>
 			</Tab>
 			<Tab name="Личное дело">
-				<div class="block-table !border-0 text-center">
+				<div class="block-table text-center">
 					<div class="grid">
 						<div class="c">Добавить запись в личное дело</div>
 					</div>
@@ -186,7 +186,7 @@
 				</div>
 			</Tab>
 			<Tab name="Точки входа">
-				<div v-if="data['auth'].length" class="block-table !border-0 text-center">
+				<div v-if="data['auth'].length" class="block-table text-center">
 					<div class="grid grid-cols-3">
 						<div class="c">Аккаунт</div>
 						<div class="c">Дата регистрации</div>
@@ -205,7 +205,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="block-table !border-0 text-center">
+				<div class="block-table text-center">
 					<div class="grid">
 						<div class="c">Привязать аккаунт к социальным сетям</div>
 					</div>

@@ -19,7 +19,7 @@
 					<NuxtLink :to="'/info/' + item['id']">
 						{{ $t('tech.'+item['id']) }}
 					</NuxtLink>
-					<span v-if="level" class="positive" v-tooltip="$t('building.current_level')">
+					<span v-if="level" class="positive" v-tooltip="$t('pages.building.current_level')">
 						{{ $formatNumber(level) }}
 					</span>
 				</div>
@@ -38,19 +38,19 @@
 					</div>
 					<div class="building-info-upgrade">
 						<div v-if="fieldsEmpty <= 0" class="negative">
-							{{ $t('building.status_no_more_fields') }}
+							{{ $t('pages.building.status_no_more_fields') }}
 						</div>
 						<a v-else-if="user['queue_max'] > 1 && queueByType('build').length > 0" @click.prevent="addAction">
-							{{ $t('building.status_add_to_list') }}
+							{{ $t('pages.building.status_add_to_list') }}
 						</a>
 						<div v-else-if="!hasResources" class="negative text-center">
-							{{ $t('building.status_no_resources') }}
+							{{ $t('pages.building.status_no_resources') }}
 						</div>
 						<div v-else-if="user['queue_max'] <= queueByType('build').length" class="negative">
-							{{ $t('building.status_queue_full') }}
+							{{ $t('pages.building.status_queue_full') }}
 						</div>
 						<button v-else-if="queueByType('build').length === 0" @click.prevent="addAction" class="button">
-							{{ level === 0 ? $t('building.action_build') : $t('building.action_improve') }}
+							{{ level === 0 ? $t('pages.building.action_build') : $t('pages.building.action_improve') }}
 						</button>
 					</div>
 				</div>
@@ -99,10 +99,11 @@
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
-			if (typeof props.item.price[res] !== 'undefined' && props.item.price[res] > 0) {
+			if (typeof props.item.price[res] !== 'undefined' && typeof planet.value['resources'][res] !== 'undefined' && props.item.price[res] > 0) {
 				if (res === 'energy') {
-					if (planet.value['resources'][res].capacity < props.item.price[res])
+					if (planet.value['resources'][res].capacity < props.item.price[res]) {
 						return false
+					}
 				} else if (planet.value['resources'][res].value < props.item.price[res]) {
 					return false
 				}

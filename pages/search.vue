@@ -2,7 +2,7 @@
 	<div class="page-search">
 		<div class="block">
 			<div class="title">Поиск по игре</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table text-center">
 					<div class="grid">
 						<div class="th middle">

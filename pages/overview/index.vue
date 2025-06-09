@@ -10,7 +10,7 @@
 						<NuxtLink :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
 							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}]
 						</NuxtLink>
-						<NuxtLink to="/overview/rename" :title="$t('overview.planet_rename_hint')">({{ $t('overview.planet_rename_action') }})</NuxtLink>
+						<NuxtLink to="/overview/rename" :title="$t('pages.overview.planet_rename_hint')">({{ $t('pages.overview.planet_rename_action') }})</NuxtLink>
 					</div>
 					<div>
 						<div class="float-sm-end"><clock/></div>
@@ -30,7 +30,7 @@
 				</div>
 
 				<div v-if="user['protection']" class="mb-2">
-					<div class="text-center" v-html="$t('overview.newbie_mode_notify')"></div>
+					<div class="text-center" v-html="$t('pages.overview.newbie_mode_notify')"></div>
 				</div>
 
 				<div v-if="fleets.length" class="mb-1.5">
@@ -61,9 +61,9 @@
 											{{ $t('tech.' + item['id']) }}
 											<br>
 											<span v-if="item['date']">
-												{{ $t('overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm') }}</span>
+												{{ $t('pages.overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm') }}</span>
 											</span>
-											<span v-else class="positive">{{ $t('overview.officier_noactive') }}</span>
+											<span v-else class="negative">{{ $t('pages.overview.officier_noactive') }}</span>
 										</div>
 									</template>
 									<span class="officier" :class="['of' + item['id'] + (item['date'] ? '_ikon' : '')]"></span>
@@ -75,7 +75,7 @@
 						<div class="separator sm:hidden"></div>
 						<div class="block-table text-center">
 							<div class="grid">
-								<div class="c">{{ $t('overview.diameter') }}</div>
+								<div class="c">{{ $t('pages.overview.diameter') }}</div>
 							</div>
 							<div class="grid">
 								<div class="th">
@@ -83,26 +83,26 @@
 								</div>
 							</div>
 							<div class="grid">
-								<div class="c">{{ $t('overview.used') }}</div>
+								<div class="c">{{ $t('pages.overview.used') }}</div>
 							</div>
 							<div class="grid">
 								<div class="th">
-									<a :title="$t('overview.used_fields')">{{ planet['field_used'] }}</a> / <a :title="$t('overview.used_fields_max')">{{ planet['field_max'] }}</a> {{ $t('overview.fields') }}
+									<a :title="$t('pages.overview.used_fields')">{{ planet['field_used'] }}</a> / <a :title="$t('pages.overview.used_fields_max')">{{ planet['field_max'] }}</a> {{ $t('pages.overview.fields') }}
 								</div>
 							</div>
 							<div class="grid">
-								<div class="c">{{ $t('overview.temp') }}</div>
+								<div class="c">{{ $t('pages.overview.temp') }}</div>
 							</div>
 							<div class="grid">
 								<div class="th">
-									{{ $t('overview.temp_from') }} {{ planet['temp_min'] }}&deg;C {{ $t('overview.temp_until') }} {{ planet['temp_max'] }}&deg;C
+									{{ $t('pages.overview.temp_from') }} {{ planet['temp_min'] }}&deg;C {{ $t('pages.overview.temp_until') }} {{ planet['temp_max'] }}&deg;C
 								</div>
 							</div>
 							<div class="grid">
 								<div class="c">
-									{{ $t('overview.debris') }}
+									{{ $t('pages.overview.debris') }}
 									<a v-if="hasDebrisMission" @click.prevent="sendRecycle">
-										({{ $t('overview.recycle') }})
+										({{ $t('pages.overview.recycle') }})
 									</a>
 								</div>
 							</div>
@@ -118,20 +118,20 @@
 								</div>
 							</div>
 							<div class="grid">
-								<div class="c">{{ $t('overview.battles') }}</div>
+								<div class="c">{{ $t('pages.overview.battles') }}</div>
 							</div>
 							<div class="grid">
 								<div class="th middle">
-									<img src="/images/wins.gif" class="inline" alt="" align="absmiddle" v-tooltip="$t('overview.battles_wins')">&nbsp;
+									<img src="/images/wins.gif" class="inline" alt="" align="absmiddle" v-tooltip="$t('pages.overview.battles_wins')">&nbsp;
 									{{ user['raids']['win'] }}
 									&nbsp;&nbsp;
-									<img src="/images/losses.gif" class="inline" alt="" align="absmiddle" v-tooltip="$t('overview.battles_defeats')">&nbsp;
+									<img src="/images/losses.gif" class="inline" alt="" align="absmiddle" v-tooltip="$t('pages.overview.battles_defeats')">&nbsp;
 									{{ user['raids']['lost'] }}
 								</div>
 							</div>
 							<div class="grid">
 								<div class="th">
-									{{ $t('overview.fraction') }}: <NuxtLink to="/race">{{ $t('races.' + user['race']) }}</NuxtLink>
+									{{ $t('pages.overview.fraction') }}: <NuxtLink to="/race">{{ $t('races.' + user['race']) }}</NuxtLink>
 								</div>
 							</div>
 							<div class="grid">
@@ -148,57 +148,57 @@
 						<div class="separator sm:hidden"></div>
 						<div class="block-table text-center">
 							<div class="grid grid-cols-12">
-								<div class="col-span-6 sm:col-span-5 c">{{ $t('overview.player') }}:</div>
+								<div class="col-span-6 sm:col-span-5 c">{{ $t('pages.overview.player') }}:</div>
 								<div class="col-span-6 sm:col-span-7 c" style="word-break: break-all;">
 									<a :href="'/players/' + user['id']" @click.prevent="openPlayerPopup">{{ user['name'] }}</a>
 								</div>
 							</div>
 							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_build') }}:</div>
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('pages.overview.stats_build') }}:</div>
 								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['build']) }}</span>
 								</div>
 							</div>
 							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_fleet') }}:</div>
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('pages.overview.stats_fleet') }}:</div>
 								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['fleet']) }}</span>
 								</div>
 							</div>
 							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_defs') }}:</div>
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('pages.overview.stats_defs') }}:</div>
 								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['defs']) }}</span>
 								</div>
 							</div>
 							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_tech') }}:</div>
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('pages.overview.stats_tech') }}:</div>
 								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['tech']) }}</span>
 								</div>
 							</div>
 							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.stats_total') }}:</div>
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('pages.overview.stats_total') }}:</div>
 								<div class="col-span-6 sm:col-span-7 th">
 									<span class="positive">{{ $formatNumber(user['points']['total']) }}</span>
 								</div>
 							</div>
 							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-5 th">{{ $t('overview.place') }}:</div>
+								<div class="col-span-6 sm:col-span-5 th">{{ $t('pages.overview.place') }}:</div>
 								<div class="col-span-6 sm:col-span-7 th">
 									<NuxtLink :to="'/stat?view=players&range=' + user['points']['place']">{{ user['points']['place'] }}</NuxtLink>
-									<span :title="$t('overview.place_diff')">
+									<span :title="$t('pages.overview.place_diff')">
 										<span v-if="user['points']['diff'] >= 1" class="positive">+{{ user['points']['diff'] }}</span>
 										<span v-else-if="user['points']['diff'] < 0" class="negative">{{ user['points']['diff'] }}</span>
 									</span>
 								</div>
 							</div>
 							<div class="grid">
-								<div class="c">{{ $t('overview.mine_level') }}</div>
+								<div class="c">{{ $t('pages.overview.mine_level') }}</div>
 							</div>
 							<div class="grid">
 								<div class="th">
-									{{ user['lvl']['mine']['l'] }} {{ $t('overview.from') }} 100
+									{{ user['lvl']['mine']['l'] }} {{ $t('pages.overview.from') }} 100
 								</div>
 							</div>
 							<div class="grid">
@@ -207,11 +207,11 @@
 								</div>
 							</div>
 							<div class="grid">
-								<div class="c">{{ $t('overview.raid_level') }}</div>
+								<div class="c">{{ $t('pages.overview.raid_level') }}</div>
 							</div>
 							<div class="grid">
 								<div class="th">
-									{{ user['lvl']['raid']['l'] }} {{ $t('overview.from') }} 100
+									{{ user['lvl']['raid']['l'] }} {{ $t('pages.overview.from') }} 100
 								</div>
 							</div>
 							<div class="grid">

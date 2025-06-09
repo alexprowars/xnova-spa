@@ -1,24 +1,22 @@
 <template>
 	<div class="block">
 		<div class="title">Отправка топлива</div>
-		<div class="content !border-0">
-			<form method="post" action="" @submit.prevent="send">
-				<div class="block-table">
-					<div class="grid">
-						<div class="th">Флоты на удержании возле планеты</div>
+		<div class="content">
+			<form method="post" action="" class="block-table" @submit.prevent="send">
+				<div class="grid">
+					<div class="th">Флоты на удержании возле планеты</div>
+				</div>
+				<div class="grid">
+					<div class="th">
+						<select name="fleet" v-model="fleet">
+							<option :value="0">-</option>
+							<option v-for="fleet in data['fleets']" :value="fleet['id']">[{{ fleet['galaxy'] }}:{{ fleet['system'] }}:{{ fleet['planet'] }}] {{ fleet['name']}}</option>
+						</select>
 					</div>
-					<div class="grid">
-						<div class="th">
-							<select name="fleet" v-model="fleet">
-								<option :value="0">-</option>
-								<option v-for="fleet in data['fleets']" :value="fleet['id']">[{{ fleet['galaxy'] }}:{{ fleet['system'] }}:{{ fleet['planet'] }}] {{ fleet['name']}}</option>
-							</select>
-						</div>
-					</div>
-					<div v-if="fleet" class="grid">
-						<div class="th">
-							<button type="submit">Отправить {{ data['cost'] }} дейтерия</button>
-						</div>
+				</div>
+				<div v-if="fleet" class="grid">
+					<div class="th">
+						<button type="submit">Отправить {{ data['cost'] }} дейтерия</button>
 					</div>
 				</div>
 			</form>

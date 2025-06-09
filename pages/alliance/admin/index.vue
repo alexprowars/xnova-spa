@@ -1,37 +1,47 @@
 <template>
 	<div>
-		<div class="block-table text-center">
-			<div>
-				<div class="c">Управление альянсом</div>
-			</div>
-			<div>
-				<div class="th"><NuxtLink to="/alliance/admin/ranks">Установить ранги</NuxtLink></div>
-			</div>
-			<div v-if="page['access']['kick']">
-				<div class="th"><NuxtLink to="/alliance/admin/members">Члены альянса</NuxtLink></div>
-			</div>
-			<div>
-				<div class="th"><NuxtLink to="/alliance/admin/tag">Изменить аббревиатуру альянса</NuxtLink></div>
-			</div>
-			<div>
-				<div class="th"><NuxtLink to="/alliance/admin/name">Изменить название альянса</NuxtLink></div>
+		<div class="block">
+			<div class="title">Управление альянсом</div>
+			<div class="content">
+				<div class="block-table text-center">
+					<div>
+						<div class="th"><NuxtLink to="/alliance/admin/ranks">Установить ранги</NuxtLink></div>
+					</div>
+					<div v-if="page['access']['kick']">
+						<div class="th"><NuxtLink to="/alliance/admin/members">Члены альянса</NuxtLink></div>
+					</div>
+					<div>
+						<div class="th"><NuxtLink to="/alliance/admin/tag">Изменить аббревиатуру альянса</NuxtLink></div>
+					</div>
+					<div>
+						<div class="th"><NuxtLink to="/alliance/admin/name">Изменить название альянса</NuxtLink></div>
+					</div>
+				</div>
 			</div>
 		</div>
 
 		<AllianceTextForm :data="page"/>
 		<AllianceUpdateForm :data="page"/>
 
-		<div class="block-table text-center">
-			<div class="grid grid-cols-2">
-				<div v-if="page['access']['delete'] || false">
-					<div class="c">Расформировать альянс</div>
-					<div class="th"><button @click.prevent="remove">Продолжить</button></div>
-				</div>
-				<div v-if="page['owner'] === user['id']">
-					<div class="c">Покинуть / Передать альянс</div>
-					<div class="th"><NuxtLink to="/alliance/admin/give" class="button">Продолжить</NuxtLink></div>
+		<div class="block">
+			<div class="content">
+				<div class="block-table text-center">
+					<div class="grid grid-cols-2">
+						<div v-if="page['access']['delete'] || false">
+							<div class="c">Расформировать альянс</div>
+							<div class="th"><button @click.prevent="remove">Продолжить</button></div>
+						</div>
+						<div v-if="page['owner'] === user['id']">
+							<div class="c">Покинуть / Передать альянс</div>
+							<div class="th"><NuxtLink to="/alliance/admin/give" class="button">Продолжить</NuxtLink></div>
+						</div>
+					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="mt-2">
+			<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
 		</div>
 	</div>
 </template>

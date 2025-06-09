@@ -1,8 +1,8 @@
 <template>
-	<div class="block text-center">
+	<div class="block">
 		<div class="title">Чёрный список</div>
-		<div class="content !border-0">
-			<div class="block-table">
+		<div class="content">
+			<div class="block-table text-center">
 				<div v-if="items.length === 0" class="grid">
 					<div class="b">Нет заблокированных игроков</div>
 				</div>

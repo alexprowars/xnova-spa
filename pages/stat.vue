@@ -4,7 +4,7 @@
 			<div class="title text-center">
 				Статистика: {{ $formatDate(data['update'], 'HH:mm:ss DD MMM YYYY') }}
 			</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table text-center">
 					<div class="grid grid-cols-12">
 						<div class="th col-span-2 middle">Статистика</div>

@@ -2,7 +2,7 @@
 	<div class="page-overview-rename">
 		<div class="block">
 			<div class="title">Переименовать или покинуть планету</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table middle">
 					<div class="grid grid-cols-3">
 						<div class="th hidden sm:flex middle">{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}</div>
@@ -21,7 +21,7 @@
 		</div>
 		<div v-if="type" class="block page-overview-planet-image">
 			<div class="title">Сменить фон планеты</div>
-			<div class="content !border-0 p-2">
+			<div class="content p-2">
 				<div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
 					<div v-for="i in planetImages[type]">
 						<input type="radio" v-model="image" :value="i" :id="'image_'+i">

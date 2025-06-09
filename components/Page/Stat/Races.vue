@@ -1,6 +1,6 @@
 <template>
 	<div class="block page-stat-races">
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table text-center">
 				<div class="grid grid-cols-12">
 					<div class="c col-span-2">Место</div>

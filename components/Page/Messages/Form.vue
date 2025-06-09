@@ -1,33 +1,31 @@
 <template>
-	<form action="" method="post" @submit.prevent="send">
-		<div class="block">
-			<div class="title">
-				Отправка сообщения
-			</div>
-			<div class="content !border-0">
-				<div class="block-table form-group">
-					<div class="grid">
-						<div class="th">
-							Получатель
-						</div>
-					</div>
-					<div v-if="to.length" class="grid">
-						<div class="c" v-html="to"></div>
-					</div>
-					<div class="grid">
-						<div class="th">
-							<TextEditor :class="{error: v$.message.$error}" v-model="message"/>
-						</div>
-					</div>
-					<div class="grid">
-						<div class="c">
-							<button type="submit">Отправить</button>
-						</div>
+	<div class="block">
+		<div class="title">
+			Отправка сообщения
+		</div>
+		<div class="content">
+			<form action="" method="post" @submit.prevent="send" class="block-table form-group text-center">
+				<div class="grid">
+					<div class="th">
+						Получатель
 					</div>
 				</div>
-			</div>
+				<div v-if="to.length" class="grid">
+					<div class="c" v-html="to"></div>
+				</div>
+				<div class="grid">
+					<div class="th">
+						<TextEditor :class="{error: v$.message.$error}" v-model="message"/>
+					</div>
+				</div>
+				<div class="grid">
+					<div class="c">
+						<button type="submit">Отправить</button>
+					</div>
+				</div>
+			</form>
 		</div>
-	</form>
+	</div>
 </template>
 
 <script setup>

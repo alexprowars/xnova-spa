@@ -1,12 +1,10 @@
 <template>
-	<form method="post" @submit.prevent="create">
-		<div class="block-table">
-			<div class="grid">
-				<div class="th">
-					<input type="text" v-model="name" size="50">
-					<br>
-					<button type="submit">Создать</button>
-				</div>
+	<form method="post" class="block-table" @submit.prevent="create">
+		<div class="grid">
+			<div class="th">
+				<input type="text" v-model="name" size="50">
+				<br>
+				<button type="submit">Создать</button>
 			</div>
 		</div>
 	</form>

@@ -1,24 +1,25 @@
 <template>
-	<form method="post" @submit.prevent="update">
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="2">Смена адреса электронной почты</td>
-			</tr>
-			<tr>
-				<th>Текущий пароль</th>
-				<th><input type="password" name="password" v-model="password" :class="{error: v$.password.$error}" size="20"></th>
-			</tr>
-			<tr>
-				<th>Новый Email адрес</th>
-				<th><input type="email" name="email" v-model="email" :class="{error: v$.email.$error}" size="20" autocomplete="off"></th>
-			</tr>
-			<tr>
-				<td colspan="2" class="c"><button type="submit">Сменить</button></td>
-			</tr>
-			</tbody>
-		</table>
-	</form>
+	<div class="block">
+		<div class="title">Смена адреса электронной почты</div>
+		<div class="content">
+			<form class="block-table text-center" method="post" @submit.prevent="update">
+				<div class="grid grid-cols-2">
+					<div class="th middle">Текущий пароль</div>
+					<div class="th middle"><input type="password" name="password" v-model="password" :class="{error: v$.password.$error}" size="20"></div>
+				</div>
+				<div class="grid grid-cols-2">
+					<div class="th middle">Новый Email адрес</div>
+					<div class="th middle"><input type="email" name="email" v-model="email" :class="{error: v$.email.$error}" size="20" autocomplete="off"></div>
+				</div>
+				<div>
+					<div class="c"><button type="submit">Сменить</button></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="mt-2">
+		<NuxtLink to="/options" class="button">Назад</NuxtLink>
+	</div>
 </template>
 
 <script setup>

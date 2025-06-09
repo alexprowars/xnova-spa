@@ -1,61 +1,59 @@
 <template>
 	<div>
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="3">Ваши запросы</td>
-			</tr>
-			<tr v-for="item in page['DMyQuery']">
-				<th>{{ item['name'] }}</th>
-				<th>{{ $t('alliance.diplomacy_status.' + item['type']) }}</th>
-				<th>
-					<a href="" @click.prevent="reject(item['id'])"><img src="/images/abort.gif" alt="Удалить заявку"></a>
-				</th>
-			</tr>
-			<tr v-if="page['DMyQuery'].length === 0">
-				<th colspan="3">нет</th>
-			</tr>
-			</tbody>
-		</table>
-		<div class="separator"></div>
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="3">Запросы вашему альянсу</td>
-			</tr>
-			<tr v-for="item in page['DQuery']">
-				<th>{{ item['name'] }}</th>
-				<th>{{ $t('alliance.diplomacy_status.' + item['type']) }}</th>
-				<th>
-					<a href="" @click.prevent="accept(item['id'])"><img src="/images/appwiz.gif" alt="Подтвердить"></a>
-					<a href="" @click.prevent="reject(item['id'])"><img src="/images/abort.gif" alt="Удалить заявку"></a>
-				</th>
-			</tr>
-			<tr v-if="page['DQuery'].length === 0">
-				<th colspan="3">нет</th>
-			</tr>
-			</tbody>
-		</table>
-		<div class="separator"></div>
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="4">Отношения между альянсами</td>
-			</tr>
-			<tr v-for="item in page['DText']">
-				<th>{{ item['name'] }}</th>
-				<th>{{ $t('alliance.diplomacy_status.' + item['type']) }}</th>
-				<th>
-					<a href="" @click.prevent="reject(item['id'])"><img src="/images/abort.gif" alt="Удалить заявку"></a>
-				</th>
-			</tr>
-			<tr v-if="page['DText'].length === 0">
-				<th colspan="4">нет</th>
-			</tr>
-			</tbody>
-		</table>
-		<div class="separator"></div>
+		<div v-if="page['DMyQuery'].length > 0" class="block">
+			<div class="title">Ваши запросы</div>
+			<div class="content">
+				<div class="block-table text-center">
+					<div v-for="item in page['DMyQuery']" class="grid grid-cols-3">
+						<div class="th">{{ item['name'] }}</div>
+						<div class="th">{{ $t('alliance.diplomacy_status.' + item['type']) }}</div>
+						<div class="th">
+							<a href="" @click.prevent="reject(item['id'])"><img src="/images/abort.gif" alt="Удалить заявку"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div v-if="page['DQuery'].length > 0" class="block">
+			<div class="title">Запросы вашему альянсу</div>
+			<div class="content">
+				<div class="block-table text-center">
+					<div v-for="item in page['DQuery']" class="grid grid-cols-3">
+						<div class="th">{{ item['name'] }}</div>
+						<div class="th">{{ $t('alliance.diplomacy_status.' + item['type']) }}</div>
+						<div class="th">
+							<a href="" @click.prevent="accept(item['id'])"><img src="/images/appwiz.gif" alt="Подтвердить"></a>
+							<a href="" @click.prevent="reject(item['id'])"><img src="/images/abort.gif" alt="Удалить заявку"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="block">
+			<div class="title">Отношения между альянсами</div>
+			<div class="content">
+				<div class="block-table text-center">
+					<div v-for="item in page['DText']" class="grid grid-cols-3">
+						<div class="th">{{ item['name'] }}</div>
+						<div class="th">{{ $t('alliance.diplomacy_status.' + item['type']) }}</div>
+						<div class="th">
+							<a href="" @click.prevent="reject(item['id'])"><img src="/images/abort.gif" alt="Удалить заявку"></a>
+						</div>
+					</div>
+					<div v-if="page['DText'].length === 0">
+						<div class="th">нет</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<DiplomacyCreate :items="page['items']"/>
+
+		<div class="mt-2">
+			<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+		</div>
 	</div>
 </template>
 

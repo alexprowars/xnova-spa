@@ -1,7 +1,7 @@
 <template>
 	<div class="block start">
 		<div class="title">Обмен сырья</div>
-		<div class="content !border-0">
+		<div class="content">
 			<form method="post" class="block-table text-center" @submit.prevent="exchange">
 				<div class="grid" :class="{ 'grid-cols-2': type !== '' }">
 					<div class="th">

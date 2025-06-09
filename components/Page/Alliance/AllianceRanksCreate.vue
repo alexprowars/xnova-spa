@@ -1,18 +1,18 @@
 <template>
-	<form @submit.prevent="save">
-		<div class="block-table text-center">
-			<div class="grid">
-				<div class="c">Создать новый ранг</div>
-			</div>
-			<div class="grid grid-cols-2">
-				<div class="th">Имя ранга</div>
-				<div class="th"><input type="text" v-model="name" :class="{error: v$.name.$error}" size="20" maxlength="30"></div>
-			</div>
-			<div class="grid">
-				<div class="th"><button type="submit">Создать</button></div>
-			</div>
+	<div class="block">
+		<div class="title">Создать новый ранг</div>
+		<div class="content">
+			<form class="block-table text-center" @submit.prevent="save">
+				<div class="grid grid-cols-2">
+					<div class="th">Имя ранга</div>
+					<div class="th"><input type="text" v-model="name" :class="{error: v$.name.$error}" size="20" maxlength="30"></div>
+				</div>
+				<div>
+					<div class="c"><button type="submit">Создать</button></div>
+				</div>
+			</form>
 		</div>
-	</form>
+	</div>
 </template>
 
 <script setup>

@@ -1,10 +1,10 @@
 <template>
 	<div class="page-quests quests-detail">
 		<div class="block">
-			<div class="title text-center">
+			<div class="title">
 				{{ page['title'] }}
 			</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table quests">
 					<div class="grid">
 						<div class="k text-left">
@@ -31,13 +31,17 @@
 						</div>
 					</div>
 					<div class="grid">
-						<div class="k">
+						<div class="k text-center">
 							<input v-if="!page['errors']" type="button" class="end" @click.prevent="finish" value="Закончить">
 							<div v-if="page['solution']" class="solution m-3" v-html="page['solution']"></div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="mt-2">
+			<NuxtLink to="/quests" class="button">Назад</NuxtLink>
 		</div>
 	</div>
 </template>

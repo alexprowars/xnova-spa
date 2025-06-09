@@ -27,11 +27,11 @@
 					<div class="th">Заметки отсутствуют</div>
 				</div>
 			</div>
-			<div class="mt-2">
-				<button v-if="deleteItems.length > 0" class="negative" @click="deleteNotes">Удалить выбранное</button>
-				<NuxtLink class="button" to="/notes/create">Создать новую заметку</NuxtLink>
-			</div>
 		</div>
+	</div>
+	<div class="mt-2">
+		<button v-if="deleteItems.length > 0" class="negative" @click="deleteNotes">Удалить выбранное</button>
+		<NuxtLink class="button" to="/notes/create">Создать новую заметку</NuxtLink>
 	</div>
 </template>
 

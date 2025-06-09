@@ -1,27 +1,27 @@
 <template>
 	<div class="grid grid-cols-2 text-center">
 		<div class="c middle">
-			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? $t('building.queue_destruction') : '' }}
+			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? $t('pages.building.queue_destruction') : '' }}
 		</div>
 		<div class="k" v-if="index === 0">
 			<div v-if="time > 0" class="z">
 				{{ $formatTime(time, ':', true) }}
 				<br>
 				<a @click.prevent="cancel">
-					{{ $t('building.queue_cancel') }}
+					{{ $t('pages.building.queue_cancel') }}
 				</a>
 			</div>
 			<div v-else class="z">
-				{{ $t('building.queue_finished') }}
+				{{ $t('pages.building.queue_finished') }}
 				<br>
 				<NuxtLink :to="{ path: '/buildings', force: true }">
-					{{ $t('building.queue_next') }}
+					{{ $t('pages.building.queue_next') }}
 				</NuxtLink>
 			</div>
 			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 		<div class="k" v-else>
-			<a @click.prevent="remove">{{ $t('building.queue_remove') }}</a>
+			<a @click.prevent="remove">{{ $t('pages.building.queue_remove') }}</a>
 			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 	</div>
@@ -44,12 +44,12 @@
 
 	function remove () {
 		openConfirmModal(
-			t('building.queue_title'),
-			t('building.remove_confirm_title', [t('tech.' + props.item['item']), props.item['level']]),
+			t('pages.building.queue_title'),
+			t('pages.building.remove_confirm_title', [t('tech.' + props.item['item']), props.item['level']]),
 			[{
-				title: t('building.remove_confirm_close'),
+				title: t('pages.building.remove_confirm_close'),
 			}, {
-				title: t('building.remove_confirm_action'),
+				title: t('pages.building.remove_confirm_action'),
 				handler: async () => {
 					await useApiPost('/buildings/queue/remove', {
 						index: props.index
@@ -63,12 +63,12 @@
 
 	function cancel () {
 		openConfirmModal(
-			t('building.queue_title'),
-			t('building.cancel_confirm_title', [t('tech.' + props.item['item']), props.item['level']]),
+			t('pages.building.queue_title'),
+			t('pages.building.cancel_confirm_title', [t('tech.' + props.item['item']), props.item['level']]),
 			[{
-				title: t('building.cancel_confirm_close'),
+				title: t('pages.building.cancel_confirm_close'),
 			}, {
-				title: t('building.cancel_confirm_action'),
+				title: t('pages.building.cancel_confirm_action'),
 				handler: async () => {
 					await useApiPost('/buildings/queue/cancel', {
 						index: props.index - 1

@@ -1,7 +1,7 @@
 <template>
 	<div class="block">
 		<div class="title">Характеристики</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-2">
 					<div class="th">Атака</div>
@@ -28,7 +28,7 @@
 	</div>
 	<div class="block">
 		<div class="title">Затраты на производство</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-2">
 					<div class="th">{{ $t('resources.metal') }}</div>
@@ -47,7 +47,7 @@
 	</div>
 	<div v-if="defence['rapidfire']" class="block">
 		<div class="title">Скорострел</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-3">
 					<div class="c text-left">Тип юнита</div>

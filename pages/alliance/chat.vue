@@ -1,24 +1,23 @@
 <template>
 	<div class="page-alliance-chat">
 		<div class="block-table">
-			<div class="grid">
-				<div class="c">
-					<a href="" @click.prevent="refresh">Обновить</a>
-				</div>
+			<div class="c text-center">
+				<a href="" @click.prevent="refresh">Обновить</a>
 			</div>
-
 			<div v-for="item in page['items']" class="grid grid-cols-12">
-				<div class="col-span-2 b text-center">
-					{{ $formatDate(item['time'], 'HH:mm:ss') }}
-					<br>
-					<a :href="'/players/' + item['user_id']" target="_blank">{{ item['user'] }}</a>
-					<a @click.prevent="quote(item)"> -> </a>
+				<div class="col-span-2 b text-center middle">
+					<div>
+						{{ $formatDate(item['time'], 'HH:mm:ss') }}
+						<br>
+						<a :href="'/players/' + item['user_id']" target="_blank">{{ item['user'] }}</a>
+						<a @click.prevent="quote(item)"> -> </a>
+					</div>
 				</div>
 				<div class="col-span-9 b">
 					<TextViewer v-if="user['options']['bb_parser']" :text="item['message']"/>
 					<div v-else>{{ item['message'] }}</div>
 				</div>
-				<div v-if="page['owner']" class="col-span-1 b text-center">
+				<div v-if="page['owner']" class="col-span-1 b text-center middle">
 					<input type="checkbox" :value="item['id']" v-model="marked">
 				</div>
 			</div>
@@ -27,7 +26,7 @@
 				<div class="b text-center">В альянсе нет сообщений.</div>
 			</div>
 
-			<div class="grid">
+			<div>
 				<div class="th">
 					<Pagination :options="page['pagination']"/>
 				</div>
@@ -44,11 +43,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="separator"></div>
+
 		<ChatMessageForm v-model="message" @send="refresh"/>
-		<span style="float:left;margin-top:7px;">
-			<NuxtLink to="/alliance">[назад к альянсу]</NuxtLink>
-		</span>
+
+		<div class="mt-2">
+			<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+		</div>
 	</div>
 </template>
 

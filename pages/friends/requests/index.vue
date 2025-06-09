@@ -1,11 +1,11 @@
 <template>
 	<div class="friends page-friends-request">
 		<div class="block">
-			<div class="title text-center">
+			<div class="title">
 				{{ isMy ? 'Мои запросы' : 'Другие запросы' }}
 			</div>
-			<div class="content !border-0">
-				<div class="block-table">
+			<div class="content">
+				<div class="block-table text-center">
 					<div class="grid grid-cols-6">
 						<div class="c">Имя</div>
 						<div class="c">Альянс</div>

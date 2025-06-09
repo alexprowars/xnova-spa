@@ -3,7 +3,7 @@
 		<div class="title text-center">
 			Текст обращения
 		</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table">
 				<div class="grid">
 					<div class="th text-left" v-html="item['message']"></div>

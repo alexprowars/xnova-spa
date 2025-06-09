@@ -2,7 +2,7 @@
 	<div class="page-referrals">
 		<div v-if="page['items'].length > 0" class="block">
 			<div class="title">Привлечённые игроки</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table">
 					<div class="grid grid-cols-3">
 						<div class="c">Ник</div>
@@ -32,7 +32,7 @@
 		</template>
 
 		<div class="block">
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table">
 					<div class="grid">
 						<div class="th" style="padding:15px;">
@@ -52,7 +52,7 @@
 		</div>
 		<div class="block">
 			<div class="title">Юзербар</div>
-			<div class="content !border-0">
+			<div class="content">
 				<div class="block-table">
 					<div class="grid">
 						<div class="text-center">

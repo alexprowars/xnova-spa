@@ -10,8 +10,8 @@
 					<NuxtLink :to="'/info/' + item['id']">
 						{{ $t('tech.' + item['id']) }}
 					</NuxtLink>
-					<span v-if="level" class="positive" v-tooltip="$t('research.current_level')">
-						{{ $formatNumber(level) }} <template v-if="item.max > 0">{{ $t('research.from') }} <span class="neutral">{{ $formatNumber(item.max) }}</span></template>
+					<span v-if="level" class="positive" v-tooltip="$t('pages.research.current_level')">
+						{{ $formatNumber(level) }} <template v-if="item.max > 0">{{ $t('pages.research.from') }} <span class="neutral">{{ $formatNumber(item.max) }}</span></template>
 					</span>
 				</div>
 
@@ -28,13 +28,13 @@
 					<div class="building-info-upgrade">
 						<TechQueue v-if="typeof item['build'] === 'object'" :build="item['build']"/>
 						<div v-else-if="item['max'] > 0 && item['max'] <= level" class="negative">
-							{{ $t('research.max_level') }}
+							{{ $t('pages.research.max_level') }}
 						</div>
 						<div v-else-if="!hasResources" class="negative text-center">
-							{{ $t('research.no_resources') }}
+							{{ $t('pages.research.no_resources') }}
 						</div>
 						<button v-else-if="item['build'] !== true" @click.prevent="addAction" :class="{ positive: level, negative: level === 0 }" class="button">
-							{{ $t('research.build') }}
+							{{ $t('pages.research.build') }}
 						</button>
 					</div>
 				</div>
@@ -74,7 +74,7 @@
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
-			return !(typeof props.item.price[res] !== 'undefined' && props.item.price[res] > 0
+			return !(typeof props.item.price[res] !== 'undefined' && planet.value['resources'][res] !== 'undefined' && props.item.price[res] > 0
 				&& planet.value['resources'][res] && planet.value['resources'][res].value < props.item.price[res]);
 		})
 	});

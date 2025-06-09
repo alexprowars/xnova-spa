@@ -1,7 +1,7 @@
 <template>
 	<div class="block">
 		<div class="title">Снос здания "{{ $t('tech.' + item) }}" уровень {{ data['level'] }}</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table text-center">
 				<div class="grid">
 					<div class="th">

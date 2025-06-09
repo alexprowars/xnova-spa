@@ -1,21 +1,19 @@
 <template>
 	<div v-if="planet['units']['interceptor_misil'] || planet['units']['interplanetary_misil']" class="block">
 		<div class="title">Уничтожитель ракет</div>
-		<div class="content !border-0">
-			<form method="post" action="" @submit.prevent="send">
-				<div class="block-table">
-					<div v-if="planet['units']['interceptor_misil']" class="grid grid-cols-2">
-						<div class="th">{{ $t('tech.502') }}: {{ planet['units']['interceptor_misil'] }}</div>
-						<div class="th"><Number v-model="interceptor"/></div>
-					</div>
-					<div v-if="planet['units']['interplanetary_misil']" class="grid grid-cols-2">
-						<div class="th">{{ $t('tech.502') }}: {{ planet['units']['interplanetary_misil'] }}</div>
-						<div class="th"><Number v-model="interplanetary"/></div>
-					</div>
-					<div v-if="interceptor > 0 || interplanetary > 0" class="grid">
-						<div class="th">
-							<button type="submit">Уничтожить</button>
-						</div>
+		<div class="content">
+			<form method="post" action="" class="block-table" @submit.prevent="send">
+				<div v-if="planet['units']['interceptor_misil']" class="grid grid-cols-2">
+					<div class="th">{{ $t('tech.502') }}: {{ planet['units']['interceptor_misil'] }}</div>
+					<div class="th"><Number v-model="interceptor"/></div>
+				</div>
+				<div v-if="planet['units']['interplanetary_misil']" class="grid grid-cols-2">
+					<div class="th">{{ $t('tech.502') }}: {{ planet['units']['interplanetary_misil'] }}</div>
+					<div class="th"><Number v-model="interplanetary"/></div>
+				</div>
+				<div v-if="interceptor > 0 || interplanetary > 0" class="grid">
+					<div class="th">
+						<button type="submit">Уничтожить</button>
 					</div>
 				</div>
 			</form>

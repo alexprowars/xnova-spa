@@ -1,7 +1,7 @@
 <template>
 	<div class="block start race">
 		<div class="title">Выбор фракции</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table" id="tabs">
 				<div class="grid grid-cols-2">
 					<div v-for="(race, index) in Object.keys($tm('races'))" class="th">

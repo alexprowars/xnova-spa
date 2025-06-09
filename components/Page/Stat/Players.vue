@@ -1,6 +1,6 @@
 <template>
 	<div class="block page-stat-players">
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table text-center middle">
 				<div class="grid grid-cols-12">
 					<div class="c sm:col-span-1 col-span-2 middle">Место</div>

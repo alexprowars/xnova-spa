@@ -1,10 +1,11 @@
 <template>
 	<div>
 		<AllianceRanksForm :owner="user['id'] === page['alliance']['user_id']" :items="page['items']"/>
-		<div class="separator"></div>
 		<AllianceRanksCreate/>
-		<div class="separator"></div>
 		<AllianceRanksInfo/>
+		<div class="mt-2">
+			<NuxtLink to="/alliance/admin" class="button">Назад</NuxtLink>
+		</div>
 	</div>
 </template>
 

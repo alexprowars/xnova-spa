@@ -1,20 +1,10 @@
 <template>
 	<div class="block">
-		<div class="title text-center">
+		<div class="title">
 			Список друзей
 		</div>
-		<div class="content !border-0">
-			<div class="block-table">
-				<div class="grid">
-					<div class="th text-center">
-						<NuxtLink to="/friends/requests">Запросы</NuxtLink>
-					</div>
-				</div>
-				<div class="grid">
-					<div class="th text-center">
-						<NuxtLink to="/friends/requests/my">Мои запросы</NuxtLink>
-					</div>
-				</div>
+		<div class="content">
+			<div class="block-table text-center">
 				<div class="grid grid-cols-5">
 					<div class="c">Имя</div>
 					<div class="c">Альянс</div>
@@ -28,6 +18,10 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="mt-2">
+		<NuxtLink to="/friends/requests" class="button">Запросы</NuxtLink>
+		<NuxtLink to="/friends/requests/my" class="button">Мои запросы</NuxtLink>
 	</div>
 </template>
 

@@ -25,8 +25,8 @@
 								</div>
 								<div class="resource-panel-officiers-row">
 									<div v-for="officier in user['officiers']" class="text-center">
-										<span v-if="officier['date']">Нанят до<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
-										<span v-else><span class="positive">Не нанят</span></span>
+										<span v-if="officier['date']">{{ $t('pages.overview.officier_active_until') }}<br><span class="positive">{{ $formatDate(officier['date'], 'DD MMM HH:mm') }}</span></span>
+										<span v-else><span class="negative">{{ $t('pages.overview.officier_noactive') }}</span></span>
 									</div>
 								</div>
 							</div>
@@ -34,7 +34,7 @@
 						<span class="sprite skin_kredits"></span>
 					</Popper>
 				</NuxtLink>
-				<div class="neutral">Кредиты</div>
+				<div class="neutral">{{ $t('credits') }}</div>
 				{{ $formatNumber(user['credits']) }}
 			</div>
 		</div>

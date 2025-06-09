@@ -1,5 +1,5 @@
 <template>
-	<tr class="planetRow">
+	<tr>
 		<td class="th">{{ planet }}</td>
 		<td class="th img">
 			<Popper v-if="item && !item['planet']['destruyed']">
@@ -14,14 +14,12 @@
 							</div>
 							<div class="th basis-full middle flex-col" v-if="!isVacation">
 								<div v-if="user['phalanx'] > 0">
-									<a :href="'/phalanx?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet" target="_blank">{{ $t('galaxy.phalanx') }}</a>
+									<NuxtLink :to="'/phalanx?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet" target="_blank">{{ $t('pages.galaxy.phalanx') }}</NuxtLink>
 								</div>
-
-								<div v-if="item.user['id'] !== currentUser['id']">
-									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">{{ $t('fleet_mission.1') }}</NuxtLink>
-									<br>
-									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">{{ $t('fleet_mission.5') }}</NuxtLink>
-								</div>
+								<template v-if="item.user['id'] !== currentUser['id']">
+									<div><NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">{{ $t('fleet_mission.1') }}</NuxtLink></div>
+									<div><NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">{{ $t('fleet_mission.5') }}</NuxtLink></div>
+								</template>
 								<div v-else>
 									<NuxtLink v-if="item.user['id'] === currentUser['id']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=4'">{{ $t('fleet_mission.4') }}</NuxtLink>
 								</div>
@@ -40,7 +38,7 @@
 				<span :class="{ negative: item.user['id'] === currentUser['id'] }">{{ item['planet']['name'] }}</span>
 			</div>
 			<div v-else-if="item && item['planet']['destruyed']">
-				{{ $t('galaxy.planet_destruyed') }}
+				{{ $t('pages.galaxy.planet_destruyed') }}
 			</div>
 		</td>
 		<td class="th img whitespace-nowrap">
@@ -54,24 +52,24 @@
 								</td>
 							</tr>
 							<tr>
-								<th width="80">
+								<td class="th" width="80">
 									<img src="/images/planeten/mond.jpg" height="75" width="75" alt="">
-								</th>
-								<th>
+								</td>
+								<td class="th">
 									<div class="block-table">
 										<div class="grid">
-											<div class="c">{{ $t('galaxy.moon_params') }}</div>
+											<div class="c">{{ $t('pages.galaxy.moon_params') }}</div>
 										</div>
 										<div class="grid grid-cols-2">
-											<div class="th">{{ $t('galaxy.moon_diameter') }}</div>
+											<div class="th">{{ $t('pages.galaxy.moon_diameter') }}</div>
 											<div class="th">{{ $formatNumber(item['moon']['diameter']) }}</div>
 										</div>
 										<div class="grid grid-cols-2">
-											<div class="th">{{ $t('galaxy.moon_temp') }}</div>
+											<div class="th">{{ $t('pages.galaxy.moon_temp') }}</div>
 											<div class="th">{{ item['moon']['temp'] }}</div>
 										</div>
 										<div class="grid">
-											<div class="c">{{ $t('galaxy.actions') }}</div>
+											<div class="c">{{ $t('pages.galaxy.actions') }}</div>
 										</div>
 										<div v-if="!isVacation" class="grid">
 											<div class="th text-center">
@@ -91,7 +89,7 @@
 											</div>
 										</div>
 									</div>
-								</th>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -107,17 +105,17 @@
 						<tbody>
 							<tr>
 								<td class="c" colspan="2">
-									{{ $t('galaxy.debris') }}: [{{ galaxy }}:{{ system }}:{{ planet }}]
+									{{ $t('pages.galaxy.debris') }}: [{{ galaxy }}:{{ system }}:{{ planet }}]
 								</td>
 							</tr>
 							<tr>
-								<th width="80">
+								<td class="th" width="80">
 									<img src="/images/planeten/debris.jpg" height="75" width="75" alt="">
-								</th>
-								<th>
-									<div class="block-table">
+								</td>
+								<td class="th">
+									<div class="block-table text-center">
 										<div class="grid">
-											<div class="c">{{ $t('galaxy.debris_resources') }}</div>
+											<div class="c">{{ $t('pages.galaxy.debris_resources') }}</div>
 										</div>
 										<div v-if="item.debris.metal" class="grid grid-cols-2">
 											<div class="th">{{ $t('resources.metal') }}</div>
@@ -129,18 +127,18 @@
 										</div>
 										<div v-if="!isVacation && currentPlanet['units']['recycler'] > 0" class="grid">
 											<div class="th">
-												<a @click.prevent="debris">{{ $t('galaxy.debris_collect') }}</a>
+												<a @click.prevent="debris">{{ $t('pages.galaxy.debris_collect') }}</a>
 											</div>
 										</div>
 										<div v-if="!isVacation" class="grid">
 											<div class="th">
 												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">
-													{{ $t('galaxy.debris_send_fleet') }}
+													{{ $t('pages.galaxy.debris_send_fleet') }}
 												</NuxtLink>
 											</div>
 										</div>
 									</div>
-								</th>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -151,31 +149,21 @@
 		<td class="th">
 			<Popper v-if="item && item.user && !item['planet']['destruyed']">
 				<template #content>
-					<table width="280">
-						<tbody>
-							<tr>
-								<td class="c" colspan="2">Игрок {{ item.user['name'] }}<template v-if="item.user['stats'] && item.user['stats']['rank'] > 0">, место {{ item.user['stats']['rank'] }}</template></td>
-							</tr>
-							<tr>
-								<td v-if="user_avatar" width="122" height="126" rowspan="3" valign="middle" class="c" :style="'background:url(' + user_avatar + ') 50% 50% no-repeat;background-size:cover;'"></td>
-								<td v-else width="122" height="126" rowspan="3" valign="middle" class="c">нет<br>аватара</td>
-
-								<th v-if="item.user['id'] !== currentUser['id']">
-									<NuxtLink :to="'/messages/write/' + item.user['id'] + '/'">Послать сообщение</NuxtLink>
-								</th>
-							</tr>
-							<tr v-if="item.user['id'] !== currentUser['id']">
-								<th>
-									<NuxtLink :to="'/friends/new/' + item.user['id'] + '/'">Добавить в друзья</NuxtLink>
-								</th>
-							</tr>
-							<tr>
-								<th valign="top">
-									<NuxtLink :to="'/stat?range=' + stat_page + '&id=' + item.user['id']">Статистика</NuxtLink>
-								</th>
-							</tr>
-						</tbody>
-					</table>
+					<div class="block-table w-96">
+						<div class="grid">
+							<div class="c">Игрок {{ item.user['name'] }}<template v-if="item.user['stats'] && item.user['stats']['rank'] > 0">, место {{ item.user['stats']['rank'] }}</template></div>
+						</div>
+						<div class="flex">
+							<div v-if="user_avatar" class="w-1/3">
+								<img :src="user_avatar" class="object-cover object-center aspect-square" alt="">
+							</div>
+							<div class="w-2/3 th text-center flex flex-col justify-center gap-2">
+								<NuxtLink v-if="item.user['id'] !== currentUser['id']" :to="'/messages/write/' + item.user['id']">Послать сообщение</NuxtLink>
+								<NuxtLink :to="'/friends/new/' + item.user['id']">Добавить в друзья</NuxtLink>
+								<NuxtLink :to="'/stat?range=' + stat_page + '&id=' + item.user['id']">Статистика</NuxtLink>
+							</div>
+						</div>
+					</div>
 				</template>
 				<div>
 					<span :class="[user_status_class]">{{ item.user['name'] }}</span>
@@ -198,25 +186,23 @@
 		<td class="th">
 			<Popper v-if="item && !item['planet']['destruyed'] && item['alliance']">
 				<template #content>
-					<table width="240">
-						<tbody>
-							<tr>
-								<td class="c">
-									{{ $t('galaxy.alliance', [item['alliance']['name'], item['alliance']['members']]) }}
-								</td>
-							</tr>
-							<tr>
-								<th>
-									<NuxtLink :to="'/alliance/info/' + item['alliance']['id']">{{ $t('galaxy.alliance_info') }}</NuxtLink>
-								</th>
-							</tr>
-							<tr>
-								<th>
-									<NuxtLink to="/stat?view=alliance&start=0">{{ $t('galaxy.alliance_stats') }}</NuxtLink>
-								</th>
-							</tr>
-						</tbody>
-					</table>
+					<div class="block-table w-80 text-center">
+						<div class="grid">
+							<div class="c">
+								{{ $t('pages.galaxy.alliance', [item['alliance']['name'], item['alliance']['members']]) }}
+							</div>
+						</div>
+						<div class="grid">
+							<div class="th">
+								<NuxtLink :to="'/alliance/info/' + item['alliance']['id']">{{ $t('pages.galaxy.alliance_info') }}</NuxtLink>
+							</div>
+						</div>
+						<div class="grid">
+							<div class="th">
+								<NuxtLink to="/stat?view=alliance&start=0">{{ $t('pages.galaxy.alliance_stats') }}</NuxtLink>
+							</div>
+						</div>
+					</div>
 				</template>
 				<span :class="{ allymember: currentUser['alliance']?.id === item['alliance']['id'] }">{{ item['alliance']['tag'] }}</span>
 			</Popper>
@@ -232,11 +218,11 @@
 			<div class="actions">
 				<template v-if="item && item.user['id'] !== currentUser['id'] && !item['planet']['destruyed']">
 					<SendMessagePopup v-tooltip="$t('send_message')" :id="item.user['id']"/>
-					<NuxtLink :to="'/friends/new/' + item.user['id']" v-tooltip="$t('galaxy.actions_friend')">
+					<NuxtLink :to="'/friends/new/' + item.user['id']" v-tooltip="$t('pages.galaxy.actions_friend')">
 						<span class="sprite skin_b"></span>
 					</NuxtLink>
 
-					<a v-if="!isVacation && user['missile']" @click.prevent="$emit('sendMissile')" v-tooltip="$t('galaxy.actions_rockets')">
+					<a v-if="!isVacation && user['missile']" @click.prevent="$emit('sendMissile')" v-tooltip="$t('pages.galaxy.actions_rockets')">
 						<span class="sprite skin_r"></span>
 					</a>
 
@@ -246,12 +232,12 @@
 								<div><input type="text" class="w-full min-w-full" v-model.number="spyCount"></div>
 								<div>
 									<button @click.prevent="spy(item['planet']['type'], $event)" type="button" class="w-full">
-										{{ $t('galaxy.actions_spy_planet') }}
+										{{ $t('pages.galaxy.actions_spy_planet') }}
 									</button>
 								</div>
 								<div>
 									<button v-if="item['moon'] && !item['moon']['destruyed']" @click.prevent="spy(3, $event)" type="button" class="w-full">
-										{{ $t('galaxy.actions_spy_moon') }}
+										{{ $t('pages.galaxy.actions_spy_moon') }}
 									</button>
 								</div>
 							</div>
@@ -259,10 +245,10 @@
 						<span class="sprite skin_e"></span>
 					</Popper>
 
-					<NuxtLink :to="'/players/' + item.user['id']" v-tooltip="$t('galaxy.actions_player_info')">
+					<NuxtLink :to="'/players/' + item.user['id']" v-tooltip="$t('pages.galaxy.actions_player_info')">
 						<span class="sprite skin_s"></span>
 					</NuxtLink>
-					<NuxtLink :to="'/fleet/shortcut/create?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" v-tooltip="$t('galaxy.actions_bookmarks')">
+					<NuxtLink :to="'/fleet/shortcut/create?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" v-tooltip="$t('pages.galaxy.actions_bookmarks')">
 						<span class="sprite skin_z"></span>
 					</NuxtLink>
 				</template>

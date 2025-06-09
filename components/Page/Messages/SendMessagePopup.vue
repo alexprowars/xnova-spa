@@ -17,8 +17,7 @@
 
 		start();
 
-		const { id, to, message } = await useApiGet('/messages/write/' + props.id)
-			.then(({ data }) => data);
+		const { id, to, message } = await useApiGet('/messages/write/' + props.id);
 
 		finish();
 

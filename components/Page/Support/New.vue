@@ -3,7 +3,7 @@
 		<div class="title text-center">
 			Новый запрос
 		</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-4">
 					<div class="th">Тема:</div>

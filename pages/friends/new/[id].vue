@@ -1,24 +1,25 @@
 <template>
-	<form @submit.prevent="send">
-		<table class="table">
-			<tbody>
-			<tr>
-				<td class="c" colspan="2">Предложение подружиться</td>
-			</tr>
-			<tr>
-				<th>Игрок</th>
-				<th>{{ page['username'] }}</th>
-			</tr>
-			<tr>
-				<th colspan="2"><textarea cols="60" rows="10" v-model="message"></textarea></th>
-			</tr>
-			<tr>
-				<td class="c"><NuxtLink to="/friends">назад</NuxtLink></td>
-				<td class="c"><button type="submit">Отправить заявку</button></td>
-			</tr>
-			</tbody>
-		</table>
-	</form>
+	<div class="block">
+		<div class="title">
+			Предложение подружиться
+		</div>
+		<div class="content">
+			<form class="block-table text-center" @submit.prevent="send">
+				<div>
+					<div class="th">Игрок {{ page['username'] }}</div>
+				</div>
+				<div>
+					<div class="th"><textarea cols="60" rows="10" v-model="message"></textarea></div>
+				</div>
+				<div>
+					<div class="c"><button type="submit">Отправить заявку</button></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="mt-2">
+		<NuxtLink to="/friends" class="button">Вернуться назад</NuxtLink>
+	</div>
 </template>
 
 <script setup>

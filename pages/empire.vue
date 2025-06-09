@@ -3,7 +3,7 @@
 		<table class="table">
 			<tbody>
 			<tr valign="left">
-				<td class="c" :colspan="rows">Обзор империи</td>
+				<td class="c" :colspan="rows">{{ $t('pages.empire.title') }}</td>
 			</tr>
 			<tr>
 				<th>&nbsp;</th>
@@ -12,38 +12,38 @@
 						<img :src="'/images/planeten/small/s_'+planet['image']+'.jpg'" height="75" width="75" alt="">
 					</a>
 				</th>
-				<th width="100">Сумма</th>
+				<th width="100">{{ $t('pages.empire.total') }}</th>
 			</tr>
 			<tr>
-				<th>Название</th>
+				<th>{{ $t('pages.empire.planet_name') }}</th>
 				<th v-for="planet in page['planets']">
 					<a href="" @click.prevent="toPlanet(planet['id'])">{{ planet['name'] }}</a>
 				</th>
 				<th>&nbsp;</th>
 			</tr>
 			<tr>
-				<th>Координаты</th>
+				<th>{{ $t('pages.empire.planet_coordinates') }}</th>
 				<th v-for="planet in page['planets']">
 					[<NuxtLink :to="'/galaxy/'+planet['position']['galaxy']+'/'+planet['position']['system']+'/'">{{ planet['position']['galaxy'] }}:{{ planet['position']['system'] }}:{{ planet['position']['planet'] }}</NuxtLink>]
 				</th>
 				<th>&nbsp;</th>
 			</tr>
 			<tr>
-				<th>Поля</th>
+				<th>{{ $t('pages.empire.planet_fields') }}</th>
 				<th v-for="planet in page['planets']">
 					{{ planet['fields'] }} / {{ planet['fields_max'] }}
 				</th>
 				<th>{{ total.fields }} / {{ total.fields_max }}</th>
 			</tr>
 			<tr>
-				<th>Кредиты</th>
+				<th>{{ $t('credits') }}</th>
 				<th :colspan="rows - 2">&nbsp;</th>
 				<th>
 					<span class="neutral">{{ $formatNumber(user['credits']) }}</span>
 				</th>
 			</tr>
 			<tr>
-				<td class="c" :colspan="rows" align="left">Ресурсы на планете</td>
+				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.resources') }}</td>
 			</tr>
 			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
 				<th>{{ $t('resources.' + res) }}</th>
@@ -61,7 +61,7 @@
 			</tr>
 
 			<tr>
-				<td class="c" :colspan="rows" align="left">Производство в час</td>
+				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.production_per_hour') }}</td>
 			</tr>
 			<tr v-for="res in Object.keys($tm('resources')).filter((r) => r !== 'energy')">
 				<th>{{ $t('resources.'+res) }}</th>
@@ -70,7 +70,7 @@
 			</tr>
 
 			<tr>
-				<td class="c" :colspan="rows" align="left">Уровень производства</td>
+				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.production_level') }}</td>
 			</tr>
 			<tr v-for="(item, i) in [1, 2, 3, 4, 12, 212]">
 				<th>{{ $t('tech.'+item) }}</th>
@@ -80,7 +80,7 @@
 				<th v-if="i === 0" rowspan="6">&nbsp;</th>
 			</tr>
 			<tr>
-				<td class="c" :colspan="rows" align="left">Постройки</td>
+				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_buildings') }}</td>
 			</tr>
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r < 100)">
 				<th>{{ $t('tech.' + id) }}</th>
@@ -101,7 +101,7 @@
 				</th>
 			</tr>
 			<tr>
-				<td class="c" :colspan="rows" align="left">Флот</td>
+				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_fleets') }}</td>
 			</tr>
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 200 && r < 300)">
 				<th>{{ $t('tech.' + id) }}</th>
@@ -130,7 +130,7 @@
 				</th>
 			</tr>
 			<tr>
-				<td class="c" :colspan="rows" align="left">Оборона</td>
+				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_defense') }}</td>
 			</tr>
 			<tr v-for="id in Object.keys($tm('tech')).filter((r) => r > 400 && r < 600)">
 				<th>{{ $t('tech.' + id) }}</th>
@@ -153,7 +153,7 @@
 				</th>
 			</tr>
 			<tr>
-				<td class="c" :colspan="rows" align="left">Технологии</td>
+				<td class="c" :colspan="rows" align="left">{{ $t('pages.empire.list_techs') }}</td>
 			</tr>
 			<tr v-for="item in page['tech']">
 				<th :colspan="rows - 1">{{ $t('tech.' + item['id']) }}</th>
@@ -239,6 +239,10 @@
 			result.fields_max += planet['fields_max']
 
 			for (let res of resources) {
+				if (typeof planet['resources'][res] === 'undefined') {
+					return;
+				}
+
 				result.resources[res] += planet['resources'][res]['value']
 				result.production[res] += planet['resources'][res]['production']
 			}

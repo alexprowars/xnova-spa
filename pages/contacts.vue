@@ -1,7 +1,7 @@
 <template>
 	<div class="block">
 		<div class="title">Начальство</div>
-		<div class="content !border-0">
+		<div class="content">
 			<div class="block-table text-center">
 				<div class="th">
 					<span style="color: orange">Здесь вы найдёте адреса всех администраторов и операторов игры для обратной связи</span>

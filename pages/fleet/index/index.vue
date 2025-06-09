@@ -19,53 +19,49 @@
 			<div v-if="page.ships.length" class="block page-fleet-select">
 				<div class="title">
 					<div class="grid">
-						<div class="text-center">
-							Выбрать корабли<template v-if="page['selected']['mission'] > 0"> для миссии "{{ $t('fleet_mission.'+page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>:
-						</div>
+						Выбрать корабли<template v-if="page['selected']['mission'] > 0"> для миссии "{{ $t('fleet_mission.'+page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>
 					</div>
 				</div>
 				<div class="content">
-					<form method="post" @submit.prevent="checkout">
-						<div class="block-table text-center fleet_ships">
-							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-7 th">Тип корабля</div>
-								<div class="col-span-2 sm:col-span-2 th">Кол-во</div>
-								<div class="col-span-4 sm:col-span-3 th">&nbsp;</div>
+					<form method="post" class="block-table text-center fleet_ships" @submit.prevent="checkout">
+						<div class="grid grid-cols-12 divide-x">
+							<div class="col-span-6 sm:col-span-7 th">Тип корабля</div>
+							<div class="col-span-2 sm:col-span-2 th">Кол-во</div>
+							<div class="col-span-4 sm:col-span-3 th">&nbsp;</div>
+						</div>
+						<div v-for="ship in page.ships" class="grid grid-cols-12 divide-x">
+							<div class="col-span-6 sm:col-span-7 th middle">
+								<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
 							</div>
-							<div v-for="ship in page.ships" class="grid grid-cols-12 divide-x">
-								<div class="col-span-6 sm:col-span-7 th middle">
-									<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
-								</div>
-								<div class="col-span-2 sm:col-span-2 th middle">
-									<a @click.prevent="maxShips(ship['id'])">{{ $formatNumber(ship['count']) }}</a>
-								</div>
-								<div v-if="ship.id === 212" class="col-span-4 sm:col-span-3 th"></div>
-								<div v-else class="col-span-4 sm:col-span-3 th">
-									<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
-									<input type="number" min="0" :max="ship['count']" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
-									<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
-								</div>
+							<div class="col-span-2 sm:col-span-2 th middle">
+								<a @click.prevent="maxShips(ship['id'])">{{ $formatNumber(ship['count']) }}</a>
 							</div>
-							<div class="grid grid-cols-12 divide-x">
-								<div class="col-span-12 sm:col-span-7 th"></div>
-								<div class="col-span-12 sm:col-span-5 th">
-									<a class="button" @click.prevent="allShips">Выбрать все</a>
-									<a v-if="count" class="button" @click.prevent="clearShips">Очистить</a>
-								</div>
+							<div v-if="ship.id === 212" class="col-span-4 sm:col-span-3 th"></div>
+							<div v-else class="col-span-4 sm:col-span-3 th">
+								<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
+								<input type="number" min="0" :max="ship['count']" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
+								<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
 							</div>
-							<div v-if="count" class="grid grid-cols-12 divide-x">
-								<div class="col-span-4 sm:col-span-7 th">&nbsp;</div>
-								<div class="col-span-4 sm:col-span-2 th">Вместимость</div>
-								<div class="col-span-4 sm:col-span-3 th">{{ allCapacity ? $formatNumber(allCapacity) : '-' }}</div>
+						</div>
+						<div class="grid grid-cols-12 divide-x">
+							<div class="col-span-12 sm:col-span-7 th"></div>
+							<div class="col-span-12 sm:col-span-5 th">
+								<a class="button" @click.prevent="allShips">Выбрать все</a>
+								<a v-if="count" class="button" @click.prevent="clearShips">Очистить</a>
 							</div>
-							<div v-if="count" class="grid grid-cols-12 divide-x">
-								<div class="col-span-4 sm:col-span-7 th">&nbsp;</div>
-								<div class="col-span-4 sm:col-span-2 th">Скорость</div>
-								<div class="col-span-4 sm:col-span-3 th">{{ allSpeed ? $formatNumber(allSpeed) : '-'}}</div>
-							</div>
-							<div v-if="count && page.fleets.length < user['fleets_max']" class="grid">
-								<div class="th"><button type="submit">Далее</button></div>
-							</div>
+						</div>
+						<div v-if="count" class="grid grid-cols-12 divide-x">
+							<div class="col-span-4 sm:col-span-7 th">&nbsp;</div>
+							<div class="col-span-4 sm:col-span-2 th">Вместимость</div>
+							<div class="col-span-4 sm:col-span-3 th">{{ allCapacity ? $formatNumber(allCapacity) : '-' }}</div>
+						</div>
+						<div v-if="count" class="grid grid-cols-12 divide-x">
+							<div class="col-span-4 sm:col-span-7 th">&nbsp;</div>
+							<div class="col-span-4 sm:col-span-2 th">Скорость</div>
+							<div class="col-span-4 sm:col-span-3 th">{{ allSpeed ? $formatNumber(allSpeed) : '-'}}</div>
+						</div>
+						<div v-if="count && page.fleets.length < user['fleets_max']" class="grid">
+							<div class="th"><button type="submit">Далее</button></div>
 						</div>
 					</form>
 				</div>
