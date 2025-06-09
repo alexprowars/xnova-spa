@@ -46,7 +46,7 @@
 	const { unread, sortedMessages } = storeToRefs(chatStore);
 
 	onMounted(() => {
-		if (active.value) {
+		if (active.value && !mobile.value) {
 			chatStore.loadMessages();
 		}
 

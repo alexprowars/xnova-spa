@@ -830,16 +830,9 @@ p {
 }
 
 .smiles {
-	position: absolute;
-	z-index: 1000;
-	background: #C8CBD9;
-	border: 2px solid #000000;
-	padding: 10px;
+	padding: 8px;
 	height: 300px;
 	width: 500px;
-	overflow: auto;
-	top: -315px;
-	right: 25px;
 }
 
 .smiles img {
@@ -1000,7 +993,7 @@ footer {
 }
 
 .block-table {
-	@apply divide-y divide-[#415683];
+	@apply relative divide-y divide-[#415683];
 }
 
 .table, .block-table {

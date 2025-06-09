@@ -14,16 +14,11 @@ export const useChatStore = defineStore('chat', {
 	},
 	actions: {
 		async sendMessage (message) {
-			while (message.indexOf('\'') >= 0)
-				message = message.replace('\'', '`')
+			while (message.indexOf('\'') >= 0) {
+				message = message.replace('\'', '`');
+			}
 
-			await useApiPost('/chat', {
-				message,
-			})
-			.then(({ message }) => {
-				this.addMessage(message);
-				this.incrementUnread();
-			})
+			await useApiPost('/chat', { message });
 		},
 		async loadMessages () {
 			if (this.messages.length) {

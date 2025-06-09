@@ -60,9 +60,16 @@
 			<button type="button" class="buttons" title="Цитата" @click="addTag('[quote author=]|[/quote]', 0)">
 				<span class="sprite bb_user_comment"></span>
 			</button>
-			<button type="button" class="buttons" title="Смайлы" @click="showSmiles = !showSmiles">
-				<span class="sprite bb_emoticon_grin"></span>
-			</button>
+			<Popper :triggers="['click']" :popper-triggers="['click']">
+				<button type="button" class="buttons" title="Смайлы">
+					<span class="sprite bb_emoticon_grin"></span>
+				</button>
+				<template #content>
+					<div class="smiles">
+						<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
+					</div>
+				</template>
+			</Popper>
 			<button type="button" class="buttons" title="Цвет текста" @click="showColors = !showColors">
 				<span class="sprite bb_color_swatch"></span>
 			</button>
@@ -83,9 +90,7 @@
 			<span v-for="color in colors" @click="addTag('[bgcolor=#'+color+']|[/bgcolor]')" :style="'background:#'+color">&nbsp;</span>
 	    </div>
 
-		<div v-if="showSmiles" class="smiles">
-			<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
-		</div>
+
 		
 		<textarea ref="textRef" rows="10" v-model="value"></textarea>
 
@@ -109,7 +114,6 @@
 	const textRef = ref();
 	const showColors = ref(false);
 	const showBgColors = ref(false);
-	const showSmiles = ref(false);
 	const showPreview = ref(false);
 	const smilesList = ref(parser.patterns.smiles);
 

@@ -8,7 +8,7 @@
 		<div class="th text-center">
 			<div class="flex items-center gap-2 mb-2">
 				<div class="grow">
-					<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keypress.13.prevent="sendMessage" maxlength="750">
+					<input ref="textRef" class="page-chat-message" type="text" v-model="message" @keypress.enter.prevent="sendMessage" maxlength="750">
 				</div>
 				<div>
 					<div class="editor-component-toolbar inline-block !p-0">
@@ -18,12 +18,16 @@
 						<button type="button" class="buttons" title="Вставить картинку" @click="addTag('[img]|[/img]', 3)">
 							<span class="sprite bb_picture_add"></span>
 						</button>
-						<button type="button" class="buttons" title="Смайлы" @click="smiles = !smiles">
-							<span class="sprite bb_emoticon_grin"></span>
-						</button>
-					</div>
-					<div v-if="smiles" class="smiles">
-						<img v-for="smile in smilesList" :src="'/images/smile/' + smile + '.gif'" :alt="smile" @click="addSmile(smile)">
+						<Popper :triggers="['click']" :popper-triggers="['click']">
+							<button type="button" class="buttons" title="Смайлы">
+								<span class="sprite bb_emoticon_grin"></span>
+							</button>
+							<template #content>
+								<div class="smiles">
+									<img v-for="smile in smilesList" :src="'/images/smile/'+smile+'.gif'" :alt="smile" @click="addSmile(smile)">
+								</div>
+							</template>
+						</Popper>
 					</div>
 				</div>
 			</div>
@@ -57,7 +61,6 @@
 
 	const chatboxRef = ref(null);
 	const textRef = ref(null);
-	const smiles = ref(false);
 	const smilesList = ref(parser.patterns.smiles);
 	const message = ref('');
 	const { messages } = storeToRefs(chatStore);
@@ -100,7 +103,6 @@
 
 	function addSmile (smile){
 		message.value = message.value + ' :'+smile+':';
-		smiles.value = false;
 	}
 
 	function toPlayer (user) {
@@ -113,11 +115,9 @@
 
 	function clear () {
 		chatStore.clear();
-		smiles.value = false;
 	}
 
 	function sendMessage () {
-		smiles.value = false;
 		chatStore.sendMessage(message.value);
 		message.value = '';
 	}
