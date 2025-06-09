@@ -150,10 +150,10 @@ textarea {
 }
 
 .k, td.k {
-	text-align: center;
 	vertical-align: middle;
 	color: #e6ebfb;
 	background: #42444d;
+	@apply px-2 py-1.5;
 }
 
 td.l {

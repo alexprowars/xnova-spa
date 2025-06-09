@@ -1,39 +1,36 @@
 <template>
-	<form action="" method="post" @submit.prevent="send">
-		<div class="block-table">
-			<div class="grid">
-				<div class="c">
-					Начать ракетную атаку на [{{ page['galaxy'] }}:{{ page['system'] }}:{{ planet }}]
-				</div>
-			</div>
-			<div class="grid grid-cols-2">
-				<div class="th">
-					Количество ракет ({{ currentPlanet['units']['interplanetary_misil'] }}):
-					<input type="number" style="width:25%" min="1" :max="currentPlanet['units']['interplanetary_misil']" v-model.number="count">
-				</div>
-				<div class="th">
-					Цель:
-					<select name="target" v-model="target">
-						<option value="all">Вся оборона</option>
-						<option value="401">{{ $t('tech.401') }}</option>
-						<option value="402">{{ $t('tech.402') }}</option>
-						<option value="403">{{ $t('tech.403') }}</option>
-						<option value="404">{{ $t('tech.404') }}</option>
-						<option value="405">{{ $t('tech.405') }}</option>
-						<option value="406">{{ $t('tech.406') }}</option>
-						<option value="407">{{ $t('tech.407') }}</option>
-						<option value="408">{{ $t('tech.408') }}</option>
-					</select>
-				</div>
-			</div>
-			<div class="grid">
-				<div class="c">
-					<button type="submit">Отправить</button>
-					<button @click.prevent="$emit('close')">Отмена</button>
-				</div>
+	<form class="block-table text-center !mb-1.5" action="" method="post" @submit.prevent="send">
+		<div class="grid">
+			<div class="c">
+				{{ $t('missile_attack.title', [page['galaxy'], page['system'], planet]) }}
 			</div>
 		</div>
-		<div class="separator"></div>
+		<div class="grid grid-cols-2">
+			<div class="th">
+				{{ $t('missile_attack.rockets', [currentPlanet['units']['interplanetary_misil']]) }}:
+				<input type="number" style="width:25%" min="1" :max="currentPlanet['units']['interplanetary_misil']" v-model.number="count">
+			</div>
+			<div class="th">
+				{{ $t('missile_attack.target') }}:
+				<select name="target" v-model="target">
+					<option value="all">{{ $t('missile_attack.target_all') }}</option>
+					<option value="401">{{ $t('tech.401') }}</option>
+					<option value="402">{{ $t('tech.402') }}</option>
+					<option value="403">{{ $t('tech.403') }}</option>
+					<option value="404">{{ $t('tech.404') }}</option>
+					<option value="405">{{ $t('tech.405') }}</option>
+					<option value="406">{{ $t('tech.406') }}</option>
+					<option value="407">{{ $t('tech.407') }}</option>
+					<option value="408">{{ $t('tech.408') }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="c">
+				<button type="submit">{{ $t('missile_attack.submit') }}</button>
+				<button @click.prevent="$emit('close')">{{ $t('missile_attack.cancel') }}</button>
+			</div>
+		</div>
 	</form>
 </template>
 

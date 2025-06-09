@@ -3,15 +3,16 @@
 		<div class="block">
 			<div class="title">
 				<div class="flex flex-col sm:flex-row justify-between gap-2">
+					<i18n-t keypath="building.fields_used" tag="div" scope="global">
+						<template v-slot:used>
+							<span class="positive">{{ planet['field_used'] }}</span>
+						</template><template v-slot:max>
+							<span class="positive">{{ planet['field_max'] }}</span>
+						</template>
+					</i18n-t>
 					<div>
-						Занято полей
-						<span class="positive">{{ planet['field_used'] }}</span> из <span class="negative">{{ planet['field_max'] }}</span>
-					</div>
-					<div>
-						Осталось
-						<span class="positive">{{ fieldsEmpty }}</span>
-						{{ $morph(fieldsEmpty, 'свободное', 'свободных', 'свободных') }}
-						{{ $morph(fieldsEmpty, 'поле', 'поля', 'полей') }}
+						{{ $t('building.fields_left') }}
+						<span class="positive">{{ fieldsEmpty }}</span> {{ $t('building.fields_left_2', fieldsEmpty) }}
 					</div>
 				</div>
 			</div>

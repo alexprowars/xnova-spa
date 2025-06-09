@@ -1,23 +1,27 @@
 <template>
 	<div class="grid grid-cols-2 text-center">
 		<div class="c middle">
-			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? '. Снос здания' : '' }}
+			{{ $t('tech.' + item['item']) }} {{ item['level'] }}{{ item['mode'] === 1 ? $t('building.queue_destruction') : '' }}
 		</div>
 		<div class="k" v-if="index === 0">
 			<div v-if="time > 0" class="z">
 				{{ $formatTime(time, ':', true) }}
 				<br>
-				<a @click.prevent="cancelItem">Отменить</a>
+				<a @click.prevent="cancel">
+					{{ $t('building.queue_cancel') }}
+				</a>
 			</div>
 			<div v-else class="z">
-				Завершено
+				{{ $t('building.queue_finished') }}
 				<br>
-				<NuxtLink :to="{ path: '/buildings', force: true }">Продолжить</NuxtLink>
+				<NuxtLink :to="{ path: '/buildings', force: true }">
+					{{ $t('building.queue_next') }}
+				</NuxtLink>
 			</div>
 			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 		<div class="k" v-else>
-			<a @click.prevent="deleteItem">Удалить</a>
+			<a @click.prevent="remove">{{ $t('building.queue_remove') }}</a>
 			<div class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm:ss') }}</div>
 		</div>
 	</div>
@@ -38,14 +42,14 @@
 	const now = useNow({ interval: 1000 });
 	const time = computed(() => dayjs(props.item['date']).diff(now.value) / 1000);
 
-	function deleteItem () {
+	function remove () {
 		openConfirmModal(
-			'Очередь построек',
-			'Удалить <b>' + t('tech.' + props.item['item']) + ' ' + props.item['level'] + ' ур.</b> из очереди?',
+			t('building.queue_title'),
+			t('building.remove_confirm_title', [t('tech.' + props.item['item']), props.item['level']]),
 			[{
-				title: 'Закрыть',
+				title: t('building.remove_confirm_close'),
 			}, {
-				title: 'Удалить',
+				title: t('building.remove_confirm_action'),
 				handler: async () => {
 					await useApiPost('/buildings/queue/remove', {
 						index: props.index
@@ -57,14 +61,14 @@
 		)
 	}
 
-	function cancelItem () {
+	function cancel () {
 		openConfirmModal(
-			'Очередь построек',
-			'Отменить постройку <b>' + t('tech.' + props.item['item']) + ' ' + props.item['level'] + ' ур.</b>?',
+			t('building.queue_title'),
+			t('building.cancel_confirm_title', [t('tech.' + props.item['item']), props.item['level']]),
 			[{
-				title: 'Закрыть',
+				title: t('building.cancel_confirm_close'),
 			}, {
-				title: 'Отменить',
+				title: t('building.cancel_confirm_action'),
 				handler: async () => {
 					await useApiPost('/buildings/queue/cancel', {
 						index: props.index - 1

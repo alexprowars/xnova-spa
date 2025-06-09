@@ -8,7 +8,7 @@
 				<div class="block-table inline-block">
 					<div class="flex">
 						<div class="w-full c">
-							Галактика
+							{{ $t('galaxy.selector.galaxy') }}
 						</div>
 					</div>
 					<div class="flex">
@@ -28,7 +28,7 @@
 				<div class="block-table inline-block">
 					<div class="flex">
 						<div class="w-full c">
-							Солнечная система
+							{{ $t('galaxy.selector.system') }}
 						</div>
 					</div>
 					<div class="flex">

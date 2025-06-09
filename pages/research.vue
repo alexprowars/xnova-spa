@@ -1,7 +1,7 @@
 <template>
 	<div class="page-building page-building-tech">
 		<div class="block">
-			<div class="title">Исследования</div>
+			<div class="title">{{ $t('research.title') }}</div>
 			<div class="content page-building-items">
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
 					<TechRow v-for="item in items" :key="item['id']" :item="item"/>

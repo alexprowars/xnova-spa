@@ -19,7 +19,7 @@
 					<NuxtLink :to="'/info/' + item['id']">
 						{{ $t('tech.'+item['id']) }}
 					</NuxtLink>
-					<span v-if="level" class="positive" title="Текущий уровень постройки">
+					<span v-if="level" class="positive" v-tooltip="$t('building.current_level')">
 						{{ $formatNumber(level) }}
 					</span>
 				</div>
@@ -38,20 +38,20 @@
 					</div>
 					<div class="building-info-upgrade">
 						<div v-if="fieldsEmpty <= 0" class="negative">
-							нет места
+							{{ $t('building.status_no_more_fields') }}
 						</div>
 						<a v-else-if="user['queue_max'] > 1 && queueByType('build').length > 0" @click.prevent="addAction">
-							Добавить в очередь
+							{{ $t('building.status_add_to_list') }}
 						</a>
 						<div v-else-if="!hasResources" class="negative text-center">
-							нет ресурсов
+							{{ $t('building.status_no_resources') }}
 						</div>
 						<div v-else-if="user['queue_max'] <= queueByType('build').length" class="negative">
-							очередь заполнена
+							{{ $t('building.status_queue_full') }}
 						</div>
-						<a v-else-if="queueByType('build').length === 0" @click.prevent="addAction" class="button">
-							{{ level === 0 ? 'Построить' : 'Улучшить' }}
-						</a>
+						<button v-else-if="queueByType('build').length === 0" @click.prevent="addAction" class="button">
+							{{ level === 0 ? $t('building.action_build') : $t('building.action_improve') }}
+						</button>
 					</div>
 				</div>
 				<div v-else-if="item['requirements']" class="building-required">

@@ -10,8 +10,8 @@
 					<NuxtLink :to="'/info/' + item['id']">
 						{{ $t('tech.' + item['id']) }}
 					</NuxtLink>
-					<span v-if="level" class="positive" title="Текущий уровень постройки">
-						{{ $formatNumber(level) }} <template v-if="item.max > 0">из <span class="neutral">{{ $formatNumber(item.max) }}</span></template>
+					<span v-if="level" class="positive" v-tooltip="$t('research.current_level')">
+						{{ $formatNumber(level) }} <template v-if="item.max > 0">{{ $t('research.from') }} <span class="neutral">{{ $formatNumber(item.max) }}</span></template>
 					</span>
 				</div>
 
@@ -28,14 +28,14 @@
 					<div class="building-info-upgrade">
 						<TechQueue v-if="typeof item['build'] === 'object'" :build="item['build']"/>
 						<div v-else-if="item['max'] > 0 && item['max'] <= level" class="negative">
-							максимальный уровень
+							{{ $t('research.max_level') }}
 						</div>
 						<div v-else-if="!hasResources" class="negative text-center">
-							нет ресурсов
+							{{ $t('research.no_resources') }}
 						</div>
-						<a v-else-if="item['build'] !== true" @click.prevent="addAction" :class="{ positive: level, negative: level === 0 }" class="button">
-							Изучить
-						</a>
+						<button v-else-if="item['build'] !== true" @click.prevent="addAction" :class="{ positive: level, negative: level === 0 }" class="button">
+							{{ $t('research.build') }}
+						</button>
 					</div>
 				</div>
 				<div v-else-if="item['requirements']" class="building-required">

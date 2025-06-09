@@ -1,7 +1,7 @@
 <template>
 	<div class="block">
 		<div class="title">Производство</div>
-		<div class="content block-table !border-t">
+		<div class="content block-table !border-t text-center">
 			<template v-if="item === 42">
 				<div class="grid grid-cols-2">
 					<div class="c">Уровень</div>

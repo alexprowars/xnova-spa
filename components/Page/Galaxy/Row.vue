@@ -6,7 +6,7 @@
 				<template #content>
 					<div class="block-table w-80">
 						<div class="grid">
-							<div class="c">Планета {{ item['planet']['name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]</div>
+							<div class="c">{{ $t('planet_type.' + item['planet']['type']) }} {{ item['planet']['name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]</div>
 						</div>
 						<div class="flex">
 							<div class="th basis-2/4">
@@ -14,18 +14,18 @@
 							</div>
 							<div class="th basis-full middle flex-col" v-if="!isVacation">
 								<div v-if="user['phalanx'] > 0">
-									<a :href="'/phalanx/?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet" target="_blank">Фаланга</a>
+									<a :href="'/phalanx?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet" target="_blank">{{ $t('galaxy.phalanx') }}</a>
 								</div>
 
 								<div v-if="item.user['id'] !== currentUser['id']">
-									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">Атаковать</NuxtLink>
+									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=1'">{{ $t('fleet_mission.1') }}</NuxtLink>
 									<br>
-									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">Удерживать</NuxtLink>
+									<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=5'">{{ $t('fleet_mission.5') }}</NuxtLink>
 								</div>
 								<div v-else>
-									<NuxtLink v-if="item.user['id'] === currentUser['id']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=4'">Оставить</NuxtLink>
+									<NuxtLink v-if="item.user['id'] === currentUser['id']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=4'">{{ $t('fleet_mission.4') }}</NuxtLink>
 								</div>
-								<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=3'">Транспорт</NuxtLink>
+								<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type'] + '&mission=3'">{{ $t('fleet_mission.3') }}</NuxtLink>
 							</div>
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 				<span :class="{ negative: item.user['id'] === currentUser['id'] }">{{ item['planet']['name'] }}</span>
 			</div>
 			<div v-else-if="item && item['planet']['destruyed']">
-				Планета уничтожена
+				{{ $t('galaxy.planet_destruyed') }}
 			</div>
 		</td>
 		<td class="th img whitespace-nowrap">
@@ -50,7 +50,7 @@
 						<tbody>
 							<tr>
 								<td class="c" colspan="2">
-									Луна: {{ item['moon']['name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]
+									{{ $t('planet_type.3') }}: {{ item['moon']['name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]
 								</td>
 							</tr>
 							<tr>
@@ -60,34 +60,34 @@
 								<th>
 									<div class="block-table">
 										<div class="grid">
-											<div class="c">Характеристики</div>
+											<div class="c">{{ $t('galaxy.moon_params') }}</div>
 										</div>
 										<div class="grid grid-cols-2">
-											<div class="th">Диаметр</div>
+											<div class="th">{{ $t('galaxy.moon_diameter') }}</div>
 											<div class="th">{{ $formatNumber(item['moon']['diameter']) }}</div>
 										</div>
 										<div class="grid grid-cols-2">
-											<div class="th">Температура</div>
+											<div class="th">{{ $t('galaxy.moon_temp') }}</div>
 											<div class="th">{{ item['moon']['temp'] }}</div>
 										</div>
 										<div class="grid">
-											<div class="c">Действия</div>
+											<div class="c">{{ $t('galaxy.actions') }}</div>
 										</div>
 										<div v-if="!isVacation" class="grid">
 											<div class="th text-center">
 												<div v-if="item.user['id'] !== currentUser['id']">
-													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=1'">Атаковать</NuxtLink>
+													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=1'">{{ $t('fleet_mission.1') }}</NuxtLink>
 													<br>
-													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=5'">Удерживать</NuxtLink>
+													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=5'">{{ $t('fleet_mission.5') }}</NuxtLink>
 
 													<div v-if="planet['units']['dearth_star'] > 0">
-														<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=9'">Уничтожить</NuxtLink>
+														<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=9'">{{ $t('fleet_mission.9') }}</NuxtLink>
 													</div>
 												</div>
 												<div v-else>
-													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=4'">Оставить</NuxtLink>
+													<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=4'">{{ $t('fleet_mission.4') }}</NuxtLink>
 												</div>
-												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=3'">Транспорт</NuxtLink>
+												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=3&mission=3'">{{ $t('fleet_mission.3') }}</NuxtLink>
 											</div>
 										</div>
 									</div>
@@ -107,7 +107,7 @@
 						<tbody>
 							<tr>
 								<td class="c" colspan="2">
-									Обломки: [{{ galaxy }}:{{ system }}:{{ planet }}]
+									{{ $t('galaxy.debris') }}: [{{ galaxy }}:{{ system }}:{{ planet }}]
 								</td>
 							</tr>
 							<tr>
@@ -117,7 +117,7 @@
 								<th>
 									<div class="block-table">
 										<div class="grid">
-											<div class="c">Ресурсы</div>
+											<div class="c">{{ $t('galaxy.debris_resources') }}</div>
 										</div>
 										<div v-if="item.debris.metal" class="grid grid-cols-2">
 											<div class="th">{{ $t('resources.metal') }}</div>
@@ -129,12 +129,14 @@
 										</div>
 										<div v-if="!isVacation && currentPlanet['units']['recycler'] > 0" class="grid">
 											<div class="th">
-												<a @click.prevent="debris">Собрать</a>
+												<a @click.prevent="debris">{{ $t('galaxy.debris_collect') }}</a>
 											</div>
 										</div>
 										<div v-if="!isVacation" class="grid">
 											<div class="th">
-												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">Отправить флот</NuxtLink>
+												<NuxtLink :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=2&mission=8'">
+													{{ $t('galaxy.debris_send_fleet') }}
+												</NuxtLink>
 											</div>
 										</div>
 									</div>
@@ -200,22 +202,17 @@
 						<tbody>
 							<tr>
 								<td class="c">
-									Альянс {{ item['alliance']['name'] }} с {{ item['alliance']['members'] }} членами
+									{{ $t('galaxy.alliance', [item['alliance']['name'], item['alliance']['members']]) }}
 								</td>
 							</tr>
 							<tr>
 								<th>
-									<NuxtLink :to="'/alliance/info/' + item['alliance']['id'] + '/'">Информация</NuxtLink>
+									<NuxtLink :to="'/alliance/info/' + item['alliance']['id']">{{ $t('galaxy.alliance_info') }}</NuxtLink>
 								</th>
 							</tr>
 							<tr>
 								<th>
-									<NuxtLink to="/stat/?view=alliance&start=0">Статистика</NuxtLink>
-								</th>
-							</tr>
-							<tr v-if="item['alliance']['web'] && item['alliance']['web'].length">
-								<th>
-									<a :href="item['alliance']['web']" target="_blank">Сайт альянса</a>
+									<NuxtLink to="/stat?view=alliance&start=0">{{ $t('galaxy.alliance_stats') }}</NuxtLink>
 								</th>
 							</tr>
 						</tbody>
@@ -225,46 +222,52 @@
 			</Popper>
 
 			<div v-if="item && item['alliance'] && currentUser['alliance']?.id !== item['alliance']['id']">
-				<small v-if="item['alliance']['diplomacy'] === 0">[нейтральное]</small>
-				<small v-if="item['alliance']['diplomacy'] === 1" class="neutral">[перемирие]</small>
-				<small v-if="item['alliance']['diplomacy'] === 2" class="positive">[мир]</small>
-				<small v-if="item['alliance']['diplomacy'] === 3" class="negative">[война]</small>
+				<small v-if="item['alliance']['diplomacy'] === 0">[{{ $t('alliance.diplomacy_status.0') }}]</small>
+				<small v-if="item['alliance']['diplomacy'] === 1" class="neutral">[{{ $t('alliance.diplomacy_status.1') }}]</small>
+				<small v-if="item['alliance']['diplomacy'] === 2" class="positive">[{{ $t('alliance.diplomacy_status.2') }}]</small>
+				<small v-if="item['alliance']['diplomacy'] === 3" class="negative">[{{ $t('alliance.diplomacy_status.3') }}]</small>
 			</div>
 		</td>
 		<td class="th whitespace-nowrap">
 			<div class="actions">
 				<template v-if="item && item.user['id'] !== currentUser['id'] && !item['planet']['destruyed']">
-					<SendMessagePopup :title="item.user['name']+': отправить сообщение'" :id="item.user['id']"/>
-					<NuxtLink :to="'/friends/new/' + item.user['id']" title="Добавить в друзья">
+					<SendMessagePopup v-tooltip="$t('send_message')" :id="item.user['id']"/>
+					<NuxtLink :to="'/friends/new/' + item.user['id']" v-tooltip="$t('galaxy.actions_friend')">
 						<span class="sprite skin_b"></span>
 					</NuxtLink>
 
-					<a v-if="!isVacation && user['missile']" @click.prevent="$emit('sendMissile')" title="Ракетная атака">
+					<a v-if="!isVacation && user['missile']" @click.prevent="$emit('sendMissile')" v-tooltip="$t('galaxy.actions_rockets')">
 						<span class="sprite skin_r"></span>
 					</a>
 
 					<Popper tag="a" v-if="!isVacation && currentPlanet['units']['spy_sonde'] && !item.user['vacation']">
 						<template #content>
-							<div class="text-center">
-								<input type="text" v-model.number="spyCount">
-								<br>
-								<input type="button" @click.prevent="spy(item['planet']['type'], $event)" value="Отправить на планету">
-								<br>
-								<input v-if="item['moon'] && !item['moon']['destruyed']" type="button" @click.prevent="spy(3, $event)" value="Отправить на луну">
+							<div class="text-center flex flex-col gap-2">
+								<div><input type="text" class="w-full min-w-full" v-model.number="spyCount"></div>
+								<div>
+									<button @click.prevent="spy(item['planet']['type'], $event)" type="button" class="w-full">
+										{{ $t('galaxy.actions_spy_planet') }}
+									</button>
+								</div>
+								<div>
+									<button v-if="item['moon'] && !item['moon']['destruyed']" @click.prevent="spy(3, $event)" type="button" class="w-full">
+										{{ $t('galaxy.actions_spy_moon') }}
+									</button>
+								</div>
 							</div>
 						</template>
 						<span class="sprite skin_e"></span>
 					</Popper>
 
-					<NuxtLink :to="'/players/' + item.user['id']" title="Информация об игроке">
+					<NuxtLink :to="'/players/' + item.user['id']" v-tooltip="$t('galaxy.actions_player_info')">
 						<span class="sprite skin_s"></span>
 					</NuxtLink>
-					<NuxtLink :to="'/fleet/shortcut/create?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" title="Добавить в закладки">
+					<NuxtLink :to="'/fleet/shortcut/create?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&type=' + item['planet']['type']" v-tooltip="$t('galaxy.actions_bookmarks')">
 						<span class="sprite skin_z"></span>
 					</NuxtLink>
 				</template>
 
-				<NuxtLink v-if="!isVacation && !item && currentPlanet['units']['colonizer']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&mission=7'" title="Колонизация">
+				<NuxtLink v-if="!isVacation && !item && currentPlanet['units']['colonizer']" :to="'/fleet?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet + '&mission=7'" v-tooltip="$t('fleet_mission.7')">
 					<span class="sprite skin_e"></span>
 				</NuxtLink>
 			</div>

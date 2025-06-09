@@ -8,7 +8,7 @@
 						<div class="col-span-2 text-center flex flex-col gap-1.5">
 							<div><img :src="page['avatar']" :alt="page['username']" width="100%"></div>
 							<div v-if="user">
-								<SendMessagePopup :title="page['username']+': отправить сообщение'" :id="page['id']"/>
+								<SendMessagePopup :title="$t('send_message')" :id="page['id']"/>
 								<NuxtLink :to="'/friends/new/'+page['id']+'/'" title="Добавить в друзья">
 									<span class='sprite skin_b'></span>
 								</NuxtLink>

@@ -21,7 +21,7 @@
 				<th>{{ index + 1 }}</th>
 				<th>{{ m['username'] }}</th>
 				<th>
-					<SendMessagePopup :title="m['username']+': отправить сообщение'" :id="m['id']"/>
+					<SendMessagePopup :title="$t('send_message')" :id="m['id']"/>
 				</th>
 				<th>
 					<img :src="'/images/skin/race' + m['race'] + '.gif'" width="16" height="16" alt="">

@@ -2,7 +2,7 @@
 	<div class="block">
 		<div class="title">Снос здания "{{ $t('tech.' + item) }}" уровень {{ data['level'] }}</div>
 		<div class="content !border-0">
-			<div class="block-table">
+			<div class="block-table text-center">
 				<div class="grid">
 					<div class="th">
 						<build-row-price :price="data['resources']"/>
@@ -10,7 +10,7 @@
 				</div>
 				<div class="grid">
 					<div class="th">
-						Время сноса: {{ $formatTime(data['time']) }}
+						<div class="mb-2">Время сноса: {{ $formatTime(data['time']) }}</div>
 
 						<button @click.prevent="destroyAction">Снести</button>
 					</div>

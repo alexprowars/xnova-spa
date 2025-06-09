@@ -29,7 +29,7 @@
 		<div class="th sm:col-span-1 col-span-2 middle">
 			<img v-if="item['race']" :src="'/images/skin/race' + item['race'] + '.gif'" width="16" height="16" style="margin-right:7px;">
 
-			<SendMessagePopup v-if="user" :title="item['name'] + ': отправить сообщение'" :id="item['id']"/>
+			<SendMessagePopup v-if="user" :title="$t('send_message')" :id="item['id']"/>
 		</div>
 		<div class="th sm:col-span-3 hidden sm:block row-alliance">
 			<NuxtLink v-if="item['alliance']" :class="{ neutral: item['alliance']['marked'] }" :to="'/alliance/info/' + item['alliance']['id']">

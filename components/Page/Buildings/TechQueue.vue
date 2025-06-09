@@ -1,9 +1,9 @@
 <template>
 	<div class="building-info-upgrade-timer">
 		<span v-if="time > 0">
-			{{ $formatTime(time, ':', true) }}&nbsp;<a @click.prevent="cancelAction">Отменить<span v-if="build.name">на {{ build.name }}</span></a>
+			{{ $formatTime(time, ':', true) }}&nbsp;<a @click.prevent="cancelAction">{{ $t('research.queue_cancel') }}<span v-if="build.name">{{ $t('research.queue_cancel_on') }} {{ build.name }}</span></a>
 		</span>
-		<a v-else href="" @click.prevent="refresh">завершено. продолжить...</a>
+		<a v-else href="" @click.prevent="refresh">{{ $t('research.queue_finished') }}</a>
 	</div>
 </template>
 
@@ -28,11 +28,11 @@
 	function cancelAction () {
 		openConfirmModal(
 			null,
-			'Отменить изучение <b>' + t('tech.' + props.build['item']) + ' ' + props.build['level'] + ' ур.</b>?',
+			t('research.cancel_confirm_title', [t('tech.' + props.build['item']), props.build['level']]),
 			[{
-				title: 'Закрыть',
+				title: t('research.cancel_confirm_close'),
 			}, {
-				title: 'Отменить',
+				title: t('research.cancel_confirm_action'),
 				handler: async () => {
 					await useApiPost('/research/cancel', {
 						element: props.build['item'],

@@ -38,7 +38,7 @@
 					<tr v-for="result in items">
 						<th>{{ result['username'] }}</th>
 						<th nowrap>
-							<SendMessagePopup :title="result['username']+': отправить сообщение'" :id="result['id']"/>
+							<SendMessagePopup :title="$t('send_message')" :id="result['id']"/>
 							<NuxtLink :to="'/friends/new/'+result['id']+'/'" title="Предложение подружиться">
 								<span class='sprite skin_b'></span>
 							</NuxtLink>
