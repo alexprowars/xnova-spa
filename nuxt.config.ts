@@ -64,6 +64,13 @@ let config = {
 	experimental: {
 		appManifest: false,
 	},
+	typescript: {
+		tsConfig: {
+			include: [
+				'../types/*.ts',
+			],
+		},
+	},
 	features: {
 		inlineStyles: false,
 	},
@@ -74,7 +81,7 @@ let config = {
 	},
 	modules: [
 		'@nuxtjs/i18n',
-		'@pinia/nuxt'
+		'@pinia/nuxt',
 	],
 	i18n: {
 		locales: [
@@ -90,13 +97,7 @@ let config = {
 		compilation: {
 			strictMessage: false,
 		},
-		bundle: {
-			optimizeTranslationDirective: false,
-		},
 	},
-	buildModules: [
-		'@nuxtjs/gtm',
-	],
 	runtimeConfig: {
 		public: {
 			baseUrl: null,
@@ -111,7 +112,7 @@ let config = {
 	nitro: {
 		devProxy: {},
 	},
-	compatibilityDate: '2025-05-01'
+	compatibilityDate: '2025-11-01'
 }
 
 if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length) {
@@ -127,4 +128,4 @@ if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length
 	config.runtimeConfig.public.baseUrl = null
 }
 
-export default defineNuxtConfig(config);
+export default defineNuxtConfig(config as any);
