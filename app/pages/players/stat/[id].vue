@@ -20,20 +20,28 @@
 				</div>
 				<div class="grid">
 					<div class="th p-4">
-						<input type="radio" id="show_builds" v-model="typeChart" value="build">
-						<label for="show_builds">Постройки</label>
-
-						<input type="radio" id="show_tech" v-model="typeChart" value="tech">
-						<label for="show_tech">Технологии</label>
-
-						<input type="radio" id="show_defs" v-model="typeChart" value="defs">
-						<label for="show_defs">Оборона</label>
-
-						<input type="radio" id="show_fleet" v-model="typeChart" value="fleet">
-						<label for="show_fleet">Флот</label>
-
-						<input type="radio" id="show_total" v-model="typeChart" value="total">
-						<label for="show_total">Всего</label>
+						<div class="text-center">
+							<label>
+								<input type="radio" v-model="typeChart" value="build">
+								Постройки
+							</label>
+							<label>
+								<input type="radio" v-model="typeChart" value="tech">
+								Технологии
+							</label>
+							<label>
+								<input type="radio" v-model="typeChart" value="defs">
+								Оборона
+							</label>
+							<label>
+								<input type="radio" v-model="typeChart" value="fleet">
+								Флот
+							</label>
+							<label>
+								<input type="radio" v-model="typeChart" value="total">
+								Всего
+							</label>
+						</div>
 
 						<canvas ref="pointChartRef"></canvas>
 					</div>

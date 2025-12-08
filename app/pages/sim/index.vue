@@ -1,6 +1,6 @@
 <template>
 	<div class="table-responsive">
-		<form method="post" :action="'/xnsim/report/'" name="form" ref="resultRef" autocomplete="off" target="_blank">
+		<form method="get" action="/sim/report" name="form" ref="resultRef" autocomplete="off" target="_blank">
 			<input type="hidden" name="r" value="">
 		</form>
 		<table ref="formRef" class="table">
@@ -80,7 +80,7 @@
 					<td class="th" v-for="i in range(0, Math.min(page['slots']['max'], defenders) - 1)"><a href="" @click.prevent="clear(page['slots']['max'] + i)">Очистить</a></td>
 				</tr>
 				<tr>
-					<td class="th" :colspan="cols">
+					<td class="th text-center" :colspan="cols">
 						<input class="button" type="button" value="Симуляция" @click.prevent="calculate">
 					</td>
 				</tr>
@@ -91,7 +91,7 @@
 
 <script setup>
 	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
-	import { computed, ref } from 'vue';
+	import { computed, ref, useTemplateRef } from 'vue';
 
 	definePageMeta({
 		view: {
@@ -118,8 +118,8 @@
 
 	const attackers = ref(1);
 	const defenders = ref(1);
-	const formRef = ref(null);
-	const resultRef = ref(null);
+	const formRef = useTemplateRef('formRef');
+	const resultRef = useTemplateRef('resultRef');
 
 	const cols = computed(() => {
 		return attackers.value + defenders.value + 1;
@@ -130,7 +130,7 @@
 	}
 
 	function calculate () {
-		let txt = "", tstr = "", tkey, tval;
+		let txt = '', tstr = '', tkey, tval;
 		tkey = [];
 
 		formRef.value.querySelectorAll('input[type="text"][name^="gr"]').forEach((el) => {
@@ -140,24 +140,26 @@
 
 				tval[0] = parseInt(tval[0].split('gr').join(''));
 
-				if (tkey[tval[0]])
+				if (tkey[tval[0]]) {
 					tkey[tval[0]] += parseInt(tval[1]) + ',' + el.value + ';';
-				else
+				} else {
 					tkey[tval[0]] = parseInt(tval[1]) + ',' + el.value + ';';
+				}
 			}
 		});
 
 		if (tkey.length > 0) {
 			for (let i = 0; i < tkey.length; i++) {
-				if (tkey[i])
+				if (tkey[i]) {
 					txt += tkey[i] + '|';
-				else
+				} else {
 					txt += '|';
+				}
 			}
 		}
 
 		resultRef.value.querySelector('input').value = txt;
-		resultRef.value.requestSubmit();
+		resultRef.value.submit();
 	}
 
 	function range (min, max) {
