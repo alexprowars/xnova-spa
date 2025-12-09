@@ -22,7 +22,7 @@
 					<div v-if="type !== ''" class="th">
 						<div class="block-table">
 							<div class="grid">
-								<div class="c">Обменять {{ $t('resources.' + type).toLowerCase() }} на</div>
+								<div class="c">Обменять {{ $t('resources.' + type) }} на</div>
 							</div>
 							<div class="grid grid-cols-12">
 								<div class="col-span-3 th"></div>

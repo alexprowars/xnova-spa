@@ -7,9 +7,13 @@
 		<td class="th">
 			<Popper>
 				<template #content>
-					<div v-for="data in item['ships']">{{ $t('tech.'+data['id']) }}: {{ data['count'] }}</div>
+					<div class="flex flex-col gap-2 p-2">
+						<div v-for="unit in item['units']">
+							{{ $t('tech.' + unit['i']) }}: {{ unit['c'] }}
+						</div>
+					</div>
 				</template>
-				{{ $formatNumber(item['ships_total']) }}
+				<div class="cursor-pointer">{{ $formatNumber(item['amount']) }}</div>
 			</Popper>
 		</td>
 		<td class="th">

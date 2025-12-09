@@ -5,21 +5,17 @@
 		</div>
 		<div class="content">
 			<div class="block-table text-center">
-				<div class="grid grid-cols-3">
-					<div class="col-span-2 th middle">
-						<div>
-							<i18n-t keypath="pages.resources.resources_buy_info" tag="div" scope="global">
-								<template v-slot:metal>
-									<Colored :value="data['metal'] || 0"/>
-								</template><template v-slot:crystal>
-									<Colored :value="data['crystal'] || 0"/>
-								</template><template v-slot:deuterium>
-									<Colored :value="data['deuterium'] || 0"/>
-								</template>
-							</i18n-t>
-						</div>
-					</div>
-					<div class="col-span-1 th middle">
+				<div class="grid">
+					<div class="th middle flex flex-col gap-2">
+						<i18n-t keypath="pages.resources.resources_buy_info" tag="div" scope="global">
+							<template v-slot:metal>
+								<Colored :value="data['metal'] || 0"/>
+							</template><template v-slot:crystal>
+								<Colored :value="data['crystal'] || 0"/>
+							</template><template v-slot:deuterium>
+								<Colored :value="data['deuterium'] || 0"/>
+							</template>
+						</i18n-t>
 						<span v-if="!data['time']">
 							<a @click.prevent="buyResources" class="button">{{ $t('pages.resources.resources_buy_button') }}</a>
 						</span>

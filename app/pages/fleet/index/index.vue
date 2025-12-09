@@ -66,15 +66,12 @@
 					</form>
 				</div>
 			</div>
-			<div v-else class="block page-fleet-select">
-				<div class="block-table fleet_ships container">
+			<div v-else class="block">
+				<div class="title text-center">Нет кораблей на планете</div>
+				<div class="block-table text-center">
 					<div class="grid">
 						<div class="th">
-							Нет кораблей на планете
-							<div>
-								<div class="separator"></div>
-								<NuxtLink to="/shipyard" class="button">Перейти в верфь</NuxtLink>
-							</div>
+							<NuxtLink to="/shipyard" class="button">Перейти в верфь</NuxtLink>
 						</div>
 					</div>
 				</div>

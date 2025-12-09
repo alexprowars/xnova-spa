@@ -13,11 +13,13 @@
 		<div class="col-span-3 sm:col-span-1 th">
 			<Popper>
 				<template #content>
-					<div v-for="(fleetData, fleetId) in item['units']">
-						{{ $t('tech.'+fleetId) }}: {{ fleetData['count'] }}
+					<div class="flex flex-col gap-2 p-2">
+						<div v-for="unit in item['units']">
+							{{ $t('tech.' + unit['i']) }}: {{ unit['c'] }}
+						</div>
 					</div>
 				</template>
-				{{ $formatNumber(item['amount']) }}
+				<div class="cursor-pointer">{{ $formatNumber(item['amount']) }}</div>
 			</Popper>
 		</div>
 		<div class="col-span-4 sm:col-span-3 border-t sm:border-0 th">
@@ -41,12 +43,12 @@
 		<div v-else class="col-span-4 sm:col-span-3 border-t sm:border-0 th">
 			-
 		</div>
-		<div class="col-span-4 sm:col-span-2 border-t sm:border-0 th">
-			<NuxtLink v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/' + item.id" class="button">
+		<div class="col-span-4 sm:col-span-2 border-t sm:border-0 th flex flex-col gap-1">
+			<NuxtLink v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/' + item.id" class="button w-full">
 				Объединить
 			</NuxtLink>
 
-			<button v-if="(item['stage'] === 3 && item['mission'] !== 15) || (item['stage'] === 0 && item['mission'] !== 20)" @click.prevent="backAction">Отозвать</button>
+			<button v-if="(item['stage'] === 3 && item['mission'] !== 15) || (item['stage'] === 0 && item['mission'] !== 20)" class="w-full" @click.prevent="backAction">Отозвать</button>
 		</div>
 	</div>
 </template>
