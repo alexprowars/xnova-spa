@@ -2,12 +2,12 @@
 	<div class="grid grid-cols-12 divide-x page-fleet-fly-item">
 		<div class="col-span-3 sm:col-span-1 th">{{ i + 1 }}</div>
 		<div class="col-span-6 sm:col-span-2 th">
-			<a>{{ $t('fleet_mission.'+item.mission) }}</a>
+			<a>{{ $t('fleet_mission.' + item.mission) }}</a>
 			<div v-if="item.start.time + 1 === item.target.time">
-				<a title="Возврат домой">(R)</a>
+				<a :title="$t('pages.fleets.list.mission_R')">(R)</a>
 			</div>
 			<div v-else>
-				<a title="Полёт к цели">(A)</a>
+				<a :title="$t('pages.fleets.list.mission_A')">(A)</a>
 			</div>
 		</div>
 		<div class="col-span-3 sm:col-span-1 th">
@@ -45,16 +45,18 @@
 		</div>
 		<div class="col-span-4 sm:col-span-2 border-t sm:border-0 th flex flex-col gap-1">
 			<NuxtLink v-if="item['stage'] === 0 && item['mission'] === 1" :to="'/fleet/verband/' + item.id" class="button w-full">
-				Объединить
+				{{ $t('pages.fleets.list.merge') }}
 			</NuxtLink>
 
-			<button v-if="(item['stage'] === 3 && item['mission'] !== 15) || (item['stage'] === 0 && item['mission'] !== 20)" class="w-full" @click.prevent="backAction">Отозвать</button>
+			<button v-if="(item['stage'] === 3 && item['mission'] !== 15) || (item['stage'] === 0 && item['mission'] !== 20)" class="w-full" @click.prevent="backAction">
+				{{ $t('pages.fleets.list.recall') }}
+			</button>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { refreshNuxtData, useApiPost, openConfirmModal, useErrorNotification, useSuccessNotification } from '#imports';
+	import { refreshNuxtData, useApiPost, openConfirmModal, useErrorNotification, useSuccessNotification, useI18n } from '#imports';
 
 	const props = defineProps({
 		i: {
@@ -63,23 +65,25 @@
 		item: {
 			type: Object,
 		}
-	})
+	});
+
+	const { t } = useI18n();
 
 	function backAction () {
 		openConfirmModal(
 			null,
-			'Вернуть флот?',
+			t('pages.fleets.return_popup.title'),
 			[{
-				title: 'Нет',
+				title: t('pages.fleets.return_popup.n'),
 			}, {
-				title: 'Да',
+				title: t('pages.fleets.return_popup.y'),
 				handler: async () => {
 					try {
 						await useApiPost('/fleet/back', {
 							id: props.item['id'],
 						});
 
-						useSuccessNotification('Флот возвращается назад!');
+						useSuccessNotification(t('pages.fleets.return_popup.success'));
 
 						await refreshNuxtData();
 					} catch (e) {

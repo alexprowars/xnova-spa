@@ -385,12 +385,12 @@
 			"raid_level": "Military level",
 			"from": "from",
 			"daily_bonus": {
-				"title": "Ежедневный бонус",
-				"row_1": "Сейчас вы можете получить по <b class=\"positive\">{0}</b> Металла, Кристаллов и Дейтерия.",
-				"row_2": "Каждый день размер бонуса будет увеличиваться.",
-				"button": "Получить ресурсы",
-				"success_1": "Спасибо за поддержку!<br>Вы получили в качестве бонуса по <b>{0}</b> Металла, Кристаллов и Дейтерия",
-				"success_2": "Спасибо за поддержку!<br>Вы получили в качестве бонуса по <b>{0}</b> Металла, Кристаллов и Дейтерия, а также {1} кредит."
+				"title": "Daily Bonus",
+				"row_1": "Currently you can get <b class=\"positive\">{0}</b> Metal, Crystals, and Deuterium.",
+				"row_2": "The bonus amount will increase every day.",
+				"button": "Get Resources",
+				"success_1": "Thank you for your support!<br>You have received <b>{0}</b> Metal, Crystals, and Deuterium as a bonus.",
+				"success_2": "Thank you for your support!<br>You have received <b>{0}</b> Metal, Crystals, and Deuterium as a bonus, as well as {1} Credit."
 			}
 		},
 		"galaxy": {
@@ -532,6 +532,114 @@
 			"resources_buy_confirm_no": "No",
 			"resources_buy_confirm_yes": "Yes",
 			"resources_buy_success": "You have successfully bought '{metal} metal, {crystal} crystal, {deuterium} deuterium"
+		},
+		"merchant": {
+			"title": "Raw Materials Exchange",
+			"description_line_1": "You can call the intergalactic merchant to exchange resources.",
+			"description_line_2": "Each exchange operation will cost you 1 credit.",
+			"select_resource": "Select a resource to exchange",
+			"rate_info": "({deuterium}/{crystal}/{metal} exchange rate)",
+			"exchange_for": "Exchange {0} for",
+			"rate": "Rate",
+			"quantity": "enter quantity",
+			"warning_text": "Attention! The exchange cost is {0} credits",
+			"exchange": "Exchange resources",
+			"success_message": "You have exchanged {0} {1}"
+		},
+		"officiers": {
+			"credits": "Available credits: {0}",
+			"credits_info": "Engineers only take intergalactic credits for their work. Depending on the contract amount, they work for you for the entire duration of their employment.",
+			"credits_info_2": "Credits can be used to hire engineers",
+			"get_credits": "Get credits",
+			"cost": "Cost",
+			"cost_week": "per week",
+			"cost_weeks": "per 2 weeks",
+			"cost_month": "per month",
+			"cost_credits": "cr."
+		},
+		"fleets": {
+			"main": {
+				"fleets": "Fleets",
+				"of": "of",
+				"expeditions": "Expeditions",
+				"select_ships": "Select ships",
+				"select_mission": "for mission",
+				"ship_type": "Ship type",
+				"quantity": "Quantity",
+				"quantity_m": "Decrease by 1",
+				"quantity_p": "Increase by 1",
+				"select_all": "Select all",
+				"clear": "Clear",
+				"capacity": "Capacity",
+				"speed": "Speed",
+				"next": "Next",
+				"no_ships": "No ships on planet",
+				"go_to_shipyard": "Go to shipyard"
+			},
+			"checkout": {
+				"sending": "Sending Fleet",
+				"target": "Target",
+				"speed": "Speed",
+				"distance": "Distance",
+				"duration": "Flight duration (to target)",
+				"arrival": "Arrival time (to target)",
+				"max_speed": "Maximum speed",
+				"consumption": "Fuel consumption",
+				"capacity": "Carrying capacity",
+				"links": "Links",
+				"links_edit": "(View / Edit)",
+				"links_add": "Add",
+				"planets": "Planets",
+				"gates": "Intergalactic Gates",
+				"gates_charge": "(charged via {0})",
+				"combat_alliances": "Combat Alliances",
+				"mission": "Mission",
+				"expedition_warning": "Caution during Expedition fleet loss possible!",
+				"mission_impossible": "Mission impossible",
+				"arrival_time": "Arrival time: {0}",
+				"resources": "Resources",
+				"resources_max": "max",
+				"resources_remaining": "Remaining",
+				"resources_all": "All resources",
+				"resources_clear": "Clear",
+				"expedition_time": "Expedition time",
+				"expedition_hour": "hours",
+				"orbit_hours": "Remain in orbit hours",
+				"orbit_requires": "Requires <span class=\"positive\">{0}</span> deuterium",
+				"next": "Next"
+			},
+			"send": {
+				"sended": "Fleet dispatched",
+				"mission": "Mission",
+				"distance": "Distance",
+				"speed": "Speed",
+				"consumption": "Fuel consumption",
+				"deployment": "Deployment",
+				"target": "Target",
+				"arrival_target": "Arrival time (at target)",
+				"arrival_home": "Arrival time (home)",
+				"ships": "Ships"
+			},
+			"list": {
+				"number": "#",
+				"mission": "Mission",
+				"mission_R": "Return Home",
+				"mission_A": "Flight to target",
+				"quantity": "Quantity",
+				"target": "Target",
+				"return": "Return",
+				"orders": "Orders",
+				"merge": "Merge",
+				"recall": "Recall",
+				"no_activity": "no fleet activity",
+				"empty_slots": "All slots occupied!"
+			},
+			"return_popup": {
+				"title": "Return fleet?",
+				"y": "No",
+				"n": "Yes",
+				"success": "Fleet returning!"
+			}
 		}
 	}
 }

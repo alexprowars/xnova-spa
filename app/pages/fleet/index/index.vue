@@ -4,10 +4,13 @@
 			<div class="title">
 				<div class="grid grid-cols-2">
 					<div class="text-left">
-						Флоты <span :class="[page.fleets.length < user['fleets_max'] ? 'positive' : 'negative']">{{ page.fleets.length }}</span> из <span class="negative">{{ user['fleets_max'] }}</span>
+						{{ $t('pages.fleets.main.fleets') }}
+						<span :class="[page.fleets.length < user['fleets_max'] ? 'positive' : 'negative']">{{ page.fleets.length }}</span>
+						{{ $t('pages.fleets.main.of') }}
+						<span class="negative">{{ user['fleets_max'] }}</span>
 					</div>
 					<div v-if="page['maxExpeditions'] > 0" class="text-right">
-						Экспедиции {{ page['curExpeditions'] }}/{{ page['maxExpeditions'] }}
+						{{ $t('pages.fleets.main.expeditions') }} {{ page['curExpeditions'] }}/{{ page['maxExpeditions'] }}
 					</div>
 				</div>
 			</div>
@@ -19,59 +22,59 @@
 			<div v-if="page.ships.length" class="block page-fleet-select">
 				<div class="title">
 					<div class="grid">
-						Выбрать корабли<template v-if="page['selected']['mission'] > 0"> для миссии "{{ $t('fleet_mission.'+page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>
+						{{ $t('pages.fleets.main.select_ships') }}<template v-if="page['selected']['mission'] > 0"> {{ $t('pages.fleets.main.select_mission') }} "{{ $t('fleet_mission.' + page['selected']['mission']) }}"</template><template v-if="page['selected']['galaxy'] > 0"> на координаты [{{ page['selected']['galaxy'] }}:{{ page['selected']['system'] }}:{{ page['selected']['planet'] }}]</template>
 					</div>
 				</div>
 				<div class="content">
 					<form method="post" class="block-table text-center fleet_ships" @submit.prevent="checkout">
 						<div class="grid grid-cols-12 divide-x">
-							<div class="col-span-6 sm:col-span-7 th">Тип корабля</div>
-							<div class="col-span-2 sm:col-span-2 th">Кол-во</div>
+							<div class="col-span-6 sm:col-span-7 th">{{ $t('pages.fleets.main.ship_type') }}</div>
+							<div class="col-span-2 sm:col-span-2 th">{{ $t('pages.fleets.main.quantity') }}</div>
 							<div class="col-span-4 sm:col-span-3 th">&nbsp;</div>
 						</div>
 						<div v-for="ship in page.ships" class="grid grid-cols-12 divide-x">
 							<div class="col-span-6 sm:col-span-7 th middle">
-								<a :title="$t('tech.'+ship.id)">{{ $t('tech.'+ship.id) }}</a>
+								<a :title="$t('tech.' + ship.id)">{{ $t('tech.' + ship.id) }}</a>
 							</div>
 							<div class="col-span-2 sm:col-span-2 th middle">
 								<a @click.prevent="maxShips(ship['id'])">{{ $formatNumber(ship['count']) }}</a>
 							</div>
 							<div v-if="ship.id === 212" class="col-span-4 sm:col-span-3 th"></div>
 							<div v-else class="col-span-4 sm:col-span-3 th">
-								<a @click.prevent="diffShips(ship['id'], -1)" title="Уменьшить на 1" style="color:#FFD0D0">- </a>
-								<input type="number" min="0" :max="ship['count']" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.'+ship.id)+': '+ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
-								<a @click.prevent="diffShips(ship['id'], 1)" title="Увеличить на 1" style="color:#D0FFD0"> +</a>
+								<a @click.prevent="diffShips(ship['id'], -1)" :title="$t('pages.fleets.main.quantity_m')" style="color:#FFD0D0">- </a>
+								<input type="number" min="0" :max="ship['count']" v-model.number="fleets[ship['id']]" style="width:60%" :title="$t('tech.' + ship.id) + ': ' + ship['count']" placeholder="0" @change.prevent="calculateShips" @keyup="calculateShips">
+								<a @click.prevent="diffShips(ship['id'], 1)" :title="$t('pages.fleets.main.quantity_p')" style="color:#D0FFD0"> +</a>
 							</div>
 						</div>
 						<div class="grid grid-cols-12 divide-x">
 							<div class="col-span-12 sm:col-span-7 th"></div>
 							<div class="col-span-12 sm:col-span-5 th">
-								<a class="button" @click.prevent="allShips">Выбрать все</a>
-								<a v-if="count" class="button" @click.prevent="clearShips">Очистить</a>
+								<a class="button" @click.prevent="allShips">{{ $t('pages.fleets.main.select_all') }}</a>
+								<a v-if="count" class="button" @click.prevent="clearShips">{{ $t('pages.fleets.main.clear') }}</a>
 							</div>
 						</div>
 						<div v-if="count" class="grid grid-cols-12 divide-x">
 							<div class="col-span-4 sm:col-span-7 th">&nbsp;</div>
-							<div class="col-span-4 sm:col-span-2 th">Вместимость</div>
+							<div class="col-span-4 sm:col-span-2 th">{{ $t('pages.fleets.main.capacity') }}</div>
 							<div class="col-span-4 sm:col-span-3 th">{{ allCapacity ? $formatNumber(allCapacity) : '-' }}</div>
 						</div>
 						<div v-if="count" class="grid grid-cols-12 divide-x">
 							<div class="col-span-4 sm:col-span-7 th">&nbsp;</div>
-							<div class="col-span-4 sm:col-span-2 th">Скорость</div>
+							<div class="col-span-4 sm:col-span-2 th">{{ $t('pages.fleets.main.speed') }}</div>
 							<div class="col-span-4 sm:col-span-3 th">{{ allSpeed ? $formatNumber(allSpeed) : '-'}}</div>
 						</div>
 						<div v-if="count && page.fleets.length < user['fleets_max']" class="grid">
-							<div class="th"><button type="submit">Далее</button></div>
+							<div class="th"><button type="submit">{{ $t('pages.fleets.main.next') }}</button></div>
 						</div>
 					</form>
 				</div>
 			</div>
 			<div v-else class="block">
-				<div class="title text-center">Нет кораблей на планете</div>
+				<div class="title text-center">{{ $t('pages.fleets.main.no_ships') }}</div>
 				<div class="block-table text-center">
 					<div class="grid">
 						<div class="th">
-							<NuxtLink to="/shipyard" class="button">Перейти в верфь</NuxtLink>
+							<NuxtLink to="/shipyard" class="button">{{ $t('pages.fleets.main.go_to_shipyard') }}</NuxtLink>
 						</div>
 					</div>
 				</div>

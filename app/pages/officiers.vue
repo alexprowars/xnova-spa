@@ -3,14 +3,14 @@
 		<div class="officiers-list">
 			<div class="officiers-item">
 				<div class="officiers-item-title">
-					Доступно кредитов: {{ $formatNumber(user['credits']) }}
+					{{ $t('pages.officiers.credits', [$formatNumber(user['credits'])]) }}
 				</div>
 				<div class="flex flex-wrap sm:flex-nowrap gap-2">
 					<div class="hidden sm:block sm:basis-1/6 officiers-item-image">
 						<img :src="'/images/officiers/bigcredits.jpg'" alt="">
 					</div>
 					<div class="basis-full sm:basis-5/6 text-left">
-						Инженеры берут за свою работу только межгалактичесие кредиты. В зависимости от суммы контракта работают на вас в течении всего времени найма.
+						{{ $t('pages.officiers.credits_info') }}
 
 						<div class="flex my-4 gap-2">
 							<div>
@@ -18,13 +18,13 @@
 							</div>
 							<div class="flex flex-col justify-center">
 								<div class="text-sky-300">
-									При помощи кредитов можно нанять инженеров
+									{{ $t('pages.officiers.credits_info_2') }}
 								</div>
 							</div>
 						</div>
 
 						<NuxtLink to="/credits" class="button positive">
-							Получить кредиты
+							{{ $t('pages.officiers.get_credits') }}
 						</NuxtLink>
 					</div>
 				</div>

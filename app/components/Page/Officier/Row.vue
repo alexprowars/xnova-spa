@@ -2,7 +2,8 @@
 	<div class="officiers-item">
 		<div class="officiers-item-title">
 			{{ $t('tech.' + item['id']) }}
-			(<span v-if="time" class="positive">Нанят до: {{ $formatDate(time, 'DD MMM YYYY HH:mm:ss') }}</span><span v-else class="negative">Не нанят</span>)
+			<span v-if="time" class="positive">({{ $t('pages.overview.officier_active_until') }}: {{ $formatDate(time, 'DD MMM YYYY HH:mm:ss') }})</span>
+			<span v-else class="negative">({{ $t('pages.overview.officier_noactive') }})</span>
 		</div>
 		<div class="flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-x-2">
 			<div class="basis-1/2 sm:basis-1/6 grow order-1 sm:order-none officiers-item-image">
@@ -22,16 +23,16 @@
 			<div v-if="!isVacation" class="basis-1/2 sm:basis-1/6 order-2 text-center officiers-item-action flex items-center justify-center">
 				<div class="flex flex-col gap-2">
 					<div>
-						<button @click.prevent="submit(7, 20)">на неделю</button>
-						<br>Стоимость:&nbsp;<span class="positive">20</span>&nbsp;кр.
+						<button @click.prevent="submit(7, 20)">{{ $t('pages.officiers.cost_week') }}</button>
+						<br>{{ $t('pages.officiers.cost') }}:&nbsp;<span class="positive">20</span>&nbsp;{{ $t('pages.officiers.cost_credits') }}
 					</div>
 					<div>
-						<button @click.prevent="submit(14, 40)">на 2 недели</button>
-						<br>Стоимость:&nbsp;<span class="positive">40</span>&nbsp;кр.
+						<button @click.prevent="submit(14, 40)">{{ $t('pages.officiers.cost_weeks') }}</button>
+						<br>{{ $t('pages.officiers.cost') }}:&nbsp;<span class="positive">40</span>&nbsp;{{ $t('pages.officiers.cost_credits') }}
 					</div>
 					<div>
-						<button @click.prevent="submit(30, 80)">на месяц</button>
-						<br>Стоимость:&nbsp;<span class="positive">80</span>&nbsp;кр.
+						<button @click.prevent="submit(30, 80)">{{ $t('pages.officiers.cost_month') }}</button>
+						<br>{{ $t('pages.officiers.cost') }}:&nbsp;<span class="positive">80</span>&nbsp;{{ $t('pages.officiers.cost_credits') }}
 					</div>
 				</div>
 			</div>

@@ -1,48 +1,48 @@
 <template>
 	<div class="block start">
-		<div class="title">Обмен сырья</div>
+		<div class="title">{{ $t('pages.merchant.title') }}</div>
 		<div class="content">
 			<form method="post" class="block-table text-center" @submit.prevent="exchange">
 				<div class="grid" :class="{ 'grid-cols-2': type !== '' }">
 					<div class="th">
-						Вы можете вызвать межгалактического торговца для обмена ресурсов.<br>
-						<div class="negative">Каждая операция обмена будет стоить вам 1 кредит.</div><br><br>
+						<div>{{ $t('pages.merchant.description_line_1') }}</div>
+						<div class="negative">{{ $t('pages.merchant.description_line_2') }}</div>
 
-						<select v-model="type">
-							<option value="">Выберите ресурс для обмена</option>
+						<select v-model="type" class="mt-4">
+							<option value="">{{ $t('pages.merchant.select_resource') }}</option>
 							<option value="metal">{{ $t('resources.metal') }}</option>
 							<option value="crystal">{{ $t('resources.crystal') }}</option>
 							<option value="deuterium">{{ $t('resources.deuterium') }}</option>
 						</select>
 
-						<br><br>
-						(курс {{ modifiers['deuterium'] }}/{{ modifiers['crystal'] }}/{{ modifiers['metal'] }})
-						<br><br>
+						<div class="my-4">
+							{{ $t('pages.merchant.rate_info', modifiers) }}
+						</div>
 					</div>
 					<div v-if="type !== ''" class="th">
 						<div class="block-table">
 							<div class="grid">
-								<div class="c">Обменять {{ $t('resources.' + type) }} на</div>
+								<div class="c">{{ $t('pages.merchant.exchange_for', [$t('resources.' + type)]) }}</div>
 							</div>
 							<div class="grid grid-cols-12">
 								<div class="col-span-3 th"></div>
-								<div class="col-span-3 th">Курс</div>
+								<div class="col-span-3 th">{{ $t('pages.merchant.rate') }}</div>
 								<div class="col-span-6 th"></div>
 							</div>
 							<div v-for="res in ['metal', 'crystal', 'deuterium']" class="grid grid-cols-12">
 								<div class="col-span-3 th middle">{{ $t('resources.' + res) }}</div>
 								<div class="col-span-3 th middle">{{ modifiers[res] / modifiers[type] }}</div>
 								<div class="col-span-6 th middle">
-									<Number v-if="type !== res" min="0" v-model="resources[res]" placeholder="введите кол-во" @input="calculate"/>
+									<Number v-if="type !== res" min="0" v-model="resources[res]" :placeholder="$t('pages.merchant.quantity')" @input="calculate"/>
 									<span v-else>{{ resources[res] }}</span>
 								</div>
 							</div>
 							<div class="grid">
-								<div class="th negative">Внимание! Стоимость обмена 1 кредит</div>
+								<div class="th negative">{{ $t('pages.merchant.warning_text', [1]) }}</div>
 							</div>
 							<div class="grid">
 								<div class="c">
-									<button type="submit">Обменять ресурсы</button>
+									<button type="submit">{{ $t('pages.merchant.exchange') }}</button>
 								</div>
 							</div>
 						</div>
@@ -91,7 +91,7 @@
 		useApiSubmit('/merchant/exchange', {
 			type: type.value, ...resources.value
 		}, async (result) => {
-			useSuccessNotification('Вы обменяли ' + result['exchange'] + ' ' + t('resources.' + result['type']));
+			useSuccessNotification(t('pages.merchant.success_message', [result['exchange'], t('resources.' + result['type'])]));
 
 			type.value = '';
 

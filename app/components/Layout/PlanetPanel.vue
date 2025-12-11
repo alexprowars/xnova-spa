@@ -14,7 +14,7 @@
 		</div>
 		<div class="text-center">
 			<div class="resource-panel-item">
-				<NuxtLink to="/credits" class="sm:inline-block resource-panel-item-icon">
+				<NuxtLink to="/officiers" class="sm:inline-block resource-panel-item-icon">
 					<Popper>
 						<template #content>
 							<div class="resource-panel-officiers">
