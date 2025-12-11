@@ -636,9 +636,297 @@
 			},
 			"return_popup": {
 				"title": "Return fleet?",
-				"y": "No",
-				"n": "Yes",
+				"yes": "No",
+				"no": "Yes",
 				"success": "Fleet returning!"
+			}
+		},
+		"friends": {
+			"list": {
+				"title": "Friends list",
+				"name": "Name",
+				"alliance": "Alliance",
+				"coordinates": "Coordinates",
+				"online": "Online",
+				"text": "Request text",
+				"in_game": "In game",
+				"15_min": "15 min.",
+				"not_in_game": "Not in game",
+				"remove": "Remove",
+				"remove_confirm": {
+					"title": "Remove friend?",
+					"yes": "Yes",
+					"no": "No",
+					"success": "Friend removed"
+				},
+				"no_friends": "No friends",
+				"requests_label": "Requests",
+				"my_requests": "My requests"
+			},
+			"requests": {
+				"other_requests": "Other requests",
+				"no_requests": "No requests",
+				"back": "Go back",
+				"approve": "Approve",
+				"reject": "Reject",
+				"remove_request": "Remove request",
+				"remove_request_confirm": {
+					"title": "Remove request?",
+					"yes": "Yes",
+					"no": "No",
+					"success": "Request removed"
+				}
+			},
+			"new": {
+				"title": "Friend request",
+				"player": "Player",
+				"submit": "Send request",
+				"back": "Go back",
+				"page_title": "Add friend",
+				"request_sent": "Request sent"
+			}
+		},
+		"logs": {
+			"index": {
+				"title": "Your saved logs",
+				"number": "#",
+				"name": "Name",
+				"link": "Link",
+				"management": "Management",
+				"no_logs": "You don't have any saved logs yet.",
+				"add_new": "Add new battle log",
+				"page_title": "Logs"
+			},
+			"create": {
+				"title": "Save battle report",
+				"name_label": "Name:",
+				"code_label": "Battle report ID:",
+				"save": "Save",
+				"back": "Back",
+				"page_title": "Add battle report",
+				"success": "Battle report saved successfully"
+			},
+			"view": {
+				"page_title": "Battle report"
+			},
+			"item": {
+				"open": "Open",
+				"delete": "Delete",
+				"delete_confirm": {
+					"title": "Delete log?",
+					"yes": "Yes",
+					"no": "No",
+					"success": "Report deleted"
+				}
+			}
+		},
+		"messages": {
+			"index": {
+				"title": "Messages",
+				"page_title": "Messages",
+				"per": "per",
+				"per_page": "per page",
+				"delete_selected": "Delete selected",
+				"date": "Date",
+				"from": "From",
+				"no_messages": "no messages"
+			},
+			"write": {
+				"page_title": "Send message"
+			},
+			"form": {
+				"title": "Send message",
+				"recipient": "Recipient",
+				"submit": "Send",
+				"sent": "Message sent!"
+			},
+			"row": {
+				"delete_title": "Delete",
+				"from_title": "From",
+				"reply_title": "Reply",
+				"quote_title": "Quote message",
+				"abuse_title": "Report abuse",
+				"abuse_confirm": {
+					"title": "Are you sure you want to report this message?",
+					"yes": "Yes",
+					"no": "No",
+					"success": "Complaint sent to game administration"
+				}
+			}
+		},
+		"notes": {
+			"index": {
+				"title": "Notes",
+				"page_title": "Notes",
+				"date": "Date",
+				"subject": "Subject",
+				"no_notes": "No notes",
+				"delete_selected": "Delete selected",
+				"create_new": "Create new note",
+				"deleted": "Notes deleted"
+			},
+			"create": {
+				"title": "Create note",
+				"page_title": "Create note",
+				"priority": "Priority:",
+				"priority_important": "Important",
+				"priority_normal": "Normal",
+				"priority_unimportant": "Unimportant",
+				"subject": "Subject:",
+				"subject_placeholder": "Enter subject",
+				"reset": "Reset",
+				"save": "Save",
+				"back": "Back",
+				"created": "Note added"
+			},
+			"view": {
+				"title": "View note"
+			},
+			"edit": {
+				"title": "Edit note",
+				"page_title": "Edit note",
+				"priority": "Priority:",
+				"priority_important": "Important",
+				"priority_normal": "Normal",
+				"priority_unimportant": "Unimportant",
+				"subject": "Subject:",
+				"subject_placeholder": "Enter subject",
+				"reset": "Reset",
+				"save": "Save",
+				"back": "Back",
+				"updated": "Note updated"
+			}
+		},
+		"info": {
+			"production": {
+				"title": "Production",
+				"level": "Level",
+				"range": "Range",
+				"capacity": "Capacity",
+				"output": "Output",
+				"difference": "Difference",
+				"energy": "Energy"
+			},
+			"fleet": {
+				"characteristics": "Characteristics",
+				"attack": "Attack",
+				"armor": "Armor",
+				"shield": "Shield",
+				"capacity": "Capacity",
+				"speed": "Speed",
+				"fuel_consumption": "Fuel consumption (deuterium)",
+				"engine_type": "Engine type",
+				"weapon_type": "Weapon type",
+				"armor_type": "Armor type",
+				"rapidfire": "Rapidfire",
+				"production_costs": "Production costs"
+			},
+			"defence": {
+				"characteristics": "Characteristics",
+				"attack": "Attack",
+				"armor": "Armor",
+				"shield": "Shield",
+				"weapon_type": "Weapon type",
+				"armor_type": "Armor type",
+				"production_costs": "Production costs",
+				"rapidfire": "Rapidfire",
+				"unit_type": "Unit type",
+				"hits_fleet": "Hits fleet",
+				"loses_fleet": "Loses fleet"
+			},
+			"destroy": {
+				"title": "Demolish building",
+				"level": "level",
+				"demolition_time": "Demolition time:",
+				"destroy": "Demolish",
+				"destroy_confirm": "Demolish building",
+				"level_short": "lvl.",
+				"close": "Close"
+			},
+			"missile": {
+				"title": "Missile destroyer",
+				"destroy": "Destroy",
+				"destroyed": "Missiles destroyed"
+			},
+			"alliance": {
+				"title": "Send fuel",
+				"fleets_on_hold": "Fleets on hold near planet",
+				"send": "Send",
+				"deuterium": "deuterium",
+				"sent": "Missile with deuterium sent to orbit of your planet"
+			}
+		},
+		"alliance": {
+			"index": {
+				"title": "Alliance information",
+				"abbreviation": "Abbreviation",
+				"name": "Name",
+				"members": "Alliance members",
+				"members_list": "list",
+				"your_rank": "Your rank",
+				"alliance_management": "alliance management",
+				"diplomacy": "Diplomacy",
+				"view": "View",
+				"new_requests": "new requests",
+				"requests": "Requests",
+				"requests_count": "requests",
+				"alliance_chat": "Alliance chat",
+				"new": "new",
+				"enter_chat": "Enter chat",
+				"homepage": "Homepage",
+				"internal_competence": "Internal competence",
+				"leave_alliance": "Leave alliance",
+				"continue": "Continue",
+				"page_title": "Your alliance",
+				"page_title_no_alliance": "Alliances",
+				"leave_confirm": {
+					"title": "Leave alliance?",
+					"no": "No",
+					"yes": "Yes",
+					"success": "You have left the alliance"
+				}
+			},
+			"members": {
+				"title": "Alliance members list (count: {0})",
+				"number": "#",
+				"nickname": "Nickname",
+				"rank": "Rank",
+				"points": "Points",
+				"coordinates": "Coordinates",
+				"join_date": "Join date",
+				"activity": "Activity",
+				"management": "Management",
+				"set_rank_for": "Set rank for {0}",
+				"novice": "Novice",
+				"save": "Save",
+				"back_to_overview": "Back to overview",
+				"page_title": "Members list",
+				"kick_confirm": {
+					"title": "Do you really want to kick this player from the alliance?",
+					"no": "No",
+					"yes": "Yes",
+					"success": "You have kicked the player from the alliance"
+				}
+			},
+			"diplomacy": {
+				"my_requests": "Your requests",
+				"delete_request": "Delete request",
+				"requests_to_alliance": "Requests to your alliance",
+				"confirm": "Confirm",
+				"alliance_relations": "Alliance relations",
+				"none": "none",
+				"back": "Back",
+				"page_title": "Diplomacy",
+				"relation_confirmed": "Relation between your alliances has been confirmed",
+				"relation_terminated": "Relation between your alliances has been terminated"
+			},
+			"create": {
+				"title": "Create alliance",
+				"tag_label": "Alliance abbreviation (3-8 characters)",
+				"name_label": "Alliance name (max. 35 characters)",
+				"submit": "Create",
+				"back": "Back",
+				"created": "Alliance has been created"
 			}
 		}
 	}

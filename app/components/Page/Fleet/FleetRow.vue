@@ -74,9 +74,9 @@
 			null,
 			t('pages.fleets.return_popup.title'),
 			[{
-				title: t('pages.fleets.return_popup.n'),
+				title: t('pages.fleets.return_popup.no'),
 			}, {
-				title: t('pages.fleets.return_popup.y'),
+				title: t('pages.fleets.return_popup.yes'),
 				handler: async () => {
 					try {
 						await useApiPost('/fleet/back', {

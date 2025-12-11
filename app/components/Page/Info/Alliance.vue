@@ -1,10 +1,10 @@
 <template>
 	<div class="block">
-		<div class="title">Отправка топлива</div>
+		<div class="title">{{ $t('pages.info.alliance.title') }}</div>
 		<div class="content">
 			<form method="post" action="" class="block-table" @submit.prevent="send">
 				<div class="grid">
-					<div class="th">Флоты на удержании возле планеты</div>
+					<div class="th">{{ $t('pages.info.alliance.fleets_on_hold') }}</div>
 				</div>
 				<div class="grid">
 					<div class="th">
@@ -16,7 +16,7 @@
 				</div>
 				<div v-if="fleet" class="grid">
 					<div class="th">
-						<button type="submit">Отправить {{ data['cost'] }} дейтерия</button>
+						<button type="submit">{{ $t('pages.info.alliance.send') }} {{ data['cost'] }} {{ $t('pages.info.alliance.deuterium') }}</button>
 					</div>
 				</div>
 			</form>
@@ -26,7 +26,9 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { useApiSubmit, useSuccessNotification } from '#imports';
+	import { useApiSubmit, useSuccessNotification, useI18n } from '#imports';
+
+	const { t } = useI18n();
 
 	const props = defineProps({
 		data: Object
@@ -38,7 +40,7 @@
 		useApiSubmit('/info/' + props.item + '/alliance', {
 			fleetId: fleet.value,
 		}, () => {
-			useSuccessNotification('Ракета с дейтерием отправлена на орбиту вашей планете');
+			useSuccessNotification(t('pages.info.alliance.sent'));
 		});
 	}
 </script>

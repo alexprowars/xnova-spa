@@ -6,7 +6,9 @@
 
 <script setup>
 	import MessageForm from '~/components/Page/Messages/Form.vue'
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute, useI18n } from '#imports';
+
+	const { t } = useI18n();
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -16,7 +18,7 @@
 	});
 
 	useHead({
-		title: 'Отправка сообщения',
+		title: t('pages.messages.write.page_title'),
 	});
 
 	const route = useRoute();

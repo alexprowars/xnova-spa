@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="block">
-			<div class="title">Просмотр заметки</div>
+			<div class="title">{{ $t('pages.notes.view.title') }}</div>
 			<div class="content">
 				<div class="block-table">
 					<div class="grid">
@@ -13,23 +13,23 @@
 			</div>
 		</div>
 		<div class="block">
-			<div class="title">Редактирование заметки</div>
+			<div class="title">{{ $t('pages.notes.edit.title') }}</div>
 			<div class="content">
 				<form method="post" class="block-table text-center" @submit.prevent="update">
 					<div class="grid grid-cols-2">
 						<div class="th middle">
 							<div>
-								Приоритет:
+								{{ $t('pages.notes.edit.priority') }}
 								<select v-model="page['priority']">
-									<option value="2">Важно</option>
-									<option value="1">Обычно</option>
-									<option value="0">Неважно</option>
+									<option value="2">{{ $t('pages.notes.edit.priority_important') }}</option>
+									<option value="1">{{ $t('pages.notes.edit.priority_normal') }}</option>
+									<option value="0">{{ $t('pages.notes.edit.priority_unimportant') }}</option>
 								</select>
 							</div>
 						</div>
 						<div class="th middle">
 							<div>
-								Тема: <input type="text" name="title" size="30" maxlength="30" v-model="page['title']" placeholder="Введите тему">
+								{{ $t('pages.notes.edit.subject') }} <input type="text" name="title" size="30" maxlength="30" v-model="page['title']" :placeholder="$t('pages.notes.edit.subject_placeholder')">
 							</div>
 						</div>
 					</div>
@@ -40,22 +40,24 @@
 					</div>
 					<div class="grid">
 						<div class="c">
-							<button @click.prevent="reset">Сброс</button>
-							<button type="submit">Сохранить</button>
+							<button @click.prevent="reset">{{ $t('pages.notes.edit.reset') }}</button>
+							<button type="submit">{{ $t('pages.notes.edit.save') }}</button>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="mt-2">
-			<NuxtLink to="/notes" class="button">Назад</NuxtLink>
+			<NuxtLink to="/notes" class="button">{{ $t('pages.notes.edit.back') }}</NuxtLink>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
 	import { ref } from 'vue';
+
+	const { t } = useI18n();
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -65,7 +67,7 @@
 	});
 
 	useHead({
-		title: 'Редактирование заметки',
+		title: t('pages.notes.edit.page_title'),
 	});
 
 	const { data: page, error, refresh } = await useAsyncData(
@@ -91,7 +93,7 @@
 			title: page.value['title'],
 			message: page.value['text'],
 		}, () => {
-			useSuccessNotification('Заметка обновлена');
+			useSuccessNotification(t('pages.notes.edit.updated'));
 
 			refresh();
 		});

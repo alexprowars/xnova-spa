@@ -3,7 +3,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute, useI18n } from '#imports';
+
+	const { t } = useI18n();
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -14,7 +16,7 @@
 	});
 
 	useHead({
-		title: 'Боевой доклад',
+		title: t('pages.logs.view.page_title'),
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {

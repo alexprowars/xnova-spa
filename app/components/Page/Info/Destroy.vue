@@ -1,6 +1,6 @@
 <template>
 	<div class="block">
-		<div class="title">Снос здания "{{ $t('tech.' + item) }}" уровень {{ data['level'] }}</div>
+		<div class="title">{{ $t('pages.info.destroy.title') }} "{{ $t('tech.' + item) }}" {{ $t('pages.info.destroy.level') }} {{ data['level'] }}</div>
 		<div class="content">
 			<div class="block-table text-center">
 				<div class="grid">
@@ -10,9 +10,9 @@
 				</div>
 				<div class="grid">
 					<div class="th">
-						<div class="mb-2">Время сноса: {{ $formatTime(data['time']) }}</div>
+						<div class="mb-2">{{ $t('pages.info.destroy.demolition_time') }} {{ $formatTime(data['time']) }}</div>
 
-						<button @click.prevent="destroyAction">Снести</button>
+						<button @click.prevent="destroyAction">{{ $t('pages.info.destroy.destroy') }}</button>
 					</div>
 				</div>
 			</div>
@@ -34,11 +34,11 @@
 	function destroyAction () {
 		openConfirmModal(
 			null,
-			'Снести постройку <b>' + t('tech.' + props.item) + ' ' + props.data['level'] + ' ур.</b>?',
+			t('pages.info.destroy.destroy_confirm') + ' <b>' + t('tech.' + props.item) + ' ' + props.data['level'] + ' ' + t('pages.info.destroy.level_short') + '.</b>?',
 			[{
-				title: 'Закрыть',
+				title: t('pages.info.destroy.close'),
 			}, {
-				title: 'Снести',
+				title: t('pages.info.destroy.destroy'),
 				handler: async () => {
 					await useApiPost('/buildings/build/destroy', {
 						element: props.item,

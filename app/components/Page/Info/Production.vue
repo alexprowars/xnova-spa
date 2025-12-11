@@ -1,11 +1,11 @@
 <template>
 	<div class="block">
-		<div class="title">Производство</div>
+		<div class="title">{{ $t('pages.info.production.title') }}</div>
 		<div class="content block-table !border-t text-center">
 			<template v-if="item === 42">
 				<div class="grid grid-cols-2">
-					<div class="c">Уровень</div>
-					<div class="c">Дальность</div>
+					<div class="c">{{ $t('pages.info.production.level') }}</div>
+					<div class="c">{{ $t('pages.info.production.range') }}</div>
 				</div>
 				<div v-for="row in production" class="grid grid-cols-2">
 					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
@@ -14,8 +14,8 @@
 			</template>
 			<template v-else-if="item === 22 || item === 23 || item === 24">
 				<div class="grid grid-cols-2">
-					<div class="c">Уровень</div>
-					<div class="c">Вместимость</div>
+					<div class="c">{{ $t('pages.info.production.level') }}</div>
+					<div class="c">{{ $t('pages.info.production.capacity') }}</div>
 				</div>
 				<div v-for="row in production" class="grid grid-cols-2">
 					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
@@ -24,11 +24,11 @@
 			</template>
 			<template v-else-if="item !== 4">
 				<div class="grid grid-cols-5">
-					<div class="c">Уровень</div>
-					<div class="c">Выработка</div>
-					<div class="c">Разница</div>
-					<div class="c">Энергия</div>
-					<div class="c">Разница</div>
+					<div class="c">{{ $t('pages.info.production.level') }}</div>
+					<div class="c">{{ $t('pages.info.production.output') }}</div>
+					<div class="c">{{ $t('pages.info.production.difference') }}</div>
+					<div class="c">{{ $t('pages.info.production.energy') }}</div>
+					<div class="c">{{ $t('pages.info.production.difference') }}</div>
 				</div>
 				<div v-for="row in production" class="grid grid-cols-5">
 					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
@@ -40,9 +40,9 @@
 			</template>
 			<template v-else>
 				<div class="grid grid-cols-3">
-					<div class="c">Уровень</div>
-					<div class="c">Выработка</div>
-					<div class="c">Разница</div>
+					<div class="c">{{ $t('pages.info.production.level') }}</div>
+					<div class="c">{{ $t('pages.info.production.output') }}</div>
+					<div class="c">{{ $t('pages.info.production.difference') }}</div>
 				</div>
 				<div v-for="row in production" class="grid grid-cols-3">
 					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>

@@ -1,36 +1,38 @@
 <template>
 	<div class="block">
-		<div class="title">Сохранение боевого доклада</div>
+		<div class="title">{{ $t('pages.logs.create.title') }}</div>
 		<div class="content">
 			<div class="block-table text-center">
 				<div class="grid">
 					<div class="th">
 						<form method="post" @submit.prevent="create">
-							<div>Название:</div>
+							<div>{{ $t('pages.logs.create.name_label') }}</div>
 							<div class="mt-1"><input type="text" name="title" v-model="title" :class="{error: v$.title.$error}" size="50" maxlength="100"></div>
-							<div class="mt-4">ID боевого доклада:</div>
+							<div class="mt-4">{{ $t('pages.logs.create.code_label') }}</div>
 							<div class="mt-1"><input type="text" name="code" v-model="code" :class="{error: v$.code.$error}" size="50" maxlength="40"></div>
 						</form>
 					</div>
 				</div>
 				<div class="grid">
 					<div class="c">
-						<button type="submit">Сохранить</button>
+						<button type="submit">{{ $t('pages.logs.create.save') }}</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="mt-2">
-		<NuxtLink to="/logs" class="button">Назад</NuxtLink>
+		<NuxtLink to="/logs" class="button">{{ $t('pages.logs.create.back') }}</NuxtLink>
 	</div>
 </template>
 
 <script setup>
 	import { useVuelidate } from '@vuelidate/core'
 	import { required } from '@vuelidate/validators'
-	import { definePageMeta, navigateTo, useApiSubmit, useHead, useRoute, useSuccessNotification } from '#imports';
+	import { definePageMeta, navigateTo, useApiSubmit, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
 	import { ref } from 'vue';
+
+	const { t } = useI18n();
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -40,7 +42,7 @@
 	});
 
 	useHead({
-		title: 'Добавить боевой доклад',
+		title: t('pages.logs.create.page_title'),
 	});
 
 	const route = useRoute();
@@ -72,7 +74,7 @@
 			title: title.value,
 			code: code.value,
 		}, () => {
-			useSuccessNotification('Боевой отчёт успешно сохранён');
+			useSuccessNotification(t('pages.logs.create.success'));
 
 			navigateTo('/logs');
 		});

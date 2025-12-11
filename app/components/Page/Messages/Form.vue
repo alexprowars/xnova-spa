@@ -1,13 +1,13 @@
 <template>
 	<div class="block">
 		<div class="title">
-			Отправка сообщения
+			{{ $t('pages.messages.form.title') }}
 		</div>
 		<div class="content">
 			<form action="" method="post" @submit.prevent="send" class="block-table form-group text-center">
 				<div class="grid">
 					<div class="th">
-						Получатель
+						{{ $t('pages.messages.form.recipient') }}
 					</div>
 				</div>
 				<div v-if="to.length" class="grid">
@@ -20,7 +20,7 @@
 				</div>
 				<div class="grid">
 					<div class="c">
-						<button type="submit">Отправить</button>
+						<button type="submit">{{ $t('pages.messages.form.submit') }}</button>
 					</div>
 				</div>
 			</form>
@@ -32,7 +32,9 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required } from '@vuelidate/validators'
 	import { ref } from 'vue';
-	import { useApiPost, useSuccessNotification } from '#imports';
+	import { useApiPost, useSuccessNotification, useI18n } from '#imports';
+
+	const { t } = useI18n();
 
 	const props = defineProps({
 		id: {
@@ -81,7 +83,7 @@
 			if (result.redirect && result.redirect.length) {
 				window.location.href = result.redirect;
 			} else {
-				useSuccessNotification('Сообщение отправлено!');
+				useSuccessNotification(t('pages.messages.form.sent'));
 
 				message.value = '';
 				v$.value.$reset();

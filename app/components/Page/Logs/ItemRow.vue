@@ -3,10 +3,10 @@
 		<div class="col-span-1 th">{{ item['id'] }}</div>
 		<div class="col-span-7 th">{{ item['title'] }}</div>
 		<div class="col-span-2 th">
-			<a :href="'/logs/' + item['id']" target="_blank">Открыть</a>
+			<a :href="'/logs/' + item['id']" target="_blank">{{ $t('pages.logs.item.open') }}</a>
 		</div>
 		<div class="col-span-2 thr">
-			<a href="" @click.prevent="deleteItem">Удалить</a>
+			<a href="" @click.prevent="deleteItem">{{ $t('pages.logs.item.delete') }}</a>
 		</div>
 	</div>
 </template>
@@ -15,7 +15,9 @@
 	import { openConfirmModal } from '~/composables/useModals';
 	import { useApiSubmit } from '~/composables/useApi';
 	import { useSuccessNotification } from '~/composables/useToast';
-	import { refreshNuxtData } from '#imports';
+	import { refreshNuxtData, useI18n } from '#imports';
+
+	const { t } = useI18n();
 
 	const { item } = defineProps({
 		item: Object
@@ -24,20 +26,20 @@
 	function deleteItem() {
 		openConfirmModal(
 			null,
-			'Удалить лог?',
+			t('pages.logs.item.delete_confirm.title'),
 			[{
-				title: 'Да',
+				title: t('pages.logs.item.delete_confirm.yes'),
 				handler: () => {
 					useApiSubmit('/logs/' + item['id'], {
 						_method: 'DELETE',
 					}, () => {
-						useSuccessNotification('Отчет удалён');
+						useSuccessNotification(t('pages.logs.item.delete_confirm.success'));
 
 						refreshNuxtData();
 					});
 				}
 			}, {
-				title: 'Нет',
+				title: t('pages.logs.item.delete_confirm.no'),
 			}]
 		);
 	}

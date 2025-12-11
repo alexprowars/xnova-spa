@@ -2,26 +2,26 @@
 	<div class="friends page-friends-request">
 		<div class="block">
 			<div class="title">
-				{{ isMy ? 'Мои запросы' : 'Другие запросы' }}
+				{{ isMy ? $t('pages.friends.my_requests') : $t('pages.friends.requests.other_requests') }}
 			</div>
 			<div class="content">
 				<div class="block-table text-center">
 					<div class="grid grid-cols-6">
-						<div class="c">Имя</div>
-						<div class="c">Альянс</div>
-						<div class="col-span-2 c">Координаты</div>
-						<div class="c">Текст запроса</div>
+						<div class="c">{{ $t('pages.friends.list.name') }}</div>
+						<div class="c">{{ $t('pages.friends.list.alliance') }}</div>
+						<div class="col-span-2 c">{{ $t('pages.friends.list.coordinates') }}</div>
+						<div class="c">{{ $t('pages.friends.list.text') }}</div>
 						<div class="c">&nbsp;</div>
 					</div>
 					<RequestRow v-for="item in items" :key="item['id']" :item="item" :is-my="isMy"/>
 					<div v-if="items.length === 0" class="grid">
-						<div class="th">Нет запросов</div>
+						<div class="th">{{ $t('pages.friends.requests.no_requests') }}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="mt-2">
-			<NuxtLink to="/friends" class="button">Вернуться назад</NuxtLink>
+			<NuxtLink to="/friends" class="button">{{ $t('pages.friends.requests.back') }}</NuxtLink>
 		</div>
 	</div>
 </template>

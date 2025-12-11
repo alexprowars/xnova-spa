@@ -1,33 +1,33 @@
 <template>
 	<div class="block">
-		<div class="title">Характеристики</div>
+		<div class="title">{{ $t('pages.info.defence.characteristics') }}</div>
 		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-2">
-					<div class="th">Атака</div>
+					<div class="th">{{ $t('pages.info.defence.attack') }}</div>
 					<div class="th">{{ $formatNumber(defence['attack']) }} ({{ $formatNumber(defence['attack_full']) }})</div>
 				</div>
 				<div class="grid grid-cols-2">
-					<div class="th">Броня</div>
+					<div class="th">{{ $t('pages.info.defence.armor') }}</div>
 					<div class="th">{{ $formatNumber(defence['armor']) }}</div>
 				</div>
 				<div v-if="defence['shield'] > 0" class="grid grid-cols-2">
-					<div class="th">Щиты</div>
+					<div class="th">{{ $t('pages.info.defence.shield') }}</div>
 					<div class="th">{{ $formatNumber(defence['shield']) }}</div>
 				</div>
 				<div v-if="defence['type_gun']" class="grid grid-cols-2">
-					<div class="th">Тип оружия</div>
+					<div class="th">{{ $t('pages.info.defence.weapon_type') }}</div>
 					<div class="th">{{ defence['type_gun'] }}</div>
 				</div>
 				<div v-if="defence['type_armour']" class="grid grid-cols-2">
-					<div class="th">Тип брони</div>
+					<div class="th">{{ $t('pages.info.defence.armor_type') }}</div>
 					<div class="th">{{ defence['type_armour'] }}</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="block">
-		<div class="title">Затраты на производство</div>
+		<div class="title">{{ $t('pages.info.defence.production_costs') }}</div>
 		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-2">
@@ -46,13 +46,13 @@
 		</div>
 	</div>
 	<div v-if="defence['rapidfire']" class="block">
-		<div class="title">Скорострел</div>
+		<div class="title">{{ $t('pages.info.defence.rapidfire') }}</div>
 		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-3">
-					<div class="c text-left">Тип юнита</div>
-					<div class="c positive">Поражает флот</div>
-					<div class="c negative">Теряет флот</div>
+					<div class="c text-left">{{ $t('pages.info.defence.unit_type') }}</div>
+					<div class="c positive">{{ $t('pages.info.defence.hits_fleet') }}</div>
+					<div class="c negative">{{ $t('pages.info.defence.loses_fleet') }}</div>
 				</div>
 				<div v-for="(battle, fId) in defence['rapidfire']" class="grid grid-cols-3">
 					<div class="th text-left">

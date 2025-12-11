@@ -642,9 +642,297 @@
 			},
 			"return_popup": {
 				"title": "Вернуть флот?",
-				"y": "Нет",
-				"n": "Да",
+				"yes": "Нет",
+				"no": "Да",
 				"success": "Флот возвращается назад!"
+			}
+		},
+		"friends": {
+			"list": {
+				"title": "Список друзей",
+				"name": "Имя",
+				"alliance": "Альянс",
+				"coordinates": "Координаты",
+				"online": "Онлайн",
+				"text": "Текст запроса",
+				"in_game": "В игре",
+				"15_min": "15 мин.",
+				"not_in_game": "Не в игре",
+				"remove": "Удалить",
+				"remove_confirm": {
+					"title": "Удалить друга?",
+					"yes": "Да",
+					"no": "Нет",
+					"success": "Друг удалён"
+				},
+				"no_friends": "Нет друзей",
+				"requests_label": "Запросы",
+				"my_requests": "Мои запросы"
+			},
+			"requests": {
+				"other_requests": "Другие запросы",
+				"no_requests": "Нет запросов",
+				"back": "Вернуться назад",
+				"approve": "Принять",
+				"reject": "Отклонить",
+				"remove_request": "Удалить запрос",
+				"remove_request_confirm": {
+					"title": "Удалить запрос?",
+					"yes": "Да",
+					"no": "Нет",
+					"success": "Заявка удалена"
+				}
+			},
+			"new": {
+				"title": "Предложение подружиться",
+				"player": "Игрок",
+				"submit": "Отправить заявку",
+				"back": "Вернуться назад",
+				"page_title": "Добавить друга",
+				"request_sent": "Запрос отправлен"
+			}
+		},
+		"logs": {
+			"index": {
+				"title": "Ваши сохранённые логи",
+				"number": "№",
+				"name": "Название",
+				"link": "Ссылка",
+				"management": "Управление",
+				"no_logs": "У вас пока нет сохранённых логов.",
+				"add_new": "Добавить новый лог боя",
+				"page_title": "Логовница"
+			},
+			"create": {
+				"title": "Сохранение боевого доклада",
+				"name_label": "Название:",
+				"code_label": "ID боевого доклада:",
+				"save": "Сохранить",
+				"back": "Назад",
+				"page_title": "Добавить боевой доклад",
+				"success": "Боевой отчёт успешно сохранён"
+			},
+			"view": {
+				"page_title": "Боевой доклад"
+			},
+			"item": {
+				"open": "Открыть",
+				"delete": "Удалить",
+				"delete_confirm": {
+					"title": "Удалить лог?",
+					"yes": "Да",
+					"no": "Нет",
+					"success": "Отчет удалён"
+				}
+			}
+		},
+		"messages": {
+			"index": {
+				"title": "Сообщения",
+				"page_title": "Сообщения",
+				"per": "по",
+				"per_page": "на странице",
+				"delete_selected": "Удалить отмеченные",
+				"date": "Дата",
+				"from": "От",
+				"no_messages": "нет сообщений"
+			},
+			"write": {
+				"page_title": "Отправка сообщения"
+			},
+			"form": {
+				"title": "Отправка сообщения",
+				"recipient": "Получатель",
+				"submit": "Отправить",
+				"sent": "Сообщение отправлено!"
+			},
+			"row": {
+				"delete_title": "Удалить",
+				"from_title": "От кого",
+				"reply_title": "Ответить",
+				"quote_title": "Цитировать сообщение",
+				"abuse_title": "Отправить жалобу",
+				"abuse_confirm": {
+					"title": "Вы уверены что хотите отправить жалобу на это сообщение?",
+					"yes": "Да",
+					"no": "Нет",
+					"success": "Жалоба отправлена администрации игры"
+				}
+			}
+		},
+		"notes": {
+			"index": {
+				"title": "Заметки",
+				"page_title": "Заметки",
+				"date": "Дата",
+				"subject": "Тема",
+				"no_notes": "Заметки отсутствуют",
+				"delete_selected": "Удалить выбранное",
+				"create_new": "Создать новую заметку",
+				"deleted": "Заметки удалены"
+			},
+			"create": {
+				"title": "Создание заметки",
+				"page_title": "Создание заметки",
+				"priority": "Приоритет:",
+				"priority_important": "Важно",
+				"priority_normal": "Обычно",
+				"priority_unimportant": "Неважно",
+				"subject": "Тема:",
+				"subject_placeholder": "Введите тему",
+				"reset": "Сброс",
+				"save": "Сохранить",
+				"back": "Назад",
+				"created": "Заметка добавлена"
+			},
+			"view": {
+				"title": "Просмотр заметки"
+			},
+			"edit": {
+				"title": "Редактирование заметки",
+				"page_title": "Редактирование заметки",
+				"priority": "Приоритет:",
+				"priority_important": "Важно",
+				"priority_normal": "Обычно",
+				"priority_unimportant": "Неважно",
+				"subject": "Тема:",
+				"subject_placeholder": "Введите тему",
+				"reset": "Сброс",
+				"save": "Сохранить",
+				"back": "Назад",
+				"updated": "Заметка обновлена"
+			}
+		},
+		"info": {
+			"production": {
+				"title": "Производство",
+				"level": "Уровень",
+				"range": "Дальность",
+				"capacity": "Вместимость",
+				"output": "Выработка",
+				"difference": "Разница",
+				"energy": "Энергия"
+			},
+			"fleet": {
+				"characteristics": "Характеристики",
+				"attack": "Атака",
+				"armor": "Броня",
+				"shield": "Щиты",
+				"capacity": "Грузоподъёмность",
+				"speed": "Скорость",
+				"fuel_consumption": "Потребление топлива (дейтерий)",
+				"engine_type": "Тип двигателя",
+				"weapon_type": "Тип оружия",
+				"armor_type": "Тип брони",
+				"rapidfire": "Скорострел",
+				"production_costs": "Затраты на производство"
+			},
+			"defence": {
+				"characteristics": "Характеристики",
+				"attack": "Атака",
+				"armor": "Броня",
+				"shield": "Щиты",
+				"weapon_type": "Тип оружия",
+				"armor_type": "Тип брони",
+				"production_costs": "Затраты на производство",
+				"rapidfire": "Скорострел",
+				"unit_type": "Тип юнита",
+				"hits_fleet": "Поражает флот",
+				"loses_fleet": "Теряет флот"
+			},
+			"destroy": {
+				"title": "Снос здания",
+				"level": "уровень",
+				"demolition_time": "Время сноса:",
+				"destroy": "Снести",
+				"destroy_confirm": "Снести постройку",
+				"level_short": "ур.",
+				"close": "Закрыть"
+			},
+			"missile": {
+				"title": "Уничтожитель ракет",
+				"destroy": "Уничтожить",
+				"destroyed": "Ракеты уничтожены"
+			},
+			"alliance": {
+				"title": "Отправка топлива",
+				"fleets_on_hold": "Флоты на удержании возле планеты",
+				"send": "Отправить",
+				"deuterium": "дейтерия",
+				"sent": "Ракета с дейтерием отправлена на орбиту вашей планете"
+			}
+		},
+		"alliance": {
+			"index": {
+				"title": "Информация об альянсе",
+				"abbreviation": "Аббревиатура",
+				"name": "Название",
+				"members": "Члены альянса",
+				"members_list": "список",
+				"your_rank": "Ваш ранг",
+				"alliance_management": "управление альянсом",
+				"diplomacy": "Дипломатия",
+				"view": "Просмотр",
+				"new_requests": "новых запросов",
+				"requests": "Заявки",
+				"requests_count": "заявок",
+				"alliance_chat": "Альянс чат",
+				"new": "новых",
+				"enter_chat": "Войти в чат",
+				"homepage": "Домашняя страница",
+				"internal_competence": "Внутренняя компетенция",
+				"leave_alliance": "Покинуть альянс",
+				"continue": "Продолжить",
+				"page_title": "Ваш альянс",
+				"page_title_no_alliance": "Альянсы",
+				"leave_confirm": {
+					"title": "Покинуть альянс?",
+					"no": "Нет",
+					"yes": "Да",
+					"success": "Вы покинули альянс"
+				}
+			},
+			"members": {
+				"title": "Список членов альянса (количество: {0})",
+				"number": "№",
+				"nickname": "Ник",
+				"rank": "Ранг",
+				"points": "Очки",
+				"coordinates": "Координаты",
+				"join_date": "Дата вступления",
+				"activity": "Активность",
+				"management": "Управление",
+				"set_rank_for": "Установить ранг для {0}",
+				"novice": "Новичок",
+				"save": "Сохранить",
+				"back_to_overview": "Вернутся к обзору",
+				"page_title": "Список участников",
+				"kick_confirm": {
+					"title": "Вы действительно хотите исключить данного игрока из альянса?",
+					"no": "Нет",
+					"yes": "Да",
+					"success": "Вы исключили игрока из альянса"
+				}
+			},
+			"diplomacy": {
+				"my_requests": "Ваши запросы",
+				"delete_request": "Удалить заявку",
+				"requests_to_alliance": "Запросы вашему альянсу",
+				"confirm": "Подтвердить",
+				"alliance_relations": "Отношения между альянсами",
+				"none": "нет",
+				"back": "Назад",
+				"page_title": "Дипломатия",
+				"relation_confirmed": "Отношение между вашими альянсами подтверждено",
+				"relation_terminated": "Отношение между вашими альянсами расторжено"
+			},
+			"create": {
+				"title": "Создать альянс",
+				"tag_label": "Аббревиатура альянса (3-8 символов)",
+				"name_label": "Название альянса (max. 35 символов)",
+				"submit": "Создать",
+				"back": "Назад",
+				"created": "Альянс был создан"
 			}
 		}
 	}

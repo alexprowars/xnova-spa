@@ -6,6 +6,7 @@ html {
 	position: relative;
 	-webkit-overflow-scrolling: touch;
 	overflow-scrolling: touch;
+	scrollbar-gutter: stable;
 
 	@media (min-width: 480px) and (max-width: 1200px) {
 		font-size: 11px;

@@ -1,6 +1,6 @@
 <template>
 	<div v-if="planet['units']['interceptor_misil'] || planet['units']['interplanetary_misil']" class="block">
-		<div class="title">Уничтожитель ракет</div>
+		<div class="title">{{ $t('pages.info.missile.title') }}</div>
 		<div class="content">
 			<form method="post" action="" class="block-table" @submit.prevent="send">
 				<div v-if="planet['units']['interceptor_misil']" class="grid grid-cols-2">
@@ -13,7 +13,7 @@
 				</div>
 				<div v-if="interceptor > 0 || interplanetary > 0" class="grid">
 					<div class="th">
-						<button type="submit">Уничтожить</button>
+						<button type="submit">{{ $t('pages.info.missile.destroy') }}</button>
 					</div>
 				</div>
 			</form>
@@ -23,9 +23,11 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { useApiSubmit, useSuccessNotification } from '#imports';
+	import { useApiSubmit, useSuccessNotification, useI18n } from '#imports';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store/index.js';
+
+	const { t } = useI18n();
 
 	const props = defineProps({
 		item: {
@@ -42,7 +44,7 @@
 			interceptor: interceptor.value,
 			interplanetary: interplanetary.value,
 		}, () => {
-			useSuccessNotification('Ракеты уничтожены');
+			useSuccessNotification(t('pages.info.missile.destroyed'));
 
 			interceptor.value = 0;
 			interplanetary.value = 0;

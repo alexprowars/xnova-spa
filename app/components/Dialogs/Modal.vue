@@ -3,6 +3,7 @@
 		v-bind="$attrs"
 		content-class="dialog-content"
 		content-transition="vfm-modal"
+		:reserve-scroll-bar-gap="false"
 	>
 		<button class="dialog-close" @click="emit('update:modelValue', false)">×</button>
 		<slot></slot>

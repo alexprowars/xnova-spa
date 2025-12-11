@@ -1,14 +1,14 @@
 <template>
 	<div class="block page-notes">
 		<div class="title">
-			Заметки
+			{{ $t('pages.notes.index.title') }}
 		</div>
 		<div class="content">
 			<div class="block-table">
 				<div class="grid grid-cols-12">
 					<div class="col-span-1 c"></div>
-					<div class="col-span-3 c">Дата</div>
-					<div class="col-span-8 c">Тема</div>
+					<div class="col-span-3 c">{{ $t('pages.notes.index.date') }}</div>
+					<div class="col-span-8 c">{{ $t('pages.notes.index.subject') }}</div>
 				</div>
 				<div class="grid grid-cols-12" v-for="item in items">
 					<div class="col-span-1 th text-center">
@@ -24,20 +24,22 @@
 					</div>
 				</div>
 				<div class="grid" v-if="items.length === 0">
-					<div class="th">Заметки отсутствуют</div>
+					<div class="th">{{ $t('pages.notes.index.no_notes') }}</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="mt-2">
-		<button v-if="deleteItems.length > 0" class="negative" @click="deleteNotes">Удалить выбранное</button>
-		<NuxtLink class="button" to="/notes/create">Создать новую заметку</NuxtLink>
+		<button v-if="deleteItems.length > 0" class="negative" @click="deleteNotes">{{ $t('pages.notes.index.delete_selected') }}</button>
+		<NuxtLink class="button" to="/notes/create">{{ $t('pages.notes.index.create_new') }}</NuxtLink>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
 	import { ref } from 'vue';
+
+	const { t } = useI18n();
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -47,7 +49,7 @@
 	});
 
 	useHead({
-		title: 'Заметки',
+		title: t('pages.notes.index.page_title'),
 	});
 
 	const { data: items, error, refresh } = await useAsyncData(
@@ -66,7 +68,7 @@
 			_method: 'DELETE',
 			id: deleteItems.value,
 		}, () => {
-			useSuccessNotification('Заметки удалены');
+			useSuccessNotification(t('pages.notes.index.deleted'));
 
 			deleteItems.value = [];
 
