@@ -59,7 +59,7 @@
 		}
 
 		try {
-			const result = await useApiPost('/login/reset', {
+			const result = await useApiPost('/login/forgot', {
 				email: email.value,
 			});
 

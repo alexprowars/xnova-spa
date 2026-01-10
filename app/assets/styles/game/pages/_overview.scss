@@ -30,6 +30,8 @@
 .page-overview-planet-image label {
 	border: 1px solid transparent;
 	display: inline-block;
+	width: 100%;
+	height: 100%;
 }
 
 .page-overview-planet-image input[type=radio]:checked + label {

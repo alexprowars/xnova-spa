@@ -1,7 +1,13 @@
 <template>
-	<div class="log-layout">
-		<ErrorMessage v-if="error" :data="error"/>
-		<slot/>
+	<div class="application">
+		<main>
+			<div class="main-content">
+				<div class="main-content-row">
+					<ErrorMessage v-if="error" :data="error"/>
+					<slot/>
+				</div>
+			</div>
+		</main>
 	</div>
 </template>
 

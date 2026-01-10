@@ -99,7 +99,7 @@ function parseData (data) {
 			navigateTo({ path: data['redirect'], force: true });
 		}
 
-		return data;
+		return data['data'];
 	} else {
 		throw new Error("request error");
 	}
