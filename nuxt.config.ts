@@ -45,6 +45,10 @@ let config = {
 	},
 	ssr: false,
 	vite: {
+		build: {
+			assetsInlineLimit: 0,
+			target: ['chrome85', 'safari14'],
+		},
 		define: {
 			__DEV__: false,
 		},
