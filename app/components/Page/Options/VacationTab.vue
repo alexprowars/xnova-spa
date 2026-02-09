@@ -1,43 +1,41 @@
 <template>
 	<form ref="formRef" method="post" @submit.prevent="send">
-		<table class="table">
-			<tbody>
-				<tr>
-					<td class="c" colspan="2">{{ $t('pages.options.vacation_mode') }}</td>
-				</tr>
-				<tr>
-					<td class="th" colspan="2">{{ $t('pages.options.vacation_mode_until') }}: <br/>{{ $formatDate(data['um_end_date'], 'DD MMM YYYY HH:mm:ss') }}</td>
-				</tr>
-				<tr>
-					<td class="th">{{ $t('pages.options.nickname') }}</td>
-					<td class="th"><input name="username" size="20" :value="data['opt_usern_data']" type="hidden">{{ data['opt_usern_data'] }}</td>
-				</tr>
-				<tr>
-					<td class="th"><a :title="$t('pages.options.vacation_tip')">{{ $t('pages.options.vacation_on') }}</a></td>
-					<td class="th"><input name="vacation" v-model="data['opt_modev_data']" type="checkbox"></td>
-				</tr>
-				<tr>
-					<td class="th"><a :title="$t('pages.options.delete_tip')">{{ $t('pages.options.delete_on') }}</a></td>
-					<td class="th"><input name="delete" v-model="data['opt_delac_data']" type="checkbox"></td>
-				</tr>
-				<tr>
-					<td class="th" colspan="2">
-						<button type="submit">{{ $t('pages.options.save') }}</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="block-table text-center">
+			<div class="grid">
+				<div class="c">{{ $t('pages.options.vacation_mode') }}</div>
+			</div>
+			<div class="grid">
+				<div class="c">{{ $t('pages.options.vacation_mode_until') }}: {{ $formatDate(user.vacation, 'DD MMM YYYY HH:mm:ss') }}</div>
+			</div>
+			<div class="grid grid-cols-2">
+				<div class="th">{{ $t('pages.options.nickname') }}</div>
+				<div class="th">{{ user.name }}</div>
+			</div>
+			<div class="grid grid-cols-2">
+				<div class="th"><a :title="$t('pages.options.vacation_tip')">{{ $t('pages.options.vacation_on') }}</a></div>
+				<div class="th"><input name="vacation" value="1" :checked="user.vacation !== null" type="checkbox"></div>
+			</div>
+			<div class="grid grid-cols-2">
+				<div class="th"><a :title="$t('pages.options.delete_tip')">{{ $t('pages.options.delete_on') }}</a></div>
+				<div class="th"><input name="delete" value="1" :checked="user.deleted_at !== null" type="checkbox"></div>
+			</div>
+			<div class="grid">
+				<div class="th">
+					<button type="submit">{{ $t('pages.options.save') }}</button>
+				</div>
+			</div>
+		</div>
 	</form>
 </template>
 
 <script setup>
 	import { refreshNuxtData, useApiSubmit, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store/index.js';
 
-	defineProps({
-		data: Object,
-	});
-
+	const store = useStore();
+	const { user } = storeToRefs(store);
 	const formRef = ref(null);
 
 	function send() {
@@ -45,6 +43,7 @@
 			useSuccessNotification('Настройки успешно изменены');
 
 			refreshNuxtData();
+			store.loadState();
 		});
 	}
 </script>

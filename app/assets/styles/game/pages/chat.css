@@ -6,28 +6,25 @@
 	overflow-x: hidden;
 	font-size: 1.2rem;
 
-	.date {
+	.date1, .date2, .date3 {
+		padding: 1px 2px;
+		text-decoration: none;
+		font-weight: normal;
+		cursor: pointer;
+	}
 
-		&1, &2, &3 {
-			padding: 1px 2px;
-			text-decoration: none;
-			font-weight: normal;
-			cursor: pointer;
-		}
+	.date1 {
+		color: #04AE04;
+	}
 
-		&1 {
-			color: #04AE04;
-		}
+	.date2 {
+		color: #04AE04;
+		background-color: #00FFAA;
+	}
 
-		&2 {
-			color: #04AE04;
-			background-color: #00FFAA;
-		}
-
-		&3 {
-			color: #04AE04;
-			background-color: #ddd;
-		}
+	.date3 {
+		color: #04AE04;
+		background-color: #ddd;
 	}
 
 	.to {

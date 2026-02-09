@@ -1,14 +1,16 @@
 <template>
 	<div>
-		<VacationTab v-if="page['vacation']" :data="page"/>
-		<OptionsTab v-else :data="page"/>
+		<VacationTab v-if="user.vacation"/>
+		<OptionsTab v-else/>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, useHead } from '#imports';
 	import VacationTab from '~/components/Page/Options/VacationTab.vue';
 	import OptionsTab from '~/components/Page/Options/OptionsTab.vue';
+	import { storeToRefs } from 'pinia';
+	import useStore from '~/store/index.js';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -21,12 +23,5 @@
 		title: 'Hacтpoйки',
 	});
 
-	const { data: page, error } = await useAsyncData(
-		async () => await useApiGet('/options'),
-		{ watch: [() => useRoute().query] }
-	);
-
-	if (error.value) {
-		throw showError(error.value);
-	}
+	const { user } = storeToRefs(useStore());
 </script>

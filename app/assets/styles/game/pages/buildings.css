@@ -1,11 +1,11 @@
 .page-building {
 
 	&:not(.page-building-unit) .block > .title {
-		border: 1px solid $border-color;
+		border: 1px solid var(--border-color);
 		@apply mb-1;
 	}
 
-	&-build-queue {
+	.page-building-build-queue {
 		@apply mb-1;
 	}
 
@@ -21,20 +21,20 @@
 			}
 		}
 
-		&-item {
-			border: 1px solid $border-color;
+		.page-building-items-item {
+			border: 1px solid var(--border-color);
 		}
 
 		.building {
-			background: $main-bg-color;
+			background: var(--main-color);
 
-			&-info {
+			.building-info {
 				display: flex;
 				justify-content: flex-start;
 				align-items: stretch;
 				position: relative;
 
-				&-img {
+				.building-info-img {
 					height: 98px;
 					width: 98px;
 					background: #054144 no-repeat;
@@ -60,19 +60,19 @@
 				left: 0;
 			}
 
-			&-title {
-				background: $head-bg-color;
+			.building-title {
+				background: var(--head-bg-color);
 				padding: 4px;
 			}
 
-			&-info {
-				&-actions {
+			.building-info {
+				.building-info-actions {
 					flex-grow: 1;
 					display: flex;
 					flex-direction: column;
 				}
 
-				&-upgrade {
+				.building-info-upgrade {
 					position: absolute;
 					bottom: 10px;
 					right: 10px;
@@ -102,7 +102,7 @@
 					}
 				}
 
-				&-time {
+				.building-info-time {
 					display: flex;
 					align-items: center;
 					padding: 4px 0 0 4px;
@@ -116,7 +116,7 @@
 				}
 			}
 
-			&-effects {
+			.building-effects {
 				position: absolute;
 				bottom: 0;
 				left: 0;
@@ -127,7 +127,7 @@
 				width: 100%;
 				background: #253046;
 
-				&-row {
+				.building-effects-row {
 					height: 17px;
 					display: flex;
 					align-items: center;
@@ -143,7 +143,7 @@
 				}
 			}
 
-			&-required {
+			.building-required {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
@@ -152,7 +152,7 @@
 				flex-grow: 1;
 			}
 
-			&-price {
+			.building-price {
 				position: static;
 				width: 100%;
 				display: flex;
@@ -162,7 +162,7 @@
 				padding: 5px 0;
 				height: auto;
 
-				&-item {
+				.building-price-item {
 					margin-right: 5px;
 					display: flex;
 					align-items: center;
@@ -177,7 +177,6 @@
 
 	&.page-building-tech .page-building-items-item.building,
 	&.page-building-unit .page-building-items-item.building {
-
 		&.blocked .building-info-img:after {
 			background: url(/images/buildings/blocked_frame-full.png) no-repeat;
 			background-size: cover;
@@ -214,21 +213,21 @@
 		background-repeat: no-repeat;
 
 		&.speed {
-			background-image: url('/images/icons/speed.png');
+			background-image: url('~/assets/images/icons/speed.png');
 			background-position-y: 1px;
 		}
 
 		&.armor {
-			background-image: url('/images/icons/armor.png');
+			background-image: url('~/assets/images/icons/armor.png');
 			background-position-y: 2px;
 		}
 
 		&.damage {
-			background-image: url('/images/icons/damage.png');
+			background-image: url('~/assets/images/icons/damage.png');
 		}
 
 		&.shield {
-			background-image: url('/images/icons/shield.png');
+			background-image: url('~/assets/images/icons/shield.png');
 			background-position-y: 1px;
 		}
 	}

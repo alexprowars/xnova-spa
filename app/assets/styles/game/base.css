@@ -1,5 +1,3 @@
-@import "../variables";
-
 html {
 	font-size: 13px;
 	line-height: 1.3;
@@ -18,10 +16,10 @@ html {
 }
 
 body {
-	background: #000 url("/images/background_1.jpg") no-repeat bottom fixed;
+	background: #000 url("~/assets/images/background_1.jpg") no-repeat bottom fixed;
 	overflow-y: scroll;
 	-webkit-font-smoothing: antialiased;
-	color: $text-color;
+	color: var(--text-color);
 }
 
 body, html {
@@ -34,7 +32,7 @@ body, html {
 
 a {
 	cursor: pointer;
-	color: $text-color;
+	color: var(--text-color);
 	text-decoration: none;
 
 	&:focus, &:hover {
@@ -73,10 +71,10 @@ table table td, .table table td, .block-table table td {
 }
 
 table th, .table th, .block-table th, .th {
-	background: $main-bg-color;
+	background: var(--main-color);
 	color: #d7d7d7;
 	vertical-align: middle;
-	border-color: $border-color;
+	border-color: var(--border-color);
 	@apply px-2 py-1.5 border-solid;
 }
 
@@ -87,7 +85,7 @@ table th, .table th, .block-table th, .th {
 
 td.b {
 	padding: 3px 3px 3px 3px;
-	border: 1px solid $border-color;
+	border: 1px solid var(--border-color);
 	color: #ebebeb;
 	background: #353535;
 	font-weight: normal;
@@ -96,7 +94,7 @@ td.b {
 div.b {
 	padding: 3px 3px 3px 3px;
 	border-style: solid;
-	border-color: $border-color;
+	border-color: var(--border-color);
 	color: #ebebeb;
 	background: #353535;
 	font-weight: normal;
@@ -113,10 +111,10 @@ th.b {
 }
 
 .c, table .c {
-	color: $text-color;
+	color: var(--text-color);
 	font-weight: normal;
-	background: $head-bg-color;
-	border-color: $border-color;
+	background: var(--head-bg-color);
+	border-color: var(--border-color);
 	border-style: solid;
 	@apply px-2 py-1.5;
 }
@@ -169,7 +167,7 @@ td.s {
 }
 
 div.j {
-	border: 1px solid $border-color;
+	border: 1px solid var(--border-color);
 }
 
 table.s th {
@@ -201,7 +199,7 @@ h1 {
 }
 
 input[type=text].error, input[type=password].error, input[type=email].error, textarea.error {
-	@apply border-red-500 !important;
+	@apply border-red-500!;
 }
 
 input[type=checkbox].error {
@@ -262,9 +260,9 @@ iframe {
 }
 
 input[type=submit], input[type=button], input[type=reset], .button, button {
-	background: $head-bg-color;
-	border: 1px solid $border-color;
-	color: $text-color;
+	background: var(--head-bg-color);
+	border: 1px solid var(--border-color);
+	color: var(--text-color);
 	min-width: 110px;
 	text-decoration: none;
 	font-weight: normal;
@@ -275,16 +273,16 @@ input[type=submit], input[type=button], input[type=reset], .button, button {
 }
 
 input[type=submit]:hover, input[type=button]:hover, input[type=reset]:hover, .button:hover, button:hover {
-	border-color: $border-hover-color;
+	border-color: var(--border-hover-color);
 	@apply text-yellow-200;
 	cursor: pointer;
 	text-decoration: none;
 }
 
 input[type=text], input[type=email], input[type=number], input[type=password] {
-	background: $head-bg-color;
-	border: 1px solid $border-color;
-	color: $text-color;
+	background: var(--head-bg-color);
+	border: 1px solid var(--border-color);
+	color: var(--text-color);
 	margin: 0;
 	text-align: center;
 	width: auto;
@@ -309,7 +307,7 @@ input[type=radio], input[type=radio] + label, input[type=checkbox] {
 }
 
 .full {
-	@apply text-red-500 !important;
+	@apply text-red-500!;
 }
 
 img.info {
@@ -357,7 +355,7 @@ textarea#text {
 }
 
 main {
-	max-width: $container-width;
+	max-width: var(--container-width);
 	width: 100%;
 	margin-top: 10px;
 	flex-grow: 2;
@@ -375,7 +373,7 @@ main {
 }
 
 .main-menu {
-	width: $menu-width;
+	width: var(--menu-width);
 	margin-right: 15px;
 	order: 1;
 
@@ -398,17 +396,17 @@ main {
 
 		&:last-child > a {
 			border-radius: 0 0 3px 3px;
-			border-bottom: 1px solid $menu-border-color;
+			border-bottom: 1px solid var(--menu-border-color);
 		}
 
 		> a {
-			background: $menu-bg-color;
+			background: var(--menu-bg-color);
 			display: block;
 			text-align: center;
-			border: 1px solid $menu-border-color;
+			border: 1px solid var(--menu-border-color);
 			border-bottom: none;
 			margin: 0;
-			color: $text-color;
+			color: var(--text-color);
 			font-weight: normal;
 			padding: 7px;
 			transition-property: background;
@@ -416,7 +414,7 @@ main {
 			font-size: 1.05rem;
 
 			&.active, &.active-link, &:hover {
-				background: $menu-bg-a-color;
+				background: var(--menu-bg-a-color);
 				text-decoration: none;
 			}
 		}
@@ -439,7 +437,7 @@ main {
 .main-planets {
 	order: 3;
 	margin-left: 15px;
-	width: $planets-width;
+	width: var(--planets-width);
 
 	@media (min-width: 481px) and (max-width: 992px) {
 		width: 60px;
@@ -554,9 +552,9 @@ ul {
 
 .top-menu-container {
 	padding: 10px 0;
-	background: $main-bg-color;
+	background: var(--main-color);
 	border-radius: 0 0 5px 5px;
-	border: 1px solid $border-color;
+	border: 1px solid var(--border-color);
 }
 
 .main-planets {
@@ -572,9 +570,9 @@ ul {
 		top: 10px;
 
 		.planet {
-			background: $main-bg-color;
-			color: $text-color;
-			border: 1px solid $border-color;
+			background: var(--main-color);
+			color: var(--text-color);
+			border: 1px solid var(--border-color);
 			margin-bottom: 5px;
 			text-align: center;
 			font-size: 0.9rem;
@@ -588,7 +586,7 @@ ul {
 			}
 
 			.reload {
-				background: url(/images/reload-icon.png) 0 0 no-repeat;
+				background: url("~/assets/images/reload-icon.png") 0 0 no-repeat;
 				width: 20px;
 				height: 20px;
 				cursor: pointer;
@@ -659,15 +657,15 @@ table th, .table th, .block-table th {
 }
 
 .ok, .success, .positive {
-	@apply text-green-500 !important;
+	@apply text-green-500!;
 }
 
 .notice, .zero, .neutral {
-	@apply text-yellow-400 !important;
+	@apply text-yellow-400!;
 }
 
 .negative {
-	@apply text-red-500 !important;
+	@apply text-red-500!;
 }
 
 span.star {
@@ -699,12 +697,12 @@ p {
 }
 
 .tch {
-	&_node {
+	.tch_node {
 		position: absolute;
 		text-overflow: clip;
 	}
 
-	&_noreq {
+	.tch_noreq {
 		color: white;
 		font-weight: bold;
 		background-color: black;
@@ -715,8 +713,8 @@ p {
 		text-align: center;
 	}
 
-	&_icon {
-		&_lime {
+	.tch_icon {
+		.tch_icon_lime {
 			height: 50px;
 			width: 50px;
 			box-shadow: lime 0 0 6px 6px;
@@ -724,7 +722,7 @@ p {
 			background-color: black;
 		}
 
-		&_yellow {
+		.tch_icon_yellow {
 			height: 56px;
 			width: 56px;
 			box-shadow: yellow 0 0 6px 6px;
@@ -732,7 +730,7 @@ p {
 			background-color: black;
 		}
 
-		&_red {
+		.tch_icon_red {
 			height: 56px;
 			width: 56px;
 			box-shadow: red 0 0 6px 6px;
@@ -741,8 +739,8 @@ p {
 		}
 	}
 
-	&_tx {
-		&_lvl {
+	.tch_tx {
+		.tch_tx_lvl {
 			font-size: 1rem;
 			font-weight: bold;
 			position: relative;
@@ -752,7 +750,7 @@ p {
 			margin-left: -3px;
 		}
 
-		&_nmcont {
+		.tch_tx_nmcont {
 			position: absolute;
 			text-align: center;
 			top: 64px;
@@ -760,7 +758,7 @@ p {
 			width: 120px;
 		}
 
-		&_name {
+		.tch_tx_name {
 			font-size: 0.8rem;
 			text-align: center;
 			box-shadow: inset 1px 1px 70px #000000, 1px 1px 4px #000000, -1px -1px 4px #000000;
@@ -780,7 +778,7 @@ p {
 
 	> a {
 		display: block;
-		border: 1px solid $border-color;
+		border: 1px solid var(--border-color);
 
 		img {
 			width: 100%;
@@ -794,7 +792,7 @@ p {
 	left: 0;
 	background: #354566;
 	color: #BEBEBE;
-	border: 1px solid $border-color;
+	border: 1px solid var(--border-color);
 	padding: 3px;
 	overflow: hidden;
 }
@@ -841,13 +839,13 @@ input[type="checkbox"], input[type="radio"] {
 
 .block {
 	> .title {
-		border: 1px solid $border-color;
+		border: 1px solid var(--border-color);
 		border-bottom: 0;
-		color : $text-color;
+		color : var(--text-color);
 		font-size: 1.1rem;
 		font-weight: normal;
-		background: $head-bg-color;
-		@apply p-1.5 rounded-t;
+		background: var(--head-bg-color);
+		@apply p-1.5 rounded-t-sm;
 
 		input[type=submit] {
 			padding: 0 10px 2px 10px;
@@ -855,10 +853,10 @@ input[type="checkbox"], input[type="radio"] {
 	}
 
 	> .content {
-		border: 1px solid $border-color;
-		background: $main-bg-color;
-		color: $text-color;
-		@apply rounded-b overflow-clip;
+		border: 1px solid var(--border-color);
+		background: var(--main-color);
+		color: var(--text-color);
+		@apply rounded-b-sm overflow-clip;
 
 		> .block-table, > .table {
 			border: 0;
@@ -893,7 +891,7 @@ input[type="checkbox"], input[type="radio"] {
 .start {
 	.avatar {
 		padding: 15px;
-		border: 1px solid $border-color;
+		border: 1px solid var(--border-color);
 		display: inline-block;
 		margin: 10px 5px;
 	}
@@ -956,7 +954,7 @@ div.errormessage {
 }
 
 footer {
-	background: #000 url(/images/bar-bg.gif) repeat-x top;
+	background: #000 url("~/assets/images/bar-bg.gif") repeat-x top;
 	color: #848484;
 	height: 25px;
 	line-height: 25px;
@@ -1052,15 +1050,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .resource-panel {
-	&-item {
-		&-tooltip {
+	.resource-panel-item {
+		.resource-panel-item-tooltip {
 			width: 150px;
 			font-size: 0.9rem;
 			color: #c5c5c5;
 			text-align: left;
 			@apply m-1;
 
-			&-title {
+			.resource-panel-item-tooltip-title {
 				color: #6f9fc8;
 				font-size: 0.9rem;
 				white-space: nowrap;
@@ -1070,7 +1068,7 @@ input[type=number]::-webkit-outer-spin-button {
 				border-bottom: 1px #415866 solid;
 			}
 
-			&-info {
+			.resource-panel-item-tooltip-info {
 				width: 100%;
 				display: flex;
 				flex-direction: column;
@@ -1088,7 +1086,7 @@ input[type=number]::-webkit-outer-spin-button {
 			}
 		}
 
-		&-icon {
+		.resource-panel-item-icon {
 			display: inline-block;
 		}
 
@@ -1101,8 +1099,7 @@ input[type=number]::-webkit-outer-spin-button {
 	}
 }
 
-@media (min-width: 481px)
-{
+@media (min-width: 481px) {
 	.row > div.col-sm-4 + div.col-sm-4 {
 		padding-left: 0;
 	}

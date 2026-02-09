@@ -30,7 +30,7 @@
 		height: 100px;
 		margin-left: -50px;
 		margin-top: -50px;
-		background: url('/images/loader-cat.svg') no-repeat transparent;
+		background: url('~/assets/images/loader-cat.svg') no-repeat transparent;
 	}
 
 	body.loading {

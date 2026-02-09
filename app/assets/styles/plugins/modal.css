@@ -68,9 +68,9 @@
 		float: right;
 
 		button {
-			color: $text-color;
-			background: $head-bg-color;
-			border: 1px solid $border-color;
+			color: var(--text-color);
+			background: var(--head-bg-color);
+			border: 1px solid var(--border-color);
 			padding: 6px 12px;
 			height: auto;
 			text-transform: uppercase;
@@ -78,7 +78,7 @@
 			cursor: pointer;
 
 			&:hover {
-				border-color: $border-hover-color;
+				border-color: var(--border-hover-color);
 				color: #fbff6f;
 			}
 		}

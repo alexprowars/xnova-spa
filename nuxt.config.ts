@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config';
+import svgLoader from 'vite-svg-loader'
 
 let config = {
 	app: {
@@ -36,7 +37,7 @@ let config = {
 		},
 	},
 	css: [
-		'~/assets/styles.scss',
+		'~/assets/styles.css',
 	],
 	telemetry: false,
 	devtools: {
@@ -47,22 +48,28 @@ let config = {
 		define: {
 			__DEV__: false,
 		},
-		css: {
-			preprocessorOptions: {
-				scss: {
-					quietDeps: true,
-					silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin']
-				},
-			}
-		},
+		plugins: [
+			svgLoader({
+				svgoConfig: {
+					plugins: [{
+						name: 'preset-default',
+						params: {
+							overrides: {
+								removeViewBox: false,
+							},
+						},
+					}],
+				}
+			})
+		],
 	},
 	postcss: {
 		plugins: {
-			tailwindcss: {},
+			"@tailwindcss/postcss": {},
 		},
 	},
 	experimental: {
-		appManifest: false,
+		checkOutdatedBuildInterval: 1000 * 60 * 10,
 	},
 	typescript: {
 		tsConfig: {
@@ -112,7 +119,7 @@ let config = {
 	nitro: {
 		devProxy: {},
 	},
-	compatibilityDate: '2025-11-01'
+	compatibilityDate: '2026-02-01'
 }
 
 if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length) {

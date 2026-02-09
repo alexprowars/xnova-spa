@@ -106,11 +106,11 @@
 .quotewrapper {
 	clear: both;
 	margin: 0 0 0 0;
-	background: #EAECF2 url(/images/quote_header.gif) top left no-repeat;
+	background: #eaecf2 url("~/assets/images/quote_header.gif") top left no-repeat;
 	padding-left: 17px;
-	border: solid 1px #C8CBD9;
-	border-bottom-color: #AEB3C5;
-	border-right-color: #AEB3C5;
+	border: solid 1px #c8cbd9;
+	border-bottom-color: #aeb3c5;
+	border-right-color: #aeb3c5;
 }
 
 .editor-component.error textarea {

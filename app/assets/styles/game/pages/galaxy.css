@@ -1,6 +1,5 @@
 .page-galaxy {
-
-	&-select {
+	.page-galaxy-select {
 		@apply mb-1.5;
 
 		button {

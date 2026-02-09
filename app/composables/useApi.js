@@ -8,7 +8,7 @@ export const useApiGet = async (url, params = {}) => {
 
 	try {
 		const result = await $fetch('/api' + url, {
-			method: 'get', params, headers: { 'X-Requested-With': 'XMLHttpRequest' }, retry: false
+			method: 'get', params, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, retry: false
 		});
 
 		return handleResult(result);
@@ -28,7 +28,7 @@ export const useApiPost = async (url, data = {}) => {
 
 	try {
 		const result = await $fetch('/api' + url, {
-			method: 'post', body: data, headers: { 'X-Requested-With': 'XMLHttpRequest' }, retry: false
+			method: 'post', body: data, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, retry: false
 		});
 
 		return handleResult(result);
