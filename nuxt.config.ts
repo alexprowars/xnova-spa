@@ -47,7 +47,10 @@ let config = {
 	vite: {
 		build: {
 			assetsInlineLimit: 0,
-			target: ['chrome85', 'safari14'],
+			target: ['chrome95', 'safari15'],
+			modulePreload: {
+				polyfill: false,
+			}
 		},
 		define: {
 			__DEV__: false,
@@ -66,6 +69,30 @@ let config = {
 				}
 			})
 		],
+		optimizeDeps: {
+			include: [
+				'laravel-echo',
+				'pusher-js',
+				'dayjs',
+				'dayjs/plugin/utc',
+				'dayjs/plugin/timezone',
+				'dayjs/plugin/dayOfYear',
+				'dayjs/plugin/weekOfYear',
+				'dayjs/plugin/customParseFormat',
+				'dayjs/plugin/relativeTime',
+				'dayjs/locale/en',
+				'dayjs/locale/ru',
+				'mitt',
+				'vue-final-modal',
+				'vue3-touch-events',
+				'floating-vue',
+				'vue3-toastify',
+				'@gtm-support/vue-gtm',
+				'@vuelidate/core',
+				'@vuelidate/validators',
+				'@vueuse/core',
+			]
+		}
 	},
 	postcss: {
 		plugins: {
@@ -123,7 +150,7 @@ let config = {
 	nitro: {
 		devProxy: {},
 	},
-	compatibilityDate: '2026-02-01'
+	compatibilityDate: '2026-04-01'
 }
 
 if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length) {

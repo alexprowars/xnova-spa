@@ -1,10 +1,10 @@
 <script>
-	import Component from '../../players/stat/[id].vue'
+	import Component from '../../players/[id]/stats.vue'
 	import { useHead } from '#imports';
 
 	useHead({
 		title: 'Статистика альянса',
 	});
 
-	export default Component
+	export default Component;
 </script>

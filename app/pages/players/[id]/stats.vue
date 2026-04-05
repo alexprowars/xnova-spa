@@ -71,7 +71,7 @@ import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute }
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(async () => {
-		return await useApiGet('players/stat/' + useRoute().params.id);
+		return await useApiGet('players/' + useRoute().params.id + '/stats');
 	}, { watch: [() => useRoute().query] });
 
 	if (error.value) {
@@ -129,38 +129,38 @@ import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute }
 
 		new Chart(rankChartRef.value, {
 			type: 'line',
-			data: {
+			item: {
 				labels: labels,
 				datasets: [{
 					label: 'Постройки',
 					fill: false,
 					borderColor: typeChartColors.value.build,
 					backgroundColor: typeChartColors.value.build,
-					data: ranks.build,
+					item: ranks.build,
 				}, {
 					label: 'Технологии',
 					fill: false,
 					borderColor: typeChartColors.value.tech,
 					backgroundColor: typeChartColors.value.tech,
-					data: ranks.tech
+					item: ranks.tech
 				}, {
 					label: 'Оборона',
 					fill: false,
 					borderColor: typeChartColors.value.defs,
 					backgroundColor: typeChartColors.value.defs,
-					data: ranks.defs
+					item: ranks.defs
 				}, {
 					label: 'Флот',
 					fill: false,
 					borderColor: typeChartColors.value.fleet,
 					backgroundColor: typeChartColors.value.fleet,
-					data: ranks.fleet
+					item: ranks.fleet
 				}, {
 					label: 'Место',
 					fill: false,
 					borderColor: typeChartColors.value.total,
 					backgroundColor: typeChartColors.value.total,
-					data: ranks.total
+					item: ranks.total
 				}, ]
 			},
 			options: {
@@ -203,14 +203,14 @@ import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute }
 
 		let config = {
 			type: 'line',
-			data: {
+			item: {
 				labels: labels,
 				datasets: [{
 					label: typeChartLabels.value[typeChart.value],
 					fill: false,
 					borderColor: typeChartColors.value[typeChart.value],
 					backgroundColor: typeChartColors.value[typeChart.value],
-					data: points
+					item: points
 				}]
 			},
 			options: {
@@ -253,7 +253,7 @@ import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute }
 		if (pointsChart === null) {
 			pointsChart = new Chart(pointChartRef.value, config);
 		} else {
-			pointsChart.data = config.data;
+			pointsChart.item = config.item;
 			pointsChart.update('none');
 		}
 	}

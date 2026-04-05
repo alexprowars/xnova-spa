@@ -1,17 +1,11 @@
 import dayjs from 'dayjs';
 import { defineNuxtPlugin, stopLoading, useRouter, useLoading } from '#imports';
-import 'vite/modulepreload-polyfill';
-import 'core-js/es/global-this.js';
-import 'core-js/es/array/flat.js';
-import 'core-js/proposals/promise-all-settled.js';
-import { raport_to_bb } from '~/utils/helpers'
 import Vue3TouchEvents from 'vue3-touch-events'
 import FloatingVue from 'floating-vue';
 import Vue3Toastify, { toast } from 'vue3-toastify';
 import { isNavigationFailure } from 'vue-router';
 
 window.dataLayer = window.dataLayer || [];
-window.raport_to_bb = raport_to_bb;
 
 export default defineNuxtPlugin((nuxtApp) => {
 	nuxtApp.vueApp.use(Vue3TouchEvents, {
@@ -39,13 +33,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	const router = useRouter();
 
-	router.beforeEach((to, from, next) => {
+	router.beforeEach(() => {
 		const loading = useLoading();
 
 		if (loading.value) {
-			next(false);
+			return false;
 		} else {
-			next();
+			return true;
 		}
 	})
 

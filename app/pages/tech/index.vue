@@ -1,14 +1,14 @@
 <template>
 	<Tabs class="page-techtree">
-		<Tab v-for="(groups, i) in page" :key="i" :name="groups['name']">
-			<div v-for="list in groups['items']" class="grid grid-cols-2">
+		<Tab v-for="(group, i) in groups" :key="i" :name="group['title']">
+			<div v-for="list in group['items']" class="grid grid-cols-2">
 				<div class="title flex items-center justify-between">
-					<NuxtLink :to="'/info/' + list['id']">{{ $t('tech.' + list['id']) }}</NuxtLink>
-					<div v-if="list['required'] !== ''" class="float-end hidden sm:block">
+					<NuxtLink :to="'/info/' + list['id']">{{ list['name'] }}</NuxtLink>
+					<div v-if="list['required'] !== null" class="float-end hidden sm:block">
 						<NuxtLink :to="'/tech/' + list['id']">[i]</NuxtLink>
 					</div>
 				</div>
-				<div class="" v-html="list['required']"></div>
+				<div v-html="list['required']"></div>
 			</div>
 		</Tab>
 	</Tabs>
@@ -27,7 +27,7 @@
 		title: 'Технологии',
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: groups, error } = await useAsyncData(async () => {
 		return await useApiGet('/tech');
 	}, { watch: [() => useRoute().query] });
 

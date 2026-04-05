@@ -1,6 +1,6 @@
 <template>
 	<div class="combar-report text-center">
-		<div v-html="data['report']['html']"></div>
+		<div v-html="data['report']"></div>
 		Ссылка на результат симуляции
 		<div class="my-4 text-center">
 			<input type="text" :value="'https://' + runtimeConfig.public.baseUrl + '/sim/report/' + data['uuid']" class="!w-[500px] !p-4">

@@ -23,11 +23,7 @@
 							<input :class="{error: v$.password_confirm.$error}" type="password" v-model="password_confirm" autocomplete="new-password">
 						</div>
 					</div>
-					<div v-if="recaptchaKey" class="grid">
-						<div class="th text-center">
-							<div ref="captchaRef" class="g-recaptcha" :data-sitekey="recaptchaKey"></div>
-						</div>
-					</div>
+					<ReCaptcha v-if="recaptchaKey" v-model="captchaToken"/>
 					<div class="grid">
 						<div class="th text-left">
 							<input :class="{error: v$.rules.$error}" id="rules" type="checkbox" v-model="rules">
@@ -58,9 +54,10 @@
 <script setup>
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation, minLength } from '@vuelidate/validators'
-	import { ref, onMounted, nextTick } from 'vue';
-	import { useHead, useRuntimeConfig, navigateTo, addScript, useApiPost } from '#imports';
+	import { ref } from 'vue';
+	import { useHead, useRuntimeConfig, navigateTo, useApiPost } from '#imports';
 	import useStore from '~/store/index.js';
+	import ReCaptcha from '~/components/ReCaptcha.vue';
 
 	if (process.server) {
 		useHead({
@@ -74,19 +71,8 @@
 	const password_confirm = ref('');
 	const rules = ref(false);
 	const laws = ref(false);
-	const captcha = ref(null);
-	const captchaRef = ref(null);
 	const { public: { recaptchaKey } } = useRuntimeConfig();
-
-	onMounted(() => {
-		addScript('https://www.google.com/recaptcha/api.js')
-
-		//if (recaptchaKey) {
-			//captcha.value = grecaptcha.render(captchaRef.value, {
-			//	sitekey: recaptchaKey,
-			//});
-		//}
-	});
+	const captchaToken = ref('');
 
 	const validations = {
 		email: {
@@ -125,16 +111,18 @@
 				email: email.value,
 				password: password.value,
 				password_confirmation: password_confirm.value,
-				captcha: document.querySelector('#g-recaptcha-response')?.value,
+				captcha: captchaToken.value,
 			});
 
 			await useStore().loadState();
 
 			navigateTo('/start');
 		} catch (e) {
-			if (typeof e.data['errors'] !== 'undefined' && e.data['errors']) {
-				errors.value = e.data['errors'];
+			if (typeof e.item['errors'] !== 'undefined' && e.item['errors']) {
+				errors.value = e.item['errors'];
 			}
+
+			window.grecaptcha?.enterprise.reset();
 		}
 	}
 </script>

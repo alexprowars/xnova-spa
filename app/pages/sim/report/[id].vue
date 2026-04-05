@@ -1,6 +1,6 @@
 <template>
 	<div class="combar-report text-center">
-		<div v-html="data['report']['html']"></div>
+		<div v-html="data['report']"></div>
 	</div>
 </template>
 

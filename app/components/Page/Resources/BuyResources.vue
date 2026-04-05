@@ -38,7 +38,7 @@
 	import useStore from '~/store';
 
 	defineProps({
-		data: Object,
+		item: Object,
 	});
 
 	const { t } = useI18n();

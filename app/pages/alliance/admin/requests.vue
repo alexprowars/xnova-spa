@@ -9,7 +9,7 @@
 				<RequestAcceptForm :request="request" @close="request = null"/>
 			</td>
 		</tr>
-		<tr v-if="page['items'].length > 0">
+		<tr v-if="items.length > 0">
 			<td class="c">
 				Логин
 			</td>
@@ -17,7 +17,7 @@
 				Дата подачи заявки
 			</td>
 		</tr>
-		<tr v-for="item in page['items']">
+		<tr v-for="item in items">
 			<td class="th">
 				<a href="" @click.prevent="show(item)">{{ item['name'] }}</a>
 			</td>
@@ -25,7 +25,7 @@
 				{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm') }}
 			</td>
 		</tr>
-		<tr v-if="page['items'].length === 0">
+		<tr v-if="items.length === 0">
 			<td class="th" colspan="2">Список заявок пуст</td>
 		</tr>
 		<tr>
@@ -51,7 +51,7 @@
 		title: 'Проверить запросы',
 	});
 
-	const { data: page, error } = await useAsyncData(
+	const { data: items, error } = await useAsyncData(
 		async () => await useApiGet('/alliance/admin/requests'),
 		{ watch: [() => useRoute().query] }
 	);

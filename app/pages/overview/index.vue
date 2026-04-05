@@ -250,7 +250,7 @@
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import useChatStore from '~/store/chat.js';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, openAjaxPopupModal, useRoute, isMobile, useApiPost, useApiGet, useI18n, refreshNuxtData } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute, isMobile, useApiPost, useApiGet, useI18n, refreshNuxtData, useWithLoadngIndicator, openPopupModal } from '#imports';
 	import { computed, onMounted } from 'vue';
 
 	definePageMeta({
@@ -313,7 +313,11 @@
 	}
 
 	function openPlayerPopup () {
-		openAjaxPopupModal(PlayerInfo, '/players/' + user.value['id'])
+		useWithLoadngIndicator(async () => {
+			const result = await useApiGet('/players/' + user.value['id']);
+
+			await openPopupModal(PlayerInfo, { item: result });
+		})
 	}
 
 	async function changeToMoon(id) {

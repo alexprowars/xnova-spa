@@ -1,7 +1,7 @@
 <template>
 	<div class="grid grid-cols-12 text-center">
 		<div class="col-span-1 th middle">
-			<input name="delete[]" type="checkbox" :value="item['id']" v-model="item['deleted']" :title="$t('pages.messages.row.delete_title')">
+			<input name="delete[]" type="checkbox" :value="item['id']" v-model="deleteModel" :title="$t('pages.messages.row.delete_title')">
 		</div>
 		<div class="col-span-3 th middle">{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm:ss') }}</div>
 		<div class="col-span-6 th middle">
@@ -35,7 +35,7 @@
 <script setup>
 	import PlayerInfo from '~/components/Page/Players/Info.vue';
 	import useStore from '~/store';
-	import { openAjaxPopupModal, openConfirmModal, useApiPost, useSuccessNotification, useI18n } from '#imports';
+	import { openConfirmModal, useApiPost, useSuccessNotification, useI18n, useWithLoadngIndicator, useApiGet, openPopupModal } from '#imports';
 	import { storeToRefs } from 'pinia';
 
 	const { t } = useI18n();
@@ -45,6 +45,7 @@
 	});
 
 	const { user } = storeToRefs(useStore());
+	const deleteModel = defineModel('delete');
 
 	function abuseAction () {
 		openConfirmModal(
@@ -67,6 +68,10 @@
 	}
 
 	function openPlayerPopup (id) {
-		openAjaxPopupModal(PlayerInfo, '/players/' + id)
+		useWithLoadngIndicator(async () => {
+			const result = await useApiGet('/players/' + id);
+
+			await openPopupModal(PlayerInfo, { item: result });
+		})
 	}
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<PlayerInfo :page="page"/>
+	<PlayerInfo :item="item"/>
 </template>
 
 <script setup>
@@ -16,7 +16,7 @@
 		}
 	});
 
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: item, error } = await useAsyncData(async () => {
 		return await useApiGet('/players/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 

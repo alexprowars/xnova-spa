@@ -1,5 +1,6 @@
 .idea/*
 .nuxt
+.output
 vendor/*
 node_modules/*
 Thumbs.db

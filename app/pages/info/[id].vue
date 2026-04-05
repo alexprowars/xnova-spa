@@ -1,10 +1,10 @@
 <template>
-	<InfoContent :page="page"/>
+	<InfoContent :item="item"/>
 </template>
 
 <script setup>
 	import InfoContent from '~/components/Page/Info/Content.vue';
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -13,9 +13,7 @@
 		}
 	});
 
-	const { t } = useI18n();
-
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data: item, error } = await useAsyncData(async () => {
 		return await useApiGet('/info/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
@@ -24,6 +22,6 @@
 	}
 
 	useHead({
-		title: t('tech.' + page.value['i']),
+		title: item.value['name'],
 	});
 </script>

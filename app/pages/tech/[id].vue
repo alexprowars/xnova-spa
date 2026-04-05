@@ -1,10 +1,10 @@
 <template>
-	<div id="rf_techinfo"></div>
+	<div class="tech_view" ref="elementRef"></div>
 </template>
 
 <script setup>
 	import { ECOTree } from '~/utils/techtree'
-	import { showError, useAsyncData, useHead, useI18n, definePageMeta, useRoute, useApiGet } from '#imports';
+	import { showError, useAsyncData, useHead, definePageMeta, useRoute, useApiGet } from '#imports';
 	import { onMounted } from 'vue';
 
 	definePageMeta({
@@ -13,9 +13,7 @@
 		}
 	});
 
-	const { t } = useI18n();
-
-	const { data: page, error } = await useAsyncData(async () => {
+	const { data, error } = await useAsyncData(async () => {
 		return await useApiGet('/tech/' + useRoute().params.id);
 	}, { watch: [() => useRoute().query] });
 
@@ -24,30 +22,33 @@
 	}
 
 	useHead({
-		title: t('tech.' + page.value['id']),
+		title: data.value['name'],
 	});
 
 	let counter = 0;
 	let objectTree;
+	const elementRef = useTemplateRef('elementRef');
 
 	onMounted(() => {
-		objectTree = new ECOTree('object', 'rf_techinfo');
-		createTree(1, -1, page.value['id'], page.value['level'], page.value['access']);
-	})
+		objectTree = new ECOTree('objectTree', elementRef.value);
+		createTree(1, -1, data.value['id'], data.value['level'], data.value['available']);
+
+		window.objectTree = objectTree;
+	});
 
 	function createTree (tid, prntid, element, level, access, fwrd) {
-		let data = page.value['data'].find((el) => el.id === element);
+		let item = data.value['items'].find((el) => el.id === element);
 
-		let active = "lime";
+		let active = 'lime';
 
 		if (!access) {
-			active = "red";
+			active = 'red';
 		}
 
 		if (element !== -1) {
-			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+t('tech.' + data.id)+'</span></div><img id="tch_img_'+tid+'" name="'+element+'" src="'+'/images/gebaeude/' + data.id+'.gif" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">' + item.name + '</span></div><img id="tch_img_' + tid + '" name="' + item['name'] + '" src="'+'/images/gebaeude/' + item.id + '.gif" class="tch_icon_' + active + '"><div class="tch_tx_lvl">' + level + '</div>', null, null, active, active, active);
 		} else {
-			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">'+fwrd+'</span></div><img id="tch_img_'+tid+'" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">'+level+'</div>', null, null, active, active, active);
+			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">' + fwrd + '</span></div><img id="tch_img_' + tid + '" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">' + level + '</div>', null, null, active, active, active);
 		}
 
 		counter++;
@@ -57,29 +58,29 @@
 			document.querySelector('#tch_img_' + prntid)?.classList.add('tch_icon_red');
 		}
 
-		if (element !== -1 && data['req'].length) {
-			for (let req of data['req']) {
+		if (element !== -1 && item['requirments'].length) {
+			for (let req of item['requirments']) {
 				let actclr = 'positive';
 
-				if (req[1] < req[3]) {
+				if (req['current'] < req['level']) {
 					actclr = 'negative';
 				}
 
 				let lvtmp = '';
 
-				if (req[2] !== -1) {
-					lvtmp = '<span class="' + actclr + '">' + req[1] + '</span><span style="color:gold"> + ' + req[2] + '</span>/<span class="positive">' + req[3] + '</span>';
+				if (req['queue'] !== -1) {
+					lvtmp = '<span class="' + actclr + '">' + req['current'] + '</span><span style="color:gold"> + ' + req['queue'] + '</span>/<span class="positive">' + req['level'] + '</span>';
 				} else {
-					lvtmp = '<span class="' + actclr + '">' + req[1] + '</span>/<span class="positive">' + req[3] + '</span>';
+					lvtmp = '<span class="' + actclr + '">' + req['current'] + '</span>/<span class="positive">' + req['level'] + '</span>';
 				}
 
 				let fwrld = '';
 
-				if (req[0] === -1) {
-					fwrld = t('tech.' + req[0]);
+				if (req['id'] === -1) {
+					fwrld = req['name'];
 				}
 
-				createTree(counter + 1, tid, req[0], lvtmp, req[1] >= req[3], fwrld);
+				createTree(counter + 1, tid, req['id'], lvtmp, req['current'] >= req['level'], fwrld);
 			}
 		}
 

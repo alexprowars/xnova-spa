@@ -65,7 +65,7 @@
 
 			await useStore().loadState();
 		} catch (e) {
-			alert(e.data?.message || e.message);
+			alert(e.item?.message || e.message);
 		}
 	}
 </script>

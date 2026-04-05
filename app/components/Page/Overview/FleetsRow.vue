@@ -1,6 +1,6 @@
 <template>
 	<div class="grid grid-cols-12 overview-fleets-row">
-		<div class="col-span-3 sm:col-span-2 th">
+		<div class="col-span-3 sm:col-span-2 th text-center">
 			<div class="z">
 				<Timer :value="item['date']"/>
 			</div>

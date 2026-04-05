@@ -1,16 +1,16 @@
 <template>
 	<div class="officiers-item">
 		<div class="officiers-item-title">
-			{{ $t('tech.' + item['id']) }}
+			{{ item['name'] }}
 			<span v-if="time" class="positive">({{ $t('pages.overview.officier_active_until') }}: {{ $formatDate(time, 'DD MMM YYYY HH:mm:ss') }})</span>
 			<span v-else class="negative">({{ $t('pages.overview.officier_noactive') }})</span>
 		</div>
 		<div class="flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-x-2">
-			<div class="basis-1/2 sm:basis-1/6 grow order-1 sm:order-none officiers-item-image">
-				<img :src="'/images/officiers/'+item['id']+'.jpg'" align="top" alt="">
+			<div class="basis-1/2 sm:basis-1/6 grow order-1 sm:order-0 officiers-item-image">
+				<img :src="'/images/officiers/' + item['id'] + '.jpg'" align="top" alt="">
 			</div>
 			<div class="basis-full sm:basis-4/6 grow text-left officiers-item-description">
-				<div v-html="$t('info.' + item['id'])"></div>
+				<div v-html="item['description']"></div>
 				<div class="flex my-4 gap-2">
 					<div>
 						<img :src="'/images/officiers/'+item['id']+'.gif'" :alt="$t('tech.'+item['id'])">

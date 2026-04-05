@@ -33,13 +33,13 @@
 	import { useApiSubmit, refreshNuxtData } from '#imports';
 
 	const props = defineProps({
-		data: Object,
+		item: Object,
 	});
 
 	function save() {
 		useApiSubmit('alliance/admin/text', {
-			type: props.data['text_type'],
-			text: props.data['text'],
+			type: props.item['text_type'],
+			text: props.item['text'],
 		}, () => {
 			refreshNuxtData();
 		});

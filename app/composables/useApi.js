@@ -1,4 +1,4 @@
-import { showError, navigateTo, startLoading, stopLoading, useErrorNotification } from '#imports';
+import { showError, navigateTo, startLoading, stopLoading, useErrorNotification, useNuxtApp } from '#imports';
 import useStore from '~/store';
 
 export const useApiGet = async (url, params = {}) => {
@@ -7,8 +7,17 @@ export const useApiGet = async (url, params = {}) => {
 	}
 
 	try {
+		const nuxtApp = useNuxtApp();
+
 		const result = await $fetch('/api' + url, {
-			method: 'get', params, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, retry: false
+			method: 'get',
+			params,
+			headers: {
+				'Accept': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'Locale': nuxtApp.$i18n?.locale.value,
+			},
+			retry: false,
 		});
 
 		return handleResult(result);
@@ -27,8 +36,17 @@ export const useApiPost = async (url, data = {}) => {
 	}
 
 	try {
+		const nuxtApp = useNuxtApp();
+
 		const result = await $fetch('/api' + url, {
-			method: 'post', body: data, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, retry: false
+			method: 'post',
+			body: data,
+			headers: {
+				'Accept': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'Locale': nuxtApp.$i18n?.locale.value,
+			},
+			retry: false,
 		});
 
 		return handleResult(result);
@@ -66,7 +84,7 @@ function handleError (e) {
 
 	if (typeof e.response._data !== 'undefined' && typeof e.response._data.error !== 'undefined') {
 		throw showError({
-			data: e.response._data,
+			item: e.response._data,
 		});
 	}
 

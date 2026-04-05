@@ -25,9 +25,9 @@
 					<div class="col-span-2 th"></div>
 				</div>
 
-				<MessagesRow v-for="item in messages" :key="item['id']" :item="item"/>
+				<MessagesRow v-for="item in messages" :key="item['id']" :item="item" v-model:delete="deleteItems"/>
 
-				<div v-if="page['pagination']['total'] === 0" class="grid">
+				<div v-if="page['pagination']['total'] === 0" class="grid text-center">
 					<div class="th">{{ $t('pages.messages.index.no_messages') }}</div>
 				</div>
 			</div>
@@ -80,26 +80,20 @@
 	const limitItems = ref([5, 10, 25, 50, 100, 200]);
 
 	watch(checkAll, (value) => {
-		messages.value.forEach((item) => {
-			item.deleted = value;
-		});
+		deleteItems.value = [];
+
+		if (value) {
+			messages.value.forEach((item) => {
+				deleteItems.value.push(item['id']);
+			});
+		}
 	});
 
 	const messages = computed(() => {
-		if (!page.value.items)
-			return [];
-
-		page.value.items.forEach((item) => {
-			item['deleted'] = false;
-		});
-
-		return page.value.items;
+		return page.value.items || [];
 	});
 
-	const deleteItems = computed(() => {
-		return messages.value.filter((item) => item.deleted === true)
-			.map((item) => item['id']);
-	});
+	const deleteItems = ref([]);
 
 	watch([category, limit], () => refresh());
 
@@ -107,6 +101,7 @@
 		useApiSubmit('/messages/delete', {
 			id: deleteItems.value,
 		}, () => {
+			deleteItems.value = [];
 			refresh();
 		});
 	}

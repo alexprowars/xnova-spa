@@ -1,6 +1,6 @@
 <template>
 	<div class="block">
-		<div class="title">{{ $t('pages.info.destroy.title') }} "{{ $t('tech.' + item) }}" {{ $t('pages.info.destroy.level') }} {{ data['level'] }}</div>
+		<div class="title">{{ $t('pages.info.destroy.title') }} "{{ item['name'] }}" {{ $t('pages.info.destroy.level') }} {{ data['level'] }}</div>
 		<div class="content">
 			<div class="block-table text-center">
 				<div class="grid">
@@ -34,7 +34,7 @@
 	function destroyAction () {
 		openConfirmModal(
 			null,
-			t('pages.info.destroy.destroy_confirm') + ' <b>' + t('tech.' + props.item) + ' ' + props.data['level'] + ' ' + t('pages.info.destroy.level_short') + '.</b>?',
+			t('pages.info.destroy.destroy_confirm') + ' <b>' + t('tech.' + props.item) + ' ' + props.item['level'] + ' ' + t('pages.info.destroy.level_short') + '.</b>?',
 			[{
 				title: t('pages.info.destroy.close'),
 			}, {

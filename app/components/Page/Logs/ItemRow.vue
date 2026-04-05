@@ -1,12 +1,12 @@
 <template>
 	<div class="grid grid-cols-12">
-		<div class="col-span-1 th">{{ item['id'] }}</div>
-		<div class="col-span-7 th">{{ item['title'] }}</div>
-		<div class="col-span-2 th">
+		<div class="col-span-1 th middle">{{ item['id'] }}</div>
+		<div class="col-span-7 th middle">{{ item['title'] }}</div>
+		<div class="col-span-2 th middle">
 			<a :href="'/logs/' + item['id']" target="_blank">{{ $t('pages.logs.item.open') }}</a>
 		</div>
-		<div class="col-span-2 thr">
-			<a href="" @click.prevent="deleteItem">{{ $t('pages.logs.item.delete') }}</a>
+		<div class="col-span-2 th middle">
+			<a href="" class="button" @click.prevent="deleteItem">{{ $t('pages.logs.item.delete') }}</a>
 		</div>
 	</div>
 </template>

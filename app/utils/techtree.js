@@ -264,7 +264,7 @@ function ECOTree (obj, elm) {
 	
 	this.version = "1.1";
 	this.obj = obj;
-	this.elm = document.getElementById(elm);
+	this.elm = elm;
 	this.self = this;
 	this.render = "CANVAS";
 	this.ctx = null;
@@ -609,8 +609,8 @@ ECOTree.prototype._selectAllInt = function (flag) {
 ECOTree.prototype._drawTree = function () {
 	let s = [];
 	let node = null;
-	let color = "";
-	let border = "";
+	let color = '';
+	let border = '';
 			
 	for (let n = 0; n < this.nDatabaseNodes.length; n++)
 	{ 
@@ -631,7 +631,6 @@ ECOTree.prototype._drawTree = function () {
 		
 		if (!node._isAncestorCollapsed())
 		{
-			//Canvas part...
 			this.ctx.save();
 			this.ctx.strokeStyle = border;
 			switch (this.config.nodeFill) {
@@ -650,14 +649,14 @@ ECOTree.prototype._drawTree = function () {
 			ECOTree._roundedRect(this.ctx,node.XPosition,node.YPosition,node.w,node.h,5);
 			this.ctx.restore();
 			
-			//HTML part...
 			s.push('<div id="' + node.id + '" class="tch_node" style="z-index:5;cursor:pointer;top:'+(node.YPosition+this.canvasoffsetTop)+'px; left:'+(node.XPosition+this.canvasoffsetLeft)+'px; width:'+node.w+'px; height:'+node.h+'px;" ');
 			s.push('onclick="javascript:'+this.obj+'.collapseNode(\''+node.id+'\', true);" >');
-			s.push(node.dsc);										
-			s.push('</div>');		
-			//break;
-			
-			if (!node.isCollapsed)	s.push(node._drawChildrenLinks(this.self));
+			s.push(node.dsc);
+			s.push('</div>');
+
+			if (!node.isCollapsed) {
+				s.push(node._drawChildrenLinks(this.self));
+			}
 		}
 	}	
 	return s.join('');	
@@ -668,17 +667,17 @@ ECOTree.prototype.toString = function () {
 	
 	this._positionTree();
 	
-	s.push('<canvas id="ECOTreecanvas" width=785 height=1000 ></canvas>');
+	s.push('<canvas id="ECOTreecanvas" width="785" height="1000"></canvas>');
 
 	return s.join('');
 }
 
-// ECOTree API begins here...
-
-ECOTree.prototype.UpdateTree = function () {	
+ECOTree.prototype.UpdateTree = function () {
 	this.elm.innerHTML = this;
-	if (this.render === "CANVAS") {
-		let canvas = document.getElementById("ECOTreecanvas");
+
+	if (this.render === 'CANVAS') {
+		let canvas = document.getElementById('ECOTreecanvas');
+
 		if (canvas && canvas.getContext)  {
 			this.canvasoffsetLeft = canvas.offsetLeft;
 			this.canvasoffsetTop = canvas.offsetTop;
@@ -835,4 +834,4 @@ ECOTree.prototype.getSelectedNodes = function () {
 export {
 	ECOTree,
 	ECONode
-};
+}

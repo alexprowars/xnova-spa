@@ -6,7 +6,7 @@
 
 <script setup>
 	import InfoContent from '~/components/Page/Info/Content.vue'
-	import { openAjaxPopupModal } from '#imports';
+	import { openPopupModal, useApiGet, useWithLoadngIndicator } from '#imports';
 
 	const props = defineProps({
 		id: {
@@ -20,6 +20,10 @@
 			return;
 		}
 
-		openAjaxPopupModal(InfoContent, '/info/' + props.id);
+		useWithLoadngIndicator(async () => {
+			const result = await useApiGet('/info/' + props.id);
+
+			await openPopupModal(InfoContent, { item: result });
+		})
 	}
 </script>

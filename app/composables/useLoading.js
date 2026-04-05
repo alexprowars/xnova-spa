@@ -1,3 +1,5 @@
+import { useLoadingIndicator } from '#imports';
+
 export const useLoading = () => useState('loading', () => false);
 
 let loaderTimeout;
@@ -23,3 +25,13 @@ export const stopLoading = () => {
 
 	loading.value = false;
 }
+
+export const useWithLoadngIndicator = async (callback) => {
+	const { start, finish } = useLoadingIndicator();
+
+	start();
+
+	await callback();
+
+	finish();
+};

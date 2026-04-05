@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div class="th sm:col-span-2 col-span-3 middle">
-			<NuxtLink :to="'/players/stat/'+item['id']+'/'">
+			<NuxtLink :to="'/players/' + item['id'] + '/stats'">
 				{{ $formatNumber(item['points']) }}
 			</NuxtLink>
 		</div>
@@ -50,7 +50,7 @@
 <script setup>
 	import PlayerInfo from '~/components/Page/Players/Info.vue';
 	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
-	import { openAjaxPopupModal, useRoute } from '#imports';
+	import { openPopupModal, useApiGet, useRoute, useWithLoadngIndicator } from '#imports';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import { computed } from 'vue';
@@ -69,6 +69,10 @@
 	});
 
 	function openPlayerPopup () {
-		openAjaxPopupModal(PlayerInfo, '/players/' + props.item['id']);
+		useWithLoadngIndicator(async () => {
+			const result = await useApiGet('/players/' + props.item['id']);
+
+			await openPopupModal(PlayerInfo, { item: result });
+		})
 	}
 </script>

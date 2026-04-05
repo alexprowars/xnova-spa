@@ -47,7 +47,7 @@
 	import { ref } from 'vue';
 
 	const props = defineProps({
-		data: Object,
+		item: Object,
 	});
 
 	const formRef = ref();

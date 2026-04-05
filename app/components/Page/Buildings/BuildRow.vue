@@ -1,8 +1,8 @@
 <template>
 	<div class="page-building-items-item building" :class="{ blocked: !item['available'] }">
 		<div class="building-info">
-			<a :href="'/info/' + item['id']" @click.prevent="openInfoPopup" class="building-info-img" :style="{ backgroundImage: 'url(' + image + ')' }">
-				<img :src="'/images/buildings/item/' + item['id'] + '.png'" :alt="$t('tech.' + item['id'])" class="img-fluid" v-tooltip="$t('tech.' + item['id'])">
+			<Popup :id="item['id']" class="building-info-img" :style="{ backgroundImage: 'url(' + image + ')' }">
+				<img :src="'/images/buildings/item/' + item['id'] + '.png'" :alt="item['name']" class="img-fluid" v-tooltip="item['name']">
 				<div class="building-effects">
 					<template v-if="item['effects']">
 						<template v-for="(value, resource) in item['effects']">
@@ -13,11 +13,11 @@
 						</template>
 					</template>
 				</div>
-			</a>
+			</Popup>
 			<div class="building-info-actions">
 				<div class="building-title">
 					<NuxtLink :to="'/info/' + item['id']">
-						{{ $t('tech.'+item['id']) }}
+						{{ item['name'] }}
 					</NuxtLink>
 					<span v-if="level" class="positive" v-tooltip="$t('pages.building.current_level')">
 						{{ $formatNumber(level) }}
@@ -57,7 +57,7 @@
 				<div v-else-if="item['requirements']" class="building-required">
 					<div v-for="req in item['requirements']">
 						<span class="negative">
-							{{ $t('tech.'+req['id']) }} {{ req['level'] }} {{ req['diff'] !== 0 ? '('+req['diff']+')' : '' }}
+							{{ req['name'] }} {{ req['level'] }} {{ req['diff'] !== 0 ? '(' + req['diff'] + ')' : '' }}
 						</span>
 					</div>
 				</div>
@@ -68,12 +68,12 @@
 </template>
 
 <script setup>
-	import BuildRowPrice from './BuildRowPrice.vue'
-	import InfoContent from '~/components/Page/Info/Content.vue'
-	import { useI18n, useApiPost, openAjaxPopupModal, refreshNuxtData } from '#imports';
+	import BuildRowPrice from './BuildRowPrice.vue';
+	import { useI18n, useApiPost, refreshNuxtData } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import Popup from '~/components/Page/Info/Popup.vue';
 
 	const props = defineProps({
 		item: {
@@ -119,9 +119,5 @@
 		});
 
 		await refreshNuxtData();
-	}
-
-	function openInfoPopup () {
-		openAjaxPopupModal(InfoContent, '/info/' + props.item['id']);
 	}
 </script>

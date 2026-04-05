@@ -1,6 +1,6 @@
 <template>
 	<nav class="main-menu">
-		<a :class="{ active: active }" class="menu-toggle sm:hidden" @click.prevent="emit('toggle')">
+		<a :class="{ active }" class="menu-toggle sm:hidden" @click.prevent="emit('toggle')">
 			<span>
 				<span class="first"></span>
 				<span class="second"></span>
@@ -8,7 +8,7 @@
 			</span>
 		</a>
 
-		<div :class="{ active: active }" class="menu-sidebar">
+		<div :class="{ active }" class="menu-sidebar">
 			<ul>
 				<MainMenuItem v-for="(item, i) in filteredItems" :item="item" :key="i"/>
 			</ul>
@@ -18,7 +18,7 @@
 
 <script setup>
 	import MainMenuItem from './MainMenuItem.vue';
-	import { computed, reactive } from 'vue';
+	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store/index.js';
 	import { useI18n } from '#imports';
@@ -34,7 +34,7 @@
 	const { isVacation } = storeToRefs(useStore());
 	const { t } = useI18n();
 
-	const items = reactive([
+	const items = computed(() => [
 		{ title: t('menu.overview'), url: '/overview' },
 		{ title: t('menu.empire'), url: '/empire' },
 		{ title: t('menu.galaxy'), url: '/galaxy' },
@@ -55,6 +55,6 @@
 	]);
 
 	const filteredItems = computed(() => {
-		return items.filter((item) => typeof item['vacation'] === undefined || item['vacation'] !== isVacation.value);
+		return items.value.filter((item) => typeof item['vacation'] === undefined || item['vacation'] !== isVacation.value);
 	})
 </script>

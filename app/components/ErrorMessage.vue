@@ -4,7 +4,7 @@
 			<div class="c error" v-html="data['title']"></div>
 		</div>
 		<div class="grid">
-			<div class="th error-message" v-html="data['message']"></div>
+			<div class="th error-message text-center" v-html="data['message']"></div>
 		</div>
 	</div>
 </template>
@@ -14,16 +14,16 @@
 	import { onBeforeUnmount, onMounted } from 'vue';
 
 	const props = defineProps({
-		data: Object,
+		item: Object,
 	});
 
 	let timeout;
 
 	onMounted(() => {
-		if (props.data['timeout'] > 0 && props.data['redirect']) {
+		if (props.item['timeout'] > 0 && props.item['redirect']) {
 			timeout = setTimeout(() => {
-				navigateTo(props.data['redirect'])
-			}, props.data['timeout'] * 1000);
+				navigateTo(props.item['redirect'])
+			}, props.item['timeout'] * 1000);
 		}
 	});
 
