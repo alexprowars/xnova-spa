@@ -60,7 +60,7 @@
 	import { computed, ref } from 'vue';
 
 	definePageMeta({
-		middleware: ['auth'],
+		middleware: ['auth', 'vacation'],
 	});
 
 	useHead({

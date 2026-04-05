@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute, navigateTo, useSuccessNotification, useApiGet } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, navigateTo, useSuccessNotification, useApiGet } from '#imports';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -44,7 +44,7 @@
 
 	const { data: page, error } = await useAsyncData(async () => {
 		return await useApiGet('/fleet/shortcut/create');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

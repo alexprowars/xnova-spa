@@ -25,7 +25,7 @@
 
 <script setup>
 	import ItemRow from '~/components/Page/Logs/ItemRow.vue';
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute, useI18n } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n } from '#imports';
 
 	const { t } = useI18n();
 
@@ -42,7 +42,7 @@
 
 	const { data: items, error } = await useAsyncData(async () => {
 		return await useApiGet('/logs');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

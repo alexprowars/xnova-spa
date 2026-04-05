@@ -15,7 +15,7 @@
 
 	const { data: item, error } = await useAsyncData(async () => {
 		return await useApiGet('/info/' + useRoute().params.id);
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

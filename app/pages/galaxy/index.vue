@@ -107,7 +107,7 @@
 
 	const { data: page, error } = await useAsyncData(
 		async () => await useApiGet('/galaxy', { galaxy: galaxy.value, system: system.value }),
-		{ watch: [() => useRoute().query, galaxy, system] }
+		{ watch: [() => galaxy, system] }
 	);
 
 	if (error.value) {

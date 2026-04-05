@@ -36,7 +36,7 @@
 
 <script setup>
 	import Row from '~/components/Page/Officier/Row.vue';
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 
@@ -53,7 +53,7 @@
 
 	const { data: items, error } = await useAsyncData(
 		async () => await useApiGet('/officiers'),
-		{ watch: [() => useRoute().query] });
+	);
 
 	if (error.value) {
 		throw showError(error.value);

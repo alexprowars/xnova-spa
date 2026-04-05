@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { useVuelidate } from '@vuelidate/core'
@@ -69,7 +69,7 @@
 
 	const { error } = await useAsyncData(async () => {
 		await useStore().loadState(); return {}
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

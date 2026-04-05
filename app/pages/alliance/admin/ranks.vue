@@ -13,7 +13,7 @@
 	import AllianceRanksForm from '~/components/Page/Alliance/AllianceRanksForm.vue';
 	import AllianceRanksInfo from '~/components/Page/Alliance/AllianceRanksInfo.vue';
 	import AllianceRanksCreate from '~/components/Page/Alliance/AllianceRanksCreate.vue';
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
 	import useStore from '~/store';
 	import { storeToRefs } from 'pinia';
 
@@ -29,8 +29,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(
-		async () => await useApiGet('/alliance/admin/ranks'),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/alliance/admin/ranks')
 	);
 
 	if (error.value) {

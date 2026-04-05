@@ -27,7 +27,7 @@
 
 <script setup>
 	import FriendRow from '~/components/Page/Friends/FriendRow.vue';
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute, useI18n } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n } from '#imports';
 
 	const { t } = useI18n();
 
@@ -41,7 +41,7 @@
 
 	const { data: items, error } = await useAsyncData(async () => {
 		return await useApiGet('/friends');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

@@ -16,8 +16,7 @@
 	});
 
 	const { data, error } = await useAsyncData(
-		async () => await useApiPost('/sim/report/' + useRoute().params.id),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiPost('/sim/report/' + useRoute().params.id)
 	);
 
 	if (error.value) {

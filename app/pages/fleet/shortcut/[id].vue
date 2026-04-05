@@ -44,7 +44,7 @@
 
 	const { data: page, error } = await useAsyncData(async () => {
 		return await useApiGet('/fleet/shortcut/' + useRoute().params.id);
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

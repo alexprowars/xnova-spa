@@ -57,7 +57,7 @@
 	import { definePageMeta, navigateTo, useNuxtData } from '#imports';
 
 	definePageMeta({
-		middleware: ['auth'],
+		middleware: ['auth', 'vacation'],
 	});
 
 	const { data: page } = useNuxtData('fleet.send');

@@ -157,7 +157,7 @@
 	import BuyResources from '~/components/Page/Resources/BuyResources.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiSubmit, useApiGet } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useApiSubmit, useApiGet } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -173,8 +173,7 @@
 		async () => await Promise.all([
 			useApiGet('/resources'),
 			store.loadState()
-		]).then(([result]) => result),
-		{ watch: [() => useRoute().query] }
+		]).then(([result]) => result)
 	);
 
 	if (error.value) {

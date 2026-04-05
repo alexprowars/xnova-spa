@@ -99,7 +99,7 @@
 
 <script setup>
 	import NoAlliance from '~/components/Page/Alliance/NoAlliance.vue';
-	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
+	import { definePageMeta, openConfirmModal, refreshNuxtData, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useSuccessNotification, useI18n } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -118,8 +118,7 @@
 	});
 
 	const { data: page, error } = await useAsyncData(
-		async () => await useApiGet('/alliance'),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/alliance')
 	);
 
 	if (error.value) {

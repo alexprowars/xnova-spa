@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useSuccessNotification, useI18n } from '#imports';
 	import { ref } from 'vue';
 
 	const { t } = useI18n();
@@ -53,8 +53,7 @@
 	});
 
 	const { data: items, error, refresh } = await useAsyncData(
-		async () => await useApiGet('/notes'),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/notes')
 	);
 
 	if (error.value) {

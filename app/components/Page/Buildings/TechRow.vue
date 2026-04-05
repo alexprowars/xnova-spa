@@ -25,7 +25,7 @@
 
 					<div v-html="item['effects']"></div>
 
-					<div class="building-info-upgrade">
+					<div v-if="!user.vacation" class="building-info-upgrade">
 						<TechQueue v-if="typeof item['build'] === 'object'" :build="item['build']"/>
 						<div v-else-if="item['max'] > 0 && item['max'] <= level" class="negative">
 							{{ $t('pages.research.max_level') }}

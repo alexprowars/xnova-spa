@@ -87,7 +87,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead } from '#imports';
 	import useStore from '~/store';
 	import SendMessagePopup from '~/components/Page/Messages/SendMessagePopup.vue';
 	import { ref, watch } from 'vue';
@@ -102,7 +102,7 @@
 
 	const { error } = await useAsyncData(async () => {
 		await useStore().loadState(); return {}
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

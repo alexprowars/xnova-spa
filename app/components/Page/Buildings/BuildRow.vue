@@ -36,7 +36,7 @@
 						</svg>
 						{{ $formatNumber(item['exp']) }} exp
 					</div>
-					<div class="building-info-upgrade">
+					<div v-if="!user.vacation" class="building-info-upgrade">
 						<div v-if="fieldsEmpty <= 0" class="negative">
 							{{ $t('pages.building.status_no_more_fields') }}
 						</div>

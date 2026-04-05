@@ -41,7 +41,7 @@
 
 	const { data: items, error } = await useAsyncData(async () => {
 		return await useApiGet('/friends/requests', { my: isMy.value ? 'Y' : 'N' });
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

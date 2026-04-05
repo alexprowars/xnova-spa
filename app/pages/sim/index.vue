@@ -110,7 +110,7 @@
 		let units = useRoute().query['units'] || '';
 
 		return await useApiGet('/sim', { units });
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

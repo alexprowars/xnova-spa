@@ -92,8 +92,7 @@
 	const route = useRoute();
 
 	const { data: page, error, refresh } = await useAsyncData(
-		async () => await useApiGet('/alliance/members', Object.assign({}, route.params, route.query)),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/alliance/members', Object.assign({}, route.params, route.query))
 	);
 
 	if (error.value) {

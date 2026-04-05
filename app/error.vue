@@ -1,6 +1,6 @@
 <template>
-	<DefaultLayout v-if="error.item && error.item.error">
-		<ErrorMessage :data="error.item.error"/>
+	<DefaultLayout v-if="error.data && error.data.error">
+		<ErrorMessage :item="error.data.error"/>
 	</DefaultLayout>
 	<div v-else class="application">
 		<div class="error">

@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiGet } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useApiGet } from '#imports';
 
 	definePageMeta({
 		view: {
@@ -59,7 +59,7 @@
 
 	const { data: items, error } = await useAsyncData(async () => {
 		return await useApiGet('/blocked');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

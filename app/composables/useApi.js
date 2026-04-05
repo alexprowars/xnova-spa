@@ -84,7 +84,7 @@ function handleError (e) {
 
 	if (typeof e.response._data !== 'undefined' && typeof e.response._data.error !== 'undefined') {
 		throw showError({
-			item: e.response._data,
+			data: e.response._data,
 		});
 	}
 

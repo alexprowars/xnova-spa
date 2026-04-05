@@ -5,13 +5,13 @@
 			<div class="content page-building-items">
 				<form ref="formRef" action="" method="post" @submit.prevent="constructAction">
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
-						<div class="sm:col-span-2 c border text-center">
+						<div v-if="!user.vacation" class="sm:col-span-2 c border text-center">
 							<button type="submit">{{ $t('pages.building.action_build') }}</button>
 						</div>
 
 						<UnitRow v-for="(item, i) in items" ref="itemsRef" :key="i" :item="item"/>
 
-						<div class="sm:col-span-2 c border text-center">
+						<div v-if="!user.vacation" class="sm:col-span-2 c border text-center">
 							<button type="submit">{{ $t('pages.building.action_build') }}</button>
 						</div>
 					</div>
@@ -24,7 +24,7 @@
 <script setup>
 	import UnitRow from '~/components/Page/Buildings/UnitRow.vue'
 	import UnitQueue from '~/components/Page/Buildings/UnitQueue.vue'
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, refreshNuxtData, useApiSubmit, useApiGet } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, refreshNuxtData, useApiSubmit, useApiGet } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -43,8 +43,7 @@
 		async () => await Promise.all([
 			useApiGet('/defense'),
 			store.loadState()
-		]).then(([result]) => result),
-		{ watch: [() => useRoute().query] }
+		]).then(([result]) => result)
 	);
 
 	if (error.value) {
@@ -53,7 +52,7 @@
 
 	const formRef = ref(null);
 	const itemsRef = ref([]);
-	const { queueByType } = storeToRefs(store);
+	const { user, queueByType } = storeToRefs(store);
 
 	function constructAction () {
 		useApiSubmit('/defense/queue', new FormData(formRef.value), () => {

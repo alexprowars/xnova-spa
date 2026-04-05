@@ -39,8 +39,7 @@
 	const { data, error } = await useAsyncData(
 		async () => await useApiPost('/sim/report', {
 			...useRoute().query
-		}),
-		{ watch: [() => useRoute().query] }
+		})
 	);
 
 	if (error.value) {

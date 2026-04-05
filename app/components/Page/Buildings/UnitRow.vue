@@ -9,7 +9,7 @@
 					<NuxtLink :to="'/info/' + item['id']">
 						{{ item['name'] }}
 					</NuxtLink>
-					<span :class="{positive: level > 0, negative: level === 0}">{{ $formatNumber(level) }}</span>
+					<span :class="{ positive: level > 0, negative: level === 0 }">{{ $formatNumber(level) }}</span>
 				</div>
 
 				<div class="building-info-info" v-if="item['available']">
@@ -29,15 +29,17 @@
 						</template>
 					</template>
 
-					<div v-if="item['is_max']" class="text-center negative">
-						Вы можете построить только {{ item['max'] }} постройку данного типа
-					</div>
-					<div v-else-if="max > 0" class="buildmax">
-						<a @click.prevent="setMax">
-							max: <span class="positive">{{ $formatNumber(max) }}</span>
-						</a>
-						<input type="number" min="0" :max="max" :name="'element[' + item['id'] + ']'" :alt="item['name']" v-model="count" style="width: 80px" maxlength="5" value="" placeholder="0">
-					</div>
+					<template v-if="!user.vacation">
+						<div v-if="item['is_max']" class="text-center negative">
+							Вы можете построить только {{ item['max'] }} постройку данного типа
+						</div>
+						<div v-else-if="max > 0" class="buildmax">
+							<a @click.prevent="setMax">
+								max: <span class="positive">{{ $formatNumber(max) }}</span>
+							</a>
+							<input type="number" min="0" :max="max" :name="'element[' + item['id'] + ']'" :alt="item['name']" v-model="count" style="width: 80px" maxlength="5" value="" placeholder="0">
+						</div>
+					</template>
 				</div>
 				<div v-else-if="item['requirements']" class="building-required">
 					<div v-for="req in item['requirements']">
@@ -68,7 +70,7 @@
 
 	const count = ref('');
 	const store = useStore();
-	const { planet } = storeToRefs(store);
+	const { user, planet } = storeToRefs(store);
 	const { tm } = useI18n();
 
 	defineExpose({

@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRequestURL, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRequestURL } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
 	import { useScript } from '@unhead/vue';
@@ -92,7 +92,7 @@
 
 	const { data: page, error } = await useAsyncData(async () => {
 		return await useApiGet('/referrals');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

@@ -29,12 +29,12 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
 	import { useNow } from '@vueuse/core';
 	import dayjs from 'dayjs';
 
 	definePageMeta({
-		middleware: ['auth'],
+		middleware: ['auth', 'vacation'],
 		layout: 'empty',
 		view: {
 			resources: false,
@@ -47,7 +47,7 @@
 
 	const { data: items, error } = await useAsyncData(async () => {
 		return await useApiGet('/phalanx');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

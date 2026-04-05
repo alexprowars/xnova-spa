@@ -170,7 +170,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useI18n, useRoute, navigateTo, useApiGet } from '#imports';
+	import { definePageMeta, showError, useApiPost, useAsyncData, useHead, useI18n, navigateTo, useApiGet } from '#imports';
 	import useStore from '~/store';
 	import { computed } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -188,7 +188,7 @@
 
 	const { data: page, error } = await useAsyncData(async () => {
 		return await useApiGet('/empire');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

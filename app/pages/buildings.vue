@@ -33,7 +33,7 @@
 	import BuildQueue from '~/components/Page/Buildings/BuildQueue.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiGet } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useApiGet } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -52,8 +52,7 @@
 		async () => await Promise.all([
 			useApiGet('/buildings'),
 			store.loadState()
-		]).then(([result]) => result),
-		{ watch: [() => useRoute().query] }
+		]).then(([result]) => result)
 	);
 
 	if (error.value) {

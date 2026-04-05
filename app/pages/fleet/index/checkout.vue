@@ -215,7 +215,7 @@
 	import { useNow } from '@vueuse/core';
 
 	definePageMeta({
-		middleware: ['auth'],
+		middleware: ['auth', 'vacation'],
 	});
 
 	let { data } = useNuxtData('fleet.checkout');

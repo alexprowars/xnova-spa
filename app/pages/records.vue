@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
 
 	definePageMeta({
 		view: {
@@ -38,7 +38,7 @@
 
 	const { data: page, error } = await useAsyncData(async () => {
 		return await useApiGet('/records');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

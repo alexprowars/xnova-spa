@@ -105,8 +105,7 @@
 		async () => await Promise.all([
 			useApiGet('/fleet', Object.assign({}, route.params, route.query)),
 			store.loadState()
-		]).then(([result]) => result),
-		{ watch: [() => useRoute().query] }
+		]).then(([result]) => result)
 	);
 
 	if (error.value) {

@@ -49,9 +49,9 @@
 </template>
 
 <script setup>
-	import SupportDetail from '~/components/Page/Support/Detail.vue'
-	import SupportNew from '~/components/Page/Support/New.vue'
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import SupportDetail from '~/components/Page/Support/Detail.vue';
+	import SupportNew from '~/components/Page/Support/New.vue';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -66,8 +66,7 @@
 	});
 
 	const { data: items, error } = await useAsyncData(
-		async () => await useApiGet('/support'),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/support')
 	);
 
 	if (error.value) {

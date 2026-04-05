@@ -126,6 +126,7 @@
 	import { definePageMeta, openPopupModal, showError, useApiGet, useAsyncData, useErrorNotification, useHead, useRoute } from '#imports';
 	import useStore from '~/store';
 	import { computed, onMounted } from 'vue';
+	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -143,15 +144,14 @@
 
 	const { data, error } = await useAsyncData(async () => {
 		return await useApiGet('/race');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);
 	}
 
-	const race = computed(() => {
-		return store.user ? store.user.race : 0;
-	});
+	const { user } = storeToRefs(store);
+	const race = computed(() => user.value?.race || 0);
 
 	if (!race.value) {
 		route.meta['view'].menu = false;

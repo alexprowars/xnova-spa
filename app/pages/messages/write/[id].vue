@@ -24,8 +24,7 @@
 	const route = useRoute();
 
 	const { data: page, error } = await useAsyncData(
-		async () =>  await useApiGet('/messages/write/' + route.params['id'], Object.assign({}, route.query)),
-		{ watch: [() => useRoute().query] }
+		async () =>  await useApiGet('/messages/write/' + route.params['id'], Object.assign({}, route.query))
 	);
 
 	if (error.value) {

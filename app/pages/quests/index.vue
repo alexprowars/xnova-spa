@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-	import { showError, useAsyncData, definePageMeta, useHead, useRoute, useApiGet } from '#imports';
+	import { showError, useAsyncData, definePageMeta, useHead, useApiGet } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -46,7 +46,7 @@
 
 	const { data, error } = await useAsyncData(async () => {
 		return await useApiGet('/quests');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

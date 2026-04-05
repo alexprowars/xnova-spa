@@ -47,7 +47,7 @@
 	import { storeToRefs } from 'pinia';
 
 	definePageMeta({
-		middleware: ['auth'],
+		middleware: ['auth', 'vacation'],
 		view: {
 			resources: false,
 		}

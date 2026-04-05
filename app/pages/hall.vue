@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
 	import { watch, ref } from 'vue';
 
 	definePageMeta({
@@ -60,7 +60,7 @@
 
 	const { data, error } = await useAsyncData(async () => {
 		return useApiGet('/hall');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

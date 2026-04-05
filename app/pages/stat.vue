@@ -48,7 +48,7 @@
 	import StatPlayers from '~/components/Page/Stat/Players.vue';
 	import StatAlliances from '~/components/Page/Stat/Alliances.vue';
 	import StatRaces from '~/components/Page/Stat/Races.vue';
-	import { definePageMeta, showError, useApiGet, useApiPost, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useApiPost, useAsyncData, useHead } from '#imports';
 	import { ref, watch } from 'vue';
 
 	definePageMeta({
@@ -63,7 +63,7 @@
 
 	const { data, error } = await useAsyncData(async () => {
 		return await useApiGet('/stat');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);

@@ -59,7 +59,7 @@
 
 <script setup>
 	import DiplomacyCreate from '~/components/Page/Alliance/DiplomacyCreate.vue';
-	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useSuccessNotification, useI18n } from '#imports';
 
 	const { t } = useI18n();
 
@@ -75,8 +75,7 @@
 	});
 
 	const { data: page, error, refresh } = await useAsyncData(
-		async () => await useApiGet('/alliance/diplomacy'),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/alliance/diplomacy')
 	);
 
 	if (error.value) {

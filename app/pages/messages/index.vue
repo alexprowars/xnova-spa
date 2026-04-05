@@ -66,7 +66,6 @@
 
 	const { data: page, error, refresh } = await useAsyncData(
 		async () => await useApiGet('/messages', Object.assign({}, route.query, { category: category.value, limit: limit.value })),
-		{ watch: [() => useRoute().query] }
 	);
 
 	if (error.value) {

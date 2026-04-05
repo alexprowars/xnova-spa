@@ -71,8 +71,7 @@
 	});
 
 	const { data: page, error, refresh } = await useAsyncData(
-		async () => await useApiGet('/notes/'+ useRoute().params.id),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/notes/'+ useRoute().params.id)
 	);
 
 	if (error.value) {

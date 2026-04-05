@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
 	import { ref } from 'vue';
 	import RequestAcceptForm from '~/components/Page/Alliance/RequestAcceptForm.vue';
 
@@ -52,8 +52,7 @@
 	});
 
 	const { data: items, error } = await useAsyncData(
-		async () => await useApiGet('/alliance/admin/requests'),
-		{ watch: [() => useRoute().query] }
+		async () => await useApiGet('/alliance/admin/requests')
 	);
 
 	if (error.value) {

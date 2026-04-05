@@ -6,11 +6,11 @@
 			<div class="title">
 				<div class="flex flex-col gap-2 sm:flex-row sm:justify-between">
 					<div>
-						{{ $t('planet_type.'+planet['type']) }} "{{ planet['name'] }}"
-						<NuxtLink :to="'/galaxy/?galaxy='+planet['coordinates']['galaxy']+'&system='+planet['coordinates']['system']">
+						{{ $t('planet_type.' + planet['type']) }} "{{ planet['name'] }}"
+						<NuxtLink :to="'/galaxy?galaxy=' + planet['coordinates']['galaxy'] + '&system=' + planet['coordinates']['system']">
 							[{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}]
 						</NuxtLink>
-						<NuxtLink to="/overview/rename" :title="$t('pages.overview.planet_rename_hint')">({{ $t('pages.overview.planet_rename_action') }})</NuxtLink>
+						<NuxtLink v-if="!user.vacation" to="/overview/rename" :title="$t('pages.overview.planet_rename_hint')">({{ $t('pages.overview.planet_rename_action') }})</NuxtLink>
 					</div>
 					<div>
 						<div class="float-sm-end"><clock/></div>
@@ -250,7 +250,7 @@
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
 	import useChatStore from '~/store/chat.js';
-	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, useRoute, isMobile, useApiPost, useApiGet, useI18n, refreshNuxtData, useWithLoadngIndicator, openPopupModal } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, isMobile, useApiPost, useApiGet, useI18n, refreshNuxtData, useWithLoadngIndicator, openPopupModal } from '#imports';
 	import { computed, onMounted } from 'vue';
 
 	definePageMeta({
@@ -269,8 +269,7 @@
 		async () => await Promise.all([
 			useApiGet('/fleet/list'),
 			store.loadState()
-		]).then(([fleets]) => ({ fleets })),
-		{ watch: [() => useRoute().query] }
+		]).then(([fleets]) => ({ fleets }))
 	);
 
 	if (error.value) {
@@ -291,6 +290,10 @@
 	})
 
 	const productionNotify = computed(() => {
+		if (user.value.vacation) {
+			return false;
+		}
+
 		for (let res in planet.value['resources']) {
 			if (typeof planet.value['resources'][res]['factor'] !== 'undefined' && planet.value['resources'][res]['factor'] < 1) {
 				return true;

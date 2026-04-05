@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import { Chart, CategoryScale, LinearScale, LineController, PointElement, LineElement, Legend, Tooltip } from 'chart.js';
 	import { number } from '~/utils/format';
@@ -72,7 +72,7 @@ import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute }
 
 	const { data: page, error } = await useAsyncData(async () => {
 		return await useApiGet('players/' + useRoute().params.id + '/stats');
-	}, { watch: [() => useRoute().query] });
+	});
 
 	if (error.value) {
 		throw showError(error.value);
