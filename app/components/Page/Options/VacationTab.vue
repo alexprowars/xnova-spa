@@ -13,11 +13,26 @@
 			</div>
 			<div class="grid grid-cols-2">
 				<div class="th"><a :title="$t('pages.options.vacation_tip')">{{ $t('pages.options.vacation_on') }}</a></div>
-				<div class="th"><input name="vacation" value="1" :checked="user.vacation !== null" type="checkbox"></div>
+				<div class="th">
+					<input name="vacation" value="0" type="hidden">
+					<input name="vacation" value="1" :checked="user.vacation !== null" type="checkbox">
+				</div>
 			</div>
 			<div class="grid grid-cols-2">
 				<div class="th"><a :title="$t('pages.options.delete_tip')">{{ $t('pages.options.delete_on') }}</a></div>
-				<div class="th"><input name="delete" value="1" :checked="user.deleted_at !== null" type="checkbox"></div>
+				<div class="th">
+					<input name="delete" value="0" type="hidden">
+					<input name="delete" value="1" :checked="user.deleted_at !== null" type="checkbox">
+				</div>
+			</div>
+			<div class="grid grid-cols-2">
+				<div class="th middle">Язык</div>
+				<div class="th middle">
+					<select name="locale" v-model="user.locale">
+						<option value="en">English</option>
+						<option value="ru">Русский</option>
+					</select>
+				</div>
 			</div>
 			<div class="grid">
 				<div class="th">

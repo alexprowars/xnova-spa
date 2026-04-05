@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { navigateTo, useApiGet, useToast, useNuxtApp, nextTick } from '#imports';
+import { navigateTo, useApiGet, useToast, useNuxtApp } from '#imports';
 import dayjs from 'dayjs';
 
 export const useStore = defineStore('app', {
@@ -54,8 +54,9 @@ export const useStore = defineStore('app', {
 
 			this.PAGE_LOAD(data);
 
-			await nextTick(() => {
+			setTimeout(() => {
 				useNuxtApp().$i18n.setLocale(data.settings.language);
+				dayjs.locale(data.settings.language);
 			});
 		},
 		PAGE_LOAD (data) {

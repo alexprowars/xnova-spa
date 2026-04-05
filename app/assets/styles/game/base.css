@@ -1117,7 +1117,7 @@ header a:hover svg.icon {
 .information-message {
 	padding: 5px 10px;
 	margin-bottom: 10px;
-	text-align: center;
+	@apply border text-center;
 }
 
 .iframe {

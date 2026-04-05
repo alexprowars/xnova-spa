@@ -77,19 +77,31 @@
 					</div>
 					<div class="grid grid-cols-2">
 						<div class="th middle">Участвовать в рекордах</div>
-						<div class="th middle"><input name="records" v-model="user.options['records']" type="checkbox"></div>
+						<div class="th middle">
+							<input name="records" value="" type="hidden">
+							<input name="records" v-model="user.options['records']" type="checkbox">
+						</div>
 					</div>
 					<div class="grid grid-cols-2">
 						<div class="th middle">Использовать BB коды в сообщениях</div>
-						<div class="th middle"><input name="bbcode" v-model="user.options['bb_parser']" type="checkbox"></div>
+						<div class="th middle">
+							<input name="bbcode" value="" type="hidden">
+							<input name="bbcode" v-model="user.options['bb_parser']" type="checkbox">
+						</div>
 					</div>
 					<div class="grid grid-cols-2">
 						<div class="th middle">Показывать только доступные постройки</div>
-						<div class="th middle"><input name="available" v-model="user.options['only_available']" type="checkbox"></div>
+						<div class="th middle">
+							<input name="available" value="" type="hidden">
+							<input name="available" v-model="user.options['only_available']" type="checkbox">
+						</div>
 					</div>
 					<div class="grid grid-cols-2">
 						<div class="th middle">Показывать панель чата</div>
-						<div class="th middle"><input name="chatbox" v-model="user.options['chatbox']" type="checkbox"></div>
+						<div class="th middle">
+							<input name="chatbox" value="" type="hidden">
+							<input name="chatbox" v-model="user.options['chatbox']" type="checkbox">
+						</div>
 					</div>
 					<div class="grid grid-cols-2">
 						<div class="th middle">Цвет ваших сообщений в чате</div>
@@ -147,9 +159,12 @@
 			</Tab>
 			<Tab name="Отпуск / Удаление">
 				<div class="block-table text-center">
-					<div class="grid grid-cols-2">
-						<div class="th"><a title="Режим отпуска нужен для защиты планет во время вашего отсутствия">Включить режим отпуска</a></div>
-						<div class="th"><input name="vacation" value="1" type="checkbox"></div>
+					<div class="grid">
+						<div class="th text-center">
+							<a @click.prevent="enableVacationMode" class="button" v-tooltip="'Режим отпуска нужен для защиты планет во время вашего отсутствия'">
+								Включить режим отпуска
+							</a>
+						</div>
 					</div>
 					<div class="grid">
 						<div class="th">
@@ -158,7 +173,10 @@
 					</div>
 					<div class="grid grid-cols-2">
 						<div class="th"><a title="Профиль будет удалён через 7 дней">Удалить профиль</a></div>
-						<div class="th"><input name="delete" value="1" :checked="user.deleted_at !== null" type="checkbox"></div>
+						<div class="th">
+							<input name="delete" value="0" type="hidden">
+							<input name="delete" value="1" :checked="user.deleted_at !== null" type="checkbox">
+						</div>
 					</div>
 					<div class="grid">
 						<div class="th">
@@ -169,19 +187,6 @@
 						<div class="th">
 							<button type="submit">{{ $t('pages.options.save') }}</button>
 						</div>
-					</div>
-				</div>
-			</Tab>
-			<Tab name="Личное дело">
-				<div class="block-table text-center">
-					<div class="grid">
-						<div class="c">Добавить запись в личное дело</div>
-					</div>
-					<div class="grid">
-						<div class="th"><textarea name="ld" cols="" rows="5"></textarea></div>
-					</div>
-					<div class="grid">
-						<div class="th"><input value="Записать" type="submit"></div>
 					</div>
 				</div>
 			</Tab>
@@ -220,7 +225,7 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { refreshNuxtData, useApiSubmit, useSuccessNotification, useAsyncData, useApiGet } from '#imports';
+	import { refreshNuxtData, useApiSubmit, useSuccessNotification, useAsyncData, useApiGet, openConfirmModal, useApiPost } from '#imports';
 	import ChangePasswordForm from '~/components/Page/Options/ChangePasswordForm.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store/index.js';
@@ -245,5 +250,22 @@
 			refreshNuxtData();
 			store.loadState();
 		});
+	}
+
+	function enableVacationMode() {
+		openConfirmModal(
+			null,
+			'Включить режим отпуска?',
+			[{
+				title: 'Нет',
+			}, {
+				title: 'Да',
+				handler: async () => {
+					await useApiPost('/options/vacation');
+					await refreshNuxtData();
+					await store.loadState();
+				}
+			}]
+		);
 	}
 </script>

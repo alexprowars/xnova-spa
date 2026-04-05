@@ -5,20 +5,18 @@
 		</div>
 		<div class="content">
 			<div class="block-table">
-				<div class="grid grid-cols-4">
-					<div class="th">Тема:</div>
-					<div class="col-span-3 th">
-						<input type="text" v-model="subject" class="width-full" name="subject">
-					</div>
-				</div>
-				<div class="grid grid-cols-4">
-					<div class="th">Текст сообщения:</div>
-					<div class="col-span-3 th">
-						<TextEditor v-model="message"/>
+				<div class="grid">
+					<div class="th">
+						<input type="text" v-model="subject" class="width-full" :class="{error: v$.subject.$error}" placeholder="Тема">
 					</div>
 				</div>
 				<div class="grid">
-					<div class="c">
+					<div class="th">
+						<TextEditor v-model="message" :class="{error: v$.message.$error}"/>
+					</div>
+				</div>
+				<div class="grid">
+					<div class="c text-center">
 						<button @click.prevent="request">Отправить</button>
 						<button @click.prevent="emit('close')">Закрыть</button>
 					</div>
@@ -31,15 +29,36 @@
 <script setup>
 	import { ref } from 'vue';
 	import { refreshNuxtData, openAlertModal, useApiPost, useSuccessNotification } from '#imports';
+	import { required } from '@vuelidate/validators';
+	import { useVuelidate } from '@vuelidate/core';
 
 	const emit = defineEmits(['close']);
 
 	const message = ref('');
 	const subject = ref('');
 
+	const validations = {
+		message: {
+			required
+		},
+		subject: {
+			required
+		},
+	}
+
+	const v$ = useVuelidate(
+		validations,
+		{ message, subject },
+		{ $autoDirty: true }
+	);
+
 	async function request() {
+		if (!await v$.value.$validate()) {
+			return
+		}
+
 		try {
-			await useApiPost('/support/add', {
+			await useApiPost('/support/create', {
 				subject: subject.value,
 				message: message.value,
 			});

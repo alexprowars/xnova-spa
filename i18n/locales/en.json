@@ -272,7 +272,7 @@
 	"pages": {
 		"options": {
 			"vacation_mode": "Vacation mode / Delete profile",
-			"vacation_mode_until": "Vacation mode enabled until: ",
+			"vacation_mode_until": "Vacation mode enabled until",
 			"nickname": "Nickname",
 			"vacation_on": "Enable vacation mode",
 			"vacation_tip": "Vacation mode is needed to protect the planets during your absence.",
