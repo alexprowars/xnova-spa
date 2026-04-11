@@ -2,18 +2,18 @@
 	<div class="page-support">
 		<div class="block">
 			<div class="title text-center">
-				Служба техподдержки
+				{{ $t('pages.support.index.title') }}
 			</div>
 			<div class="content">
 				<div class="block-table">
 					<div v-if="!items.length" class="grid">
-						<div class="th">Нет запросов в техподдержку</div>
+						<div class="th">{{ $t('pages.support.index.empty') }}</div>
 					</div>
 					<div v-else class="grid grid-cols-12">
-						<div class="col-span-1 th">ID</div>
-						<div class="col-span-6 th">Тема</div>
-						<div class="col-span-2 th">Статус</div>
-						<div class="col-span-3 th">Дата</div>
+						<div class="col-span-1 th">{{ $t('pages.support.index.col_id') }}</div>
+						<div class="col-span-6 th">{{ $t('pages.support.index.col_subject') }}</div>
+						<div class="col-span-2 th">{{ $t('pages.support.index.col_status') }}</div>
+						<div class="col-span-3 th">{{ $t('pages.support.index.col_date') }}</div>
 					</div>
 					<ListItem v-for="item in items" :key="item['id']" :item="item"/>
 				</div>
@@ -24,7 +24,7 @@
 			<div class="separator"></div>
 			<div class="grid">
 				<div class="text-right">
-					<button @click="newRequest">Создать запрос</button>
+					<button @click="newRequest">{{ $t('pages.support.index.create_request') }}</button>
 				</div>
 			</div>
 		</div>
@@ -34,7 +34,7 @@
 
 <script setup>
 	import CreateTicket from '~/components/Page/Support/Create.vue';
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n } from '#imports';
 	import { ref } from 'vue';
 	import ListItem from '~/components/Page/Support/ListItem.vue';
 
@@ -45,8 +45,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Техподдержка',
+		title: t('pages.support.index.head_title'),
 	});
 
 	const { data: items, error } = await useAsyncData(
@@ -54,7 +56,7 @@
 	);
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const request = ref(false);

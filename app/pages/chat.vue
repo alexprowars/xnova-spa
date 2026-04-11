@@ -1,6 +1,6 @@
 <template>
 	<div class="block-table page-chat divide-y">
-		<div class="th !p-2">
+		<div class="th p-2!">
 			<div ref="chatboxRef" class="page-chat-messages">
 				<ChatMessage v-for="(item, i) in messages" :key="i" :item="item" @player="toPlayer" @private="toPrivate"/>
 			</div>
@@ -12,14 +12,14 @@
 				</div>
 				<div>
 					<div class="editor-component-toolbar inline-block p-0!">
-						<button type="button" class="buttons" title="Вставить ссылку" @click="addTag('[url]|[/url]', 1)">
+						<button type="button" class="buttons" :title="$t('pages.chat.toolbar_insert_link')" @click="addTag('[url]|[/url]', 1)">
 							<span class="sprite bb_world_link"></span>
 						</button>
-						<button type="button" class="buttons" title="Вставить картинку" @click="addTag('[img]|[/img]', 3)">
+						<button type="button" class="buttons" :title="$t('pages.chat.toolbar_insert_image')" @click="addTag('[img]|[/img]', 3)">
 							<span class="sprite bb_picture_add"></span>
 						</button>
 						<Popper :triggers="['click']" :popper-triggers="['click']">
-							<button type="button" class="buttons" title="Смайлы">
+							<button type="button" class="buttons" :title="$t('pages.chat.toolbar_smilies')">
 								<span class="sprite bb_emoticon_grin"></span>
 							</button>
 							<template #content>
@@ -32,14 +32,14 @@
 				</div>
 			</div>
 
-			<button @click.prevent="clear">Очистить</button>
-			<button @click.prevent="sendMessage">Отправить</button>
+			<button @click.prevent="clear">{{ $t('pages.chat.button_clear') }}</button>
+			<button @click.prevent="sendMessage">{{ $t('pages.chat.button_send') }}</button>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, useHead } from '#imports';
+	import { definePageMeta, useHead, useI18n } from '#imports';
 	import useChatStore from '~/store/chat';
 	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import parser from '~/utils/parser';
@@ -53,8 +53,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Межгалактический чат',
+		title: t('pages.chat.meta_title'),
 	});
 
 	const chatStore = useChatStore();
@@ -106,11 +108,11 @@
 	}
 
 	function toPlayer (user) {
-		message.value = 'для ['+user+'] ' + message.value;
+		message.value = 'для [' + user + '] ' + message.value;
 	}
 
 	function toPrivate (user) {
-		message.value = 'приватно ['+user+'] ' + message.value;
+		message.value = 'приватно [' + user + '] ' + message.value;
 	}
 
 	function clear () {

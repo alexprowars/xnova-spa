@@ -3,11 +3,11 @@
 		<tbody>
 		<tr>
 			<td class="c" colspan="2">
-				Обнаружена следующая активность на планете:
+				{{ $t('pages.phalanx.activity_header') }}
 			</td>
 		</tr>
 		<tr v-if="items.length === 0">
-			<td class="th" colspan="2">На этой планете нет движения флотов.</td>
+			<td class="th" colspan="2">{{ $t('pages.phalanx.no_movement') }}</td>
 		</tr>
 		<tr v-for="item in items">
 			<td class="th">
@@ -16,11 +16,31 @@
 			</td>
 			<td class="th">
 				<span :style="{ color: item['mission'] !== 6 ? 'lime' : 'orange' }">
-					Игрок (<span v-html="item['fleet']"></span>) с {{ item['type_1'] }} {{ item['planet_name'] }}
-					<span style="color: white">[<span v-html="item['planet_position']"></span>]</span>
-					{{ item['direction'] === 1 ? 'летит' : 'возвращается' }} на {{ item['type_2'] }} {{ item['target_name'] }}
-					<span style="color: white">[<span v-html="item['target_position']"></span>]</span>.
-					Задание: <span style="color: white">{{ $t('fleet_mission.' + item['mission']) }}</span>
+					<i18n-t
+						keypath="pages.phalanx.fleet_row"
+						tag="span"
+						scope="global"
+						:values="{
+							type1: item['type_1'],
+							planetName: item['planet_name'],
+							direction: item['direction'] === 1 ? t('pages.phalanx.dir_outbound') : t('pages.phalanx.dir_inbound'),
+							type2: item['type_2'],
+							targetName: item['target_name'],
+						}"
+					>
+						<template #fleet>
+							<span v-html="item['fleet']"></span>
+						</template>
+						<template #pos1>
+							<span style="color: white"> [<span v-html="item['planet_position']"></span>]</span>
+						</template>
+						<template #pos2>
+							<span style="color: white"> [<span v-html="item['target_position']"></span>]</span>
+						</template>
+						<template #mission>
+							<span style="color: white">{{ $t('fleet_mission.' + item['mission']) }}</span>
+						</template>
+					</i18n-t>
 				</span>
 			</td>
 		</tr>
@@ -29,9 +49,11 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n } from '#imports';
 	import { useNow } from '@vueuse/core';
 	import dayjs from 'dayjs';
+
+	const { t } = useI18n();
 
 	definePageMeta({
 		middleware: ['auth', 'vacation'],
@@ -42,7 +64,7 @@
 	});
 
 	useHead({
-		title: 'Сенсорная фаланга',
+		title: t('pages.phalanx.page_title'),
 	});
 
 	const { data: items, error } = await useAsyncData(async () => {
@@ -50,7 +72,7 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const now = useNow({ interval: 1000 });

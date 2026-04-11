@@ -2,7 +2,7 @@
 	<form method="post" @submit.prevent="update">
 		<input type="text" name="name" v-model="name" size="50">
 		<br>
-		<button type="submit">Изменить</button>
+		<button type="submit">{{ $t('pages.fleets.verband.change_name_submit') }}</button>
 	</form>
 </template>
 

@@ -46,7 +46,7 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const message = ref('');

@@ -1,13 +1,13 @@
 <template>
 	<div class="block page-support-new">
 		<div class="title text-center">
-			Новый запрос
+			{{ $t('pages.support.create.title') }}
 		</div>
 		<div class="content">
 			<div class="block-table">
 				<div class="grid">
 					<div class="th">
-						<input type="text" v-model="subject" class="width-full" :class="{error: v$.subject.$error}" placeholder="Тема">
+						<input type="text" v-model="subject" class="width-full" :class="{error: v$.subject.$error}" :placeholder="$t('pages.support.create.subject_placeholder')">
 					</div>
 				</div>
 				<div class="grid">
@@ -17,8 +17,8 @@
 				</div>
 				<div class="grid">
 					<div class="c text-center">
-						<button @click.prevent="request">Отправить</button>
-						<button @click.prevent="emit('close')">Закрыть</button>
+						<button @click.prevent="request">{{ $t('pages.support.create.send') }}</button>
+						<button @click.prevent="emit('close')">{{ $t('pages.support.create.close') }}</button>
 					</div>
 				</div>
 			</div>
@@ -28,11 +28,12 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import { refreshNuxtData, openAlertModal, useApiPost, useSuccessNotification } from '#imports';
+	import { refreshNuxtData, openAlertModal, useApiPost, useI18n, useSuccessNotification } from '#imports';
 	import { required } from '@vuelidate/validators';
 	import { useVuelidate } from '@vuelidate/core';
 
 	const emit = defineEmits(['close']);
+	const { t } = useI18n();
 
 	const message = ref('');
 	const subject = ref('');
@@ -63,7 +64,7 @@
 				message: message.value,
 			});
 
-			useSuccessNotification('Запрос добавлен');
+			useSuccessNotification(t('pages.support.notifications.request_added'));
 
 			emit('close');
 

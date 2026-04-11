@@ -3,23 +3,23 @@
 		<div class="block-table">
 			<div class="grid grid-cols-12">
 				<div class="col-span-1 c middle">TOP50</div>
-				<div class="col-span-8 c middle">Зал Славы</div>
+				<div class="col-span-8 c middle">{{ $t('pages.hall.block_heading') }}</div>
 				<div class="col-span-3 c middle">
 					<select v-model="type">
-						<option value="single">Одиночные</option>
-						<option value="team">Командные</option>
+						<option value="single">{{ $t('pages.hall.type_single') }}</option>
+						<option value="team">{{ $t('pages.hall.type_team') }}</option>
 					</select>
 				</div>
 			</div>
 		</div>
 		<div class="block-table text-center">
 			<div v-if="data['items'].length > 0" class="grid grid-cols-12">
-				<div class="col-span-1 c">Место</div>
+				<div class="col-span-1 c">{{ $t('pages.hall.col_place') }}</div>
 				<div class="col-span-7 c">
-					{{ data['type'] === 'single' ? 'Самые разрушительные бои' : 'Самые разрушительные групповые бои' }}
+					{{ data['type'] === 'single' ? $t('pages.hall.subtitle_single') : $t('pages.hall.subtitle_team') }}
 				</div>
-				<div class="col-span-1 c">Итог</div>
-				<div class="col-span-3 c">Дата</div>
+				<div class="col-span-1 c">{{ $t('pages.hall.col_outcome') }}</div>
+				<div class="col-span-3 c">{{ $t('pages.hall.col_date') }}</div>
 			</div>
 			<div v-for="(item, i) in data['items']" class="grid grid-cols-12">
 				<div class="col-span-1 th">{{ i + 1 }}</div>
@@ -28,24 +28,24 @@
 					<span v-else>{{ item['title'] }}</span>
 				</div>
 				<div class="col-span-1 th">
-					<template v-if="item['won'] === 0">Н</template>
-					<template v-if="item['won'] === 1">А</template>
-					<template v-else>О</template>
+					<template v-if="item['won'] === 0">{{ $t('pages.hall.outcome_loss') }}</template>
+					<template v-else-if="item['won'] === 1">{{ $t('pages.hall.outcome_win') }}</template>
+					<template v-else>{{ $t('pages.hall.outcome_draw') }}</template>
 				</div>
 				<div class="col-span-3 th" :class="{ positive: data['last'] === item['id'] }">
 					{{ $formatDate(item['date'], 'DD MMM YYYY HH:mm:ss') }}
 				</div>
 			</div>
 			<div v-if="data['items'].length === 0" class="grid">
-				<div class="th">В этой вселенной еще не было крупных боев</div>
+				<div class="th">{{ $t('pages.hall.empty_list') }}</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
-	import { watch, ref } from 'vue';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n } from '#imports';
+	import { ref } from 'vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -54,31 +54,21 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Зал славы',
+		title: t('pages.hall.head_title'),
 	});
+
+	const type = ref('single');
 
 	const { data, error } = await useAsyncData(async () => {
-		return useApiGet('/hall');
-	});
+		return useApiGet('/hall',{
+			type: type.value,
+		});
+	}, { watch: [type] });
 
 	if (error.value) {
-		throw showError(error.value);
-	}
-
-	const type = ref(data.value.type);
-
-	watch(() => type.value, () => {
-		load();
-	});
-
-	async function load() {
-		try {
-			data.value = await useApiGet('/hall', {
-				type: type.value,
-			});
-		} catch(e) {
-			alert(e.message)
-		}
+		throw showError({ data: { error: error.value } });
 	}
 </script>

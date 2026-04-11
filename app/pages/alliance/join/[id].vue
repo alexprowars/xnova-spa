@@ -1,13 +1,13 @@
 <template>
 	<div class="block">
 		<div class="title">
-			Запрос на вступление в альянс [{{ page['tag'] }}]
+			{{ $t('pages.alliance.join.heading_title', [page['tag']]) }}
 		</div>
 		<div class="content">
 			<form class="block-table text-center" @submit.prevent="send">
 				<template v-if="page['text']">
 					<div>
-						<div class="c">Приветствие альянса</div>
+						<div class="c">{{ $t('pages.alliance.join.alliance_welcome_heading') }}</div>
 					</div>
 					<div>
 						<div class="b min-h-20 p-2 text-left">
@@ -19,22 +19,24 @@
 					<div class="th"><textarea cols="40" rows="10" v-model="message"></textarea></div>
 				</div>
 				<div>
-					<div class="c"><button type="submit">Отправить</button></div>
+					<div class="c"><button type="submit">{{ $t('pages.alliance.join.submit_request') }}</button></div>
 				</div>
 			</form>
 		</div>
 	</div>
 	<div class="mt-2">
-		<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+		<NuxtLink to="/alliance" class="button">{{ $t('pages.alliance.join.nav_back') }}</NuxtLink>
 	</div>
 </template>
 
 <script setup>
-	import { navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import { navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useI18n, useRoute, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Запрос на вступление',
+		title: t('pages.alliance.join.meta_title'),
 	});
 
 	const route = useRoute();
@@ -44,7 +46,7 @@
 	);
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const message = ref('');
@@ -53,7 +55,7 @@
 		useApiSubmit('alliance/join/' + route.params['id'], {
 			message: message.value,
 		}, () => {
-			useSuccessNotification('Запрос на вступление в альянс. После получения вашего сообщения вы получите разрешение/отказ');
+			useSuccessNotification(t('pages.alliance.join.success_after_submit'));
 
 			navigateTo('/alliance');
 		});

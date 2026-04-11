@@ -27,7 +27,7 @@
 				</NuxtLink>
 			</div>
 			<div class="top-menu-block right">
-				<NuxtLink :to="{ path: '/stat', force: true }" class="m1" v-tooltip="$t('menu.stats')">
+				<NuxtLink :to="{ path: '/stats', force: true }" class="m1" v-tooltip="$t('menu.stats')">
 					<svg class="icon">
 						<use xlink:href="/images/symbols.svg#icon-statistics"></use>
 					</svg>

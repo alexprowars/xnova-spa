@@ -1,15 +1,15 @@
 <template>
 	<div class="block">
-		<div class="title">Начальство</div>
+		<div class="title">{{ $t('pages.contacts.section_heading') }}</div>
 		<div class="content">
 			<div class="block-table text-center">
 				<div class="th">
-					<span style="color: orange">Здесь вы найдёте адреса всех администраторов и операторов игры для обратной связи</span>
+					<span style="color: orange">{{ $t('pages.contacts.intro_hint') }}</span>
 				</div>
 				<div class="grid grid-cols-3">
-					<div class="c">Имя</div>
-					<div class="c">Должность</div>
-					<div class="c">E-mail</div>
+					<div class="c">{{ $t('pages.contacts.table_header_name') }}</div>
+					<div class="c">{{ $t('pages.contacts.table_header_role') }}</div>
+					<div class="c">{{ $t('pages.contacts.table_header_email') }}</div>
 				</div>
 				<template v-for="item in items">
 					<div class="grid grid-cols-3">
@@ -29,7 +29,9 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n } from '#imports';
+
+	const { t } = useI18n();
 
 	definePageMeta({
 		view: {
@@ -38,7 +40,7 @@
 	});
 
 	useHead({
-		title: 'Администрация',
+		title: t('pages.contacts.page_title'),
 	});
 
 	const { data: items, error } = await useAsyncData(async () => {
@@ -46,6 +48,6 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 </script>

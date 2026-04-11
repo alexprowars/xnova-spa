@@ -1,6 +1,5 @@
 <script setup>
-import { showError, useApiGet, useAsyncData, useRoute } from '#imports';
-	import useStore from '~/store';
+	import { showError, useApiGet, useAsyncData, useRoute } from '#imports';
 
 	const router = useRoute();
 
@@ -9,6 +8,6 @@ import { showError, useApiGet, useAsyncData, useRoute } from '#imports';
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 </script>

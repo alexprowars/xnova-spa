@@ -24,7 +24,7 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	if (useStore().user !== null && !page.value) {

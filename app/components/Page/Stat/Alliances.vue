@@ -3,13 +3,13 @@
 		<div class="content">
 			<div class="block-table text-center">
 				<div class="grid grid-cols-12">
-					<div class="c col-span-2 sm:col-span-1">Место</div>
-					<div class="c sm:col-span-1 hidden sm:block">+/-</div>
-					<div class="c col-span-4 sm:col-span-5">Альянс</div>
-					<div class="c col-span-2 sm:col-span-1">Игроки</div>
-					<div class="c sm:col-span-2 hidden sm:block">Очки</div>
-					<div class="c sm:col-span-2 hidden sm:block">Очки на игрока</div>
-					<div class="c col-span-4 sm:hidden">Очки / Очки на игрока</div>
+					<div class="c col-span-2 sm:col-span-1">{{ $t('pages.stats.alliances_table_rank') }}</div>
+					<div class="c sm:col-span-1 hidden sm:block">{{ $t('pages.stats.alliances_table_delta') }}</div>
+					<div class="c col-span-4 sm:col-span-5">{{ $t('pages.stats.alliances_table_name') }}</div>
+					<div class="c col-span-2 sm:col-span-1">{{ $t('pages.stats.alliances_table_members') }}</div>
+					<div class="c sm:col-span-2 hidden sm:block">{{ $t('pages.stats.alliances_table_points') }}</div>
+					<div class="c sm:col-span-2 hidden sm:block">{{ $t('pages.stats.alliances_table_points_per_member') }}</div>
+					<div class="c col-span-4 sm:hidden">{{ $t('pages.stats.alliances_table_points_mobile') }}</div>
 				</div>
 				<div v-for="item in items" class="page-stat-alliances-row grid grid-cols-12">
 					<div class="col-span-2 sm:col-span-1 th">

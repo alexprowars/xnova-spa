@@ -1,32 +1,32 @@
 <template>
 	<div class="block">
-		<div class="title">Передача альянса</div>
+		<div class="title">{{ $t('pages.alliance.admin.give_page_title') }}</div>
 		<div class="content">
 			<form class="block-table text-center" @submit.prevent="send">
 				<div>
 					<div class="th">
-						Передать альянс игроку:
+						{{ $t('pages.alliance.admin.give_transfer_player_label') }}
 						<select v-model="userId">
-							<option value="">Выберите игрока</option>
+							<option value="">{{ $t('pages.alliance.admin.give_player_placeholder') }}</option>
 							<option v-for="item in page['users']" :value="item['id']">{{ item['name'] }} [{{ item['rank'] }}]</option>
 						</select>
 					</div>
 				</div>
 				<div v-if="userId">
 					<div class="th">
-						<button type="submit">Передача</button>
+						<button type="submit">{{ $t('pages.alliance.admin.give_submit_transfer') }}</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
 	<div class="mt-2">
-		<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+		<NuxtLink to="/alliance" class="button">{{ $t('pages.alliance.admin.nav_back_alliance_root') }}</NuxtLink>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useSuccessNotification } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useSuccessNotification, useI18n } from '#imports';
 	import { ref } from 'vue';
 
 	definePageMeta({
@@ -36,8 +36,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Передача альянса',
+		title: t('pages.alliance.admin.give_page_title'),
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
@@ -45,7 +47,7 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const userId = ref('');
@@ -54,7 +56,7 @@
 		useApiSubmit('alliance/admin/give', {
 			user: userId.value
 		}, () => {
-			useSuccessNotification('Правление передано')
+			useSuccessNotification(t('pages.alliance.admin.give_transfer_success_notice'));
 
 			navigateTo('/alliance');
 		});

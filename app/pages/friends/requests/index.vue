@@ -2,7 +2,7 @@
 	<div class="friends page-friends-request">
 		<div class="block">
 			<div class="title">
-				{{ isMy ? $t('pages.friends.my_requests') : $t('pages.friends.requests.other_requests') }}
+				{{ isMy ? $t('pages.friends.list.my_requests') : $t('pages.friends.requests.other_requests') }}
 			</div>
 			<div class="content">
 				<div class="block-table text-center">
@@ -44,6 +44,6 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 </script>

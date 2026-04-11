@@ -1,19 +1,23 @@
 <template>
 	<div class="block start">
-		<div class="title">Основная информация</div>
+		<div class="title">{{ $t('pages.start.main_info') }}</div>
 		<div class="content">
-			<div class="block-table">
-				<div class="grid grid-cols-2">
-					<div class="th">Введите ваш игровой ник</div>
-					<div class="th"><input name="name" size="20" maxlength="30" type="text" v-model="name"></div>
+			<div class="block-table text-center">
+				<div class="grid">
+					<div class="th middle">
+						<div>
+							{{ $t('pages.start.game_nickname') }}:
+							<input name="name" size="20" maxlength="30" type="text" v-model="name">
+						</div>
+					</div>
 				</div>
 				<div class="grid">
-					<div class="c">Выберите ваш игровой образ</div>
+					<div class="c">{{ $t('pages.start.game_avatar') }}</div>
 				</div>
 				<div class="grid">
 					<div class="th">
 						<Tabs>
-							<Tab name="Мужской">
+							<Tab :name="$t('pages.start.male')">
 								<div class="grid grid-cols-4">
 									<div v-for="i in 8">
 										<input type="radio" :value="'1_'+i" :id="'f1_'+i" v-model="avatar">
@@ -23,7 +27,7 @@
 									</div>
 								</div>
 							</Tab>
-							<Tab name="Женский">
+							<Tab :name="$t('pages.start.female')">
 								<div class="grid grid-cols-4">
 									<div v-for="i in 8">
 										<input type="radio" :value="'2_'+i" :id="'f2_'+i" v-model="avatar">
@@ -38,7 +42,7 @@
 				</div>
 				<div v-if="name && avatar" class="grid">
 					<div class="th">
-						<button @click.prevent="save">Продолжить</button>
+						<button @click.prevent="save">{{ $t('pages.start.continue') }}</button>
 					</div>
 				</div>
 			</div>

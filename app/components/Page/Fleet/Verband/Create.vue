@@ -4,7 +4,7 @@
 			<div class="th">
 				<input type="text" v-model="name" size="50">
 				<br>
-				<button type="submit">Создать</button>
+				<button type="submit">{{ $t('pages.fleets.verband.create_submit') }}</button>
 			</div>
 		</div>
 	</form>

@@ -1,8 +1,8 @@
 <template>
 	<div class="block">
 		<div class="title">
-			Тема: {{ item['subject'] }}
-			<div class="float-end">Статус: {{ $t('pages.support.status.' + item['status']) }}</div>
+			{{ $t('pages.support.detail.subject_prefix') }} {{ item['subject'] }}
+			<div class="float-end">{{ $t('pages.support.detail.status_prefix') }} {{ $t('pages.support.status.' + item['status']) }}</div>
 		</div>
 		<div class="content">
 			<div class="block-table">
@@ -11,7 +11,7 @@
 				</div>
 				<div v-for="message in item['messages']" class="th">
 					<div class="positive">
-						{{ $formatDate(message['date'], 'DD.MM.YYYY HH:mm') }} от
+						{{ $formatDate(message['date'], 'DD.MM.YYYY HH:mm') }} {{ $t('pages.support.detail.message_from') }}
 						<a :href="'/players/' + message['user_id']" target="_blank">{{ message['user'] }}</a>
 					</div>
 					<div class="mt-2" v-html="message['message']"></div>
@@ -21,12 +21,12 @@
 	</div>
 
 	<div class="mt-2">
-		<NuxtLink to="/support" class="button">Назад</NuxtLink>
+		<NuxtLink to="/support" class="button">{{ $t('pages.support.detail.back') }}</NuxtLink>
 	</div>
 
 	<div v-if="item['status'] !== 0" class="block mt-4">
 		<div class="title">
-			Ответ
+			{{ $t('pages.support.detail.answer_title') }}
 		</div>
 		<div class="content">
 			<div class="grid">
@@ -36,7 +36,7 @@
 			</div>
 			<div class="grid">
 				<div class="c text-center">
-					<button @click.prevent="answer">Ответить</button>
+					<button @click.prevent="answer">{{ $t('pages.support.detail.reply') }}</button>
 				</div>
 			</div>
 		</div>
@@ -44,19 +44,20 @@
 </template>
 
 <script setup>
-	import { openErrorModal, refreshNuxtData, showError, useApiGet, useApiPost, useAsyncData, useRoute, useSuccessNotification } from '#imports';
+	import { openErrorModal, refreshNuxtData, showError, useApiGet, useApiPost, useAsyncData, useI18n, useRoute, useSuccessNotification } from '#imports';
 	import { ref } from 'vue';
 	import { required } from '@vuelidate/validators';
 	import { useVuelidate } from '@vuelidate/core';
 
 	const route = useRoute();
+	const { t } = useI18n();
 
 	const { data: item, error } = await useAsyncData(async () => {
 		return await useApiGet('/support/' + route.params.id);
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const message = ref('');
@@ -86,7 +87,7 @@
 			message.value = '';
 
 			await refreshNuxtData();
-			useSuccessNotification('Запрос добавлен');
+			useSuccessNotification(t('pages.support.notifications.request_added'));
 		} catch (e) {
 			openErrorModal(e);
 		}

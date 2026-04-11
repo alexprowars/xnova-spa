@@ -11,22 +11,14 @@
 		}
 	});
 
-	const props = defineProps({
-		popup: {
-			type: Object
-		}
-	})
+	const route = useRoute();
 
-	const { data: page, error } = await useAsyncData(async () => {
-		return await useApiGet('/content/' + useRoute().params.id);
+	const { data: page, error } = await useAsyncData('content-' + route.params.id, async () => {
+		return await useApiGet('/content/' + route.params.id);
 	});
 
 	if (error.value) {
-		throw showError(error.value);
-	}
-
-	if (props.popup !== undefined) {
-		page.value = props.popup;
+		throw showError({ data: { error: error.value } });
 	}
 
 	useHead({

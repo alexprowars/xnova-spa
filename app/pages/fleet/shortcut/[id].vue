@@ -5,10 +5,10 @@
 			<form method="post" class="block-table" @submit.prevent="update">
 				<div class="grid">
 					<div class="th">
-						<input type="text" name="title" v-model="page['name']" size="32" maxlength="32" title="Название">
-						<input type="text" name="galaxy" v-model.number="page['galaxy']" size="3" maxlength="2" title="Галактика">
-						<input type="text" name="system" v-model.number="page['system']" size="3" maxlength="3" title="Система">
-						<input type="text" name="planet" v-model.number="page['planet']" size="3" maxlength="2" title="Планета">
+						<input type="text" name="title" v-model="page['name']" size="32" maxlength="32" :title="$t('pages.fleets.shortcut.form.title_name')">
+						<input type="text" name="galaxy" v-model.number="page['galaxy']" size="3" maxlength="2" :title="$t('pages.fleets.shortcut.form.title_galaxy')">
+						<input type="text" name="system" v-model.number="page['system']" size="3" maxlength="3" :title="$t('pages.fleets.shortcut.form.title_system')">
+						<input type="text" name="planet" v-model.number="page['planet']" size="3" maxlength="2" :title="$t('pages.fleets.shortcut.form.title_planet')">
 						<select name="planet_type" v-model.number="page['planet_type']">
 							<option v-for="index in Object.keys($tm('planet_type'))" :value="index">{{ $t('planet_type.' + index) }}</option>
 						</select>
@@ -16,14 +16,14 @@
 				</div>
 				<div class="grid">
 					<div class="th">
-						<button type="reset">Очистить</button>
-						<button type="submit">Обновить</button>
-						<button type="button" @click.prevent="del">Удалить</button>
+						<button type="reset">{{ $t('pages.fleets.shortcut.form.clear') }}</button>
+						<button type="submit">{{ $t('pages.fleets.shortcut.edit.update') }}</button>
+						<button type="button" @click.prevent="del">{{ $t('pages.fleets.shortcut.edit.delete') }}</button>
 					</div>
 				</div>
 				<div class="grid">
 					<div class="c">
-						<NuxtLink to="/fleet/shortcut">Назад</NuxtLink>
+						<NuxtLink to="/fleet/shortcut">{{ $t('pages.fleets.shortcut.form.back') }}</NuxtLink>
 					</div>
 				</div>
 			</form>
@@ -32,14 +32,16 @@
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification } from '#imports';
+	import { definePageMeta, navigateTo, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
 
 	definePageMeta({
 		middleware: ['auth'],
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Редактирование закладки',
+		title: t('pages.fleets.shortcut.edit.meta_title'),
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
@@ -47,7 +49,7 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	function update() {
@@ -58,7 +60,7 @@
 			planet: page.value['planet'],
 			planet_type: page.value['planet_type'],
 		}, () => {
-			useSuccessNotification('Ссылка была обновлена!');
+			useSuccessNotification(t('pages.fleets.shortcut.edit.notify_updated'));
 
 			navigateTo('/fleet/shortcut');
 		});
@@ -68,7 +70,7 @@
 		useApiSubmit('/fleet/shortcut/' + page.value['id'], {
 			'_method': 'DELETE',
 		}, () => {
-			useSuccessNotification('Ссылка была успешно удалена!');
+			useSuccessNotification(t('pages.fleets.shortcut.edit.notify_deleted'));
 
 			navigateTo('/fleet/shortcut');
 		});

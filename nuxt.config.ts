@@ -43,6 +43,16 @@ let config = {
 	devtools: {
 		enabled: false,
 	},
+	experimental: {
+		checkOutdatedBuildInterval: 1000 * 60 * 5,
+	},
+	typescript: {
+		tsConfig: {
+			include: [
+				'../types/*.ts',
+			],
+		},
+	},
 	ssr: false,
 	vite: {
 		build: {

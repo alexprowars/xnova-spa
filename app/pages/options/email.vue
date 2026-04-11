@@ -1,29 +1,29 @@
 <template>
 	<div class="block">
-		<div class="title">Смена адреса электронной почты</div>
+		<div class="title">{{ $t('pages.options.email_change_block_title') }}</div>
 		<div class="content">
 			<form class="block-table text-center" method="post" @submit.prevent="update">
 				<div class="grid grid-cols-2">
-					<div class="th middle">Текущий пароль</div>
+					<div class="th middle">{{ $t('pages.options.email_change_current_password') }}</div>
 					<div class="th middle"><input type="password" name="password" v-model="password" :class="{error: v$.password.$error}" size="20"></div>
 				</div>
 				<div class="grid grid-cols-2">
-					<div class="th middle">Новый Email адрес</div>
+					<div class="th middle">{{ $t('pages.options.email_change_new_email') }}</div>
 					<div class="th middle"><input type="email" name="email" v-model="email" :class="{error: v$.email.$error}" size="20" autocomplete="off"></div>
 				</div>
 				<div>
-					<div class="c"><button type="submit">Сменить</button></div>
+					<div class="c"><button type="submit">{{ $t('pages.options.email_change_submit') }}</button></div>
 				</div>
 			</form>
 		</div>
 	</div>
 	<div class="mt-2">
-		<NuxtLink to="/options" class="button">Назад</NuxtLink>
+		<NuxtLink to="/options" class="button">{{ $t('pages.options.email_change_back') }}</NuxtLink>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, navigateTo, useApiSubmit, useHead, useSuccessNotification } from '#imports';
+	import { definePageMeta, navigateTo, useApiSubmit, useHead, useI18n, useSuccessNotification } from '#imports';
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation } from '@vuelidate/validators'
 	import { ref } from 'vue';
@@ -35,8 +35,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Смена Email',
+		title: t('pages.options.email_change_head_title'),
 	});
 
 	const password = ref('');
@@ -67,7 +69,7 @@
 			password: password.value,
 			email: email.value,
 		}, async () => {
-			useSuccessNotification('Ваш Email успешно изменен');
+			useSuccessNotification(t('pages.options.email_change_success'));
 
 			navigateTo('/options');
 		});

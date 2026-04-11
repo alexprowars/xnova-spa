@@ -2,7 +2,7 @@
 	<div>
 		<div class="block">
 			<div class="title">
-				Поиск альянса
+				{{ $t('pages.alliance.search.page_heading') }}
 			</div>
 			<div class="content">
 				<form class="block-table text-center" method="post" @submit.prevent="search">
@@ -13,7 +13,7 @@
 					</div>
 					<div>
 						<div class="c">
-							<button type="submit">Поиск</button>
+							<button type="submit">{{ $t('pages.alliance.search.submit_action') }}</button>
 						</div>
 					</div>
 				</form>
@@ -22,7 +22,7 @@
 
 		<div v-if="items.length" class="block">
 			<div class="title">
-				Найденые альянсы
+				{{ $t('pages.alliance.search.results_section_heading') }}
 			</div>
 			<div class="content">
 				<div class="block-table text-center">
@@ -44,13 +44,13 @@
 		</div>
 
 		<div class="mt-2">
-			<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+			<NuxtLink to="/alliance" class="button">{{ $t('pages.alliance.search.back_link') }}</NuxtLink>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, showError, useApiSubmit, useAsyncData, useHead, useI18n } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { useVuelidate } from '@vuelidate/core'
@@ -63,8 +63,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Поиск альянса',
+		title: t('pages.alliance.search.page_heading'),
 	});
 
 	const { error } = await useAsyncData(async () => {
@@ -72,7 +74,7 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const query = ref('');

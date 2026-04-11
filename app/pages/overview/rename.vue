@@ -1,26 +1,26 @@
 <template>
 	<div class="page-overview-rename">
 		<div class="block">
-			<div class="title">Переименовать или покинуть планету</div>
+			<div class="title">{{ $t('pages.overview.rename.block_title') }}</div>
 			<div class="content">
 				<div class="block-table middle">
 					<div class="grid grid-cols-3">
 						<div class="th hidden sm:flex middle">{{ planet['coordinates']['galaxy'] }}:{{ planet['coordinates']['system'] }}:{{ planet['coordinates']['planet'] }}</div>
 						<div class="th middle">{{ planet['name'] }}</div>
 						<div class="th middle">
-							<button type="button" @click.prevent="deletePlanet">Покинуть колонию</button>
+							<button type="button" @click.prevent="deletePlanet">{{ $t('pages.overview.rename.abandon_colony') }}</button>
 						</div>
 					</div>
 					<div class="grid grid-cols-3">
-						<div class="th hidden sm:flex middle">Сменить название</div>
+						<div class="th hidden sm:flex middle">{{ $t('pages.overview.rename.change_name_heading') }}</div>
 						<div class="th middle"><input type="text" :placeholder="planet['name']" v-model="name" maxlength="20"></div>
-						<div class="th middle"><button v-if="name" @click.prevent="changeName">Сменить название</button></div>
+						<div class="th middle"><button v-if="name" @click.prevent="changeName">{{ $t('pages.overview.rename.change_name_submit') }}</button></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div v-if="type" class="block page-overview-planet-image">
-			<div class="title">Сменить фон планеты</div>
+			<div class="title">{{ $t('pages.overview.rename.background_title') }}</div>
 			<div class="content p-2">
 				<div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
 					<div v-for="i in planetImages[type]">
@@ -32,7 +32,7 @@
 				</div>
 				<div v-if="image > 0" class="grid">
 					<div class="th text-center">
-						<button @click.prevent="changeImage">Сменить картинку (1 кредит)</button>
+						<button @click.prevent="changeImage">{{ $t('pages.overview.rename.change_image_one_credit') }}</button>
 					</div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, openConfirmModal, useHead, navigateTo, useApiSubmit, useSuccessNotification, refreshNuxtData } from '#imports';
+	import { definePageMeta, openConfirmModal, useHead, navigateTo, useApiSubmit, useSuccessNotification, refreshNuxtData, useI18n } from '#imports';
 	import useStore from '~/store';
 	import { computed, ref } from 'vue';
 	import { storeToRefs } from 'pinia';
@@ -53,8 +53,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Переименовать планету',
+		title: t('pages.overview.rename.page_title'),
 	});
 
 	const { planet } = storeToRefs(useStore());
@@ -85,7 +87,7 @@
 		useApiSubmit('/planet/rename', {
 			name: name.value
 		}, () => {
-			useSuccessNotification('Название планеты изменено');
+			useSuccessNotification(t('pages.overview.rename.toast_renamed'));
 
 			navigateTo('/overview');
 		});
@@ -95,7 +97,7 @@
 		useApiSubmit('/planet/image', {
 			image: image.value
 		}, () => {
-			useSuccessNotification('Картинка планеты изменена');
+			useSuccessNotification(t('pages.overview.rename.toast_image_changed'));
 
 			navigateTo('/overview');
 		});
@@ -104,16 +106,16 @@
 	function deletePlanet() {
 		openConfirmModal(
 			null,
-			'Удалить колонию?',
+			t('pages.overview.rename.confirm_abandon'),
 			[{
-				title: 'Закрыть',
+				title: t('pages.overview.rename.modal_close'),
 			}, {
-				title: 'Удалить',
+				title: t('pages.overview.rename.modal_confirm_delete'),
 				handler: () => {
 					useApiSubmit('/planet/delete', {
 						_method: 'DELETE',
 					}, async () => {
-						useSuccessNotification('Колония успешно удалена');
+						useSuccessNotification(t('pages.overview.rename.toast_colony_removed'));
 
 						await refreshNuxtData();
 					});

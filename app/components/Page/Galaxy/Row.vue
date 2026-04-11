@@ -160,7 +160,7 @@
 							<div class="w-2/3 th text-center flex flex-col justify-center gap-2">
 								<NuxtLink v-if="item.user['id'] !== currentUser['id']" :to="'/messages/write/' + item.user['id']">Послать сообщение</NuxtLink>
 								<NuxtLink :to="'/friends/new/' + item.user['id']">Добавить в друзья</NuxtLink>
-								<NuxtLink :to="'/stat?range=' + stat_page + '&id=' + item.user['id']">Статистика</NuxtLink>
+								<NuxtLink :to="'/stats?range=' + stat_page + '&id=' + item.user['id']">Статистика</NuxtLink>
 							</div>
 						</div>
 					</div>

@@ -1,12 +1,12 @@
 <template>
 	<div class="block">
 		<div class="title">
-			{{ pageType === 'ally' ? 'Альянс' : 'Игрок' }} "{{ page['name'] }}"
+			{{ pageType === 'ally' ? $t('pages.players.stats_heading_ally') : $t('pages.players.stats_heading_player') }} "{{ page['name'] }}"
 		</div>
 		<div>
 			<div class="block-table">
 				<div class="grid">
-					<div class="c"><b>Статистика по месту</b></div>
+					<div class="c"><b>{{ $t('pages.players.stats_by_rank_title') }}</b></div>
 				</div>
 				<div class="grid">
 					<div class="th" style="padding: 10px;">
@@ -16,30 +16,30 @@
 			</div>
 			<div class="block-table">
 				<div class="grid">
-					<div class="c"><b>Статистика по очкам</b></div>
+					<div class="c"><b>{{ $t('pages.players.stats_by_points_title') }}</b></div>
 				</div>
 				<div class="grid">
 					<div class="th p-4">
 						<div class="text-center">
 							<label>
 								<input type="radio" v-model="typeChart" value="build">
-								Постройки
+								{{ $t('pages.players.chart_label_buildings') }}
 							</label>
 							<label>
 								<input type="radio" v-model="typeChart" value="tech">
-								Технологии
+								{{ $t('pages.players.chart_label_technologies') }}
 							</label>
 							<label>
 								<input type="radio" v-model="typeChart" value="defs">
-								Оборона
+								{{ $t('pages.players.chart_label_defense') }}
 							</label>
 							<label>
 								<input type="radio" v-model="typeChart" value="fleet">
-								Флот
+								{{ $t('pages.players.chart_label_fleet') }}
 							</label>
 							<label>
 								<input type="radio" v-model="typeChart" value="total">
-								Всего
+								{{ $t('pages.players.chart_label_total') }}
 							</label>
 						</div>
 
@@ -52,8 +52,8 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useRoute } from '#imports';
-	import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n, useRoute } from '#imports';
+	import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 	import { Chart, CategoryScale, LinearScale, LineController, PointElement, LineElement, Legend, Tooltip } from 'chart.js';
 	import { number } from '~/utils/format';
 	import dayjs from 'dayjs';
@@ -64,8 +64,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Статистика игрока',
+		title: t('pages.players.meta_stats_title'),
 	});
 
 	const route = useRoute();
@@ -75,7 +77,7 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const pointChartRef = ref(null);
@@ -89,13 +91,13 @@
 		fleet: 'rgb(75, 192, 192)',
 		total: 'rgb(54, 162, 235)',
 	});
-	const typeChartLabels = ref({
-		build: 'Постройки',
-		tech: 'Технологии',
-		defs: 'Оборона',
-		fleet: 'Флот',
-		total: 'Всего',
-	});
+	const typeChartLabels = computed(() => ({
+		build: t('pages.players.chart_label_buildings'),
+		tech: t('pages.players.chart_label_technologies'),
+		defs: t('pages.players.chart_label_defense'),
+		fleet: t('pages.players.chart_label_fleet'),
+		total: t('pages.players.chart_label_total'),
+	}));
 
 	let pointsChart = null;
 
@@ -132,31 +134,31 @@
 			item: {
 				labels: labels,
 				datasets: [{
-					label: 'Постройки',
+					label: t('pages.players.chart_label_buildings'),
 					fill: false,
 					borderColor: typeChartColors.value.build,
 					backgroundColor: typeChartColors.value.build,
 					item: ranks.build,
 				}, {
-					label: 'Технологии',
+					label: t('pages.players.chart_label_technologies'),
 					fill: false,
 					borderColor: typeChartColors.value.tech,
 					backgroundColor: typeChartColors.value.tech,
 					item: ranks.tech
 				}, {
-					label: 'Оборона',
+					label: t('pages.players.chart_label_defense'),
 					fill: false,
 					borderColor: typeChartColors.value.defs,
 					backgroundColor: typeChartColors.value.defs,
 					item: ranks.defs
 				}, {
-					label: 'Флот',
+					label: t('pages.players.chart_label_fleet'),
 					fill: false,
 					borderColor: typeChartColors.value.fleet,
 					backgroundColor: typeChartColors.value.fleet,
 					item: ranks.fleet
 				}, {
-					label: 'Место',
+					label: t('pages.players.chart_label_rank_total'),
 					fill: false,
 					borderColor: typeChartColors.value.total,
 					backgroundColor: typeChartColors.value.total,
@@ -169,14 +171,14 @@
 						display: true,
 						title: {
 							display: true,
-							text: 'Дни'
+							text: t('pages.players.chart_axis_days')
 						}
 					},
 					y: {
 						display: true,
 						title: {
 							display: true,
-							text: 'Место'
+							text: t('pages.players.chart_axis_rank')
 						},
 						reverse: true,
 						min: 1
@@ -231,14 +233,14 @@
 						display: true,
 						title: {
 							display: true,
-							text: 'Дни'
+							text: t('pages.players.chart_axis_days')
 						}
 					},
 					y: {
 						display: true,
 						title: {
 							display: true,
-							text: 'Очки'
+							text: t('pages.players.chart_axis_points')
 						},
 						ticks: {
 							callback: (value) => {

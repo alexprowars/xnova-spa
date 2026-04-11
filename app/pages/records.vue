@@ -1,16 +1,18 @@
 <template>
 	<div class="block">
-		<div class="title">Рекорды</div>
+		<div class="title">{{ $t('pages.records.heading') }}</div>
 		<div class="content">
 			<div class="block-table">
 				<div class="grid">
-					<div class="th text-center">Обновлено в {{ $formatDate(page['update'], 'HH:mm:ss DD MMM YYYY') }}</div>
+					<div class="th text-center">
+						{{ $t('pages.records.updated_at', { time: $formatDate(page['update'], 'DD MMM YYYY HH:mm:ss') }) }}
+					</div>
 				</div>
 				<template v-for="(list, group) in page['items']">
 					<div class="grid grid-cols-12">
 						<div class="col-span-5 c">{{ group }}</div>
-						<div class="col-span-5 c text-center">Игрок</div>
-						<div class="col-span-2 c text-center">Уровень</div>
+						<div class="col-span-5 c text-center">{{ $t('pages.records.col_player') }}</div>
+						<div class="col-span-2 c text-center">{{ $t('pages.records.col_level') }}</div>
 					</div>
 					<div v-for="(info, building) in list" class="grid grid-cols-12">
 						<div class="col-span-5 th text-left">{{ building }}</div>
@@ -24,7 +26,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useApiGet, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, showError, useApiGet, useAsyncData, useHead, useI18n } from '#imports';
 
 	definePageMeta({
 		view: {
@@ -32,8 +34,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Таблица рекордов',
+		title: t('pages.records.page_title'),
 	});
 
 	const { data: page, error } = await useAsyncData(async () => {
@@ -41,6 +45,6 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 </script>

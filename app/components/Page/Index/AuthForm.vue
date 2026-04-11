@@ -3,11 +3,11 @@
 		<div v-if="error" v-html="error" class="message error"></div>
 		<form action="" method="post" @submit.prevent="send">
 			<input :class="{error: v$.email.$error}" name="email" class="input-text" placeholder="Email" v-model="email" type="email" autocomplete="username">
-			<input :class="{error: v$.password.$error}" name="password" class="input-text" placeholder="Пароль" v-model="password" type="password" autocomplete="current-password">
-			<button type="submit" class="input-submit">Вход</button>
+			<input :class="{error: v$.password.$error}" name="password" class="input-text" :placeholder="$t('pages.index.auth_password_placeholder')" v-model="password" type="password" autocomplete="current-password">
+			<button type="submit" class="input-submit">{{ $t('pages.index.auth_submit') }}</button>
 			<div class="remember">
 				<input id="rememberme" type="checkbox" v-model="remember">
-				<label for="rememberme">Запомнить меня</label>
+				<label for="rememberme">{{ $t('pages.index.auth_remember_me') }}</label>
 			</div>
 		</form>
 	</div>

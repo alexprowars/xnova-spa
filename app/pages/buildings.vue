@@ -56,7 +56,7 @@
 	);
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const { planet, queueByType, fieldsEmpty } = storeToRefs(store);

@@ -4,8 +4,8 @@ import { useApiGet, useApiPost } from '~/composables/useApi';
 
 export const useChatStore = defineStore('chat', {
 	state: () => ({
-		messages: [],
-		unread: 0,
+		messages: [] as any[],
+		unread: 0 as number,
 	}),
 	getters: {
 		sortedMessages: state => {
@@ -13,7 +13,7 @@ export const useChatStore = defineStore('chat', {
 		}
 	},
 	actions: {
-		async sendMessage (message) {
+		async sendMessage (message: string) {
 			while (message.indexOf('\'') >= 0) {
 				message = message.replace('\'', '`');
 			}
@@ -34,12 +34,12 @@ export const useChatStore = defineStore('chat', {
 			this.setMessages([]);
 			this.clearUnread();
 		},
-		addMessage (message) {
+		addMessage (message: any) {
 			this.messages.push(reformat(message));
 			this.unread += 1;
 		},
-		setMessages (messages) {
-			this.messages = messages.map((message) => reformat(message));
+		setMessages (messages: any) {
+			this.messages = messages.map((message: any) => reformat(message));
 		},
 		clearUnread () {
 			this.unread = 0;

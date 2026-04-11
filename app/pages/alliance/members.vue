@@ -47,7 +47,7 @@
 					</tr>
 					<tr v-if="m['id'] === changeRank && page['admin']">
 						<td colspan="10" class="th p-0">
-							<div class="table !border-0">
+							<div class="table border-0!">
 								<div>
 									<div class="th">{{ $t('pages.alliance.members.set_rank_for', [m['username']]) }}</div>
 									<div class="th">
@@ -76,14 +76,14 @@
 	import { definePageMeta, openConfirmModal, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useRoute, useSuccessNotification, useI18n } from '#imports';
 	import { computed, ref } from 'vue';
 
-	const { t } = useI18n();
-
 	definePageMeta({
 		middleware: ['auth'],
 		view: {
 			resources: false,
 		}
 	});
+
+	const { t } = useI18n();
 
 	useHead({
 		title: t('pages.alliance.members.page_title'),
@@ -96,7 +96,7 @@
 	);
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const changeRank = ref();

@@ -11,18 +11,12 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 	import ErrorMessage from '~/components/ErrorMessage.vue'
 	import useStore from '~/store';
+	import { computed } from 'vue';
 
-	export default {
-		components: {
-			ErrorMessage,
-		},
-		computed: {
-			error () {
-				return useStore().error || false;
-			},
-		}
-	}
+	const error = computed(() => {
+		return useStore().error || false;
+	});
 </script>

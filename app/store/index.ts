@@ -1,39 +1,59 @@
 import { defineStore } from 'pinia';
-import { navigateTo, useApiGet, useToast, useNuxtApp } from '#imports';
+import { useApiGet, useToast, useNuxtApp } from '#imports';
 import dayjs from 'dayjs';
+import type { IUser, IPlanet } from '~~/types/types';
+
+interface State {
+	initialized: boolean
+	version: string | null
+	redirect: string | null
+	user: IUser | null
+	planet: IPlanet | null
+	queue: any[]
+	messages: any[]
+	stats: {[key: string]: number}
+	settings: any
+	speed: any
+}
 
 export const useStore = defineStore('app', {
-	state: () => ({
+	state: (): State => ({
 		initialized: false,
 		version: null,
 		redirect: null,
-		messages: null,
-		stats: null,
-		settings: null,
-		speed: null,
+		messages: [],
+		stats: {},
+		settings: {
+			language: 'en',
+		},
+		speed: {},
 		user: null,
 		planet: null,
 		queue: [],
 	}),
 	getters: {
-		isAuthorized: state => {
-			return state.user && state.user.id > 0
+		isAuthorized(state): boolean {
+			return state.user !== null && state.user.id > 0;
 		},
-		isVacation: state => {
-			return state.user && state.user['vacation'] !== null;
+		isVacation(state): boolean {
+			return state.user !== null && state.user.vacation !== null;
 		},
-		queueByType: state => type => {
-			return state.queue.filter((item) => item.planet_id === state.planet['id'] && item.type === type);
+		queueByType: state => (type: string) => {
+			return state.queue.filter((item) => item.planet_id === state.planet?.id && item.type === type);
 		},
-		fieldsEmpty: state => {
-			return state.planet['field_max'] - state.planet['field_used'] - state.queueByType('build').length;
+		fieldsEmpty(state): number {
+			if (!state.planet) {
+				return 0;
+			}
+
+			return state.planet.field_max - state.planet.field_used - this.queueByType('build').length;
 		},
 	},
 	actions: {
 		async loadState() {
 			const data = await useApiGet('/state');
 
-			if (typeof data['quest'] !== 'undefined' && data['quest']['popup'] !== '') {
+			/*if (typeof data['quest'] !== 'undefined' && data['quest']['popup'] !== '') {
 				$.confirm({
 					title: 'Обучение',
 					content: data['quest']['popup'],
@@ -46,7 +66,7 @@ export const useStore = defineStore('app', {
 						}
 					}
 				})
-			}
+			}*/
 
 			if (typeof data['quest'] !== 'undefined' && data['quest']['toast'] !== '') {
 				useToast(data['quest']['toast'], 'info')
@@ -59,12 +79,8 @@ export const useStore = defineStore('app', {
 				dayjs.locale(data.settings.language);
 			});
 		},
-		PAGE_LOAD (data) {
-			for (let key in data) {
-				if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) {
-					this[key] = data[key];
-				}
-			}
+		PAGE_LOAD (data: any) {
+			this.$patch(data);
 		},
 		setTimezone() {
 			const tz = this.user?.options.timezone || null;

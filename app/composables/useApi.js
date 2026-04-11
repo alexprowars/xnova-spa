@@ -114,7 +114,7 @@ function handleResult (data) {
 function parseData (data) {
 	if (data !== undefined) {
 		if (typeof data['redirect'] !== 'undefined') {
-			navigateTo({ path: data['redirect'], force: true });
+			navigateTo({ path: data['redirect'], force: true }, { external: true });
 		}
 
 		return data['data'];

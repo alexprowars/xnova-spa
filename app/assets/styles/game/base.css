@@ -889,18 +889,19 @@ input[type="checkbox"], input[type="radio"] {
 		margin: 10px 5px;
 	}
 
-	.race {
-		padding: 15px;
-		margin: 10px 5px;
-	}
-
 	&.race .content {
 		text-align: center;
 	}
 
-	&.race .race {
-		width: 90%;
+	&.race .race-item {
+		padding: 15px;
+		width: 100%;
 		text-align: center;
+		cursor: pointer;
+
+		&.selected{
+			outline: 1px solid #fff;
+		}
 
 		span {
 			display: block;
@@ -913,14 +914,14 @@ input[type="checkbox"], input[type="radio"] {
 			margin-top: 10px;
 		}
 	}
-}
 
-.start #tabs input[type=radio] {
-	display: none;
-}
+	.tabs-component-panel input[type=radio] {
+		display: none;
+	}
 
-.start #tabs input[type=radio]:checked + label {
-	outline: 1px solid #fff;
+	.tabs-component-panel input[type=radio]:checked + label {
+		outline: 1px solid #fff;
+	}
 }
 
 div.errormessage {

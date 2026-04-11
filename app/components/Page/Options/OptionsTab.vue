@@ -1,13 +1,13 @@
 <template>
 	<form ref="formRef" method="post" @submit.prevent="send">
 		<Tabs>
-			<Tab name="Информация">
+			<Tab :name="$t('pages.options.information')">
 				<div class="block-table text-center">
 					<div class="grid grid-cols-2">
 						<div class="th flex-col middle">
 							{{ $t('pages.options.nickname') }}
 							<br>
-							<span class="negative">Можно менять не чаще раза в сутки</span>
+							<span class="negative">{{ $t('pages.options.nickname_change_notice') }}</span>
 						</div>
 						<div class="th middle">
 							<input v-if="data['allow_name_change']" name="name" size="20" :value="user.name" type="text" autocomplete="username">
@@ -15,25 +15,25 @@
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Адрес e-mail (логин)</div>
+						<div class="th middle">{{ $t('pages.options.email_address') }}</div>
 						<div class="th middle gap-2">
 							<input v-if="!user.email" type="text" name="email" value="">
 							<template v-else>
-								{{ user.email }} <NuxtLink to="/options/email" class="button">сменить</NuxtLink>
+								{{ user.email }} <NuxtLink to="/options/email" class="button">{{ $t('pages.options.change') }}</NuxtLink>
 							</template>
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Пол</div>
+						<div class="th middle">{{ $t('pages.options.sex') }}</div>
 						<div class="th middle">
 							<select name="sex">
-								<option value="M">мужской</option>
-								<option value="F" :selected="user.sex === 2" >женский</option>
+								<option value="M">{{ $t('pages.options.sex_male') }}</option>
+								<option value="F" :selected="user.sex === 2" >{{ $t('pages.options.sex_female') }}</option>
 							</select>
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Язык</div>
+						<div class="th middle">{{ $t('pages.options.language') }}</div>
 						<div class="th middle">
 							<select name="locale" v-model="user.locale">
 								<option value="en">English</option>
@@ -48,63 +48,63 @@
 					</div>
 				</div>
 			</Tab>
-			<Tab v-if="user.email" name="Пароль">
+			<Tab v-if="user.email" :name="$t('pages.options.password')">
 				<ChangePasswordForm/>
 			</Tab>
-			<Tab name="Интерфейс">
+			<Tab :name="$t('pages.options.interface')">
 				<div class="block-table text-center">
 					<div class="grid grid-cols-2">
-						<div class="th middle">Упорядочить планеты по:</div>
+						<div class="th middle">{{ $t('pages.options.planet_sort_by') }}</div>
 						<div class="th middle">
 							<div class="flex flex-col gap-2">
 								<select name="settings_sort" style='width:170px' v-model="user.options['planet_sort']">
-									<option value="0">Времени колонизации</option>
-									<option value="1">Координатам</option>
-									<option value="2">Алфавитному порядку</option>
-									<option value="3">Типу</option>
+									<option value="0">{{ $t('pages.options.sort_colonization_time') }}</option>
+									<option value="1">{{ $t('pages.options.sort_coordinates') }}</option>
+									<option value="2">{{ $t('pages.options.sort_alphabetical') }}</option>
+									<option value="3">{{ $t('pages.options.sort_type') }}</option>
 								</select>
 
 								<select name="settings_order" style='width:170px' v-model="user.options['planet_sort_order']">
-									<option value="0">Возрастанию</option>
-									<option value="1">Убыванию</option>
+									<option value="0">{{ $t('pages.options.order_ascending') }}</option>
+									<option value="1">{{ $t('pages.options.order_descending') }}</option>
 								</select>
 							</div>
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Кол-во отправляемых шпионских зондов в меню "Космос"</div>
+						<div class="th middle">{{ $t('pages.options.spy_probes_count') }}</div>
 						<div class="th middle"><input name="spy" :value="user.options['spy']" type="text"></div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Участвовать в рекордах</div>
+						<div class="th middle">{{ $t('pages.options.participate_in_records') }}</div>
 						<div class="th middle">
 							<input name="records" value="" type="hidden">
 							<input name="records" v-model="user.options['records']" type="checkbox">
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Использовать BB коды в сообщениях</div>
+						<div class="th middle">{{ $t('pages.options.use_bb_codes') }}</div>
 						<div class="th middle">
 							<input name="bbcode" value="" type="hidden">
 							<input name="bbcode" v-model="user.options['bb_parser']" type="checkbox">
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Показывать только доступные постройки</div>
+						<div class="th middle">{{ $t('pages.options.show_available_only') }}</div>
 						<div class="th middle">
 							<input name="available" value="" type="hidden">
 							<input name="available" v-model="user.options['only_available']" type="checkbox">
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Показывать панель чата</div>
+						<div class="th middle">{{ $t('pages.options.show_chat_panel') }}</div>
 						<div class="th middle">
 							<input name="chatbox" value="" type="hidden">
 							<input name="chatbox" v-model="user.options['chatbox']" type="checkbox">
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Цвет ваших сообщений в чате</div>
+						<div class="th middle">{{ $t('pages.options.message_color') }}</div>
 						<div class="th middle">
 							<select name="color" style='width:170px' v-model="user.options['color']">
 								<option v-for="id in Object.keys($tm('colors')).filter((c) => $t('colors.' + c + '.1') !== '')" :value="id" :style="'color:'+$t('colors.' + id + '.0')">{{ $t('colors.' + id + '.1') }}</option>
@@ -112,27 +112,27 @@
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Часовой пояс</div>
+						<div class="th middle">{{ $t('pages.options.timezone') }}</div>
 						<div class="th middle">
 							<select name="timezone" style="width:170px" v-model="user.options['timezone']">
-								<option :value="null">Системный</option>
+								<option :value="null">{{ $t('pages.options.timezone_system') }}</option>
 								<option v-for="i in timezones" :value="i">{{ i > 0 ? '+' + i : i }}</option>
 							</select>
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th middle">Аватар</div>
+						<div class="th middle">{{ $t('pages.options.avatar') }}</div>
 						<div class="th middle flex-col gap-6">
 							<div v-if="user.photo">
 								<div><img :src="user.photo" class="h-52" alt=""></div>
 								<label>
 									<input type="checkbox" name="photo_delete" value="Y">
-									Удалить
+									{{ $t('pages.options.avatar_delete') }}
 								</label>
 							</div>
 							<div>
 								<div><input type="file" name="photo" value=""></div>
-								<small>Картинки уменьшаются до размера в 300x300 пикселей</small>
+								<small>{{ $t('pages.options.avatar_resize_notice') }}</small>
 							</div>
 						</div>
 					</div>
@@ -143,7 +143,7 @@
 					</div>
 				</div>
 			</Tab>
-			<Tab name="Описание">
+			<Tab :name="$t('pages.options.description')">
 				<div class="block-table text-center">
 					<div class="grid">
 						<div class="th">
@@ -157,22 +157,22 @@
 					</div>
 				</div>
 			</Tab>
-			<Tab name="Отпуск / Удаление">
+			<Tab :name="$t('pages.options.vacation_delete_tab')">
 				<div class="block-table text-center">
 					<div class="grid">
 						<div class="th text-center">
-							<a @click.prevent="enableVacationMode" class="button" v-tooltip="'Режим отпуска нужен для защиты планет во время вашего отсутствия'">
-								Включить режим отпуска
+							<a @click.prevent="enableVacationMode" class="button" v-tooltip="$t('pages.options.vacation_mode_button_tooltip')">
+								{{ $t('pages.options.vacation_mode_button') }}
 							</a>
 						</div>
 					</div>
 					<div class="grid">
 						<div class="th">
-							<span class="negative">Режим отпуска включается минимум на 2 суток!<br>Пока это время не прошло, выключить режим отпуска НЕВОЗМОЖНО!</span>
+							<span class="negative" v-html="$t('pages.options.vacation_mode_warning')"></span>
 						</div>
 					</div>
 					<div class="grid grid-cols-2">
-						<div class="th"><a title="Профиль будет удалён через 7 дней">Удалить профиль</a></div>
+						<div class="th"><a :title="$t('pages.options.delete_profile_link')">{{ $t('pages.options.delete_on') }}</a></div>
 						<div class="th">
 							<input name="delete" value="0" type="hidden">
 							<input name="delete" value="1" :checked="user.deleted_at !== null" type="checkbox">
@@ -180,7 +180,7 @@
 					</div>
 					<div class="grid">
 						<div class="th">
-							<span class="negative">Ваш профиль будет удален спустя несколько дней, в течение которых вы можете отменить данную процедуру.</span>
+							<span class="negative">{{ $t('pages.options.delete_profile_warning') }}</span>
 						</div>
 					</div>
 					<div class="grid">
@@ -190,12 +190,12 @@
 					</div>
 				</div>
 			</Tab>
-			<Tab name="Точки входа">
+			<Tab :name="$t('pages.options.auth_points')">
 				<div v-if="data['auth'].length" class="block-table text-center !border-b">
 					<div class="grid grid-cols-3">
-						<div class="c">Аккаунт</div>
-						<div class="c">Дата регистрации</div>
-						<div class="c">Последняя авторизация</div>
+						<div class="c">{{ $t('pages.options.account') }}</div>
+						<div class="c">{{ $t('pages.options.registration_date') }}</div>
+						<div class="c">{{ $t('pages.options.last_login') }}</div>
 					</div>
 					<div v-for="auth in data['auth']" class="grid grid-cols-3">
 						<div class="th">{{ auth['provider'] }} {{ auth['provider_id'] }}</div>
@@ -212,7 +212,7 @@
 				</div>
 				<div class="block-table text-center !mt-2">
 					<div class="grid">
-						<div class="c">Привязать аккаунт к социальным сетям</div>
+						<div class="c">{{ $t('pages.options.link_social_accounts') }}</div>
 					</div>
 					<div class="grid">
 						<div class="th"></div>

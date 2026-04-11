@@ -4,7 +4,7 @@
 			<div class="title">
 				{{ $t('pages.resources.planet_production', [planet['name']]) }}
 			</div>
-			<div class="content !border-0">
+			<div class="content border-0!">
 				<form class="table-responsive" method="post" @submit.prevent="updateState">
 					<table class="table">
 						<tbody>
@@ -177,7 +177,7 @@
 	);
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const { user, planet, isVacation } = storeToRefs(store);

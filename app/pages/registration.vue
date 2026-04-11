@@ -1,24 +1,24 @@
 <template>
 	<div class="page-registration">
 		<div class="block">
-			<div class="title">Регистрация</div>
+			<div class="title">{{ $t('pages.registration.title') }}</div>
 			<div class="content">
 				<div v-for="error in errors" v-html="error" class="message error"></div>
 				<form class="block-table form" action="" method="post" @submit.prevent="send">
 					<div class="grid grid-cols-12">
-						<div class="col-span-5 th middle">E-Mail</div>
+						<div class="col-span-5 th middle">{{ $t('pages.registration.email') }}</div>
 						<div class="col-span-7 th middle">
 							<input :class="{error: v$.email.$error}" name="email" type="email" v-model="email" autocomplete="username">
 						</div>
 					</div>
 					<div class="grid grid-cols-12">
-						<div class="col-span-5 th middle">Пароль</div>
+						<div class="col-span-5 th middle">{{ $t('pages.registration.password') }}</div>
 						<div class="col-span-7 th middle">
 							<input :class="{error: v$.password.$error}" type="password" v-model="password" autocomplete="new-password">
 						</div>
 					</div>
 					<div class="grid grid-cols-12">
-						<div class="col-span-5 th middle">Подтверждение пароля</div>
+						<div class="col-span-5 th middle">{{ $t('pages.registration.password_confirm') }}</div>
 						<div class="col-span-7 th middle">
 							<input :class="{error: v$.password_confirm.$error}" type="password" v-model="password_confirm" autocomplete="new-password">
 						</div>
@@ -27,21 +27,21 @@
 					<div class="grid">
 						<div class="th text-left">
 							<input :class="{error: v$.rules.$error}" id="rules" type="checkbox" v-model="rules">
-							<label for="rules">Я принимаю</label>
-							<NuxtLink to="/content/agreement" target="_blank">Пользовательское соглашение</NuxtLink>
+							<label for="rules">{{ $t('pages.registration.accept_rules') }}</label>
+							<NuxtLink to="/content/agreement" target="_blank">{{ $t('pages.registration.user_agreement') }}</NuxtLink>
 						</div>
 					</div>
 					<div class="grid">
 						<div class="th text-left">
 							<input :class="{error: v$.laws.$error}" id="laws" type="checkbox" v-model="laws">
-							<label for="laws">Я принимаю</label>
-							<NuxtLink to="/content/agb" target="_blank">Законы игры</NuxtLink>
+							<label for="laws">{{ $t('pages.registration.accept_rules') }}</label>
+							<NuxtLink to="/content/agb" target="_blank">{{ $t('pages.registration.game_rules') }}</NuxtLink>
 						</div>
 					</div>
 					<div class="grid">
 						<div class="th text-center">
 							<button type="submit" class="button">
-								Регистрация
+								{{ $t('pages.registration.submit_button') }}
 							</button>
 						</div>
 					</div>
@@ -55,13 +55,15 @@
 	import { useVuelidate } from '@vuelidate/core'
 	import { required, email as emailValidation, minLength } from '@vuelidate/validators'
 	import { ref } from 'vue';
-	import { useHead, useRuntimeConfig, navigateTo, useApiPost } from '#imports';
+	import { useHead, useRuntimeConfig, navigateTo, useApiPost, useI18n } from '#imports';
 	import useStore from '~/store/index.js';
 	import ReCaptcha from '~/components/ReCaptcha.vue';
 
+	const { t } = useI18n();
+
 	if (process.server) {
 		useHead({
-			title: 'Регистрация',
+			title: t('pages.registration.title'),
 		});
 	}
 

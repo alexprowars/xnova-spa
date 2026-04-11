@@ -4,11 +4,7 @@
 
 <script setup>
 	import PlayerInfo from '~/components/Page/Players/Info.vue';
-	import { showError, useAsyncData, useHead, definePageMeta, useRoute, useApiGet } from '#imports';
-
-	useHead({
-		title: 'Информация о игроке',
-	});
+	import { showError, useAsyncData, useHead, definePageMeta, useRoute, useApiGet, useI18n } from '#imports';
 
 	definePageMeta({
 		view: {
@@ -16,11 +12,17 @@
 		}
 	});
 
+	const { t } = useI18n();
+
+	useHead({
+		title: t('pages.players.meta_info_title'),
+	});
+
 	const { data: item, error } = await useAsyncData(async () => {
 		return await useApiGet('/players/' + useRoute().params.id);
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 </script>

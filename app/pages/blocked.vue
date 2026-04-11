@@ -1,20 +1,20 @@
 <template>
 	<div class="block">
-		<div class="title">Чёрный список</div>
+		<div class="title">{{ $t('pages.blocked.heading') }}</div>
 		<div class="content">
 			<div class="block-table text-center">
 				<div v-if="items.length === 0" class="grid">
-					<div class="b">Нет заблокированных игроков</div>
+					<div class="b">{{ $t('pages.blocked.empty_state') }}</div>
 				</div>
 				<template v-else>
-					<div class="grid grid-cols-5">
-						<div class="th" width="110">Игрок</div>
-						<div class="th" width="130">Начало блокировки</div>
-						<div class="th" width="130">Конец блокировки</div>
-						<div class="th" width="306">Причина</div>
-						<div class="th" width="100">Модератор</div>
+					<div class="grid grid-cols-6">
+						<div class="th">{{ $t('pages.blocked.col_player') }}</div>
+						<div class="th">{{ $t('pages.blocked.col_block_start') }}</div>
+						<div class="th">{{ $t('pages.blocked.col_block_end') }}</div>
+						<div class="th col-span-2">{{ $t('pages.blocked.col_reason') }}</div>
+						<div class="th">{{ $t('pages.blocked.col_moderator') }}</div>
 					</div>
-					<div v-for="item in items" class="grid grid-cols-5">
+					<div v-for="item in items" class="grid grid-cols-6">
 						<div class="b">
 							<NuxtLink :to="'/players/' + item['user']['id']">
 								{{ item['user']['name'] }}
@@ -28,7 +28,7 @@
 							<div>{{ $formatDate(item['date_end'], 'DD MMM YYYY') }}</div>
 							<div>{{ $formatDate(item['date_end'], 'HH:mm:ss') }}</div>
 						</div>
-						<div class="b">{{ item['reason'] }}</div>
+						<div class="b col-span-2">{{ item['reason'] }}</div>
 						<div class="b">
 							<NuxtLink :to="'/players/' + item['moderator']['id']">
 								{{ item['moderator']['name'] }}
@@ -36,7 +36,7 @@
 						</div>
 					</div>
 					<div class="grid">
-						<div class="b">Всего {{ items.length }} аккаунтов заблокировано</div>
+						<div class="b">{{ $t('pages.blocked.footer_total', { count: items.length }) }}</div>
 					</div>
 				</template>
 			</div>
@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useApiGet } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useApiGet, useI18n } from '#imports';
 
 	definePageMeta({
 		view: {
@@ -53,8 +53,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Список заблокированных игроков',
+		title: t('pages.blocked.meta_title'),
 	});
 
 	const { data: items, error } = await useAsyncData(async () => {
@@ -62,6 +64,6 @@
 	});
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 </script>

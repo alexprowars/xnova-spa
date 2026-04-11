@@ -186,7 +186,7 @@
 							<div class="grid grid-cols-12 divide-x">
 								<div class="col-span-6 sm:col-span-5 th">{{ $t('pages.overview.place') }}:</div>
 								<div class="col-span-6 sm:col-span-7 th">
-									<NuxtLink :to="'/stat?view=players&range=' + user['points']['place']">{{ user['points']['place'] }}</NuxtLink>
+									<NuxtLink :to="'/stats?view=players&range=' + user['points']['place']">{{ user['points']['place'] }}</NuxtLink>
 									<span :title="$t('pages.overview.place_diff')">
 										<span v-if="user['points']['diff'] >= 1" class="positive">+{{ user['points']['diff'] }}</span>
 										<span v-else-if="user['points']['diff'] < 0" class="negative">{{ user['points']['diff'] }}</span>
@@ -228,14 +228,7 @@
 			</div>
 		</div>
 
-		<div v-if="isMobile() && chat.length > 0" class="block">
-			<div class="title">{{ $t('menu.chat') }}</div>
-			<div class="content">
-				<div class="overflow-y-auto overflow-x-hidden max-h-72">
-					<ChatMessage v-for="(item, i) in chat" :key="i" :item="item"/>
-				</div>
-			</div>
-		</div>
+		<ChatList v-if="isMobile()"/>
 	</div>
 </template>
 
@@ -245,13 +238,12 @@
 	import Clock from '~/components/Page/Overview/Clock.vue';
 	import QueueRow from '~/components/Page/Overview/QueueRow.vue';
 	import DailyBonus from '~/components/Page/Overview/DailyBonus.vue';
-	import ChatMessage from '~/components/Page/Overview/ChatMessage.vue';
 	import { sendMission } from '~/utils/fleet';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store';
-	import useChatStore from '~/store/chat.js';
 	import { definePageMeta, showError, useAsyncData, useHead, useRequestURL, isMobile, useApiPost, useApiGet, useI18n, refreshNuxtData, useWithLoadngIndicator, openPopupModal } from '#imports';
-	import { computed, onMounted } from 'vue';
+	import { computed } from 'vue';
+	import ChatList from '~/components/Page/Overview/ChatList.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -273,13 +265,12 @@
 	);
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const fleets = computed(() => data.value?.fleets || []);
 	const { user, planet, queue } = storeToRefs(store);
 	const { host } = useRequestURL();
-	const { messages: chat } = storeToRefs(useChatStore());
 
 	const userFiledsPercent = computed(() => {
 		return Math.min(Math.floor(planet.value.field_used / planet.value.field_max * 100), 100);
@@ -327,10 +318,4 @@
 		await useApiPost('/user/planet/' + id, {});
 		await refreshNuxtData();
 	}
-
-	onMounted(async () => {
-		if (isMobile()) {
-			await useChatStore().loadMessages();
-		}
-	});
 </script>

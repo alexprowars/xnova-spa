@@ -2,7 +2,7 @@
 	<div class="page-alliance-chat">
 		<div class="block-table">
 			<div class="c text-center">
-				<a href="" @click.prevent="refresh">Обновить</a>
+				<a href="" @click.prevent="refresh">{{ $t('pages.alliance.chat.link_refresh') }}</a>
 			</div>
 			<div v-for="item in page['items']" class="grid grid-cols-12">
 				<div class="col-span-2 b text-center middle">
@@ -23,7 +23,7 @@
 			</div>
 
 			<div v-if="page['items'].length === 0" class="grid">
-				<div class="b text-center">В альянсе нет сообщений.</div>
+				<div class="b text-center">{{ $t('pages.alliance.chat.empty_messages') }}</div>
 			</div>
 
 			<div>
@@ -35,11 +35,11 @@
 			<div v-if="marked.length" class="grid">
 				<div class="th">
 					<select v-model="deleteType">
-						<option value="marked">Удалить выделенные</option>
-						<option value="unmarked">Удалить не выделенные</option>
-						<option value="all">Удалить все</option>
+						<option value="marked">{{ $t('pages.alliance.chat.delete_option_marked') }}</option>
+						<option value="unmarked">{{ $t('pages.alliance.chat.delete_option_unmarked') }}</option>
+						<option value="all">{{ $t('pages.alliance.chat.delete_option_all') }}</option>
 					</select>
-					<button @click.prevent="deleteMessages">Удалить</button>
+					<button @click.prevent="deleteMessages">{{ $t('pages.alliance.chat.button_delete') }}</button>
 				</div>
 			</div>
 		</div>
@@ -47,14 +47,14 @@
 		<ChatMessageForm v-model="message" @send="refresh"/>
 
 		<div class="mt-2">
-			<NuxtLink to="/alliance" class="button">Назад</NuxtLink>
+			<NuxtLink to="/alliance" class="button">{{ $t('pages.alliance.chat.link_back_alliance') }}</NuxtLink>
 		</div>
 	</div>
 </template>
 
 <script setup>
 	import ChatMessageForm from '~/components/Page/Alliance/ChatMessageForm.vue';
-	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead } from '#imports';
+	import { definePageMeta, showError, useApiGet, useApiSubmit, useAsyncData, useHead, useI18n } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 
@@ -67,8 +67,10 @@
 		}
 	});
 
+	const { t } = useI18n();
+
 	useHead({
-		title: 'Альянс-чат',
+		title: t('pages.alliance.chat.meta_title'),
 	});
 
 	const { data: page, error, refresh } = await useAsyncData(
@@ -76,7 +78,7 @@
 	);
 
 	if (error.value) {
-		throw showError(error.value);
+		throw showError({ data: { error: error.value } });
 	}
 
 	const message = ref('');
