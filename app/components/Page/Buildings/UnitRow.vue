@@ -37,7 +37,7 @@
 							<a @click.prevent="setMax">
 								max: <span class="positive">{{ $formatNumber(max) }}</span>
 							</a>
-							<input type="number" min="0" :max="max" :name="'element[' + item['id'] + ']'" :alt="item['name']" v-model="count" style="width: 80px" maxlength="5" value="" placeholder="0">
+							<input type="number" min="0" :max="max" :name="'element[' + item['id'] + ']'" :alt="item['name']" v-model="count" style="width: 80px" maxlength="5" placeholder="0">
 						</div>
 					</template>
 				</div>

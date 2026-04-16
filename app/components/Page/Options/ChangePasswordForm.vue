@@ -2,7 +2,7 @@
 	<div class="block-table border-0! text-center">
 		<div class="grid grid-cols-2">
 			<div class="th middle">Старый пароль</div>
-			<div class="th middle"><input name="current_password" v-model="currentPassword" :class="{error: v$.currentPassword.$error}" size="20" value="" type="password" autocomplete="current-password"></div>
+			<div class="th middle"><input name="current_password" v-model="currentPassword" :class="{error: v$.currentPassword.$error}" size="20" type="password" autocomplete="current-password"></div>
 		</div>
 		<div class="grid grid-cols-2">
 			<div class="th middle">Новый пароль (мин. 8 Знаков)</div>
