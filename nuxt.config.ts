@@ -53,11 +53,18 @@ let config = {
 			],
 		},
 	},
-	ssr: false,
+	ssr: true,
+	routeRules: {
+		'/': { ssr: true },
+		'/content/**': { ssr: true },
+		'/stats/**': { ssr: true },
+		'/players/**': { ssr: true },
+		'/**': { ssr: false },
+	},
 	vite: {
 		build: {
 			assetsInlineLimit: 0,
-			target: ['chrome95', 'safari15'],
+			target: ['chrome85', 'safari14.1'],
 			modulePreload: {
 				polyfill: false,
 			}
@@ -109,16 +116,6 @@ let config = {
 			"@tailwindcss/postcss": {},
 		},
 	},
-	experimental: {
-		checkOutdatedBuildInterval: 1000 * 60 * 10,
-	},
-	typescript: {
-		tsConfig: {
-			include: [
-				'../types/*.ts',
-			],
-		},
-	},
 	features: {
 		inlineStyles: false,
 	},
@@ -166,12 +163,10 @@ let config = {
 if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length) {
 	const proxyUrl = process.env.PROXY_URL;
 
-	config.nitro.devProxy = {
-		'/admin/': { target: proxyUrl + '/admin/', changeOrigin: true, cookieDomainRewrite: {"*": ""}, secure: false },
-		'/api/': { target: proxyUrl + '/api/', changeOrigin: true, cookieDomainRewrite: {"*": ""}, secure: false },
-		'/broadcasting/': { target: proxyUrl + '/broadcasting/', cookieDomainRewrite: {"*": ""}, changeOrigin: true, secure: false },
-		'/storage/': { target: proxyUrl + '/storage/', changeOrigin: true, secure: false },
-	}
+	config.routeRules['/admin/**'] = { proxy: proxyUrl + '/admin/**' };
+	config.routeRules['/api/**'] = { proxy: proxyUrl + '/api/**' };
+	config.routeRules['/broadcasting/**'] = { proxy: proxyUrl + '/broadcasting/**' };
+	config.routeRules['/storage/**'] = { proxy: proxyUrl + '/storage/**' };
 
 	config.runtimeConfig.public.baseUrl = null
 }

@@ -1,6 +1,6 @@
 <template>
-	<div class="main-planets flex">
-		<a :class="{ active: active }" class="planet-toggle sm:hidden" @click.prevent="emit('toggle')">
+	<div class="main-planets">
+		<a :class="{ active: active }" class="planet-toggle" @click.prevent="emit('toggle')">
 			<span>
 				<span class="first"></span>
 				<span class="second"></span>

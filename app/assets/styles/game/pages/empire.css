@@ -5,16 +5,5 @@
 
 .page-empire {
 	max-width: 785px;
-}
-
-@media (min-width: 1200px) and (max-width: 1600px) {
-	.page-empire {
-		max-width: 660px;
-	}
-}
-
-@media (min-width: 480px) and (max-width: 1200px) {
-	.page-empire {
-		max-width: 630px;
-	}
+	@apply xs:max-xl:max-w-160 xl:max-2xl:max-w-165;
 }

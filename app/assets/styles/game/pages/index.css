@@ -7,6 +7,7 @@ body.index-page {
 	width: 100%;
 	height: 100%;
 	background: #000000 url('~/assets/images/main_background.jpg') center no-repeat;
+	@apply max-md:bg-black max-md:bg-[url('~/assets/images/starfield_01.gif')] max-md:bg-repeat max-md:bg-fixed max-md:bg-position-[0px_0px];
 }
 
 .page-index {
@@ -16,6 +17,7 @@ body.index-page {
 		top: 0;
 		bottom: 0;
 		right: 10px;
+		@apply max-md:static max-md:w-auto;
 	}
 
 	.right .middle {
@@ -24,11 +26,14 @@ body.index-page {
 		top: 40%;
 		margin: -66px 0 0 0;
 		width: 100%;
+
+		@apply max-md:static max-md:m-0 max-md:h-auto max-md:p-4;
 	}
 
 	.right .middle .text {
 		margin: 0 auto;
 		max-width: 600px;
+		@apply max-md:text-center;
 	}
 
 	.left {
@@ -37,6 +42,8 @@ body.index-page {
 		top: 0;
 		bottom: 0;
 		left: 10px;
+
+		@apply max-md:static max-md:w-auto;
 	}
 
 	.left .middle {
@@ -45,11 +52,14 @@ body.index-page {
 		top: 40%;
 		margin: -39px 0 0 0;
 		width: 100%;
+
+		@apply max-md:static max-md:m-0 max-md:h-50 pt-4 px-4 pb-12;
 	}
 
 	.left .middle .loginform {
 		width: 362px;
 		margin: 0 auto;
+		@apply max-md:w-auto;
 	}
 
 	.bottom {
@@ -68,6 +78,7 @@ body.index-page {
 		left: 7px;
 		top: 7px;
 		font-size: 11px;
+		@apply max-md:hidden;
 	}
 
 	.bottom .nav {
@@ -86,6 +97,7 @@ body.index-page {
 		right: 7px;
 		top: 7px;
 		font-size: 11px;
+		@apply max-md:hidden;
 	}
 
 	.bottom a {
@@ -112,6 +124,7 @@ body.index-page {
 		font-family: Arial;
 		cursor: pointer;
 		text-decoration: none;
+		@apply max-md:mx-auto max-md:mt-2.5;
 	}
 
 	#reg_button a {
@@ -139,8 +152,9 @@ body.index-page {
 		color: #ffffff;
 		padding: 3px 3px;
 		margin-right: 9px;
-		font-size: 1.1rem;
+		font-size: 1.1em;
 		text-align: left;
+		@apply max-md:w-26 max-md:border max-md:border-[#a23f0c];
 	}
 
 	.input-submit {
@@ -206,7 +220,7 @@ body.index-page {
 	p {
 		margin: 12px 0 0 0;
 		font-weight: normal;
-		font-size: 1.2rem;
+		font-size: 1.2em;
 	}
 
 	.smm {
@@ -291,58 +305,6 @@ body.index-page {
 		margin-top: 5px;
 		margin-bottom: 5px;
 		padding: 0;
-	}
-
-	@media only screen and (max-width: 768px) {
-		.right {
-			position: static;
-			width: auto;
-		}
-
-		.left {
-			position: static;
-			width: auto;
-		}
-
-		.right .middle {
-			position: static;
-			margin: 0;
-			height: auto;
-			padding: 15px;
-		}
-
-		.left .middle {
-			position: static;
-			margin: 0;
-			height: 200px;
-			padding: 15px 15px 50px;
-		}
-
-		#reg_button {
-			margin: 10px auto 0 auto;
-		}
-
-		.left .middle .loginform {
-			width: auto;
-		}
-
-		.bottom {
-			background: #231f0c;
-			height: 40px;
-		}
-
-		.bottom .desk, .bottom .copy {
-			display: none;
-		}
-
-		.right .middle .text {
-			text-align: center;
-		}
-
-		.input-text {
-			width: 105px;
-			border: 1px solid #a2a2a2;
-		}
 	}
 }
 

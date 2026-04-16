@@ -1,5 +1,7 @@
 <template>
-	<div>{{ $formatDate(now, 'DD MMM HH:mm:ss') }}</div>
+	<ClientOnly>
+		<div>{{ $formatDate(now, 'DD MMM HH:mm:ss') }}</div>
+	</ClientOnly>
 </template>
 
 <script setup>

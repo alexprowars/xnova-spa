@@ -9,20 +9,20 @@
 					<div class="th middle flex flex-col gap-2">
 						<i18n-t keypath="pages.resources.resources_buy_info" tag="div" scope="global">
 							<template v-slot:metal>
-								<Colored :value="data['metal'] || 0"/>
+								<Colored :value="item['metal'] || 0"/>
 							</template><template v-slot:crystal>
-								<Colored :value="data['crystal'] || 0"/>
+								<Colored :value="item['crystal'] || 0"/>
 							</template><template v-slot:deuterium>
-								<Colored :value="data['deuterium'] || 0"/>
+								<Colored :value="item['deuterium'] || 0"/>
 							</template>
 						</i18n-t>
-						<span v-if="!data['time']">
+						<span v-if="!item['time']">
 							<a @click.prevent="buyResources" class="button">{{ $t('pages.resources.resources_buy_button') }}</a>
 						</span>
 						<span v-else>
 							{{ $t('pages.resources.resources_buy_timeout') }}
 							<br>
-							{{ $formatTime(data['time']) }}
+							{{ $formatTime(item['time']) }}
 						</span>
 					</div>
 				</div>

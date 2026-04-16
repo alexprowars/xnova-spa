@@ -1,5 +1,5 @@
 <template>
-	<div class="grid grid-cols-6 flight">
+	<div class="grid grid-cols-6">
 		<div class="th col-span-2 sm:col-span-1 text-center">
 			<div class="z">
 				<Timer :value="item['date']"/>

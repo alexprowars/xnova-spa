@@ -7,7 +7,7 @@
 	.page-chat-messages {
 		height: auto;
 		max-height: 40vh;
-		font-size: 1.1rem;
+		font-size: 1.1em;
 
 		.to, .player {
 			font-weight: normal;

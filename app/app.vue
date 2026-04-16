@@ -61,7 +61,7 @@
 
 	let updateStateTimer;
 
-	if (store.isAuthorized) {
+	if (store.isAuthorized && import.meta.client) {
 		useNuxtApp().$echo?.channel('chat')
 			.listen('ChatMessage', ({ message }) => {
 				useChatStore().addMessage(message);

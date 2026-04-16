@@ -11,7 +11,7 @@
 						<div class="th w-10">
 							<img :src="'/images/'+(quest['finish'] ? 'check' : 'none')+'.gif'" class="inline" height="11" width="12" alt="">
 						</div>
-						<div class="th grow !text-left">
+						<div class="th grow text-left">
 							<NuxtLink v-if="quest['available']" :to="'/quests/' + quest['id']"><span class="positive">{{ quest['title'] }}</span></NuxtLink>
 							<span v-else class="positive">{{ quest['title'] }}</span>
 							<template v-if="quest['available'] === false && Object.keys(quest['required']).length > 0">

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useApiGet, useToast, useNuxtApp } from '#imports';
+import { useApiGet, useToast } from '#imports';
 import dayjs from 'dayjs';
 import type { IUser, IPlanet } from '~~/types/types';
 
@@ -73,11 +73,6 @@ export const useStore = defineStore('app', {
 			}
 
 			this.PAGE_LOAD(data);
-
-			setTimeout(() => {
-				useNuxtApp().$i18n.setLocale(data.settings.language);
-				dayjs.locale(data.settings.language);
-			});
 		},
 		PAGE_LOAD (data: any) {
 			this.$patch(data);

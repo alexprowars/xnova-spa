@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div class="mt-2">
-			<NuxtLink to="/notes" class="button !min-w-0">{{ $t('pages.notes.create.back') }}</NuxtLink>
+			<NuxtLink to="/notes" class="button min-w-0">{{ $t('pages.notes.create.back') }}</NuxtLink>
 		</div>
 	</div>
 </template>

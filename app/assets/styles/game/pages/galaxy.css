@@ -22,7 +22,7 @@
 		}
 	}
 
-	.table.galaxy {
+	.galaxy {
 		border-spacing: 0;
 		border: 0;
 
@@ -62,6 +62,30 @@
 			> a, > div {
 				display: flex;
 			}
+		}
+
+		.noob {
+			color: #a0ffa0;
+		}
+
+		.strong {
+			color: #ffa0a0;
+		}
+
+		.vacation {
+			color: skyblue;
+		}
+
+		.inactive {
+			color: #cccccc;
+		}
+
+		.longinactive {
+			color: #999999;
+		}
+
+		.blocked {
+			text-decoration: line-through;
 		}
 	}
 }

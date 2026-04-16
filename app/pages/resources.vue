@@ -4,7 +4,7 @@
 			<div class="title">
 				{{ $t('pages.resources.planet_production', [planet['name']]) }}
 			</div>
-			<div class="content border-0!">
+			<div class="content border-0">
 				<form class="table-responsive" method="post" @submit.prevent="updateState">
 					<table class="table">
 						<tbody>
@@ -145,7 +145,7 @@
 			</div>
 		</div>
 
-		<BuyResources :data="page['buy_form']"/>
+		<BuyResources :item="page['buy_form']"/>
 	</div>
 </template>
 

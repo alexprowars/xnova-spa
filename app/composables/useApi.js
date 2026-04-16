@@ -1,5 +1,21 @@
-import { showError, navigateTo, startLoading, stopLoading, useErrorNotification, useNuxtApp } from '#imports';
+import { showError, navigateTo, startLoading, stopLoading, useErrorNotification, useNuxtApp, useRequestHeaders } from '#imports';
 import useStore from '~/store';
+import { appendResponseHeader } from 'h3'
+
+const ssrFetch = $fetch.create({
+	async onRequest(ctx) {
+		if (import.meta.server) {
+			ctx.options.headers.set('cookie', useRequestHeaders(['cookie']).cookie);
+			ctx.event = useRequestEvent();
+		}
+	},
+	async onResponse(ctx) {
+		if (import.meta.server && ctx.response.headers.get('set-cookie')) {
+			const cookieHeader = ctx.response.headers.get('set-cookie');
+			appendResponseHeader(ctx.event, 'set-cookie', cookieHeader);
+		}
+	},
+})
 
 export const useApiGet = async (url, params = {}) => {
 	if (!url.startsWith('/')) {
@@ -9,7 +25,7 @@ export const useApiGet = async (url, params = {}) => {
 	try {
 		const nuxtApp = useNuxtApp();
 
-		const result = await $fetch('/api' + url, {
+		const result = await ssrFetch('/api' + url, {
 			method: 'get',
 			params,
 			headers: {

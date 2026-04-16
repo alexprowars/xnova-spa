@@ -16,6 +16,7 @@
 	border: 1px solid #415680;
 	max-width: 600px;
 	margin: 40px auto;
+	@apply xl:min-w-100;
 
 	.dialog-close {
 		color: #fff;
@@ -85,16 +86,6 @@
 
 		button + button {
 			margin-left: 5px;
-		}
-	}
-
-	@media (min-width: 1279px) {
-		min-width: 400px;
-	}
-
-	@media(max-width: 480px) {
-		.is-modal-content {
-			min-width: 300px;
 		}
 	}
 }

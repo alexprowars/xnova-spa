@@ -1,19 +1,11 @@
 import dayjs from 'dayjs';
 import { defineNuxtPlugin, stopLoading, useRouter, useLoading } from '#imports';
-import Vue3TouchEvents from 'vue3-touch-events'
-import FloatingVue from 'floating-vue';
 import Vue3Toastify, { toast } from 'vue3-toastify';
 import { isNavigationFailure } from 'vue-router';
 
 window.dataLayer = window.dataLayer || [];
 
 export default defineNuxtPlugin((nuxtApp) => {
-	nuxtApp.vueApp.use(Vue3TouchEvents, {
-		touchHoldTolerance: 100,
-	});
-
-	nuxtApp.vueApp.use(FloatingVue);
-
 	nuxtApp.vueApp.use(Vue3Toastify, {
 		autoClose: 3000,
 		position: toast.POSITION.TOP_CENTER,

@@ -1,6 +1,6 @@
 <template>
 	<nav class="main-menu">
-		<a :class="{ active }" class="menu-toggle sm:hidden" @click.prevent="emit('toggle')">
+		<a :class="{ active }" class="menu-toggle" @click.prevent="emit('toggle')">
 			<span>
 				<span class="first"></span>
 				<span class="second"></span>

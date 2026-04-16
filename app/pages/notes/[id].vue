@@ -5,7 +5,7 @@
 			<div class="content">
 				<div class="block-table">
 					<div class="grid">
-						<div class="th !font-normal">
+						<div class="th font-normal">
 							<TextViewer :text="page['text']"/>
 						</div>
 					</div>

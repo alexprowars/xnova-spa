@@ -47,7 +47,7 @@
 					</tr>
 					<tr v-if="m['id'] === changeRank && page['admin']">
 						<td colspan="10" class="th p-0">
-							<div class="table border-0!">
+							<div class="table border-0">
 								<div>
 									<div class="th">{{ $t('pages.alliance.members.set_rank_for', [m['username']]) }}</div>
 									<div class="th">

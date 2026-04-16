@@ -4,7 +4,12 @@
 	height: 70vh;
 	overflow-y: auto;
 	overflow-x: hidden;
-	font-size: 1.2rem;
+	font-size: 1.2em;
+	@apply max-xs:w-full max-xs:m-0 max-xs:text-base;
+
+	img {
+		@apply max-xs:max-w-full;
+	}
 
 	.date1, .date2, .date3 {
 		padding: 1px 2px;
@@ -61,7 +66,7 @@
 
 .page-chat .page-chat-message {
 	width: 100%;
-	font-size: 1.3rem;
+	font-size: 1.3em;
 	padding: 2px;
 }
 

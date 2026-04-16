@@ -39,7 +39,7 @@
 				<div class="overview grid sm:grid-cols-3 gap-1.5">
 					<div>
 						<div class="planet-image mb-2">
-							<NuxtLink to="/overview/rename/">
+							<NuxtLink to="/overview/rename">
 								<img :src="'/images/planeten/' + planet['image'] + '.jpg'" alt="">
 							</NuxtLink>
 							<div v-if="planet['moon']" class="moon-image">
@@ -222,7 +222,7 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="queue.length > 0" class="block-table mt-1.5">
+				<div v-if="queue.length > 0" class="block-table mt-1.5 border">
 					<QueueRow v-for="(list, i) in queue" :key="i" :item="list"/>
 				</div>
 			</div>

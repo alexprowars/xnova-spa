@@ -1,5 +1,5 @@
 <template>
-	<div v-if="planet" class="grid grid-cols-5 resource-panel">
+	<div v-if="planet" class="resource-panel">
 		<div class="text-center">
 			<PanelResource :type="'metal'" :resource="planet['resources']['metal']"/>
 		</div>
