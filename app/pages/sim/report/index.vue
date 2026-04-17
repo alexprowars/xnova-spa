@@ -3,7 +3,7 @@
 		<div v-html="data['report']"></div>
 		Ссылка на результат симуляции
 		<div class="my-4 text-center">
-			<input type="text" :value="'https://' + runtimeConfig.public.baseUrl + '/sim/report/' + data['uuid']" class="w-125 p-4">
+			<input type="text" :value="requestUrl.origin + '/sim/report/' + data['uuid']" class="w-125 p-4">
 		</div>
 		<div v-if="data['statistics']" class="my-4">
 			<div class="mb-2">Результаты потерь после 50 симуляций:</div>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiPost } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useRoute, useApiPost, useRequestURL } from '#imports';
 
 	definePageMeta({
 		layout: 'empty',
@@ -33,8 +33,6 @@
 	useHead({
 		title: 'Симуляция',
 	});
-
-	const runtimeConfig = useRuntimeConfig();
 
 	const { data, error } = await useAsyncData(
 		async () => await useApiPost('/sim/report', {
@@ -45,4 +43,6 @@
 	if (error.value) {
 		throw showError({ data: { error: error.value } });
 	}
+
+	const requestUrl = useRequestURL();
 </script>

@@ -60,7 +60,7 @@ let config = {
 		'/stats/**': { ssr: true },
 		'/players/**': { ssr: true },
 		'/**': { ssr: false },
-	},
+	} as any,
 	vite: {
 		build: {
 			assetsInlineLimit: 0,
@@ -145,7 +145,6 @@ let config = {
 	},
 	runtimeConfig: {
 		public: {
-			baseUrl: null,
 			gtmId: null,
 			recaptchaKey: null,
 			reverbAppKey: null,
@@ -167,8 +166,6 @@ if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length
 	config.routeRules['/api/**'] = { proxy: proxyUrl + '/api/**' };
 	config.routeRules['/broadcasting/**'] = { proxy: proxyUrl + '/broadcasting/**' };
 	config.routeRules['/storage/**'] = { proxy: proxyUrl + '/storage/**' };
-
-	config.runtimeConfig.public.baseUrl = null
 }
 
 export default defineNuxtConfig(config as any);

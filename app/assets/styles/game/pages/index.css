@@ -232,16 +232,6 @@ body.index-page {
 		margin: -12px 0 0 0;
 	}
 
-	#mask {
-		display: none;
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: #000000;
-	}
-
 	.sm {
 		margin-top: 24px;
 	}

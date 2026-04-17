@@ -45,7 +45,6 @@
 				<a @click.prevent :title="$t('pages.index.stats_online_tooltip')" style="color:green">{{ store['stats']['online'] }}</a> / <a @click.prevent :title="$t('pages.index.stats_total_tooltip')" style="color:yellow">{{ store['stats']['users'] }}</a>&nbsp;&nbsp;&nbsp;&copy; {{ (new Date).getFullYear() }} XNOVA.SU
 			</div>
 		</div>
-		<div id="mask"></div>
 	</div>
 </template>
 

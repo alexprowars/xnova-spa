@@ -1,4 +1,4 @@
-import { showError, navigateTo, startLoading, stopLoading, useErrorNotification, useNuxtApp, useRequestHeaders } from '#imports';
+import { showError, navigateTo, startLoading, stopLoading, useErrorNotification, useNuxtApp, useRequestHeaders, useRequestURL } from '#imports';
 import useStore from '~/store';
 import { appendResponseHeader } from 'h3'
 
@@ -22,10 +22,13 @@ export const useApiGet = async (url, params = {}) => {
 		url = '/' + url;
 	}
 
+	const requestUrl = useRequestURL();
+
 	try {
 		const nuxtApp = useNuxtApp();
 
 		const result = await ssrFetch('/api' + url, {
+			baseURL: requestUrl.origin,
 			method: 'get',
 			params,
 			headers: {
