@@ -35,7 +35,7 @@
 			<div class="desk">{{ $t('pages.index.footer_desk') }}</div>
 			<div class="nav">
 				<a href="https://t.me/x_nova_game" target="_blank">Telegram</a>  |
-				<NuxtLink to="/xnsim">{{ $t('menu.sim') }}</NuxtLink>  |
+				<NuxtLink to="/xnsim" external>{{ $t('menu.sim') }}</NuxtLink>  |
 				<NuxtLink to="/stats">{{ $t('menu.stats') }}</NuxtLink>  |
 				<NuxtLink to="/content/rules/">{{ $t('menu.rules') }}</NuxtLink>  |
 				<NuxtLink to="/blocked">{{ $t('menu.blocked') }}</NuxtLink>  |

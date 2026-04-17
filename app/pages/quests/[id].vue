@@ -8,7 +8,7 @@
 				<div class="block-table quests">
 					<div class="grid">
 						<div class="k text-left">
-							<div class="grid grid-cols-12 gap-3 m-3">
+							<div class="grid grid-cols-12 gap-3 m-2">
 								<div class="col-span-3 text-center">
 									<img :src="'/images/quests/' + page['id'] + '.jpg'" class="inline" alt="">
 								</div>
@@ -33,7 +33,7 @@
 					<div class="grid">
 						<div class="k text-center">
 							<input v-if="!page['errors']" type="button" class="end" @click.prevent="finish" value="Закончить">
-							<div v-if="page['solution']" class="solution m-3" v-html="page['solution']"></div>
+							<div v-if="page['solution']" class="solution m-2" v-html="page['solution']"></div>
 						</div>
 					</div>
 				</div>

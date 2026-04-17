@@ -278,7 +278,6 @@
 		box-sizing: border-box;
 		display: inline-block;
 		text-align: center;
-		line-height: normal;
 		@apply px-3 py-1;
 	}
 
@@ -787,7 +786,7 @@
 	}
 
 	.doubleth {
-		@apply h-14.5 xs:max-2xl:h-14;
+		@apply h-14.75;
 	}
 
 	.line {

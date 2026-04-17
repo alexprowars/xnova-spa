@@ -33,6 +33,6 @@
 
 	.officiers-item-title {
 		background: #253046;
-		@apply -m-2 mb-2 p-2 text-lg leading-none;
+		@apply -m-2 mb-2 p-2 text-sm leading-none;
 	}
 }

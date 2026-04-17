@@ -9,10 +9,10 @@
 							<div class="c">{{ $t('planet_type.' + item['planet']['type']) }} {{ item['planet']['name'] }} [{{ galaxy }}:{{ system }}:{{ planet }}]</div>
 						</div>
 						<div class="flex">
-							<div class="th basis-2/4">
+							<div class="th">
 								<img :src="'/images/planeten/small/s_' + item['planet']['image'] + '.jpg'" height="75" width="75" alt="">
 							</div>
-							<div class="th basis-full middle flex-col" v-if="!isVacation">
+							<div class="th grow middle flex-col" v-if="!isVacation">
 								<div v-if="user['phalanx'] > 0">
 									<NuxtLink :to="'/phalanx?galaxy=' + galaxy + '&system=' + system + '&planet=' + planet" target="_blank">{{ $t('pages.galaxy.phalanx') }}</NuxtLink>
 								</div>

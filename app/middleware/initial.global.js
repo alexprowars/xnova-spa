@@ -1,11 +1,15 @@
 import useStore from '~/store/index.ts'
-import { defineNuxtRouteMiddleware, useNuxtApp } from '#imports'
+import { defineNuxtRouteMiddleware, useNuxtApp, callOnce } from '#imports'
 import dayjs from 'dayjs';
 
-export default defineNuxtRouteMiddleware(async(to, from) => {
-	const store = useStore();
-	await store.loadState();
+export default defineNuxtRouteMiddleware(async () => {
+	const nuxtApp = useNuxtApp();
 
-	useNuxtApp().$i18n.setLocale(store.settings.language);
-	dayjs.locale(store.settings.language);
+	await callOnce(async () => {
+		const store = useStore();
+		await store.loadState();
+
+		nuxtApp.$i18n.setLocale(store.settings.language);
+		dayjs.locale(store.settings.language);
+	});
 });
