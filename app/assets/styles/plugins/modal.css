@@ -53,7 +53,7 @@
 
 	.dialog-text {
 		height: auto;
-		font-size: 12px;
+		min-height: 50px;
 
 		a {
 			color: #9a1915;

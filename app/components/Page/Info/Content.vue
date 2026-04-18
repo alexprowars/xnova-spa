@@ -18,7 +18,7 @@
 		<InfoMissile v-if="item['missile']" :item="item['id']"/>
 		<InfoAlliance v-if="item['alliance']" :item="item['id']" :data="item['alliance']"/>
 
-		<InfoDestroy v-if="item['destroy']" :item="item"/>
+		<InfoDestroy v-if="item['destroy']" :item="item['id']" :data="item['destroy']"/>
 	</div>
 </template>
 

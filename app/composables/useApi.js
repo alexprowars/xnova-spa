@@ -1,11 +1,16 @@
-import { showError, navigateTo, startLoading, stopLoading, useErrorNotification, useNuxtApp, useRequestHeaders, useRequestURL } from '#imports';
+import { showError, navigateTo, startLoading, stopLoading, useErrorNotification, useNuxtApp, useRequestHeaders, useRequestURL, useRequestEvent } from '#imports';
 import useStore from '~/store';
 import { appendResponseHeader } from 'h3'
 
 const ssrFetch = $fetch.create({
 	async onRequest(ctx) {
 		if (import.meta.server) {
-			ctx.options.headers.set('cookie', useRequestHeaders(['cookie']).cookie);
+			const headers = useRequestHeaders(['cookie', 'user-agent', 'referer']);
+
+			ctx.options.headers.set('cookie', headers['cookie'] || '');
+			ctx.options.headers.set('user-agent', headers['user-agent'] || '');
+			ctx.options.headers.set('referer', headers['referer'] || '');
+
 			ctx.event = useRequestEvent();
 		}
 	},

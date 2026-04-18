@@ -50,8 +50,8 @@ export const useStore = defineStore('app', {
 		},
 	},
 	actions: {
-		async loadState() {
-			const data = await useApiGet('/state');
+		async loadState(referral = '') {
+			const data = await useApiGet('/state' + (referral !== '' ? '?' + referral : ''));
 
 			/*if (typeof data['quest'] !== 'undefined' && data['quest']['popup'] !== '') {
 				$.confirm({
