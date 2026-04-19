@@ -1,6 +1,6 @@
 <template>
 	<div v-if="resources" class="block">
-		<div class="title">{{ $t('pages.info.fleet.production_costs') }}</div>
+		<div class="title">{{ $t('pages.info.combat.production_costs') }}</div>
 		<div class="content">
 			<div class="block-table text-center">
 				<div class="grid grid-cols-2">

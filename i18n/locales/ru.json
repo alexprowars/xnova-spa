@@ -1092,7 +1092,7 @@
 				"difference": "Разница",
 				"energy": "Энергия"
 			},
-			"fleet": {
+			"combat": {
 				"characteristics": "Характеристики",
 				"attack": "Атака",
 				"armor": "Броня",
@@ -1104,20 +1104,9 @@
 				"weapon_type": "Тип оружия",
 				"armor_type": "Тип брони",
 				"rapidfire": "Скорострел",
-				"production_costs": "Затраты на производство"
-			},
-			"defence": {
-				"characteristics": "Характеристики",
-				"attack": "Атака",
-				"armor": "Броня",
-				"shield": "Щиты",
-				"weapon_type": "Тип оружия",
-				"armor_type": "Тип брони",
 				"production_costs": "Затраты на производство",
-				"rapidfire": "Скорострел",
-				"unit_type": "Тип юнита",
-				"hits_fleet": "Поражает флот",
-				"loses_fleet": "Теряет флот"
+				"hits_fleet": "Одним залпом поражает",
+				"hits_units": "единиц"
 			},
 			"destroy": {
 				"title": "Снос здания",

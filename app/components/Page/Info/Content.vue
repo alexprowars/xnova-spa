@@ -13,8 +13,7 @@
 		</div>
 
 		<InfoProduction v-if="item['production']" :item="item['id']" :production="item['production']"/>
-		<InfoFleet v-if="item['fleet']" :item="item['id']" :fleet="item['fleet']"/>
-		<InfoDefence v-if="item['defence']" :item="item['id']" :defence="item['defence']"/>
+		<InfoCombat v-if="item['combat']" :item="item['id']" :data="item['combat']"/>
 		<InfoMissile v-if="item['missile']" :item="item['id']"/>
 		<InfoAlliance v-if="item['alliance']" :item="item['id']" :data="item['alliance']"/>
 
@@ -24,8 +23,7 @@
 
 <script setup>
 	import InfoProduction from '~/components/Page/Info/Production.vue';
-	import InfoFleet from '~/components/Page/Info/Fleet.vue';
-	import InfoDefence from '~/components/Page/Info/Defence.vue';
+	import InfoCombat from '~/components/Page/Info/Combat.vue';
 	import InfoDestroy from '~/components/Page/Info/Destroy.vue';
 	import InfoMissile from '~/components/Page/Info/Missile.vue';
 	import InfoAlliance from '~/components/Page/Info/Alliance.vue';

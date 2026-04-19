@@ -1086,7 +1086,7 @@
 				"difference": "Difference",
 				"energy": "Energy"
 			},
-			"fleet": {
+			"combat": {
 				"characteristics": "Characteristics",
 				"attack": "Attack",
 				"armor": "Armor",
@@ -1098,20 +1098,9 @@
 				"weapon_type": "Weapon type",
 				"armor_type": "Armor type",
 				"rapidfire": "Rapidfire",
-				"production_costs": "Production costs"
-			},
-			"defence": {
-				"characteristics": "Characteristics",
-				"attack": "Attack",
-				"armor": "Armor",
-				"shield": "Shield",
-				"weapon_type": "Weapon type",
-				"armor_type": "Armor type",
 				"production_costs": "Production costs",
-				"rapidfire": "Rapidfire",
-				"unit_type": "Unit type",
-				"hits_fleet": "Hits fleet",
-				"loses_fleet": "Loses fleet"
+				"hits_fleet": "Rapidfire against",
+				"hits_units": "units"
 			},
 			"destroy": {
 				"title": "Demolish building",
