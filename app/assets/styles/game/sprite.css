@@ -54,19 +54,19 @@
 		overflow: hidden;
 		background: url("~/assets/images/officiers.png") no-repeat;
 
-		&.of601 {width:32px; height:32px; background-position: -444px -2px}
-		&.of601_ikon {width:32px; height:32px; background-position: -410px -2px}
-		&.of602 {width:32px; height:32px; background-position: -376px -2px}
-		&.of602_ikon {width:32px; height:32px; background-position: -342px -2px}
-		&.of603 {width:32px; height:32px; background-position: -308px -2px}
-		&.of603_ikon {width:32px; height:32px; background-position: -274px -2px}
-		&.of604 {width:32px; height:32px; background-position: -240px -2px}
-		&.of604_ikon {width:32px; height:32px; background-position: -206px -2px}
-		&.of605 {width:32px; height:32px; background-position: -172px -2px}
-		&.of605_ikon {width:32px; height:32px; background-position: -138px -2px}
-		&.of606 {width:32px; height:32px; background-position: -104px -2px}
-		&.of606_ikon {width:32px; height:32px; background-position: -70px -2px}
-		&.of607 {width:32px; height:32px; background-position: -36px -2px}
-		&.of607_ikon {width:32px; height:32px; background-position: -2px -2px}
+		&.geologist {width:32px; height:32px; background-position: -444px -2px}
+		&.geologist_active {width:32px; height:32px; background-position: -410px -2px}
+		&.admiral {width:32px; height:32px; background-position: -376px -2px}
+		&.admiral_active {width:32px; height:32px; background-position: -342px -2px}
+		&.engineer {width:32px; height:32px; background-position: -308px -2px}
+		&.engineer_active {width:32px; height:32px; background-position: -274px -2px}
+		&.technocrat {width:32px; height:32px; background-position: -240px -2px}
+		&.technocrat_active {width:32px; height:32px; background-position: -206px -2px}
+		&.architect {width:32px; height:32px; background-position: -172px -2px}
+		&.architect_active {width:32px; height:32px; background-position: -138px -2px}
+		&.metaphysician {width:32px; height:32px; background-position: -104px -2px}
+		&.metaphysician_active {width:32px; height:32px; background-position: -70px -2px}
+		&.komanmercenary {width:32px; height:32px; background-position: -36px -2px}
+		&.mercenary_active {width:32px; height:32px; background-position: -2px -2px}
 	}
 }

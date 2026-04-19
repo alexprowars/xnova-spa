@@ -158,17 +158,6 @@
 		"409": "Planetary protector",
 		"502": "Anti-ballistic missile",
 		"503": "Interplanetary missile",
-		"601": "Geologist",
-		"602": "Admiral",
-		"603": "Engineer",
-		"604": "Technocrat",
-		"605": "Architect",
-		"606": "Metaphysician",
-		"607": "Mercenary",
-		"701": "Confederation",
-		"702": "Bionics",
-		"703": "Cylons",
-		"704": "Ancients",
 
 		"metal_mine": "Metal mine",
 		"crystal_mine": "Crystal mine",
@@ -236,6 +225,22 @@
 		"interceptor_misil": "Anti-ballistic missile",
 		"interplanetary_misil": "Interplanetary missile"
 	},
+	"engine_type": {
+		"1": "Rocket",
+		"2": "Pulse",
+		"3": "Hyperspace"
+	},
+	"weapon_type": {
+		"1": "Laser",
+		"2": "Ion",
+		"3": "Plasma"
+	},
+	"armor_type": {
+		"1": "Light",
+		"2": "Medium",
+		"3": "Heavy",
+		"4": "Monolithic"
+	},
 	"alliance": {
 		"diplomacy_status": {
 			"0": "Neutral",
@@ -243,6 +248,15 @@
 			"2": "Peace",
 			"3": "War"
 		}
+	},
+	"officiers": {
+		"geologist": "Geologist",
+		"admiral": "Admiral",
+		"engineer": "Engineer",
+		"technocrat": "Technocrat",
+		"architect": "Architect",
+		"metaphysician": "Metaphysician",
+		"mercenary": "Mercenary"
 	},
 	"colors": {
 		"0": ["white", ""],

@@ -58,7 +58,7 @@
 								<Popper>
 									<template #content>
 										<div>
-											{{ $t('tech.' + item['id']) }}
+											{{ $t('officiers.' + item['code']) }}
 											<br>
 											<span v-if="item['date']">
 												{{ $t('pages.overview.officier_active_until') }} <span class="positive">{{ $formatDate(item['date'], 'DD MMM HH:mm') }}</span>
@@ -66,7 +66,7 @@
 											<span v-else class="negative">{{ $t('pages.overview.officier_noactive') }}</span>
 										</div>
 									</template>
-									<span class="officier" :class="['of' + item['id'] + (item['date'] ? '_ikon' : '')]"></span>
+									<span class="officier" :class="[item['code'] + (item['date'] ? '_active' : '')]"></span>
 								</Popper>
 							</NuxtLink>
 						</div>

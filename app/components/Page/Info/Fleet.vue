@@ -28,57 +28,30 @@
 						<div class="th">{{ $t('pages.info.fleet.fuel_consumption') }}</div>
 						<div class="th">{{ $formatNumber(fleet['consumption']) }}</div>
 					</div>
-					<div class="grid grid-cols-2">
+					<div v-if="fleet['type_engine']" class="grid grid-cols-2">
 						<div class="th">{{ $t('pages.info.fleet.engine_type') }}</div>
-						<div class="th">{{ fleet['type_engine'] }}</div>
+						<div class="th">{{ $t('engine_type.' + fleet['type_engine']) }}</div>
 					</div>
-					<div class="grid grid-cols-2">
+					<div v-if="fleet['type_weapon']" class="grid grid-cols-2">
 						<div class="th">{{ $t('pages.info.fleet.weapon_type') }}</div>
-						<div class="th">{{ fleet['type_gun'] }}</div>
+						<div class="th">{{ $t('weapon_type.' + fleet['type_weapon']) }}</div>
 					</div>
-					<div class="grid grid-cols-2">
+					<div v-if="fleet['type_armour']" class="grid grid-cols-2">
 						<div class="th">{{ $t('pages.info.fleet.armor_type') }}</div>
-						<div class="th">{{ fleet['type_armour'] }}</div>
+						<div class="th">{{ $t('armor_type.' + fleet['type_armour']) }}</div>
 					</div>
 				</template>
 			</div>
 		</div>
 	</div>
-	<div class="block">
-		<div class="title">{{ $t('pages.info.fleet.rapidfire') }}</div>
-		<div class="content">
-			<div class="block-table text-center">
-				<div class="grid">
-					<div class="th" v-html="fleet['rapidfire']['to']"></div>
-				</div>
-				<div class="grid">
-					<div class="th" v-html="fleet['rapidfire']['from']"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="block">
-		<div class="title">{{ $t('pages.info.fleet.production_costs') }}</div>
-		<div class="content">
-			<div class="block-table text-center">
-				<div class="grid grid-cols-2">
-					<div class="th">{{ $t('resources.metal') }}</div>
-					<div class="th">{{ $formatNumber(fleet['resources']['metal']['base']) }} ({{ $formatNumber(fleet['resources']['metal']['full']) }})</div>
-				</div>
-				<div class="grid grid-cols-2">
-					<div class="th">{{ $t('resources.crystal') }}</div>
-					<div class="th">{{ $formatNumber(fleet['resources']['crystal']['base']) }} ({{ $formatNumber(fleet['resources']['crystal']['full']) }})</div>
-				</div>
-				<div class="grid grid-cols-2">
-					<div class="th">{{ $t('resources.deuterium') }}</div>
-					<div class="th">{{ $formatNumber(fleet['resources']['deuterium']['base']) }} ({{ $formatNumber(fleet['resources']['deuterium']['full']) }})</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<RapidfireBlock :rapidfire="fleet['rapidfire']"/>
+	<CostBlock :resources="fleet['resources']"/>
 </template>
 
 <script setup>
+	import RapidfireBlock from '~/components/Page/Info/RapidfireBlock.vue';
+	import CostBlock from '~/components/Page/Info/CostBlock.vue';
+
 	defineProps({
 		fleet: {
 			type: Object,

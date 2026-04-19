@@ -20,7 +20,7 @@
 							<div class="resource-panel-officiers">
 								<div class="resource-panel-officiers-row">
 									<div v-for="officier in user['officiers']" class="text-center">
-										<span class="officier" :class="['of' + officier['id'] + (officier['date'] ? '_ikon' : '')]"></span>
+										<span class="officier" :class="[officier['code'] + (officier['date'] ? '_active' : '')]"></span>
 									</div>
 								</div>
 								<div class="resource-panel-officiers-row">

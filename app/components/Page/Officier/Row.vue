@@ -2,18 +2,18 @@
 	<div class="officiers-item">
 		<div class="officiers-item-title">
 			{{ item['name'] }}
-			<span v-if="time" class="positive">({{ $t('pages.overview.officier_active_until') }}: {{ $formatDate(time, 'DD MMM YYYY HH:mm:ss') }})</span>
+			<span v-if="date" class="positive">({{ $t('pages.overview.officier_active_until') }}: {{ $formatDate(date, 'DD MMM YYYY HH:mm:ss') }})</span>
 			<span v-else class="negative">({{ $t('pages.overview.officier_noactive') }})</span>
 		</div>
 		<div class="flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-x-2">
 			<div class="basis-1/2 sm:basis-1/6 grow order-1 sm:order-0 officiers-item-image">
-				<img :src="'/images/officiers/' + item['id'] + '.jpg'" align="top" alt="">
+				<img :src="'/images/officiers/' + item['code'] + '.jpg'" align="top" alt="">
 			</div>
 			<div class="basis-full sm:basis-4/6 grow text-left officiers-item-description">
 				<div v-html="item['description']"></div>
 				<div class="flex my-4 gap-2">
 					<div>
-						<img :src="'/images/officiers/'+item['id']+'.gif'" :alt="$t('tech.'+item['id'])">
+						<img :src="'/images/officiers/' + item['code'] + '.gif'" :alt="item['name']">
 					</div>
 					<div class="flex flex-col justify-center gap-1">
 						<div v-for="power in item['power']" class="text-sky-300">{{ power }}</div>
@@ -42,23 +42,22 @@
 
 <script setup>
 	import useStore from '~/store';
-	import { useApiPost, openConfirmModal, useI18n, useErrorNotification, useSuccessNotification } from '#imports';
+	import { useApiPost, openConfirmModal, useErrorNotification, useSuccessNotification } from '#imports';
 	import { storeToRefs } from 'pinia';
 
 	const props = defineProps({
 		item: Object,
 	});
 
-	const { t } = useI18n();
 	const store = useStore();
 	const { user, isVacation } = storeToRefs(store);
 
-	const time = computed(() => user.value['officiers'].find((v) => v['id'] === props.item['id'])?.['date']);
+	const date = computed(() => user.value['officiers'].find((v) => v['code'] === props.item['code'])?.['date']);
 
 	function submit (value, price) {
 		openConfirmModal(
 			'Вербовка офицера',
-			'Вы действительно хотите нанять офицера "<b>' + t('tech.' + props.item['id']) + '</b>" на <b>' + value + '</b> дней за <b>' + price + '</b> кредитов?',
+			'Вы действительно хотите нанять офицера "<b>' + props.item['name'] + '</b>" на <b>' + value + '</b> дней за <b>' + price + '</b> кредитов?',
 			[{
 				title: 'Отменить',
 			}, {
@@ -66,9 +65,11 @@
 				handler: async () => {
 					try {
 						await useApiPost('/officiers/buy', {
-							id: props.item['id'],
+							code: props.item['code'],
 							duration: value
 						});
+
+						await store.loadState();
 
 						useSuccessNotification('Офицер был завербован!');
 					} catch (e) {

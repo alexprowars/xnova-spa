@@ -13,13 +13,15 @@
 				</div>
 			</template>
 			<template v-else-if="item === 22 || item === 23 || item === 24">
-				<div class="grid grid-cols-2">
+				<div class="grid grid-cols-3">
 					<div class="c">{{ $t('pages.info.production.level') }}</div>
 					<div class="c">{{ $t('pages.info.production.capacity') }}</div>
+					<div class="c">{{ $t('pages.info.production.difference') }}</div>
 				</div>
-				<div v-for="row in production" class="grid grid-cols-2">
+				<div v-for="row in production" class="grid grid-cols-3">
 					<div class="th"><span :class="{neutral: row['value']}">{{ row['level'] }}</span></div>
-					<div class="th">{{ row['range'] }}k</div>
+					<div class="th">{{ $formatNumber(row['prod']) }}k</div>
+					<div class="th"><Colored :value="row['prod_diff']"/>k</div>
 				</div>
 			</template>
 			<template v-else-if="item !== 4">
