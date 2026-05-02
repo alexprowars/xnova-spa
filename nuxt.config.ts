@@ -156,7 +156,7 @@ let config = {
 	nitro: {
 		devProxy: {},
 	},
-	compatibilityDate: '2026-04-01'
+	compatibilityDate: '2026-05-01'
 }
 
 if (typeof process.env.PROXY_URL !== 'undefined' && process.env.PROXY_URL.length) {

@@ -2,7 +2,7 @@
 	<div class="page-building-items-item building" :class="{ blocked: !item['available'] }">
 		<div class="building-info">
 			<Popup :id="item['id']" class="building-info-img" v-tooltip="item['name']">
-				<img :src="'/images/gebaeude/' + item['id'] + '.gif'" :alt="item['name']" class="img-fluid">
+				<img :src="'/images/elements/' + item['id'] + '.webp'" :alt="item['name']" class="img-fluid">
 			</Popup>
 			<div class="building-info-actions">
 				<div class="building-title">

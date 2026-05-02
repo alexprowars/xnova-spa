@@ -46,7 +46,7 @@
 		}
 
 		if (element !== -1) {
-			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">' + item.name + '</span></div><img id="tch_img_' + tid + '" name="' + item['name'] + '" src="'+'/images/gebaeude/' + item.id + '.gif" class="tch_icon_' + active + '"><div class="tch_tx_lvl">' + level + '</div>', null, null, active, active, active);
+			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">' + item.name + '</span></div><img id="tch_img_' + tid + '" name="' + item['name'] + '" src="'+'/images/elements/' + item.id + '.webp" class="tch_icon_' + active + '"><div class="tch_tx_lvl">' + level + '</div>', null, null, active, active, active);
 		} else {
 			objectTree.add(tid, prntid, '<div class="tch_tx_nmcont"><span class="tch_tx_name">' + fwrd + '</span></div><img id="tch_img_' + tid + '" src="skins/sn_space_blue/images/pixel.png" class="tch_icon_' + active + '"><div class="tch_tx_lvl">' + level + '</div>', null, null, active, active, active);
 		}
