@@ -7,10 +7,10 @@
 		<div class="level">
 			{{ item['level'] }}
 		</div>
-		<div v-if="inQueue" class="upgrade active">
+		<div v-if="typeof item['build'] === 'object'" class="upgrade active">
 			<IconUpgrade/>
 		</div>
-		<div v-else-if="available && user['queue_max'] > queueByType('build').length" class="upgrade" @click.prevent="emit('build', item['id'])">
+		<div v-else-if="available && !queueByType('tech').length" class="upgrade" @click.prevent="emit('build', item['id'])">
 			<IconUpgrade/>
 		</div>
 	</div>
@@ -32,32 +32,21 @@
 	const model = defineModel();
 
 	const { tm } = useI18n();
-	const { planet, user, queueByType, fieldsEmpty } = storeToRefs(useStore());
+	const { planet, user, queueByType } = storeToRefs(useStore());
 	const emit = defineEmits(['build']);
+
+	console.log(queueByType.value('tech').length)
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
-			if (typeof props.item.price[res] !== 'undefined' && typeof planet.value['resources'][res] !== 'undefined' && props.item.price[res] > 0) {
-				if (res === 'energy') {
-					if (planet.value['resources'][res].capacity < props.item.price[res]) {
-						return false
-					}
-				} else if (planet.value['resources'][res].value < props.item.price[res]) {
-					return false
-				}
-			}
-
-			return true
+			return !(typeof props.item.price[res] !== 'undefined' && planet.value['resources'][res] !== 'undefined' && props.item.price[res] > 0
+				&& planet.value['resources'][res] && planet.value['resources'][res].value < props.item.price[res]);
 		})
 	});
 
 	const available = computed(() => {
-		return props.item['available'] && hasResources.value && fieldsEmpty.value > 0 && !user.value.vacation;
+		return props.item['available'] && hasResources.value && !user.value.vacation;
 	});
-
-	const inQueue = computed(() => {
-		return queueByType.value('build').filter((item) => item['item'] === props.item['id']).length > 0;
-	})
 
 	function setActive() {
 		model.value = props.item['id'];

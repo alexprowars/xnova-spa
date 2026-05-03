@@ -1,33 +1,43 @@
 <template>
 	<div class="page-building page-building-unit">
-		<UnitQueue :queue="queueByType('unit')"/>
 		<div class="block">
 			<div class="content page-building-items">
-				<form ref="formRef" action="" method="post" @submit.prevent="constructAction">
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
-						<div v-if="!user.vacation" class="sm:col-span-2 c border text-center">
-							<button type="submit">{{ $t('pages.building.action_build') }}</button>
+				<div class="buldings">
+					<div ref="activeRef" class="buldings-header" :style="{ backgroundImage: 'url(\'/images/shipyard-bg.webp\')' }">
+						<div class="buldings-header-main">
+							<span class="title">
+								Верфь / {{ planet['name'] }}
+							</span>
+							<NuxtLink to="/fleet" class="button">
+								Флот
+							</NuxtLink>
 						</div>
-
-						<UnitRow v-for="(item, i) in items" ref="itemsRef" :key="i" :item="item"/>
-
-						<div v-if="!user.vacation" class="sm:col-span-2 c border text-center">
-							<button type="submit">{{ $t('pages.building.action_build') }}</button>
-						</div>
+						<UnitActive v-if="activeItem" :item="activeItem" @close="activeElement = null" @build="buildAction"/>
 					</div>
-				</form>
+					<div class="buldings-list">
+						<UnitItem v-for="(item, i) in items"
+							:class="{ active: activeElement === item['id'] }"
+							:key="i"
+							:item="item"
+							v-model="activeElement"
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
+
+		<UnitQueue :queue="queueByType('unit')"/>
 	</div>
 </template>
 
 <script setup>
-	import UnitRow from '~/components/Page/Buildings/UnitRow.vue';
 	import UnitQueue from '~/components/Page/Buildings/UnitQueue.vue';
-	import { definePageMeta, showError, useAsyncData, useHead, refreshNuxtData, useApiSubmit, useApiGet } from '#imports';
+	import { definePageMeta, showError, useAsyncData, useHead, useApiGet, useApiSubmit, refreshNuxtData } from '#imports';
 	import useStore from '~/store';
 	import { ref } from 'vue';
 	import { storeToRefs } from 'pinia';
+	import UnitItem from '~/components/Page/Buildings/UnitItem.vue';
+	import UnitActive from '~/components/Page/Buildings/UnitActive.vue';
 
 	definePageMeta({
 		middleware: ['auth'],
@@ -50,19 +60,20 @@
 		throw showError({ data: { error: error.value } });
 	}
 
-	const formRef = ref(null);
-	const itemsRef = ref([]);
-	const { user, queueByType } = storeToRefs(store);
+	const { planet, queueByType } = storeToRefs(store);
 
-	function constructAction () {
-		useApiSubmit('/shipyard/queue', new FormData(formRef.value), async () => {
-			itemsRef.value.forEach((item) => {
-				if (typeof item['count'] !== 'undefined') {
-					item['count'] = '';
-				}
-			});
+	const activeElement = ref(null);
+	const activeItem = computed(() => {
+		return items.value.filter((item) => item.id === activeElement.value)[0] || null;
+	});
 
-			await refreshNuxtData();
-		});
+	async function buildAction (id, count) {
+		let data = {
+			element: {}
+		};
+		data.element[id] = count;
+
+		await useApiSubmit('/shipyard/queue', data);
+		await refreshNuxtData();
 	}
 </script>

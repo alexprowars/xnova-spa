@@ -52,7 +52,7 @@
 					<div v-if="fieldsEmpty <= 0" class="negative">
 						{{ $t('pages.building.status_no_more_fields') }}
 					</div>
-					<a v-else-if="user['queue_max'] > 1 && queueByType('build').length > 0" @click.prevent="addAction">
+					<a v-else-if="user['queue_max'] > 1 && queueByType('build').length > 0" @click.prevent="buildAction">
 						{{ $t('pages.building.status_add_to_list') }}
 					</a>
 					<div v-else-if="!hasResources" class="negative text-center">
@@ -61,7 +61,7 @@
 					<div v-else-if="user['queue_max'] <= queueByType('build').length" class="negative">
 						{{ $t('pages.building.status_queue_full') }}
 					</div>
-					<button v-else-if="queueByType('build').length === 0" @click.prevent="addAction" class="button">
+					<button v-else-if="queueByType('build').length === 0"  @click.prevent="buildAction" class="button">
 						{{ item['level'] === 0 ? $t('pages.building.action_build') : $t('pages.building.action_improve') }}
 					</button>
 				</div>
@@ -89,8 +89,7 @@
 	import BuildRowPrice from '~/components/Page/Buildings/BuildRowPrice.vue';
 	import { storeToRefs } from 'pinia';
 	import useStore from '~/store/index.js';
-	import { useApiPost } from '~/composables/useApi.js';
-	import { refreshNuxtData, useI18n } from '#imports';
+	import { useI18n } from '#imports';
 	import { computed } from 'vue';
 	import Popup from '~/components/Page/Info/Popup.vue';
 	import CloseIcon from '~/assets/images/icons/close.svg';
@@ -103,7 +102,7 @@
 
 	const { tm } = useI18n();
 	const { planet, user, queueByType, fieldsEmpty } = storeToRefs(useStore());
-	const emit = defineEmits(['close']);
+	const emit = defineEmits(['close', 'build']);
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
@@ -126,11 +125,7 @@
 			&& !user.value.vacation;
 	});
 
-	async function addAction () {
-		await useApiPost('/buildings/build/insert', {
-			element: props.item['id']
-		});
-
-		await refreshNuxtData();
+	async function buildAction () {
+		emit('build', props.item['id']);
 	}
 </script>

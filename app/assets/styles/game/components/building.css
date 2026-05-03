@@ -3,7 +3,7 @@
 
 	.buldings-header {
 		@apply bg-gray-400;
-		min-height: 180px;
+		min-height: 220px;
 		width: 100%;
 		position: relative;
 		background-blend-mode: multiply;
@@ -13,7 +13,7 @@
 
 		.buldings-header-main {
 			@apply flex flex-col h-full items-end justify-between;
-			min-height: 180px;
+			min-height: 220px;
 
 			.title {
 				background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
@@ -30,17 +30,16 @@
 	}
 
 	.buldings-list {
-		@apply grid grid-cols-6 gap-3 justify-items-center;
-		padding: 10px;
+		@apply grid grid-cols-6 max-sm:grid-cols-3 max-md:grid-cols-4 max-lg:grid-cols-5 gap-2.5 justify-items-center p-2.5;
 		background: var(--head-bg-color);
 		border: 1px solid var(--border-color);
 	}
 
 	.buldings-list-item {
-		@apply relative w-27.5 h-27.5 border-2 border-gray-600 cursor-pointer;
+		@apply relative border-2 border-gray-600 cursor-pointer w-full h-full aspect-square;
 
 		img {
-			@apply w-full h-full absolute;
+			@apply w-full h-full;
 		}
 
 		.name {
@@ -55,11 +54,27 @@
 		}
 
 		.upgrade {
-			@apply absolute z-1 top-0 left-0 cursor-pointer bg-lime-700 hover:bg-lime-600 border border-lime-600 w-[35%] h-6 flex items-center justify-center;
+			@apply absolute z-1 top-0 left-0 border w-[35%] h-6 flex items-center justify-center;
 
 			svg {
 				@apply w-3.25 h-3.25;
 			}
+
+			&:not(.active) {
+				@apply cursor-pointer bg-lime-700 hover:bg-lime-600 border-lime-600;
+			}
+
+			&.active {
+				@apply bg-yellow-700;
+			}
+		}
+
+		&.disabled {
+			@apply border-red-600;
+		}
+
+		&.active {
+			@apply border-yellow-600;
 		}
 
 		&.disabled:after {
@@ -89,7 +104,7 @@
 
 		.buldings-active-image {
 			img {
-				@apply w-[160px] h-[160px];
+				@apply w-50 max-sm:w-30 h-50 max-sm:h-30;
 			}
 		}
 
@@ -120,7 +135,7 @@
 		}
 
 		.building-active-upgrade {
-			@apply absolute bottom-0 right-0;
+			@apply absolute bottom-0 right-0 flex flex-col items-end gap-2;
 		}
 
 		.buldings-active-production {
@@ -181,6 +196,36 @@
 
 		.buldings-active-close:hover {
 			opacity: 1;
+		}
+	}
+
+	.buildings-effects-row {
+		@apply flex items-center gap-1;
+
+		.icon {
+			width: 20px;
+			height: 20px;
+			display: inline-block;
+			background-repeat: no-repeat;
+
+			&.speed {
+				background-image: url('~/assets/images/icons/speed.png');
+				background-position-y: 1px;
+			}
+
+			&.armor {
+				background-image: url('~/assets/images/icons/armor.png');
+				background-position-y: 2px;
+			}
+
+			&.damage {
+				background-image: url('~/assets/images/icons/damage.png');
+			}
+
+			&.shield {
+				background-image: url('~/assets/images/icons/shield.png');
+				background-position-y: 1px;
+			}
 		}
 	}
 }
