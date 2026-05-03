@@ -3,13 +3,12 @@
 		<div class="title">{{ $t('pages.building.unit_queue') }}</div>
 		<div class="content">
 			<div class="block-table">
-				<div v-for="item in queue" class="grid grid-cols-2">
-					<div class="text-left k">
-						<span class="positive">{{ item.count }}</span> {{ $t('tech.' + item.item) }}
+				<div v-for="item in queue" class="flex justify-between px-2 k">
+					<div>
+						{{ $t('tech.' + item.item) }}
+						<span class="positive">{{ item.count }}</span>
 					</div>
-					<div class="text-right k">
-						{{ $formatTime(dayjs(item['date']).diff(now) / 1000) }}
-					</div>
+					{{ $formatTime(dayjs(item['date']).diff(now) / 1000) }}
 				</div>
 				<div class="grid">
 					<div class="c text-center">

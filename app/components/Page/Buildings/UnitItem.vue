@@ -21,10 +21,8 @@
 		}
 	});
 
-	const model = defineModel();
-
 	const { user, planet } = storeToRefs(useStore());
-	const emit = defineEmits(['build']);
+	const emit = defineEmits(['select', 'build']);
 
 	const level = computed(() => planet.value['units'][props['item']['code']] || 0);
 
@@ -33,6 +31,6 @@
 	});
 
 	function setActive() {
-		model.value = props.item['id'];
+		emit('select');
 	}
 </script>

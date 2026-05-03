@@ -1,16 +1,16 @@
 <template>
-	<div @click="setActive" class="buldings-list-item" :class="[!available ? 'disabled' : '']">
+	<div @click.prevent="setActive" class="buldings-list-item" :class="[!available ? 'disabled' : '']">
 		<img :src="'/images/elements/' + item['id'] + '.webp'" :alt="item['name']">
 		<div class="name">
 			{{ item['name'] }}
 		</div>
 		<div class="level">
-			{{ item['level'] }}
+			{{ level }}
 		</div>
 		<div v-if="inQueue" class="upgrade active">
 			<IconUpgrade/>
 		</div>
-		<div v-else-if="available && user['queue_max'] > queueByType('build').length" class="upgrade" @click.prevent="emit('build', item['id'])">
+		<div v-else-if="available && user['queue_max'] > queueByType('build').length" class="upgrade" @click.prevent.stop="emit('build', item['id'])">
 			<IconUpgrade/>
 		</div>
 	</div>
@@ -29,11 +29,11 @@
 		}
 	});
 
-	const model = defineModel();
-
 	const { tm } = useI18n();
 	const { planet, user, queueByType, fieldsEmpty } = storeToRefs(useStore());
-	const emit = defineEmits(['build']);
+	const emit = defineEmits(['select', 'build']);
+
+	const level = computed(() => planet.value['buildings'][props['item']['code']] || 0);
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
@@ -60,6 +60,6 @@
 	})
 
 	function setActive() {
-		model.value = props.item['id'];
+		emit('select');
 	}
 </script>

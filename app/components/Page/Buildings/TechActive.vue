@@ -12,8 +12,8 @@
 						{{ item['name'] }}
 					</NuxtLink>
 
-					<span v-if="item['level']" class="positive" v-tooltip="$t('pages.research.current_level')">
-						{{ $formatNumber(item['level']) }} <template v-if="item.max > 0">{{ $t('pages.research.from') }} <span class="neutral">{{ $formatNumber(item.max) }}</span></template>
+					<span v-if="level" class="positive" v-tooltip="$t('pages.research.current_level')">
+						{{ $formatNumber(level) }} <template v-if="item.max > 0">{{ $t('pages.research.from') }} <span class="neutral">{{ $formatNumber(item.max) }}</span></template>
 					</span>
 				</div>
 				<div v-if="available" class="flex items-center gap-1">
@@ -26,19 +26,19 @@
 				<div v-if="item['effects']" v-html="item['effects']" class="buildings-effects-row"></div>
 
 				<div v-if="available" class="buldings-active-price">
-					<span>Required resources for level {{ item['level'] + 1 }}</span>
+					<span>Required resources for level {{ level + 1 }}</span>
 					<BuildRowPrice :price="item['price']"/>
 				</div>
 
 				<div v-if="item['available'] && !user.vacation" class="building-active-upgrade">
 					<TechQueue v-if="typeof item['build'] === 'object'" :build="item['build']"/>
-					<div v-else-if="item['max'] > 0 && item['max'] <= item['level']" class="negative">
+					<div v-else-if="item['max'] > 0 && item['max'] <= level" class="negative">
 						{{ $t('pages.research.max_level') }}
 					</div>
 					<div v-else-if="!hasResources" class="negative text-center">
 						{{ $t('pages.research.no_resources') }}
 					</div>
-					<button v-else-if="item['build'] !== true" @click.prevent="buildAction" :class="{ positive: item['level'], negative: item['level'] === 0 }" class="button">
+					<button v-else-if="item['build'] !== true" @click.prevent="buildAction" :class="{ positive: level, negative: level === 0 }" class="button">
 						{{ $t('pages.research.build') }}
 					</button>
 				</div>
@@ -81,6 +81,8 @@
 	const { tm } = useI18n();
 	const { planet, user, fieldsEmpty } = storeToRefs(useStore());
 	const emit = defineEmits(['close', 'build']);
+	
+	const level = computed(() => user.value['technology'][props['item']['code']] || 0);
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
@@ -95,6 +97,6 @@
 	});
 
 	async function buildAction () {
-		emit('build', props.item['id']);
+		emit('build');
 	}
 </script>

@@ -5,12 +5,12 @@
 			{{ item['name'] }}
 		</div>
 		<div class="level">
-			{{ item['level'] }}
+			{{ level }}
 		</div>
 		<div v-if="typeof item['build'] === 'object'" class="upgrade active">
 			<IconUpgrade/>
 		</div>
-		<div v-else-if="available && !queueByType('tech').length" class="upgrade" @click.prevent="emit('build', item['id'])">
+		<div v-else-if="available && !queueByType('tech').length" class="upgrade" @click.prevent.stop="emit('build')">
 			<IconUpgrade/>
 		</div>
 	</div>
@@ -25,17 +25,15 @@
 
 	const props = defineProps({
 		item: {
-			tyoe: Object,
+			type: Object,
 		}
 	});
 
-	const model = defineModel();
-
 	const { tm } = useI18n();
 	const { planet, user, queueByType } = storeToRefs(useStore());
-	const emit = defineEmits(['build']);
+	const emit = defineEmits(['select', 'build']);
 
-	console.log(queueByType.value('tech').length)
+	const level = computed(() => user.value['technology'][props['item']['code']] || 0);
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
@@ -49,6 +47,6 @@
 	});
 
 	function setActive() {
-		model.value = props.item['id'];
+		emit('select');
 	}
 </script>

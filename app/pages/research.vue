@@ -12,10 +12,14 @@
 								Технологии
 							</NuxtLink>
 						</div>
-						<TechActive v-if="activeItem" :item="activeItem" @close="activeElement = null" @build="addAction"/>
+						<TechActive v-if="activeItem" :item="activeItem" @close="selectAction(null)" @build="buildAction(activeItem['id'])"/>
 					</div>
 					<div class="buldings-list">
-						<TechItem v-for="(item, i) in items" :key="i" :item="item" v-model="activeElement" @build="addAction" :class="{ active: activeElement === item['id'] }"/>
+						<TechItem v-for="(item, i) in items" :key="i" :item="item"
+							:class="{ active: activeElement === item['id'] }"
+							@select="selectAction(item['id'])"
+							@build="buildAction(item['id'])"
+						/>
 					</div>
 				</div>
 			</div>
@@ -68,7 +72,15 @@
 		useAnimateScroll(activeRef.value, 500, { padding: -50 });
 	});
 
-	async function addAction (id) {
+	function selectAction(id) {
+		if (activeElement.value !== id) {
+			activeElement.value = id;
+		} else {
+			activeElement.value = null;
+		}
+	}
+
+	async function buildAction (id) {
 		await useApiPost('/research/search', {
 			element: id,
 		});

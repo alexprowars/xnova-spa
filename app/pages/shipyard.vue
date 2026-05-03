@@ -12,14 +12,14 @@
 								Флот
 							</NuxtLink>
 						</div>
-						<UnitActive v-if="activeItem" :item="activeItem" @close="activeElement = null" @build="buildAction"/>
+						<UnitActive v-if="activeItem" :item="activeItem" @close="selectAction(null)" @build="buildAction"/>
 					</div>
 					<div class="buldings-list">
 						<UnitItem v-for="(item, i) in items"
 							:class="{ active: activeElement === item['id'] }"
 							:key="i"
 							:item="item"
-							v-model="activeElement"
+							@select="selectAction(item['id'])"
 						/>
 					</div>
 				</div>
@@ -66,6 +66,14 @@
 	const activeItem = computed(() => {
 		return items.value.filter((item) => item.id === activeElement.value)[0] || null;
 	});
+
+	function selectAction(id) {
+		if (activeElement.value !== id) {
+			activeElement.value = id;
+		} else {
+			activeElement.value = null;
+		}
+	}
 
 	async function buildAction (id, count) {
 		let data = {

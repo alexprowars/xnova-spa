@@ -944,3 +944,64 @@
 		}
 	}
 }
+
+:root {
+	--shadow-hud: 0 0 0 1px oklch(70% .15 200 / .15), 0 8px 32px -8px oklch(0% 0 0 / .6);
+	--gradient-hud: linear-gradient(180deg, oklch(22% .03 240), oklch(16% .02 240));
+	--color-border: var(--border);
+	--border: oklch(32% .04 220);
+	--color-primary: var(--primary);
+	--primary: oklch(78% .18 70);
+	--hud-grid: oklch(70% .15 200 / .08);
+}
+
+.hud-panel {
+    box-shadow: var(--shadow-hud);
+    position: relative;
+    background: var(--gradient-hud);
+    border: 1px solid var(--color-border);
+}
+
+.hud-corner {
+    position: relative;
+}
+
+.hud-corner::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+}
+
+.hud-corner::before, .hud-corner::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    border-color: var(--color-primary);
+}
+
+.hud-panel::before {
+    content: "";
+    background-image: linear-gradient(var(--hud-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hud-grid) 1px, transparent 1px);
+    pointer-events: none;
+    opacity: 0.5;
+    background-size: 24px 24px;
+    position: absolute;
+    inset: 0px;
+}
+
+.hud-corner::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+}
+
+.hud-corner::before, .hud-corner::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    border-color: var(--color-primary);
+}

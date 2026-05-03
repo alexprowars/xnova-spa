@@ -12,8 +12,8 @@
 						{{ item['name'] }}
 					</NuxtLink>
 
-					<span v-if="item['level']" class="positive" v-tooltip="$t('pages.building.current_level')">
-						{{ $formatNumber(item['level']) }}
+					<span v-if="level" class="positive" v-tooltip="$t('pages.building.current_level')">
+						{{ $formatNumber(level) }}
 					</span>
 				</div>
 				<div v-if="available" class="flex gap-4">
@@ -44,7 +44,7 @@
 				</div>
 
 				<div v-if="available" class="buldings-active-price">
-					<span>Required resources for level {{ item['level'] + 1 }}</span>
+					<span>Required resources for level {{ level + 1 }}</span>
 					<BuildRowPrice :price="item['price']"/>
 				</div>
 
@@ -62,7 +62,7 @@
 						{{ $t('pages.building.status_queue_full') }}
 					</div>
 					<button v-else-if="queueByType('build').length === 0"  @click.prevent="buildAction" class="button">
-						{{ item['level'] === 0 ? $t('pages.building.action_build') : $t('pages.building.action_improve') }}
+						{{ level === 0 ? $t('pages.building.action_build') : $t('pages.building.action_improve') }}
 					</button>
 				</div>
 
@@ -103,6 +103,8 @@
 	const { tm } = useI18n();
 	const { planet, user, queueByType, fieldsEmpty } = storeToRefs(useStore());
 	const emit = defineEmits(['close', 'build']);
+
+	const level = computed(() => planet.value['buildings'][props['item']['code']] || 0);
 
 	const hasResources = computed(() => {
 		return Object.keys(tm('resources')).every(res => {
